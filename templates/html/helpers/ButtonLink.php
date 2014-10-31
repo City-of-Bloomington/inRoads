@@ -12,9 +12,25 @@ use Blossom\Classes\Helper;
 
 class ButtonLink extends Helper
 {
+    const SIZE_BUTTON = 'button';
+    const SIZE_ICON   = 'icon';
+
+    public static $types = [
+        'add'    => 'fa fa-plus',
+        'edit'   => 'fa fa-pencil',
+        'delete' => 'fa fa-times',
+        'cancel' => 'fa fa-times',
+        'save'   => 'fa fa-floppy-o',
+        'submit' => 'fa fa-check',
+        'reorder'=> 'fa fa-bars'
+    ];
+
 	public function buttonLink($url, $label, $type)
 	{
-		$a = '<a  href="%s" class="%s button">%s</a>';
-		return sprintf($a, $url, $type, $label);
+        $a = $size == self::SIZE_BUTTON
+            ? '<a href="%s" class="btn"><i class="%s"></i> %s</a>'
+            : '<a href="%s" class="%s" ><i class="hidden-label">%s</i></a>';
+        $class = array_key_exists($type, self::$types) ? self::$types[$type] : $type;
+        return sprintf($a, $url, $class, $label);
 	}
 }
