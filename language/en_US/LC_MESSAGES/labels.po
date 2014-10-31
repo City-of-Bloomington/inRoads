@@ -1,0 +1,114 @@
+# Translation
+# Copyright (C) 2013-2014 City of Bloomington
+# This file is distributed under the same license as the Blossom package.
+#
+# Cliff Ingham, 2013-2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: Blossom\n"
+"Report-Msgid-Bugs-To: dev@bloomington.in.gov\n"
+"POT-Creation-Date: 2013-09-20 16:33-0400\n"
+"PO-Revision-Date: 2014-10-30 16:17-0500\n"
+"Last-Translator: Cliff Ingham <inghamn@bloomington.in.gov>\n"
+"Language-Team: City of Bloomington <dev@bloomington.in.gov>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: en_US\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "home"
+msgstr "Home"
+
+msgid "add"
+msgstr "Add"
+
+msgid "edit"
+msgstr "Edit"
+
+msgid "delete"
+msgstr "Delete"
+
+msgid "submit"
+msgstr "Submit"
+
+msgid "save"
+msgstr "Save"
+
+msgid "cancel"
+msgstr "Cancel"
+
+#. This is the short form for "Administrator".  This should be an abbreviation
+msgid "admin"
+msgstr "Admin"
+
+msgid "login"
+msgstr "Login"
+
+msgid "logout"
+msgstr "Logout"
+
+msgid "help"
+msgstr "Help"
+
+msgid "name"
+msgstr "Name"
+
+msgid "firstname"
+msgstr "First Name"
+
+msgid "middlename"
+msgstr "Middle Name"
+
+msgid "lastname"
+msgstr "Last Name"
+
+msgid "username"
+msgstr "Username"
+
+msgid "password"
+msgstr "Password"
+
+msgid "authenticationMethod"
+msgstr "Authentication"
+
+msgid "role"
+msgstr "Role"
+
+msgid "email"
+msgid_plural "emails"
+msgstr[0] "Email"
+msgstr[1] "Email Addresses"
+
+msgid "person"
+msgid_plural "people"
+msgstr[0] "Person"
+msgstr[1] "People"
+
+msgid "user"
+msgid_plural "users"
+msgstr[0] "User Account"
+msgstr[1] "User Accounts"
+
+msgid "person_info"
+msgstr "Person Info"
+
+msgid "person_add"
+msgstr "Add a Person"
+
+msgid "person_edit"
+msgstr "Edit Person"
+
+msgid "user_add"
+msgstr "Create Account"
+
+msgid "user_edit"
+msgstr "Edit Account"
+
+msgid "user_delete"
+msgstr "Delete Account"
+
+msgid "user_info"
+msgstr "Account Info"

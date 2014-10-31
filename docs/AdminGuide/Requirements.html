@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Requirements</title>
+	<style></style>
+</head>
+<body>
+	<h1>Requirements</h1>
+	<h2>Web Server</h2>
+		<p>This application will work with any web server capable of running PHP.</p>
+		<h3><a href="http://httpd.apache.org">Apache</a> (recommended)</h3>
+		<dl><dt>SSL</dt>
+			<dd>For security it is highly recommended to host the entire application
+				over SSL.  PHP sessions are tracked using cookies, which if
+				intercepted, are just as good as a user's password.
+				Hosting over SSL minimizes this risk.
+			</dd>
+
+			<dt>mod_rewrite</dt>
+			<dd>This application implements a FrontController patter. It relies
+				on Apache's mod_rewrite to route all requests to
+				<code>/public/index.php</code>
+			</dd>
+		</dl>
+	<h2><a href="http://php.net">PHP</a> >= 5.3</h2>
+		<p>This application relies on code features only found in PHP 5.3 and greater.
+			In addition there are particulay PHP libraries that we rely on.  Make sure
+			these are available in your PHP install.
+		</p>
+		<dl><dt>XML</dt>
+			<dd>This extension is enabled by default in most PHP installations.
+			<dt>Curl</dt>
+			<dd>Web service and error reporting calls are implemented using curl functions.</dd>
+			<dt>LDAP</dt>
+			<dd>We support integrating with LDAP or ADS directories for user information
+				and, if desired, authentication.
+			</dd>
+		</dl>
+		<h3>General Configuration Notes</h3>
+		<p>PHP needs the following ini settings that might differ from the default php.ini</p>
+		<ul><li><strong>register_globals</strong>: off.  With PHP 5.3 this should be the default, but some hosts
+				have it enabled.
+			</li>
+			<li><strong>error_reporting:</strong> This application is written to work with no errors
+				with error_reporting set to E_ALL | E_STRICT.
+			</li>
+			<li><strong>arg_separator:</strong>To do valid XHTML strict, hrefs cannot be written
+				with plain &amp;.  Rather than using entities, we chose to use the W3C recommendation
+				of using the semicolon in all markup.  PHP can use both semicolon and ampersand
+				when parsing url parameters.
+				<ul><li>arg_separator.output = ";"</li>
+					<li>arg_separator.input = ";&amp;"</li>
+				</ul>
+			</li>
+		</ul>
+
+	<h2><a href="http://dev.mysql.com">MySQL</a> (or an equivalent, such as
+		<a href="http://mariadb.org">MariaDB</a>)
+	</h2>
+		<p>There are several drop-in replacements for MySQL.
+			This application has been extensively tested with MariaDB.
+		</p>
+	<h2>Third Party Libraries</h2>
+		<h3><a href="http://framework.zend.com">Zend Framework</a></h3>
+			<p>This application uses a few features from the ZendFramework.
+				You will need to download the ZendFramework and put it somewhere accessible by Apache.
+				In our configuration, we'll point to wherever you've put it.
+			</p>
+
+		<h3><a href="http://yuilibary.com">YUI 3</a></h3>
+			<p>The javascript for CRM relies on the YUI library.  Most production installs depend
+				on external hosting for YUI, either from Yahoo or Google.  However, if you want,
+				you can download YUI and host it yourself.
+				In our configuration, we'll point to whatever host you're using for YUI.
+			</p>
+	<h2>External Web Services (optional)</h2>
+		<h3><a href="http://www.jasig.org/cas">CAS</a> (Single Sign on)</h3>
+			<p>For improved security, all City of Bloomington web applications in production
+				are configured to use CAS for authentication.  This way, passwords never
+				need to be stored in individual web applications and users only ever
+				type their passwords into one website.
+				If you have your own CAS server, you can configure CRM to do CAS authentication.
+			</p>
+			<p>You will need to download the phpCAS library from
+				<a href="https://wiki.jasig.org/display/CASC/phpCAS">
+				https://wiki.jasig.org/display/CASC/phpCAS</a>.
+			</p>
+			<p>CAS authentication can be disable by leaving it undefined in the configuration</p>
+
+		<h3><a href="http://code.google.com/p/skidder/">Skidder</a> (External Error Logging)</h3>
+			<p>In the City of Bloomington, we have a central web service, called Skidder, that all web applications
+				report and errors to.  Skidder collects the errors, reports them to developers,
+				and provides for browsing, slicing, and dicing the error reports.
+				Direct notification to developers when errors occur is the best way to make sure
+				bugs are fixed quickly.
+			</p>
+			<p>Skidder is open source and available at
+				<a href="http://code.google.com/p/skidder">http://code.google.com/p/skidder</a>
+			</p>
+			<p>Skidder reporting can be left undefined in the confiuration not not desired.</p>
+
+</body>
+</html>

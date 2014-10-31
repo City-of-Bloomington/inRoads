@@ -1,0 +1,79 @@
+/**
+ * Basic HTML element styles
+ */
+body { font-family:sans-serif; font-size:10pt; }
+
+h1 { font-size:150%; font-weight:bold; }
+h2 { font-size:131%; font-weight:bold; margin:.5em 0; color:#036; }
+h3 { font-size:123.1%; font-weight:bold;  margin:.5em 0 .25em 0; }
+h4 { font-size:100%; font-weight:bold; }
+a { text-decoration:none; color:#00f; }
+p { margin:0 .5em .5em .5em; }
+
+table { margin:0 .5em .5em .5em; }
+th { color:#333; font-weight:bold; font-size:90%; padding:0.25em; }
+td { padding:.25em; }
+thead th { text-align:left; }
+tbody th { text-align:right; }
+
+ul { list-style-type:bullet; margin-left:1em; padding:0; }
+li { margin:0; }
+
+fieldset { padding:.25em 0; }
+legend { font-weight:bold; margin:4px; }
+label { font-weight:bold; }
+input { border-radius:4px; border:1px initial; }
+input:required { background-color:#E7E49D; }
+
+/**
+ * Base styles for buttons and button links
+ */
+button, .button {
+	border:1px solid black; border-radius:6px;
+	display:inline-block;
+	padding:0 10px;
+	font-weight:bold; color:black;
+	background: linear-gradient(to bottom, #f5f6f6 0%,#dbdce2 21%,#b8bac6 49%,#dddfe3 80%,#f5f6f6 100%);
+}
+
+/**
+ * Banner
+ */
+header { color:#fff; background-color:#036; margin:0; }
+header a { color:#fff; font-weight:bold; }
+header h1 { margin:0 4px; font-size:174%; }
+header div { margin:4px; }
+header nav {
+	margin-top:5px; padding:5px;
+	background-color:#fff;
+	border-top:2px solid #000; border-bottom:2px solid #000;
+}
+header nav a { font-weight:bold; color:black; margin-right:1em; }
+#utilityBar { float:right; width:50%; text-align:right; }
+#utilityBar li { display:inline; margin-right:1em; color:white; }
+
+/**
+ * Side Panel
+ */
+#panel-one nav {
+	border:2px solid #000; margin-bottom:0.5em;
+	border-radius:10px;
+	overflow:hidden;
+}
+#panel-one h2 {
+	background-color:#036; color:#fff;
+	border-bottom:2px solid #000;
+	margin:0; padding:.25em;
+}
+#panel-one ul { margin:.25em; padding:0; }
+#panel-one a { font-weight:bold; color:#000; }
+
+/**
+ * Main Content
+ */
+#errorMessages { background-color:#fcc; padding:4px; border-radius:10px; }
+#errorMessages h2 { }
+
+.pageNavigation ul { list-style-type:none; }
+.pageNavigation li { display:inline; margin-right:1em; }
+.pageNavigation .current { border:2px solid green; }

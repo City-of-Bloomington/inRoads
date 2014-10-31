@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="test">
+	<table_data name="people">
+	</table_data>
+</database>
+</mysqldump>
