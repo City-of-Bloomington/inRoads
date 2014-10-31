@@ -1,0 +1,8 @@
+configuration.inc
+site_config.inc
+data/sessions/*
+data/templates/*
+data/blocks/*
+tests/configuration.inc
+build
+dist
