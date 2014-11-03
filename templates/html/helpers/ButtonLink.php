@@ -25,7 +25,7 @@ class ButtonLink extends Helper
         'reorder'=> 'fa fa-bars'
     ];
 
-	public function buttonLink($url, $label, $type)
+	public function buttonLink($url, $label, $type, $size=self::SIZE_BUTTON)
 	{
         $a = $size == self::SIZE_BUTTON
             ? '<a href="%s" class="btn"><i class="%s"></i> %s</a>'

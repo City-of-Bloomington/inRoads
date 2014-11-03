@@ -22,6 +22,8 @@ $ZEND_ACL->addResource(new Resource('people'));
 $ZEND_ACL->addResource(new Resource('users'));
 $ZEND_ACL->addResource(new Resource('login'));
 
+$ZEND_ACL->addResource(new Resource('jurisdictions'));
+
 /**
  * Assign permissions to the resources
  */

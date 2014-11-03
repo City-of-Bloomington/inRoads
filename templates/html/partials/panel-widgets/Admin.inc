@@ -3,8 +3,14 @@
 	<ul>
 	<?php
 		$li = '<li><a href="%s">%s</a></li>';
-		echo sprintf($li, BASE_URI.'/people', $this->_(['person','people',2]));
-		echo sprintf($li, BASE_URI.'/users' , $this->_(['user'  ,'users' ,2]));
+		$items = [
+            'person'       => 'people',
+            'user'         => 'users',
+            'jurisdiction' => 'jurisdictions'
+        ];
+        foreach ($items as $single=>$plural) {
+            echo sprintf($li, BASE_URI."/$plural", $this->_([$single, $plural, 2]));
+        }
 	?>
 	</ul>
 </nav>

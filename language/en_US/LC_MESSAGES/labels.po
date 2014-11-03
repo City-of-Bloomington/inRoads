@@ -5,10 +5,10 @@
 # Cliff Ingham, 2013-2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: Blossom\n"
+"Project-Id-Version: Road Closings\n"
 "Report-Msgid-Bugs-To: dev@bloomington.in.gov\n"
 "POT-Creation-Date: 2013-09-20 16:33-0400\n"
-"PO-Revision-Date: 2014-10-30 16:17-0500\n"
+"PO-Revision-Date: 2014-11-03 09:20-0500\n"
 "Last-Translator: Cliff Ingham <inghamn@bloomington.in.gov>\n"
 "Language-Team: City of Bloomington <dev@bloomington.in.gov>\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "Language: en_US\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
 
 msgid "home"
 msgstr "Home"
@@ -53,6 +54,9 @@ msgstr "Logout"
 msgid "help"
 msgstr "Help"
 
+msgid "description"
+msgstr "Description"
+
 msgid "name"
 msgstr "Name"
 
@@ -76,6 +80,12 @@ msgstr "Authentication"
 
 msgid "role"
 msgstr "Role"
+
+msgid "domain"
+msgstr "Domain"
+
+msgid "phone"
+msgstr "Phone"
 
 msgid "email"
 msgid_plural "emails"
@@ -112,3 +122,28 @@ msgstr "Delete Account"
 
 msgid "user_info"
 msgstr "Account Info"
+
+msgid "event"
+msgid_plural "events"
+msgstr[0] "Event"
+msgstr[1] "Events"
+
+msgid "event_add"
+msgstr "Add Event"
+
+msgid "event_edit"
+msgstr "Edit Event"
+
+msgid "event_info"
+msgstr "Event Info"
+
+msgid "jurisdiction"
+msgid_plural "jurisdictions"
+msgstr[0] "Jurisdiction"
+msgstr[1] "Jurisdictions"
+
+msgid "jurisdiction_add"
+msgstr "Add Jurisdiction"
+
+msgid "jurisdiction_edit"
+msgstr "Edit Jurisdiction"
