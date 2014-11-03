@@ -29,9 +29,9 @@ create table events (
     status    varchar(32) not null,
     created      datetime not null,
     updated      datetime not null,
-    headline varchar(255),
+    headline varchar(255) not null,
     description text,
     detour      text,
-    geometry geometry,
+    geography geometry,
     foreign key (jurisdiction_id) references jurisdictions(id)
 );

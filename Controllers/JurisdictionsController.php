@@ -5,6 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
+
 use Application\Models\Jurisdiction;
 use Application\Models\JurisdictionsTable;
 use Blossom\Classes\Block;
