@@ -49,7 +49,7 @@ class Event extends ActiveRecord
             }
             else {
                 $zend_db = Database::getConnection();
-                $sql = "select jurisdiction_id, eventType, severity, status, created, updated,
+                $sql = "select id,jurisdiction_id, eventType, severity, status, created, updated,
                                headline, description, detour, AsText(geography) geography
                         from events where id=?";
                 $result = $zend_db->createStatement($sql)->execute([$id]);

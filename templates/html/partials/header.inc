@@ -6,7 +6,7 @@
 	<title><?php echo isset($this->title) ? self::escape($this->title) : APPLICATION_NAME; ?></title>
 	<script type="text/javascript">
         var ROADS = {
-            BASE_URI: <?php echo BASE_URI; ?>,
+            BASE_URI: '<?php echo BASE_URI; ?>',
             DEFAULT_LATITUDE:  <?php echo ini_get('date.default_latitude' ); ?>,
             DEFAULT_LONGITUDE: <?php echo ini_get('date.default_longitude'); ?>
         };
