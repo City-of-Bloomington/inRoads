@@ -1,0 +1,6 @@
+Third-party JavaScript libraries will go here.
+
+The build script should be written to download and uncompress any third-party
+libraries as part of the build.  You should have git ignore this directory.
+That way, you can still use your cloned copy as a live website without having
+all the third-party code included as part of this project.
