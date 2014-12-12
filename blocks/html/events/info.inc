@@ -5,10 +5,23 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
+use Application\Models\Person;
 use Blossom\Classes\View;
 ?>
 <section>
     <h1><?php echo View::escape($this->event->getHeadline()); ?></h1>
+    <div>
+    <?php
+        if (Person::isAllowed('events', 'edit')) {
+            $helper = $this->template->getHelper('buttonLink');
+            echo $helper->buttonLink(
+                BASE_URI.'/events/update?event_id='.$this->event->getId(),
+                $this->_('event_edit'),
+                'edit'
+            );
+        }
+    ?>
+    </div>
     <table>
         <tr><th><?php echo $this->_('jurisdiction'); ?></th>
             <td><?php echo View::escape($this->event->getJurisdiction()->getName()); ?></td>
@@ -31,11 +44,15 @@ use Blossom\Classes\View;
     </table>
     <p><?php echo View::escape($this->event->getDescription()); ?></p>
     <p><?php echo View::escape($this->event->getDetour()); ?></p>
+    <p><?php echo $this->event->getGeography(); ?></p>
 
 
     <div id="map"></div>
     <?php
-        $this->template->addToAsset('scripts', GOOGLE_MAPS);
-        $this->tempalte->addToAsset('scripts', BASE_URI.'/js/map.js');
+        $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
+        $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
     ?>
+    <script type="text/javascript">
+        PHP.mapdata = '<?php echo $this->event->getGeography(); ?>';
+    </script>
 </section>

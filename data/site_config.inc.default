@@ -11,7 +11,7 @@ define('BASE_URI','/application');
 /**
  * Javascript APIs
  */
-define('GOOGLE_MAPS', 'https://maps.googleapis.com/maps/api/js?key=API_KEY');
+define('OPENLAYERS', BASE_URI.'/js/vendor/ol3');
 
 /**
  * Used when there's an error on the site.  The Framework will

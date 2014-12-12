@@ -17,8 +17,10 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
 ?>
 <section>
     <h1><?php echo $title; ?></h1>
-    <form method="post" action="<?php echo BASE_URI; ?>/events/update">
+    <form method="post" id="eventUpdateForm" action="<?php echo BASE_URI; ?>/events/update">
         <fieldset>
+            <input name="event_id" type="hidden" value="<?php echo $this->event->getId(); ?>" />
+
             <legend><?php echo $this->_('event_info'); ?></legend>
             <table>
                 <tr><td><label for="jurisdiction_id"><?php echo $this->_('jurisdiction'); ?></label></td>
@@ -87,6 +89,17 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
             <div>
                 <div><label for="detour"><?php echo $this->_('detour'); ?></label></div>
                 <textarea name="detour" id="detour"><?php echo $detour; ?></textarea>
+            </div>
+            <div>
+                <div><label for="geography"><?php echo $this->_('geography'); ?></label></div>
+                <textarea name="geography" id="geography"><?php echo $this->event->getGeography(); ?></textarea>
+                <div id="map"></div>
+                <?php
+                    $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
+                    $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
+                    $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
+                ?>
+                <button type="button" onclick="MAPDISPLAY.getWkt();">Get WKT</button>
             </div>
             <?php
                 $helper = $this->template->getHelper('saveAndCancelButtons');

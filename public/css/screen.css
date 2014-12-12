@@ -92,3 +92,5 @@ header nav a { font-weight:bold; color:black; margin-right:1em; }
 .pageNavigation ul { list-style-type:none; }
 .pageNavigation li { display:inline; margin-right:1em; }
 .pageNavigation .current { border:2px solid green; }
+
+#map { width:100%; height:400px; }

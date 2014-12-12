@@ -112,7 +112,7 @@ class Event extends ActiveRecord
     public function setHeadline   ($s) { parent::set('headline',    $s); }
     public function setDescription($s) { parent::set('description', $s); }
     public function setDetour     ($s) { parent::set('detour',      $s); }
-    public function setGeography  ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,]/', '', $s)); }
+    public function setGeography  ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
     public function setCreated($d) { parent::setDateData('created', $d); }
     public function setJurisdiction_id($i) { parent::setForeignKeyField (__namespace__.'\Jurisdiction', 'jurisdiction_id', $i); }
     public function setJurisdiction   ($o) { parent::setForeignKeyObject(__namespace__.'\Jurisdiction', 'jurisdiction_id', $o); }
@@ -120,7 +120,7 @@ class Event extends ActiveRecord
     public function handleUpdate($post)
     {
         $fields = [
-            'eventType', 'severity', 'status', 'headline', 'description', 'detour', 'jurisdiction_id'
+            'eventType', 'severity', 'status', 'headline', 'description', 'detour', 'jurisdiction_id', 'geography'
         ];
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);

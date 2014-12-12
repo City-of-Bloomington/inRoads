@@ -27,12 +27,14 @@ use Blossom\Classes\View;
         foreach ($this->events as $e) {
             $jurisdiction = View::escape($e->getJurisdiction()->getName());
 
+            $url = BASE_URI.'/events/view?event_id='.$e->getId();
+
             echo "
-            <tr><td>$jurisdiction</td>
-                <td>{$e->getEventType()}</td>
-                <td>{$e->getSeverity()}</td>
-                <td>{$e->getStatus()}</td>
-                <td>{$e->getCreated(DATE_FORMAT)}</td>
+            <tr><td><a href=\"$url\">$jurisdiction</a></td>
+                <td><a href=\"$url\">{$e->getEventType()}</a></td>
+                <td><a href=\"$url\">{$e->getSeverity()}</a></td>
+                <td><a href=\"$url\">{$e->getStatus()}</a></td>
+                <td><a href=\"$url\">{$e->getCreated(DATE_FORMAT)}</a></td>
             </tr>
             ";
         }
