@@ -6,5 +6,4 @@ data/blocks/*
 tests/configuration.inc
 build
 dist
-public/js/vendor/ol3/*
 

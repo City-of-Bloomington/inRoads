@@ -7,3 +7,6 @@
 [submodule "public/css/Font-Awesome"]
 	path = public/css/Font-Awesome
 	url = https://github.com/FortAwesome/Font-Awesome.git
+[submodule "public/js/vendor/ol3"]
+	path = public/js/vendor/ol3
+	url = https://github.com/openlayers/ol3.git
