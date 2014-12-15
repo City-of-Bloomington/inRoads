@@ -95,11 +95,10 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
                 <textarea name="geography" id="geography"><?php echo $this->event->getGeography(); ?></textarea>
                 <div id="map"></div>
                 <?php
-                    $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
+                    $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol-debug.js');
                     $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
                     $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
                 ?>
-                <button type="button" onclick="MAPDISPLAY.getWkt();">Get WKT</button>
             </div>
             <?php
                 $helper = $this->template->getHelper('saveAndCancelButtons');
