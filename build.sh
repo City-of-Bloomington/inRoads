@@ -1,6 +1,9 @@
 #!/bin/bash
-BUILD=./build
-DIST=./dist
+DIR=`pwd`
+BUILD=$DIR/build
+DIST=$DIR/dist
+
+OPENLAYERS=public/js/vendor/ol3
 
 if [ ! -d $BUILD ]
 	then mkdir $BUILD
@@ -10,13 +13,18 @@ if [ ! -d $DIST ]
 	then mkdir $DIST
 fi
 
-rsync -rlv --exclude-from=./buildignore --delete ./ ./build/
+# The PHP code does not need to actually build anything.
+# Just copy all the files into the build
+rsync -rlv --exclude-from=$DIR/buildignore --delete $DIR/ $BUILD/
 
-wget https://github.com/openlayers/ol3/releases/download/v3.0.0/v3.0.0.zip -O ./build/public/js/vendor/ol3.zip
-cd build/public/js/vendor
-unzip ol3.zip
-mv v3.0.0 ol3
-rm ol3.zip
-cd ../../../../
+# Build the OpenLayers javascript library
+if [ ! -d $BUILD/$OPENLAYERS ]
+    then mkdir -p $BUILD/$OPENLAYERS
+fi
+cd $DIR/$OPENLAYERS
+./build.py build
+cd $DIR
+rsync -rlv $DIR/$OPENLAYERS/build/ $BUILD/$OPENLAYERS/build/
 
+# Create a distribution tarball of the build
 tar czvf $DIST/Blossom.tar.gz --transform=s/build/Blossom/ $BUILD
