@@ -61,4 +61,3 @@ MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
 
 // Load any initial data the webpage specifies.
 if (PHP.mapdata) { MAPDISPLAY.loadWkt(PHP.mapdata); }
-

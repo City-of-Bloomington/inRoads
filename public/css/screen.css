@@ -94,3 +94,6 @@ header nav a { font-weight:bold; color:black; margin-right:1em; }
 .pageNavigation .current { border:2px solid green; }
 
 #map { width:100%; height:400px; }
+#clearFeaturesControl { top:65px; left:0.5em; }
+#clearFeaturesButton { width:5em; }
+#map .ol-control button { color:black; }

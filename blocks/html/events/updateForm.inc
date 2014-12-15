@@ -93,7 +93,11 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
             <div>
                 <div><label for="geography"><?php echo $this->_('geography'); ?></label></div>
                 <textarea name="geography" id="geography"><?php echo $this->event->getGeography(); ?></textarea>
-                <div id="map"></div>
+                <div id="map">
+                    <div class="ol-control" id="clearFeaturesControl">
+                        <button type="button" id="clearFeaturesButton">clear</button>
+                    </div>
+                </div>
                 <?php
                     $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol-debug.js');
                     $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');

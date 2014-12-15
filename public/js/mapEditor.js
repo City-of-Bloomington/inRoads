@@ -22,6 +22,12 @@ MAPDISPLAY.draw = new ol.interaction.Draw({
 });
 MAPDISPLAY.map.addInteraction(MAPDISPLAY.draw);
 
+MAPDISPLAY.map.addControl(new ol.control.Control({element: document.getElementById('clearFeaturesControl')}));
+document.getElementById('clearFeaturesButton').addEventListener('click', function(e) {
+    document.getElementById('geography').value = '';
+    MAPDISPLAY.featureOverlay.getFeatures().clear();
+});
+
 
 document.getElementById('eventUpdateForm').addEventListener('submit', function () {
     document.getElementById('geography').value = MAPDISPLAY.getWkt();
