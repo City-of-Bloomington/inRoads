@@ -31,9 +31,11 @@ var MAPDISPLAY = {
      * @param string wkt
      */
     loadWkt: function (wkt) {
-        var feature = MAPDISPLAY.wktFormatter.readFeature(wkt);
-        feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
-        MAPDISPLAY.featureOverlay.setFeatures(new ol.Collection([feature]));
+        if (wkt) {
+            var feature = MAPDISPLAY.wktFormatter.readFeature(wkt);
+            feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            MAPDISPLAY.featureOverlay.setFeatures(new ol.Collection([feature]));
+        }
     },
     /**
     * Reads features out of the FeatureOverlay and converts them to WSG84 WKT
