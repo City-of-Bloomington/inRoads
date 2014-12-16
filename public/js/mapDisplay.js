@@ -17,8 +17,8 @@ var MAPDISPLAY = {
     featureOverlay: new ol.FeatureOverlay({
         style: new ol.style.Style({
             fill:   new ol.style.Fill({color: 'rgba(255,255,255,0.2)'}),
-            stroke: new ol.style.Stroke({color:'#ffcc33', width:2}),
-            image:  new ol.style.Circle({radius:7, fill: new ol.style.Fill({color:'#ffcc33'})})
+            stroke: new ol.style.Stroke({color:'#ff0000', width:2}),
+            image:  new ol.style.Circle({radius:7, fill: new ol.style.Fill({color:'#ff0000'})})
         })
     }),
     wktFormatter: new ol.format.WKT(),
@@ -31,10 +31,24 @@ var MAPDISPLAY = {
      * @param string wkt
      */
     loadWkt: function (wkt) {
+        var len = 0,
+            i   = 0,
+            features = [];
         if (wkt) {
-            var feature = MAPDISPLAY.wktFormatter.readFeature(wkt);
-            feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
-            MAPDISPLAY.featureOverlay.setFeatures(new ol.Collection([feature]));
+            if (Array.isArray(wkt)) {
+                len = wkt.length;
+                for (i=0; i<len; i++) {
+                    features[i] = MAPDISPLAY.wktFormatter.readFeature(wkt[i]);
+                    features[i].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                }
+            }
+            else {
+                features[0] = MAPDISPLAY.wktFormatter.readFeature(wkt);
+                features[0].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            }
+            if (features.length) {
+                MAPDISPLAY.featureOverlay.setFeatures(new ol.Collection(features));
+            }
         }
     },
     /**

@@ -24,6 +24,7 @@ use Blossom\Classes\View;
     </div>
     <table>
     <?php
+        $mapdata = [];
         foreach ($this->events as $e) {
             $jurisdiction = View::escape($e->getJurisdiction()->getName());
 
@@ -37,7 +38,20 @@ use Blossom\Classes\View;
                 <td><a href=\"$url\">{$e->getCreated(DATE_FORMAT)}</a></td>
             </tr>
             ";
+            $mapdata[] = "'{$e->getGeography()}'";
         }
     ?>
     </table>
+    <div id="map"></div>
+    <?php
+        $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
+        $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
+    ?>
+    <script type="text/javascript">
+        PHP.mapdata = [
+        <?php
+            echo implode(",\n", $mapdata);
+        ?>
+        ];
+    </script>
 </section>
