@@ -1,3 +1,6 @@
+<?php
+use Application\Models\Person;
+?>
 <nav>
 	<?php
 		$a = '<a href="%s">%s</a>';
@@ -8,7 +11,9 @@
             'jurisdiction' => 'jurisdictions'
         ];
         foreach ($items as $single=>$plural) {
-            echo sprintf($a, BASE_URI."/$plural", $this->_([$single, $plural, 2]));
+            if (Person::isAllowed($plural, 'index')) {
+                echo sprintf($a, BASE_URI."/$plural", $this->_([$single, $plural, 2]));
+            }
         }
 	?>
 </nav>
