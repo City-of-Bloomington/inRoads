@@ -8,6 +8,7 @@ namespace Blossom\Classes;
 
 abstract class View
 {
+    protected $theme;
 	protected $vars = array();
 
 	abstract public function render();
@@ -17,6 +18,11 @@ abstract class View
 	 */
 	public function __construct(array $vars=null)
 	{
+        if (defined('THEME')
+                 && is_dir(SITE_HOME.'/themes/'.THEME)) {
+            $this->theme = SITE_HOME.'/themes/'.THEME;
+        }
+        
 		if (count($vars)) {
 			foreach ($vars as $name=>$value) {
 				$this->vars[$name] = $value;
@@ -70,11 +76,11 @@ abstract class View
 	 * to add in some other characters to clean.  While here, we might as well
 	 * have it trim out the whitespace too.
 	 *
-	 * @param array|string $string
+	 * @param array|string $input
 	 * @param CONSTANT $quotes Optional, the desired constant to use for the htmlspecidalchars call
 	 * @return string
 	 */
-	public static function escape($input,$quotes=ENT_QUOTES)
+	public static function escape($input, $quotes=ENT_QUOTES)
 	{
 		if (is_array($input)) {
 			foreach ($input as $key=>$value) {
@@ -86,6 +92,25 @@ abstract class View
 		}
 
 		return $input;
+	}
+
+	/**
+	 * Reverses the escaping done by View::escape()
+	 *
+	 * @param array|string $input
+	 * @return string
+	 */
+	public static function unescape($input)
+	{
+        if (is_array($input)) {
+            foreach ($input as $key=>$value) {
+                $input[$key] = self::unescape($value);
+            }
+        }
+        else {
+            $input = htmlspecialchars_decode(trim($input), ENT_QUOTES);
+        }
+        return $input;
 	}
 
     /**

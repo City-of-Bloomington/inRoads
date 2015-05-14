@@ -1,0 +1,41 @@
+/**
+ * @copyright 2015 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @author Cliff Ingham <inghamn@bloomington.in.gov>
+ */
+.menuLauncher {
+    cursor: pointer; display: inline-table;
+}
+.menuLinks {
+    position:absolute;
+    display:inline-table;
+    opacity: 0;
+    white-space:nowrap;
+    transition: opacity .2s;
+    z-index:7;
+
+    &.open   { opacity: 1; }
+    &.closed { top: -10000px; left: -10000px; }
+
+    a { display: block; }
+}
+
+.site-utilityBar {
+    .menuLinks {
+        background: $color-content-background;
+        border: 1px solid $color-border-modal;
+        box-shadow: 0 0 1em 0 $color-shadow;
+        padding: .5em 0;
+
+        a {
+            padding: .5em 1em;
+            transition: background .25s, color .25s;
+
+            &:hover {
+                background: $color-header;
+                color: $color-content-background;
+                text-decoration: none;
+            }
+        }
+    }
+}

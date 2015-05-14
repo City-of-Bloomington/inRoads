@@ -11,5 +11,7 @@ class IndexController extends Controller
 {
 	public function index()
 	{
+        header("Location: ".BASE_URL.'/events');
+        exit();
 	}
 }

@@ -1,0 +1,21 @@
+@import 'sass-modules/_vars-mixins';
+@import 'sass-modules/_layout';
+@import 'sass-modules/_html-elements';
+@import 'sass-modules/_header';
+@import 'sass-modules/_menu';
+@import 'sass-modules/_nav1';
+@import 'sass-modules/_content-section';
+@import 'sass-modules/_main';
+@import 'sass-modules/_field';
+@import 'sass-modules/_buttons';
+@import 'sass-modules/_tables';
+
+/**
+ * Side Panel
+ */
+#panel-one article h1 {
+    font-size:$size-font-default;
+    font-weight:bold;
+
+    .date { float:right; }
+}

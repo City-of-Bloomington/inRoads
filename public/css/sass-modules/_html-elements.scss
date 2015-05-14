@@ -1,0 +1,74 @@
+body {
+    color: $color-text-default;
+    font-family: $font-family-default;
+}
+h1 {
+    color: $color-heading-1;
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0 0 1em;
+}
+h2 {
+  color: $color-heading-2;
+  font-size: 1.3rem;
+  font-weight: normal;
+  margin: .5em 0;
+}
+h3 {
+    color: $color-heading-3;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin:.5em 0 .25em 0;
+}
+h4 { font-size:$size-font-default; font-weight: $font-weight-heading; }
+a {
+    color: $color-link;
+    text-decoration:none;
+}
+p {
+    line-height: 1.5em;
+    margin:1em 0;
+    max-width: 45em;
+}
+address { white-space: pre-line; }
+
+table { margin: 1em 0 1em 0; }
+th { font-weight: $font-weight-heading; }
+td { padding:.25em; }
+thead th { text-align:left; }
+tbody th { text-align:right; }
+
+ul { list-style-type:bullet; margin-left:1em; padding:0; }
+li { margin:0; }
+
+fieldset {
+    margin: 3em 0;
+    padding:0;
+}
+legend {
+    color: $color-heading-1;
+    display: block;
+    font-size: 1.15em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0 0 0 0;
+}
+label { font-weight:normal; }
+
+@media (max-width:400px) {
+    textarea { width:80%; height:6em; }
+}
+@media (min-width:401px) {
+    textarea { width:60ex; height:12em; }
+}
+
+@media print {
+    h1 {
+        font-size: 1.5rem;
+        margin: .5em 0 0 0;
+    }
+    h2 {
+        font-size: 1.35rem;
+        margin: .5em 0 0 0;
+    }
+}

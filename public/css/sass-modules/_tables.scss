@@ -1,0 +1,64 @@
+table {
+    overflow: hidden;
+
+    th, td {
+        padding: .75em 1.5em .75em .5em;
+    }
+
+    $first-cell-padding-left: 1.5em;
+    > thead {
+        > tr {
+            > th {
+                background: $color-table-header-background;
+                color: $color-table-background;
+                font-size: .85em;
+                font-weight: normal;
+                height: 2em;
+                vertical-align: bottom;
+
+                &:first-child {
+                    padding-left: $first-cell-padding-left;
+                }
+                > a {
+                    color: $color-content-background;
+                }
+            }
+        }
+    }
+    > tbody {
+        > tr {
+            th, td {
+                background: $color-table-background;
+                border-top: 1px solid $color-border-table;
+                transition: background-color .2s linear;
+                vertical-align: top;
+
+                &:first-child {
+                    padding-left: $first-cell-padding-left;
+                }
+            }
+        }
+        > tr:hover {
+            th, td {
+                background: $color-content-background;
+            }
+        }
+    }
+
+    @media print {
+        th, td {
+            padding: .75em 1.5em .75em .5em;
+        }
+
+        > thead,
+        > tbody {
+            > tr {
+                th, td {
+                    background: none;
+                    border: none;
+                    padding: .05em 1em .05em .05em;
+                }
+            }
+        }
+    }
+}

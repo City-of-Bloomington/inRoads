@@ -1,0 +1,10 @@
+This directory is for overrides to the Template files.
+
+If you want to customize a particular template, mimic the directory structure
+from /templates.  The system will use templates found here first, instead of
+using the template from the application.
+
+For instance, if you want to customize the banner, you would create
+/data/templates/html/partials/banner.inc
+
+It might be easiest if you work from a copy of the original template file.

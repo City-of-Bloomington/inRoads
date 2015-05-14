@@ -9,7 +9,7 @@
  * APPLICATION_HOME/blocks/xml/...
  * APPLICATION_HOME/blocks/json/..
  *
- * @copyright 2006-2013 City of Bloomington, Indiana
+ * @copyright 2006-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -29,7 +29,7 @@ class Block extends View
 	 * @param string $file
 	 * @param array $vars An associative array of variables to set
 	 */
-	public function __construct($file,array $vars=null)
+	public function __construct($file, array $vars=null)
 	{
 		parent::__construct($vars);
 
@@ -51,8 +51,9 @@ class Block extends View
 		$block = "/blocks/$outputFormat/{$this->file}";
 		$this->template = $template;
 
-		if (is_file(SITE_HOME.$block)) {
-			$file = SITE_HOME.$block;
+
+		if ($this->theme && is_file($this->theme.$block)) {
+			$file = $this->theme.$block;
 		}
 		elseif (is_file(APPLICATION_HOME.$block)) {
 			$file = APPLICATION_HOME.$block;
@@ -80,7 +81,7 @@ class Block extends View
 	/**
 	 * Includes the given filename.
 	 *
-	 * Supports SITE_HOME overriding.
+	 * Supports THEME overriding.
 	 * Specify a relative path starting from /blocks/
 	 * $file paths should not start with a slash.
 	 *
@@ -88,8 +89,8 @@ class Block extends View
 	 */
 	public function _include($file)
 	{
-		if (is_file(SITE_HOME."/blocks/$file")) {
-			include SITE_HOME."/blocks/$file";
+		if ($this->theme && is_file($this->theme."/blocks/$file")) {
+			include $this->theme."/blocks/$file";
 		}
 		else {
 			include APPLICATION_HOME."/blocks/$file";

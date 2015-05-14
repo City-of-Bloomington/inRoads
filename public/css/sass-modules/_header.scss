@@ -1,0 +1,63 @@
+body > header {
+    border-top: .4em solid $color-accent;
+
+    > .container {
+        margin: 0 auto 0;
+        color: $color-header;
+        position: relative;
+        @include clearfix();
+
+        @if($url-logo != '') {
+            &:before {
+                background: url($url-logo);
+                background-size: 100% 100%;
+                content: '';
+                display: block;
+                float: left;
+                height: 4em;
+                margin: .75em .75em .75em 0;
+                width: 4em;
+            }
+        }
+
+        .site {
+            &-title {
+                float: left;
+                padding: .5em 0;
+
+                a { color: $color-header; }
+
+                h1 {
+                    font-size:1.5em;
+                    font-weight: normal;
+                    margin: .5em 0 .25em 0;
+                }
+            }
+            &-utilityBar {
+                position: relative;
+
+                nav {
+                    float: right;
+                    margin: 0 0 0 1em;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: $window-med) {
+        position: relative;
+
+        > .container {
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding-top: .5em;
+            width: 46em;
+        }
+    }
+
+    @media screen and (min-width: $window-lg) {
+        > .container {
+            width: 60em;
+        }
+    }
+}

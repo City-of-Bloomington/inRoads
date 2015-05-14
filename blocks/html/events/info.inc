@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2014 City of Bloomington, Indiana
+ * @copyright 2014-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
@@ -10,7 +10,7 @@ use Blossom\Classes\View;
 ?>
 <section>
     <h1><?php echo View::escape($this->event->getHeadline()); ?></h1>
-    <div>
+    <div class="tools">
     <?php
         if (Person::isAllowed('events', 'edit')) {
             $helper = $this->template->getHelper('buttonLink');
@@ -22,6 +22,19 @@ use Blossom\Classes\View;
         }
     ?>
     </div>
+
+    <div id="map"></div>
+    <?php
+        $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
+        $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
+    ?>
+    <script type="text/javascript">
+        PHP.mapdata = '<?php echo $this->event->getGeography(); ?>';
+    </script>
+
+    <p><?php echo View::escape($this->event->getDescription()); ?></p>
+    <p><?php echo View::escape($this->event->getDetour()); ?></p>
+
     <table>
         <tr><th><?php echo $this->_('jurisdiction'); ?></th>
             <td><?php echo View::escape($this->event->getJurisdiction()->getName()); ?></td>
@@ -42,17 +55,4 @@ use Blossom\Classes\View;
             <td><?php echo $this->event->getUpdated(DATE_FORMAT); ?></td>
         </tr>
     </table>
-    <p><?php echo View::escape($this->event->getDescription()); ?></p>
-    <p><?php echo View::escape($this->event->getDetour()); ?></p>
-    <p><?php echo $this->event->getGeography(); ?></p>
-
-
-    <div id="map"></div>
-    <?php
-        $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
-        $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
-    ?>
-    <script type="text/javascript">
-        PHP.mapdata = '<?php echo $this->event->getGeography(); ?>';
-    </script>
 </section>

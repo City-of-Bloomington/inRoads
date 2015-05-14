@@ -46,6 +46,7 @@ class EventsTable extends TableGateway
                 }
             }
         }
-        return parent::performSelect($select, $order, $paginated, $limit);
+
+        return parent::hydrateResults(parent::performSelect($select, $order, $paginated, $limit));
     }
 }

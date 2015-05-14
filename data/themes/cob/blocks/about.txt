@@ -1,0 +1,10 @@
+This directory is for overrides to the Block files.
+
+Blocks are files that contain partial HTML for including into the overall
+Template files.
+
+If you want to customize a particular block, mimic the directory structure
+from /blocks.  The system will use blocks found here first, instead of
+using the block from the application.
+
+It might be easiest if you work from a copy of the original block file.

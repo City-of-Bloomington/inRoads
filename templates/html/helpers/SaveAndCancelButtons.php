@@ -12,17 +12,9 @@ class SaveAndCancelButtons extends Helper
 {
 	public function saveAndCancelButtons($cancelURL)
 	{
-        $helper = $this->template->getHelper('buttonLink');
-
-        $buttons = "
-        <button type=\"submit\"><span class=\"fa fa-floppy-o\"></span>
-            {$this->template->translate('save')}
-        </button>
-        ".$helper->buttonLink(
-            $cancelURL,
-            $this->template->translate('cancel'),
-            'cancel'
-        );
-        return $buttons;
+		return "
+		<button type=\"submit\" class=\"save\">{$this->template->_('save')}</button>
+		<a href=\"$cancelURL\"  class=\"cancel\">{$this->template->_('cancel')}</a>
+		";
 	}
 }

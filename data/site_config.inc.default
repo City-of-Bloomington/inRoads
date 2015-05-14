@@ -9,6 +9,17 @@ define('BASE_URL','http://localhost/application');
 define('BASE_URI','/application');
 
 /**
+ * Specify the theme directory
+ *
+  * Remember to create a symbolic link in public/css to the theme CSS
+  * that you declare here.
+ *
+ * A theme can consist of templates, blocks which will override core.
+ * The current theme's screen.css will be included in the HTML head.
+ */
+//define('THEME', 'cob');
+
+/**
  * Javascript APIs
  */
 define('OPENLAYERS', BASE_URI.'/js/vendor/ol3');
