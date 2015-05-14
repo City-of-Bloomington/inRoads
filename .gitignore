@@ -6,4 +6,7 @@ data/blocks/*
 tests/configuration.inc
 build
 dist
+public/css/screen.css
+public/css/screen.css.map
+public/css/**/.sass-cache
 
