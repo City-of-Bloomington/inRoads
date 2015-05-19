@@ -52,14 +52,14 @@ class EventsController extends Controller
     public function update()
     {
         $this->template->setFilename('full-width');
-        
-        $event = !empty($_REQUEST['event_id'])
+
+        $event =        !empty($_REQUEST['event_id'])
             ? $this->loadEvent($_REQUEST['event_id'])
             : new Event();
 
         if (isset($_POST['jurisdiction_id'])) {
-            $event->handleUpdate($_POST);
             try {
+                $event->handleUpdate($_POST);
                 $event->save();
                 header('Location: '.BASE_URL.'/events/view?event_id='.$event->getId());
                 exit();

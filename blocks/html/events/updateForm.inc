@@ -12,6 +12,8 @@ use Blossom\Classes\View;
 $headline    = View::escape($this->event->getHeadline());
 $description = View::escape($this->event->getDescription());
 $detour      = View::escape($this->event->getDetour());
+$startDate = $this->event->getStartDate(DATE_FORMAT);
+$endDate   = $this->event->getEndDate(DATE_FORMAT);
 
 $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
 ?>
@@ -54,6 +56,12 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
                         ?>
                         </select>
                     </td>
+                </tr>
+                <tr><td><label for="startDate"><?= $this->_('startDate'); ?></label></td>
+                    <td><input name="startDate" id="startDate" value="<?= $startDate; ?>" /></td>
+                </tr>
+                <tr><td><label for="endDate"><?= $this->_('endDate'); ?></label></td>
+                    <td><input name="endDate" id="endDate" value="<?= $endDate; ?>" /></td>
                 </tr>
                 <tr><td><label for="severity"><?php echo $this->_('severity'); ?></label></td>
                     <td><select name="severity" id="severity">

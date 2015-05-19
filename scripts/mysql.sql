@@ -1,4 +1,4 @@
--- @copyright 2014 City of Bloomington, Indiana
+-- @copyright 2014-2015 City of Bloomington, Indiana
 -- @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
 -- @author Cliff Ingham <inghamn@bloomington.in.gov>
 create table people (
@@ -29,6 +29,8 @@ create table events (
     status    varchar(32) not null,
     created      datetime not null,
     updated      datetime not null,
+    startDate    date     not null,
+    endDate      date     not null,
     headline varchar(255) not null,
     description text,
     detour      text,

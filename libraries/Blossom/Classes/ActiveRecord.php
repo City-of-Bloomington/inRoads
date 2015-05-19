@@ -120,7 +120,7 @@ abstract class ActiveRecord
 	{
 		$date = trim($date);
 		if ($date) {
-			$d = \DateTime::createFromFormat(DATE_FORMAT, $date);
+			$d = \DateTime::createFromFormat(DATETIME_FORMAT, $date);
 			if (!$d) {
 				try {
 					$d = new \DateTime($date);

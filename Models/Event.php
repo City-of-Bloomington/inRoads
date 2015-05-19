@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2014 City of Bloomington, Indiana
+ * @copyright 2014-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -87,6 +87,11 @@ class Event extends ActiveRecord
     {
         parent::setDateData('updated', 'now');
         $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
+
+        if (!$this->getStartDate() || !$this->getEndDate()) {
+            throw new \Exception('missingRequiredFields');
+        }
+
         parent::save();
     }
 
@@ -101,8 +106,10 @@ class Event extends ActiveRecord
     public function getDescription() { return parent::get('description'); }
     public function getDetour()      { return parent::get('detour');      }
     public function getGeography()   { return parent::get('geography');   }
-    public function getCreated($f=null, $tz=null) { return parent::getDateData('created', $f, $tz); }
-    public function getUpdated($f=null, $tz=null) { return parent::getDateData('updated', $f, $tz); }
+    public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
+    public function getUpdated  ($f=null, $tz=null) { return parent::getDateData('updated',   $f, $tz); }
+    public function getStartDate($f=null, $tz=null) { return parent::getDateData('startDate', $f, $tz); }
+    public function getEndDate  ($f=null, $tz=null) { return parent::getDateData('endDate',   $f, $tz); }
     public function getJurisdiction_id() { return parent::get('jurisdiction_id'); }
     public function getJurisdiction()    { return parent::getForeignKeyObject(__namespace__.'\Jurisdiction', 'jurisdiction_id'); }
 
@@ -113,14 +120,17 @@ class Event extends ActiveRecord
     public function setDescription($s) { parent::set('description', $s); }
     public function setDetour     ($s) { parent::set('detour',      $s); }
     public function setGeography  ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
-    public function setCreated($d) { parent::setDateData('created', $d); }
+    public function setCreated  ($d) { parent::setDateData('created',   $d); }
+    public function setStartDate($d) { parent::setDateData('startDate', $d); }
+    public function setEndDate  ($d) { parent::setDateData('endDate',   $d); }
     public function setJurisdiction_id($i) { parent::setForeignKeyField (__namespace__.'\Jurisdiction', 'jurisdiction_id', $i); }
     public function setJurisdiction   ($o) { parent::setForeignKeyObject(__namespace__.'\Jurisdiction', 'jurisdiction_id', $o); }
 
     public function handleUpdate($post)
     {
         $fields = [
-            'eventType', 'severity', 'status', 'headline', 'description', 'detour', 'jurisdiction_id', 'geography'
+            'eventType', 'severity', 'status', 'headline', 'description', 'detour', 'jurisdiction_id', 'geography',
+            'startDate', 'endDate'
         ];
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);
