@@ -26,23 +26,33 @@ abstract class ActiveRecord
 
 	/**
 	 * Writes the database back to the database
+	 *
+	 * If there are validation errors, no database calls are made.
+	 * Instead, the errors are returned
+	 *
+	 * @return array Errors
 	 */
 	protected function save()
 	{
-		$this->validate();
-		$zend_db = Database::getConnection();
-		$sql = new Sql($zend_db, $this->tablename);
-		if ($this->getId()) {
-			$update = $sql->update()
-				->set($this->data)
-				->where(array('id'=>$this->getId()));
-			$sql->prepareStatementForSqlObject($update)->execute();
-		}
-		else {
-			$insert = $sql->insert()->values($this->data);
-			$sql->prepareStatementForSqlObject($insert)->execute();
-			$this->data['id'] = $zend_db->getDriver()->getLastGeneratedValue();
-		}
+        $errors = $this->validate();
+        if (!count($errors)) {
+            $zend_db = Database::getConnection();
+            $sql = new Sql($zend_db, $this->tablename);
+            if ($this->getId()) {
+                $update = $sql->update()
+                    ->set($this->data)
+                    ->where(array('id'=>$this->getId()));
+                $sql->prepareStatementForSqlObject($update)->execute();
+            }
+            else {
+                $insert = $sql->insert()->values($this->data);
+                $sql->prepareStatementForSqlObject($insert)->execute();
+                $this->data['id'] = $zend_db->getDriver()->getLastGeneratedValue();
+            }
+        }
+        else {
+            return $errors;
+        }
 	}
 
 	/**
@@ -108,8 +118,8 @@ abstract class ActiveRecord
 	/**
 	 * Sets a date
 	 *
-	 * Dates should be in DATE_FORMAT, set in configuration.inc
-	 * If we cannot parse the string using DATE_FORMAT, we will
+	 * Dates should be in DATETIME_FORMAT, set in configuration.inc
+	 * If we cannot parse the string using DATETIME_FORMAT, we will
 	 * fall back to trying something strtotime() understands
 	 * http://www.php.net/manual/en/function.strtotime.php
 	 *
@@ -126,7 +136,8 @@ abstract class ActiveRecord
 					$d = new \DateTime($date);
 				}
 				catch (\Exception $e) {
-					throw new \Exception('unknownDateFormat');
+                    $class = strtolower((new \ReflectionClass($this))->getShortName());
+					throw new \Exception("$class/$dateField/invalidDate");
 				}
 			}
 			$this->data[$dateField] = $d->format(self::MYSQL_DATE_FORMAT);

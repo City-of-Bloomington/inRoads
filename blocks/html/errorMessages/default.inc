@@ -7,5 +7,4 @@
  * @param string $this->field
  * @param string $this->error
  */
-?>
-<p>The <?= $this->field; ?> is invalid</p>
+echo "<p>{$this->class}/{$this->field}/{$this->error}</p>";

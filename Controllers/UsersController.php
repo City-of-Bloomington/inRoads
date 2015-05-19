@@ -40,7 +40,7 @@ class UsersController extends Controller
 				exit();
 			}
 			catch (\Exception $e) {
-				$_SESSION['errorMessages'][] = $e;
+                $this->template->setFlashMessages($e, 'errorMessages');
 			}
 		}
 
@@ -58,7 +58,7 @@ class UsersController extends Controller
 			$person->save();
 		}
 		catch (\Exception $e) {
-			$_SESSION['errorMessages'][] = $e;
+            $this->template->setFlashMessages($e, 'errorMessages');
 		}
 		header('Location: '.BASE_URL.'/users');
 		exit();

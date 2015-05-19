@@ -19,7 +19,7 @@ class JurisdictionsController extends Controller
             return new Jurisdiction($id);
         }
         catch (\Exception $e) {
-            $_SESSION['errorMessages'][] = $e;
+            $this->template->setFlashMessages($e, 'errorMessages');
             header('Location: '.BASE_URL.'/jurisdictions');
             exit();
         }
@@ -47,13 +47,13 @@ class JurisdictionsController extends Controller
 
         if (isset($_POST['name'])) {
             $j->handleUpdate($_POST);
-            try {
-                $j->save();
+            $errors = $j->save();
+            if (!count($errors)) {
                 header('Location: '.BASE_URL.'/jurisdictions/view?jurisdiction_id='.$j->getId());
                 exit();
             }
-            catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
+            else {
+                $this->template->setFlashMessages($e, 'errorMessages');
             }
         }
 

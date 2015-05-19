@@ -20,13 +20,13 @@ class EventsController extends Controller
                 return new Event($id);
             }
             catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
+                $this->template->setFlashMessages($e, 'errorMessages');
                 header('Location: '.BASE_URL.'/events');
                 exit();
             }
         }
         else {
-            $_SESSION['errorMessages'][] = new \Exception('events/unknownEvent');
+            $this->template->setFlashMessages( ['event' => [0 => ['unknown']]], 'errorMessages' );
             header('Location: '.BASE_URL.'/events');
             exit();
         }
@@ -58,14 +58,14 @@ class EventsController extends Controller
             : new Event();
 
         if (isset($_POST['jurisdiction_id'])) {
-            try {
-                $event->handleUpdate($_POST);
-                $event->save();
+            $event->handleUpdate($_POST);
+            $errors = $event->save();
+            if (!count($errors)) {
                 header('Location: '.BASE_URL.'/events/view?event_id='.$event->getId());
                 exit();
             }
-            catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
+            else {
+                $this->template->setFlashMessages($e, 'errorMessages');
             }
         }
         $this->template->blocks[] = new Block('events/updateForm.inc', ['event'=>$event]);

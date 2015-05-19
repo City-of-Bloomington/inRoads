@@ -57,7 +57,7 @@ class Event extends ActiveRecord
                     $this->exchangeArray($result->current());
                 }
                 else {
-                    throw new \Exception('events/unknownEvent');
+                    throw new \Exception('event/unknown');
                 }
             }
         }
@@ -69,30 +69,41 @@ class Event extends ActiveRecord
         }
     }
 
+	/**
+	 * Performs validation checks and returns any problems
+	 *
+	 * @return array Errors
+	 */
     public function validate()
     {
-        if ( !$this->getJurisdiction_id()
-            || !$this->getEventType()
-            || !$this->getSeverity()
-            || !$this->getStatus()
-            || !$this->getHeadline()) {
-            throw new \Exception('missingRequiredFields');
+        $errors = [];
+
+        $requiredFields = [
+            'jurisdiction_id', 'eventType', 'severity', 'status', 'headline', 'startDate', 'endDate'
+        ];
+        foreach ($requiredFields as $f) {
+            $get = ucfirst($f);
+            if (!$this->$get()) { $errors[$f] = ['missingRequiredFields']; }
         }
-        if (!array_key_exists($this->getEventType(), self::$TYPES     )) { throw new \Exception('events/unknownType'    ); }
-        if (!array_key_exists($this->getSeverity(),  self::$SEVERITIES)) { throw new \Exception('events/unknownSeverity'); }
-        if (        !in_array($this->getStatus(),    self::$STATUS    )) { throw new \Exception('events/unknownStatus'  ); }
+
+        if (!array_key_exists($this->getEventType(), self::$TYPES     )) { $errors['eventType'][] = 'unknown'; }
+        if (!array_key_exists($this->getSeverity(),  self::$SEVERITIES)) { $errors['severity' ][] = 'unknown'; }
+        if (        !in_array($this->getStatus(),    self::$STATUS    )) { $errors['status'   ][] = 'unknown'; }
+
+        if (count($errors)) {
+            return ['event' => $errors];
+        }
     }
 
+	/**
+	 * @return array Errors
+	 */
     public function save()
     {
         parent::setDateData('updated', 'now');
         $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
 
-        if (!$this->getStartDate() || !$this->getEndDate()) {
-            throw new \Exception('missingRequiredFields');
-        }
-
-        parent::save();
+        return parent::save();
     }
 
     //----------------------------------------------------------------

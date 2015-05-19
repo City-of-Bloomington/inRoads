@@ -90,7 +90,7 @@ abstract class TableGateway
 			return $this->tableGateway->selectWith($select);
 		}
 	}
-
+	
 	/**
 	 * @param Zend\Db\ResultSet
 	 * @return array

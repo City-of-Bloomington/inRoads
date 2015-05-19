@@ -18,7 +18,7 @@ class PeopleController extends Controller
             return new Person($id);
         }
         catch (\Exception $e) {
-            $_SESSION['errorMessages'][] = $e;
+            $this->template->setFlashMessages($e, 'errorMessages');
             header('Location: '.BASE_URL.'/people');
             exit();
         }
@@ -54,15 +54,14 @@ class PeopleController extends Controller
 
 		if (isset($_POST['firstname'])) {
 			$person->handleUpdate($_POST);
-			try {
-				$person->save();
-
+			$errors = $person->save();
+			if (!count($errors)) {
 				if (!$return_url) { $return_url = BASE_URL."/people/view?person_id={$person->getId()}"; }
 				header("Location: $return_url");
 				exit();
 			}
-			catch (\Exception $e) {
-				$_SESSION['errorMessages'][] = $e;
+			else {
+                $this->template->setFlashMessages($errors, 'errorMessages');
 			}
 		}
 

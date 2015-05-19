@@ -1,11 +1,13 @@
 <?php
 /**
- * A class for working with entries from a Directory webservice
+ * A class for working with entries in LDAP.
  *
  * This class is written specifically for the City of Bloomington's
- * Directory web application.
+ * LDAP layout.  If you are going to be doing LDAP authentication
+ * with your own LDAP server, you will probably need to customize
+ * the fields used in this class.
  *
- * @copyright 2011-2015 City of Bloomington, Indiana
+ * @copyright 2011-2013 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -44,11 +46,11 @@ class Employee implements ExternalIdentity
 		if ($response) {
             $this->entry = json_decode($response);
             if (!$this->entry) {
-                throw new \Exception('Employee/unknownUser');
+                throw new \Exception('ldap/unknownUser');
             }
 		}
 		else {
-            throw new \Exception('Employee/unknownUser');
+            throw new \Exception('ldap/unknownUser');
 		}
 	}
 

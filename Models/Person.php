@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2009-2013 City of Bloomington, Indiana
+ * @copyright 2009-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -47,7 +47,7 @@ class Person extends ActiveRecord
 					$this->exchangeArray($result->current());
 				}
 				else {
-					throw new \Exception('people/unknownPerson');
+					throw new \Exception('person/unknown');
 				}
 			}
 		}
@@ -59,24 +59,33 @@ class Person extends ActiveRecord
 	}
 
 	/**
-	 * Throws an exception if anything's wrong
-	 * @throws Exception $e
+	 * Performs validation checks and returns any problems
+	 *
+	 * @return array Errors
 	 */
 	public function validate()
 	{
-		// Check for required fields here.  Throw an exception if anything is missing.
-		if (!$this->getFirstname() || !$this->getEmail()) {
-			throw new \Exception('missingRequiredFields');
-		}
+        $errors = [];
 
 		if ($this->getUsername() && !$this->getAuthenticationMethod()) {
 			$this->setAuthenticationMethod('local');
 		}
+
+
+		if (!$this->getFirstname()) { $errors['firstname'][] = 'missingRequiredField'; }
+		if (!$this->getEmail())     { $errors['email'][]     = 'missingRequiredField'; }
+
+		if (count($errors)) {
+            return ['people' => $errors];
+		}
 	}
 
+	/**
+	 * @return array Errors
+	 */
 	public function save()
 	{
-		parent::save();
+		return parent::save();
 	}
 
 	/**
@@ -177,7 +186,7 @@ class Person extends ActiveRecord
 	public static function getAuthenticationMethods()
 	{
 		global $DIRECTORY_CONFIG;
-		return array_merge(array('local'), array_keys($DIRECTORY_CONFIG));
+		return array_merge(['local'], array_keys($DIRECTORY_CONFIG));
 	}
 
 	/**
@@ -220,7 +229,7 @@ class Person extends ActiveRecord
 	{
 		global $ZEND_ACL;
 		$role = 'Anonymous';
-		if (isset($_SESSION['USER']) && $_SESSION['USER']->getRole()) {
+		if (  isset($_SESSION['USER']) && $_SESSION['USER']->getRole()) {
 			$role = $_SESSION['USER']->getRole();
 		}
 		return $ZEND_ACL->isAllowed($role, $resource, $action);

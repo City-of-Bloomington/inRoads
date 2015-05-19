@@ -38,7 +38,7 @@ class Jurisdiction extends ActiveRecord
                     $this->exchangeArray($result->current());
                 }
                 else {
-                    throw new \Exception('jurisdictions/unknownJurisdiction');
+                    throw new \Exception('jurisdiction/unknown');
                 }
             }
         }
@@ -50,12 +50,21 @@ class Jurisdiction extends ActiveRecord
 
     public function validate()
     {
-        if (!$this->getName() || !$this->getDomain() || !$this->getEmail()) {
-            throw new \Exception('missingRequiredFields');
+        $errors = [];
+        if (!$this->getName()) { $errors['name'][] = 'missingRequiredFields'; }
+        if (!$this->getDomain()) { $errors['domain'][] = 'missingRequiredFields'; }
+        if (!$this->getEmail()) { $errors['email'][] = 'missingRequiredFields'; }
+
+        if (count($errors)) {
+            return ['jurisdiction' => $errors];
         }
+
     }
 
-    public function save() { parent::save(); }
+    /**
+     * @return array Errors
+     */
+    public function save() { return parent::save(); }
 
     //----------------------------------------------------------------
     // Generic Getters & Setters

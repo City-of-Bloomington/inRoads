@@ -7,5 +7,4 @@
  * @param string $this->field
  * @param string $this->error
  */
-?>
-<p>The <?= $this->field; ?> is invalid</p>
+echo "<p>That {$this->class} is not in the system.</p>";

@@ -49,7 +49,7 @@ class LoginController extends Controller
 			exit();
 		}
 		catch (\Exception $e) {
-			$_SESSION['errorMessages'][] = $e;
+            $this->template->setFlashMessages($e, 'errorMessages');
 		}
 
 		$this->template->blocks[] = new Block('loginForm.inc',array('return_url'=>$this->return_url));
@@ -73,7 +73,7 @@ class LoginController extends Controller
 				}
 			}
 			catch (\Exception $e) {
-				$_SESSION['errorMessages'][] = $e;
+                $this->template->setFlashMessages($e, 'errorMessages');
 			}
 		}
 		$this->template->blocks[] = new Block('loginForm.inc',array('return_url'=>$this->return_url));

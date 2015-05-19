@@ -4,7 +4,7 @@
  *
  * The template collects all the blocks from the controller
  *
- * @copyright 2006-2014 City of Bloomington, Indiana
+ * @copyright 2006-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -57,7 +57,7 @@ class Template extends View
 			$this->path = APPLICATION_HOME.'/templates';
 		}
 		else {
-			throw new \Exception('unknownTemplate');
+			throw new \Exception('template/unknown');
 		}
 
 		$this->filename = $filename;
@@ -78,7 +78,7 @@ class Template extends View
 			$this->path = APPLICATION_HOME.'/templates';
 		}
 		else {
-			throw new \Exception('unknownOutputFormat');
+			throw new \Exception('outputFormat/unknown');
 		}
 
 		$this->outputFormat = $format;
@@ -227,5 +227,21 @@ class Template extends View
 		else {
 			include APPLICATION_HOME."/templates/{$this->outputFormat}/$file";
 		}
+	}
+
+	public function setFlashMessages($messages, $category)
+	{
+        if ($messages instanceof \Exception) {
+            $e = explode('/', $messages->getMessage());
+            switch (count($e)) {
+                case 1: $m = [0     => [0     => [$e[0]]]]; break;
+                case 2: $m = [$e[0] => [0     => [$e[1]]]]; break;
+                case 3: $m = [$e[0] => [$e[1] => [$e[2]]]]; break;
+            }
+            $_SESSION[$category] = $m;
+        }
+        else {
+            $_SESSION[$category] = $messages;
+        }
 	}
 }
