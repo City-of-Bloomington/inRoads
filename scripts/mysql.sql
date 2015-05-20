@@ -12,28 +12,14 @@ create table people (
 	role varchar(30)
 );
 
-create table jurisdictions (
-    id int unsigned not null primary key auto_increment,
-    domain varchar(128) not null,
-    name   varchar(128) not null,
-    email  varchar(128) not null,
-    phone  varchar(32),
-    description text
-);
-
 create table events (
     id int unsigned not null primary key auto_increment,
-    jurisdiction_id int unsigned not null,
     eventType varchar(32) not null,
-    severity  varchar(32) not null,
-    status    varchar(32) not null,
     created      datetime not null,
     updated      datetime not null,
     startDate    date     not null,
     endDate      date     not null,
-    headline varchar(255) not null,
     description text,
-    detour      text,
-    geography geometry,
-    foreign key (jurisdiction_id) references jurisdictions(id)
+    geography             geometry,
+    geography_description varchar(128)
 );

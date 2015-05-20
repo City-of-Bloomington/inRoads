@@ -10,8 +10,7 @@ $links = '';
 if (Person::isAllowed('users')) {
     $routes = [
         'people'        => 'person',
-        'users'         => 'user',
-        'jurisdictions' => 'jurisdiction'
+        'users'         => 'user'
     ];
     foreach ($routes as $plural=>$singular) {
         $requiredAction = 'index';

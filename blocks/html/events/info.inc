@@ -9,7 +9,7 @@ use Application\Models\Person;
 use Blossom\Classes\View;
 ?>
 <section>
-    <h1><?php echo View::escape($this->event->getHeadline()); ?></h1>
+    <h1><?php echo View::escape($this->event->getGeography_description()); ?></h1>
     <div class="tools">
     <?php
         if (Person::isAllowed('events', 'edit')) {
@@ -33,20 +33,10 @@ use Blossom\Classes\View;
     </script>
 
     <p><?php echo View::escape($this->event->getDescription()); ?></p>
-    <p><?php echo View::escape($this->event->getDetour()); ?></p>
 
     <table>
-        <tr><th><?php echo $this->_('jurisdiction'); ?></th>
-            <td><?php echo View::escape($this->event->getJurisdiction()->getName()); ?></td>
-        </tr>
         <tr><th><?php echo $this->_('eventType'); ?></th>
             <td><?php echo $this->event->getEventType(); ?></td>
-        </tr>
-        <tr><th><?php echo $this->_('severity'); ?></th>
-            <td><?php echo $this->event->getSeverity(); ?></td>
-        </tr>
-        <tr><th><?php echo $this->_('status'); ?></th>
-            <td><?php echo $this->event->getStatus(); ?></td>
         </tr>
         <tr><th><?php echo $this->_('created'); ?></th>
             <td><?php echo $this->event->getCreated(DATE_FORMAT); ?></td>

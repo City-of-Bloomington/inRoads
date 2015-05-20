@@ -24,21 +24,22 @@ use Blossom\Classes\View;
     </div>
     <?php
         foreach ($this->events as $e) {
-            $jurisdiction = View::escape($e->getJurisdiction()->getName());
-
             $url = BASE_URI.'/events/view?event_id='.$e->getId();
 
             $description = View::escape($e->getDescription());
-            $getDetour   = View::escape($e->getDetour());
+            $location    = View::escape($e->getGeography_description());
+            $startDate = $e->getStartDate(DATE_FORMAT);
+            $endDate   = $e->getEndDate(DATE_FORMAT);
+
+            $type = Event::$TYPES[$e->getEventType()];
 
             echo "
             <article>
                 <header>
-                    <h1><a href=\"$url\">{$e->getSeverity()} {$e->getEventType()}</a>
-                        <span class=\"date\">{$e->getCreated(DATE_FORMAT)}</span>
-                    </h1>
+                    <h1><a href=\"$url\">$location</a></h1>
+                    <div>$startDate through $endDate</div>
+                    <div>{$e->getEventType()}; $type</div>
                     <p>$description</p>
-                    <p>$getDetour<p>
                 </header>
             </article>
             ";

@@ -12,7 +12,7 @@ use Zend\Db\Sql\Select;
 
 class EventsTable extends TableGateway
 {
-    protected $columns = ['id', 'eventType', 'severity', 'status', 'jurisdiction_id'];
+    protected $columns = ['id', 'eventType'];
 
     public function __construct() { parent::__construct('events', __namespace__.'\Event'); }
 
@@ -27,16 +27,14 @@ class EventsTable extends TableGateway
         $select = new Select('events');
         $select->columns([
             'id'              => 'id',
-            'jurisdiction_id' => 'jurisdiction_id',
             'eventType'       => 'eventType',
-            'severity'        => 'severity',
-            'status'          => 'status',
             'created'         => 'created',
             'updated'         => 'updated',
-            'headline'        => 'headline',
+            'startDate'       => 'startDate',
+            'endDate'         => 'endDate',
             'description'     => 'description',
-            'detour'          => 'detour',
-            'geography'       => new Expression('AsText(geography)')
+            'geography'             => new Expression('AsText(geography)'),
+            'geography_description' => 'geography_description'
         ]);
 
         if (count($fields)) {

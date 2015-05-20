@@ -147,28 +147,11 @@ msgstr "Start Date"
 msgid "endDate"
 msgstr "End Date"
 
-msgid "headline"
-msgstr "Headline"
-
 msgid "eventType"
 msgstr "Event Type"
 
-msgid "severity"
-msgstr "Severity"
+msgid "geography"
+msgstr "Geography"
 
-msgid "status"
-msgstr "Status"
-
-msgid "detour"
-msgstr "Detour"
-
-msgid "jurisdiction"
-msgid_plural "jurisdictions"
-msgstr[0] "Jurisdiction"
-msgstr[1] "Jurisdictions"
-
-msgid "jurisdiction_add"
-msgstr "Add Jurisdiction"
-
-msgid "jurisdiction_edit"
-msgstr "Edit Jurisdiction"
+msgid "geography_description"
+msgstr "Location"
