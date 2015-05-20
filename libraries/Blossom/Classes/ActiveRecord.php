@@ -125,12 +125,13 @@ abstract class ActiveRecord
 	 *
 	 * @param string $dateField
 	 * @param string $date
+	 * @param string $format
 	 */
-	protected function setDateData($dateField, $date)
+	protected function setDateData($dateField, $date, $format=DATETIME_FORMAT)
 	{
 		$date = trim($date);
 		if ($date) {
-			$d = \DateTime::createFromFormat(DATETIME_FORMAT, $date);
+			$d = \DateTime::createFromFormat($format, $date);
 			if (!$d) {
 				try {
 					$d = new \DateTime($date);

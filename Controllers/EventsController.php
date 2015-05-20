@@ -57,7 +57,7 @@ class EventsController extends Controller
             ? $this->loadEvent($_REQUEST['event_id'])
             : new Event();
 
-        if (isset($_POST['jurisdiction_id'])) {
+        if (isset($_POST['event_id'])) {
             $event->handleUpdate($_POST);
             $errors = $event->save();
             if (!count($errors)) {

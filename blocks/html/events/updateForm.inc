@@ -37,15 +37,23 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
                     </select>
                 </dd>
             </dl>
+            <?php
+                $help = View::translateDateString(DATE_FORMAT);
+                $size = strlen($help);
+            ?>
             <dl><dt><label  for="startDate"><?= $this->_('startDate'); ?></label></dt>
-                <dd><input name="startDate" id="startDate" value="<?= $startDate; ?>" /></dd>
+                <dd><input name="startDate" id="startDate" value="<?= $startDate; ?>"
+                        placeholder="<?= $help; ?>" size="<?= $size; ?>" />
+                </dd>
             </dl>
             <dl><dt><label  for="endDate"><?= $this->_('endDate'); ?></label></dt>
-                <dd><input name="endDate" id="endDate" value="<?= $endDate; ?>" /></dd>
+                <dd><input name="endDate" id="endDate" value="<?= $endDate; ?>"
+                        placeholder="<?= $help; ?>" size="<?= $size; ?>" />
+                </dd>
             </dl>
             <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
                 <dd><input name="geography_description" id="geography_description" value="<?= $geography_description; ?>" />
-                    <input name="geography" type="hidden" value="<?= $this->event->getGeography(); ?>" />
+                    <input name="geography" id="geography" type="hidden" value="<?= $this->event->getGeography(); ?>" />
                 </dd>
             </dl>
             <div>

@@ -38,7 +38,7 @@ class Event extends ActiveRecord
             }
             else {
                 $zend_db = Database::getConnection();
-                $sql = "select id, eventType, created, updated, startDate, endDate
+                $sql = "select id, eventType, created, updated, startDate, endDate,
                         description, geography_description, AsText(geography) geography
                         from events where id=?";
                 $result = $zend_db->createStatement($sql)->execute([$id]);
@@ -68,7 +68,7 @@ class Event extends ActiveRecord
 
         $requiredFields = [ 'eventType', 'startDate', 'endDate' ];
         foreach ($requiredFields as $f) {
-            $get = ucfirst($f);
+            $get = 'get'.ucfirst($f);
             if (!$this->$get()) { $errors[$f] = ['missingRequiredFields']; }
         }
 
@@ -110,8 +110,8 @@ class Event extends ActiveRecord
     public function setGeography  ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
     public function setGeography_description($s) { parent::set('geography_description', $s); }
     public function setCreated  ($d) { parent::setDateData('created',   $d); }
-    public function setStartDate($d) { parent::setDateData('startDate', $d); }
-    public function setEndDate  ($d) { parent::setDateData('endDate',   $d); }
+    public function setStartDate($d) { parent::setDateData('startDate', $d, DATE_FORMAT); }
+    public function setEndDate  ($d) { parent::setDateData('endDate',   $d, DATE_FORMAT); }
 
     public function handleUpdate($post)
     {

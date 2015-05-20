@@ -38,11 +38,11 @@ use Blossom\Classes\View;
         <tr><th><?php echo $this->_('eventType'); ?></th>
             <td><?php echo $this->event->getEventType(); ?></td>
         </tr>
-        <tr><th><?php echo $this->_('created'); ?></th>
-            <td><?php echo $this->event->getCreated(DATE_FORMAT); ?></td>
+        <tr><th><?php echo $this->_('startDate'); ?></th>
+            <td><?php echo $this->event->getStartDate(DATE_FORMAT); ?></td>
         </tr>
-        <tr><th><?php echo $this->_('updated'); ?></th>
-            <td><?php echo $this->event->getUpdated(DATE_FORMAT); ?></td>
+        <tr><th><?php echo $this->_('endDate'); ?></th>
+            <td><?php echo $this->event->getEndDate(DATE_FORMAT); ?></td>
         </tr>
     </table>
 </section>
