@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2012-2014 City of Bloomington, Indiana
+ * @copyright 2012-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -12,6 +12,12 @@ use Blossom\Classes\Block;
 
 class PeopleController extends Controller
 {
+    public function __construct(&$template)
+    {
+        $template->setFilename('full-width');
+        parent::__construct($template);
+    }
+
     private function loadPerson($id)
     {
         try {

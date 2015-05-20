@@ -6,6 +6,7 @@
  * @param Zend\Db\Result $this->events
  */
 use Application\Models\Person;
+use Application\Models\Event;
 use Blossom\Classes\View;
 ?>
 <section>

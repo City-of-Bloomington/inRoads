@@ -42,7 +42,8 @@ class Employee implements ExternalIdentity
 		global $DIRECTORY_CONFIG;
 		$this->config = $DIRECTORY_CONFIG['Employee'];
 
-		$response = Url::get($this->config['DIRECTORY_SERVER'].'/people/view?format=json;username='.$username);
+		$url = $this->config['DIRECTORY_SERVER'].'/people/view?format=json;username='.$username;
+		$response = Url::get($url);
 		if ($response) {
             $this->entry = json_decode($response);
             if (!$this->entry) {

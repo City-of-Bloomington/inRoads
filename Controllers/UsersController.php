@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2012-2013 City of Bloomington, Indiana
+ * @copyright 2012-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
@@ -15,6 +15,15 @@ use Zend\Paginator\Adapter\DbSelect;
 
 class UsersController extends Controller
 {
+    /**
+     * @override
+     */
+    public function __construct(&$template)
+    {
+        $template->setFilename('full-width');
+        parent::__construct($template);
+    }
+
 	public function index()
 	{
 		$people = new PeopleTable();
