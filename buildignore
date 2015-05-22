@@ -6,6 +6,7 @@
 .git*
 configuration.inc
 site_config.inc
+credentials.json
 /data/sessions/*
 /data/templates/
 /data/blocks/
