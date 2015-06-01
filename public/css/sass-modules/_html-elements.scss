@@ -4,23 +4,30 @@ body {
 }
 h1 {
     color: $color-heading-1;
+    font-family: $font-family-heading;
     font-size: 2rem;
     font-weight: 300;
     margin: 0 0 1em;
 }
 h2 {
   color: $color-heading-2;
+    font-family: $font-family-heading;
   font-size: 1.3rem;
   font-weight: normal;
   margin: .5em 0;
 }
 h3 {
     color: $color-heading-3;
+    font-family: $font-family-heading;
     font-size: 1.5rem;
     font-weight: normal;
     margin:.5em 0 .25em 0;
 }
-h4 { font-size:$size-font-default; font-weight: $font-weight-heading; }
+h4 {
+    font-family: $font-family-heading;
+    font-size:$size-font-default;
+    font-weight: $font-weight-heading;
+}
 a {
     color: $color-link;
     text-decoration:none;

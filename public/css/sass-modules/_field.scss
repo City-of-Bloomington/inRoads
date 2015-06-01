@@ -29,7 +29,7 @@ form dl {
         }
     }
 
-    @media all and (min-width: $window-med) {
+    @media all and (min-width: $window-medium) {
         background: $color-background-field;
         margin: 2px 0;
         transition: background .25s linear;

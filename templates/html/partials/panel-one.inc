@@ -1,3 +1,3 @@
-<div id="panel-one" class="panel">
+<div id="panel-one" class="windowPanel">
 <?= $this->includeBlocks('panel-one'); ?>
 </div>

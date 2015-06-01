@@ -1,24 +1,14 @@
 body > header {
     border-top: .4em solid $color-accent;
+    border-bottom: .4em solid $color-accent;
+    box-sizing: border-box;
+    height: 4.35rem;
 
     > .container {
         margin: 0 auto 0;
         color: $color-header;
         position: relative;
         @include clearfix();
-
-        @if($url-logo != '') {
-            &:before {
-                background: url($url-logo);
-                background-size: 100% 100%;
-                content: '';
-                display: block;
-                float: left;
-                height: 4em;
-                margin: .75em .75em .75em 0;
-                width: 4em;
-            }
-        }
 
         .site {
             &-title {
@@ -41,23 +31,22 @@ body > header {
                     margin: 0 0 0 1em;
                 }
             }
+            &-logo {
+                float: left;
+                margin: 0 0 0 .5rem;
+            }
         }
     }
 
-    @media screen and (min-width: $window-med) {
-        position: relative;
-
+    @media screen and (min-width: $window-medium) {
         > .container {
             box-sizing: border-box;
-            margin: 0 auto;
             padding-top: .5em;
-            width: 46em;
         }
     }
 
-    @media screen and (min-width: $window-lg) {
+    @media screen and (min-width: $window-large) {
         > .container {
-            width: 60em;
         }
     }
 }

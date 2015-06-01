@@ -4,7 +4,8 @@
 $url-logo:              "images/logo.svg";
 $url-header-background: "images/header-background.jpg";
 
-$font-family-default: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+$font-family-default: "PT Sans", "Helvetica Neue", Arial, sans-serif;
+$font-family-heading: Lato, "Helvetica Neue", Arial, sans-serif;
 
 $color-text-default: #303030;
 $color-content-background: #fff;
@@ -35,8 +36,37 @@ $size-font-default: 100%;
 
 $font-weight-heading: 600;
 
-$window-med: 46em;
-$window-lg: 70em;
+// Colors
+// Btown Blue
+$cob-blue: #315da6;
+$cob-blue-light: #4975ba;
+$cob-blue-dark: #143a7a;
+$cob-blue-darkest: #06204b;
+
+// Cornflower
+$cornflower-brightest: #acf2ff;
+$cornflower-darkest: #12314c;
+
+// Action Green
+$cob-green: #20ac59;
+$cob-green-light: #70bf88;
+$cob-green-lightest: #aaffac;
+
+// Blue-ish gray
+$cob-gray: #bcc9d8;
+$cob-gray-dark: #8d98a5;
+$cob-gray-darkest: #585f68;
+$cob-nightshade: #2a2e32; // Darker than darkest
+
+// Font families
+$font-body-copy: 'PT Sans', Verdana, sans-serif;
+$font-headings: Lato, 'Helvetica Neue', Arial, sans-serif;
+
+
+// Viewport size variables
+$window-large: (1024em/16);
+$window-medium: (700em/16);
+$window-small: (400em/16);
 
 @mixin clearfix {
     &:after {

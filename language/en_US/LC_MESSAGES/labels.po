@@ -155,3 +155,6 @@ msgstr "Geography"
 
 msgid "geography_description"
 msgstr "Location"
+
+msgid "upcoming_closures"
+msgstr "Upcoming Road Closures"

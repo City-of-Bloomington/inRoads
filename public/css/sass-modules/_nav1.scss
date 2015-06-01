@@ -1,19 +1,6 @@
 .nav1 {
-    @media screen and (min-width: $window-med) {
+    @media screen and (min-width: $window-medium) {
         position: relative;
-
-        &:after {
-            background: url($url-header-background);
-            background-size: 100% auto;
-            content: '';
-            display: block;
-            height: 18.75em;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 2;
-        }
 
         > .container {
             box-sizing: border-box;
@@ -53,7 +40,7 @@
         }
     }
 
-    @media screen and (min-width: $window-lg) {
+    @media screen and (min-width: $window-large) {
         > .container {
             width: 60em;
         }

@@ -1,0 +1,78 @@
+.mapPanel {
+    position: absolute;
+        top: 4.35rem;
+        right: 0;
+        bottom: 0;
+        left: 20rem;
+}
+
+.windowPanel {
+    position: absolute;
+        top: 4.35rem;
+        bottom: 0;
+        left: 0;
+    width: 20rem;
+
+    &-header {
+        background-color: $cob-blue;
+        color: #fff;
+
+        margin: 0;
+
+        &Tools {
+            height: 1.5rem;
+            position: absolute;
+                top: 0;
+                right: 0;
+
+            :before {
+                background-color: #fff;
+                content: ' ';
+                display: block;
+                height: 1.5rem;
+                position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: -.5rem;
+                width: 1px;                
+            }
+        }
+    }
+    &-title {
+        font-family: $font-family-heading;
+        font-size: (20rem/16);
+        font-weight: 300;
+        margin: 0 0 0 .5rem;
+        padding: .1rem 0 .5rem 0;
+    }
+    &-addButton {
+        background-color: $cornflower-darkest;
+        height: 1.5rem;
+        position: absolute;
+            top: 0;
+            right: .5rem;
+        text-indent: -1000rem;
+        width: 1.5rem;
+
+        &:before {
+            background: #fff;
+            content: ' ';
+            display: block;
+            height: .85rem;
+            position: absolute;
+                top: .35rem;
+                left: (11rem/16);
+            width: (2rem/16);
+        }
+        &:after {
+            background: #fff;
+            content: ' ';
+            display: block;
+            height: (2rem/16);
+            position: absolute;
+                top: (11rem/16);
+                left: .35rem;
+            width: .85rem;
+        }
+    }
+}

@@ -13,7 +13,7 @@ foreach ($this->events as $e) {
     if ($g) { $mapdata[] = $g; }
 }
 ?>
-<div id="map"></div>
+<div id="map" class="mapPanel"></div>
 <script type="text/javascript">
     PHP.mapdata = <?= json_encode($mapdata); ?>;
 </script>
