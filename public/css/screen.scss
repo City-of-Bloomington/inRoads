@@ -10,12 +10,9 @@
 @import 'sass-modules/_buttons';
 @import 'sass-modules/_tables';
 
-/**
- * Side Panel
- */
-#panel-one article h1 {
+article h1 {
     font-size:$size-font-default;
     font-weight:bold;
-
-    .date { float:right; }
 }
+#panel-one .date { float:right; }
+#map { width:100%; height:600px; }

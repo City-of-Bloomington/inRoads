@@ -7,7 +7,7 @@
 namespace Application\Controllers;
 
 use Application\Models\Event;
-use Application\Models\EventsTable;
+use Application\Models\GoogleGateway;
 use Blossom\Classes\Block;
 use Blossom\Classes\Controller;
 
@@ -16,11 +16,12 @@ class EventsController extends Controller
     private function loadEvent($id)
     {
         if ($id) {
-            try {
-                return new Event($id);
+            $event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $id);
+            if ($event) {
+                return new Event($event);
             }
-            catch (\Exception $e) {
-                $this->template->setFlashMessages($e, 'errorMessages');
+            else {
+                $this->template->setFlashMessages( ['event' => [0 => ['unknown']]], 'errorMessages' );
                 header('Location: '.BASE_URL.'/events');
                 exit();
             }
@@ -34,18 +35,23 @@ class EventsController extends Controller
 
     public function index()
     {
-        $table = new EventsTable();
-        $list = $table->find();
+        $start = new \DateTime();
+        $list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start);
 
-        $this->template->blocks['panel-one'][] = new Block('events/list.inc', ['events'=>$list]);
-        $this->template->blocks[]              = new Block('events/map.inc',  ['events'=>$list]);
+        $events = [];
+        foreach ($list as $event) {
+            $events[] = new Event($event);
+        }
+
+        $this->template->blocks['panel-one'][] = new Block('events/list.inc', ['events'=>$events]);
+        $this->template->blocks[]              = new Block('events/map.inc',  ['events'=>$events]);
     }
 
     public function view()
     {
         $this->template->setFilename('full-width');
 
-        $event = $this->loadEvent($_GET['event_id']);
+        $event = $this->loadEvent($_GET['id']);
         $this->template->blocks[] = new Block('events/info.inc', ['event'=>$event]);
     }
 
@@ -53,15 +59,15 @@ class EventsController extends Controller
     {
         $this->template->setFilename('full-width');
 
-        $event =        !empty($_REQUEST['event_id'])
-            ? $this->loadEvent($_REQUEST['event_id'])
+        $event =        !empty($_REQUEST['id'])
+            ? $this->loadEvent($_REQUEST['id'])
             : new Event();
 
-        if (isset($_POST['event_id'])) {
+        if (isset($_POST['id'])) {
             $event->handleUpdate($_POST);
             $errors = $event->save();
             if (!count($errors)) {
-                header('Location: '.BASE_URL.'/events/view?event_id='.$event->getId());
+                header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
                 exit();
             }
             else {

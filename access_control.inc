@@ -22,7 +22,6 @@ $ZEND_ACL->addResource(new Resource('people'));
 $ZEND_ACL->addResource(new Resource('users'));
 $ZEND_ACL->addResource(new Resource('login'));
 
-$ZEND_ACL->addResource(new Resource('jurisdictions'));
 $ZEND_ACL->addResource(new Resource('events'));
 
 /**

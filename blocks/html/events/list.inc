@@ -3,7 +3,6 @@
  * @copyright 2014-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
- * @param Zend\Db\Result $this->events
  */
 use Application\Models\Person;
 use Application\Models\Event;
@@ -25,22 +24,23 @@ use Blossom\Classes\View;
     </div>
     <?php
         foreach ($this->events as $e) {
-            $url = BASE_URI.'/events/view?event_id='.$e->getId();
+            $url = BASE_URI.'/events/view?id='.$e->getId();
 
             $description = View::escape($e->getDescription());
-            $location    = View::escape($e->getGeography_description());
-            $startDate = $e->getStartDate(DATE_FORMAT);
-            $endDate   = $e->getEndDate(DATE_FORMAT);
+            $summary     = View::escape($e->getSummary());
 
-            $type = Event::$TYPES[$e->getEventType()];
+            $format = $e->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
+
+            #$geography = $e->getGeography();
+            #if ($geography) {
+
+            #}
 
             echo "
             <article>
                 <header>
-                    <h1><a href=\"$url\">$location</a></h1>
-                    <div>$startDate through $endDate</div>
-                    <div>{$e->getEventType()}; $type</div>
-                    <p>$description</p>
+                    <h1><a href=\"$url\">$summary</a></h1>
+                    <div>{$e->getStart($format)} through {$e->getEnd($format)}</div>
                 </header>
             </article>
             ";

@@ -9,13 +9,13 @@ use Application\Models\Person;
 use Blossom\Classes\View;
 ?>
 <section>
-    <h1><?php echo View::escape($this->event->getGeography_description()); ?></h1>
+    <h1><?php echo View::escape($this->event->getSummary()); ?></h1>
     <div class="tools">
     <?php
         if (Person::isAllowed('events', 'edit')) {
             $helper = $this->template->getHelper('buttonLink');
             echo $helper->buttonLink(
-                BASE_URI.'/events/update?event_id='.$this->event->getId(),
+                BASE_URI.'/events/update?id='.$this->event->getId(),
                 $this->_('event_edit'),
                 'edit'
             );
@@ -23,26 +23,32 @@ use Blossom\Classes\View;
     ?>
     </div>
 
-    <div id="map"></div>
     <?php
-        $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
-        $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
+        $geography = $this->event->getGeography();
+        if ($geography) {
+            $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
+            $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
+            echo "
+            <div id=\"map\"></div>
+            <script type=\"text/javascript\">
+                PHP.mapdata = '$geography';
+            </script>
+            ";
+
+        }
     ?>
-    <script type="text/javascript">
-        PHP.mapdata = '<?php echo $this->event->getGeography(); ?>';
-    </script>
 
     <p><?php echo View::escape($this->event->getDescription()); ?></p>
 
+    <?php
+        $format = $this->event->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
+    ?>
     <table>
-        <tr><th><?php echo $this->_('eventType'); ?></th>
-            <td><?php echo $this->event->getEventType(); ?></td>
-        </tr>
         <tr><th><?php echo $this->_('startDate'); ?></th>
-            <td><?php echo $this->event->getStartDate(DATE_FORMAT); ?></td>
+            <td><?php echo $this->event->getStart($format); ?></td>
         </tr>
         <tr><th><?php echo $this->_('endDate'); ?></th>
-            <td><?php echo $this->event->getEndDate(DATE_FORMAT); ?></td>
+            <td><?php echo $this->event->getEnd($format); ?></td>
         </tr>
     </table>
 </section>

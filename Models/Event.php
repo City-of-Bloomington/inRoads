@@ -1,126 +1,142 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
-use Blossom\Classes\ActiveRecord;
+
 use Blossom\Classes\Database;
-use Zend\Db\Sql\Expression;
 
-class Event extends ActiveRecord
+require_once GOOGLE.'/autoload.php';
+
+class Event
 {
-    protected $tablename = 'events';
+    private $event;
+    private $patch;
 
-    public static $TYPES  = [
-        'ROAD CLOSED'        => 'expect to detour, signage in place',
-        'LOCAL TRAFFIC ONLY' => 'expect delays, signage in place'
-    ];
-
-    /**
-     * Populates the object with data
-     *
-     * Passing in an associative array of data will populate this object without
-     * hitting the database.
-     *
-     * Passing in a scalar will load the data from the database.
-     * This will load all fields in the table as properties of this class.
-     * You may want to replace this with, or add your own extra, custom loading
-     *
-     * @param int|string|array $id (ID, email, username)
-     */
-    public function __construct($id=null)
+    public function __construct($event=null)
     {
-        if ($id) {
-            if (is_array($id)) {
-                $this->exchangeArray($id);
+        if ($event) {
+            if ($event instanceof \Google_Service_Calendar_Event) {
+                $this->event = $event;
             }
-            else {
-                $zend_db = Database::getConnection();
-                $sql = "select id, eventType, created, updated, startDate, endDate,
-                        description, geography_description, AsText(geography) geography
-                        from events where id=?";
-                $result = $zend_db->createStatement($sql)->execute([$id]);
-                if (count($result)) {
-                    $this->exchangeArray($result->current());
-                }
-                else {
+            elseif (is_string($event)) {
+                $this->event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $event);
+                if (!$this->event) {
                     throw new \Exception('event/unknown');
                 }
             }
         }
         else {
-            // This is where the code goes to generate a new, empty instance.
-            // Set any default values for properties that need it here
-            $this->setCreated('now');
+            $this->event = new \Google_Service_Calendar_Event();
         }
     }
 
-	/**
-	 * Performs validation checks and returns any problems
-	 *
-	 * @return array Errors
-	 */
     public function validate()
     {
-        $errors = [];
-
-        $requiredFields = [ 'eventType', 'startDate', 'endDate' ];
-        foreach ($requiredFields as $f) {
-            $get = 'get'.ucfirst($f);
-            if (!$this->$get()) { $errors[$f] = ['missingRequiredFields']; }
-        }
-
-        if (!array_key_exists($this->getEventType(), self::$TYPES)) {
-            $errors['eventType'][] = 'unknown';
-        }
-
-        if (count($errors)) {
-            return ['event' => $errors];
-        }
     }
 
-	/**
-	 * @return array Errors
-	 */
     public function save()
     {
-        parent::setDateData('updated', 'now');
-        $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
-
-        return parent::save();
+        if ($this->patch instanceof \Google_Service_Calendar_Event) {
+            $errors = $this->validate();
+            if (!count($errors)) {
+                GoogleGateway::patchEvent(
+                    GOOGLE_CALENDAR_ID,
+                    $this->event->id,
+                    $this->patch);
+            }
+            else {
+                return $errors;
+            }
+        }
     }
-
-    //----------------------------------------------------------------
-    // Generic Getters & Setters
-    //----------------------------------------------------------------
-    public function getId()          { return parent::get('id');          }
-    public function getEventType()   { return parent::get('eventType');   }
-    public function getDescription() { return parent::get('description'); }
-    public function getGeography()   { return parent::get('geography');   }
-    public function getGeography_description() { return parent::get('geography_description'); }
-    public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
-    public function getUpdated  ($f=null, $tz=null) { return parent::getDateData('updated',   $f, $tz); }
-    public function getStartDate($f=null, $tz=null) { return parent::getDateData('startDate', $f, $tz); }
-    public function getEndDate  ($f=null, $tz=null) { return parent::getDateData('endDate',   $f, $tz); }
-
-    public function setEventType  ($s) { parent::set('eventType',   $s); }
-    public function setDescription($s) { parent::set('description', $s); }
-    public function setGeography  ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
-    public function setGeography_description($s) { parent::set('geography_description', $s); }
-    public function setCreated  ($d) { parent::setDateData('created',   $d); }
-    public function setStartDate($d) { parent::setDateData('startDate', $d, DATE_FORMAT); }
-    public function setEndDate  ($d) { parent::setDateData('endDate',   $d, DATE_FORMAT); }
 
     public function handleUpdate($post)
     {
-        $fields = [
-            'eventType', 'startDate', 'endDate', 'description', 'geography', 'geography_description'
-        ];
-        foreach ($fields as $f) {
-            $set = 'set'.ucfirst($f);
-            $this->$set($post[$f]);
+        $this->setGeography($post['geography']);
+    }
+
+    //---------------------------------------------------------------
+    //---------------------------------------------------------------
+    public function getId() { return $this->event->id; }
+    public function getSummary() { return $this->event->summary; }
+    public function getDescription() { return $this->event->description; }
+
+    /**
+     * @param string $format
+     * @return string
+     */
+    public function getStart($format=null)
+    {
+        $date = $this->event->start->datetime
+            ?   $this->event->start->datetime
+            :   $this->event->start->date;
+
+        if ($format) {
+            $d = new \DateTime($date);
+            return $d->format($format);
         }
+        return $date;
+    }
+
+    /**
+     * @param string $format
+     * @return string
+     */
+    public function getEnd($format=null)
+    {
+        if (!$this->event->endTimeUnspecified) {
+            $date = $this->event->end->datetime
+                ?   $this->event->end->datetime
+                :   $this->event->end->date;
+
+            if ($format) {
+                $d = new \DateTime($date);
+                return $d->format($format);
+            }
+            return $date;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllDay()
+    {
+        return $this->event->start->datetime ? false : true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeography()
+    {
+        $properties = $this->event->getExtendedProperties();
+        if ($properties) {
+            $shared = $properties->getShared();
+            if (!empty($shared['geography'])) {
+                return $shared['geography'];
+            }
+        }
+    }
+
+    /**
+     * @param string $wkt Geometry in Well-Known Text format
+     */
+    public function setGeography($wkt)
+    {
+        $new = preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $wkt);
+        if ($this->getGeography() != $new) {
+            $properties = new \Google_Service_Calendar_EventExtendedProperties();
+            $properties->setShared(['geography'=>$new]);
+
+            $this->event->setExtendedProperties($properties);
+            if (!$this->patch) {
+                 $this->patch = new \Google_Service_Calendar_Event();
+            }
+            $this->patch->setExtendedProperties($properties);
+       }
     }
 }

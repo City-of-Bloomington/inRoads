@@ -6,14 +6,7 @@
  * @param Event $this->event
  */
 use Application\Models\Event;
-use Application\Models\JurisdictionsTable;
 use Blossom\Classes\View;
-
-$geography_description = View::escape($this->event->getGeography_description());
-$description = View::escape($this->event->getDescription());
-$startDate = $this->event->getStartDate(DATE_FORMAT);
-$endDate   = $this->event->getEndDate(DATE_FORMAT);
-
 
 $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
 ?>
@@ -21,44 +14,28 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
     <h1><?php echo $title; ?></h1>
     <form method="post" id="eventUpdateForm" action="<?php echo BASE_URI; ?>/events/update">
         <fieldset>
-            <input name="event_id" type="hidden" value="<?php echo $this->event->getId(); ?>" />
+            <input name="id" type="hidden" value="<?php echo $this->event->getId(); ?>" />
 
             <legend><?php echo $this->_('event_info'); ?></legend>
-            <dl><dt><label for="eventType"><?php echo $this->_('eventType'); ?></label></dt>
-                <dd><select name="eventType" id="eventType">
-                    <?php
-                        foreach (Event::$TYPES as $t=>$d) {
-                            $selected = $this->event->getEventType()==$t
-                                ? 'selected="selected"'
-                                : '';
-                            echo "<option $selected>$t</option>";
-                        }
-                    ?>
-                    </select>
-                </dd>
-            </dl>
             <?php
-                $help = View::translateDateString(DATE_FORMAT);
-                $size = strlen($help);
+                $format = $this->event->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
             ?>
-            <dl><dt><label  for="startDate"><?= $this->_('startDate'); ?></label></dt>
-                <dd><input name="startDate" id="startDate" value="<?= $startDate; ?>"
-                        placeholder="<?= $help; ?>" size="<?= $size; ?>" />
+            <dl><dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
+                <dd><?= $this->event->getStart($format); ?>
                 </dd>
             </dl>
-            <dl><dt><label  for="endDate"><?= $this->_('endDate'); ?></label></dt>
-                <dd><input name="endDate" id="endDate" value="<?= $endDate; ?>"
-                        placeholder="<?= $help; ?>" size="<?= $size; ?>" />
+            <dl><dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
+                <dd><?= $this->event->getEnd($format); ?>
                 </dd>
             </dl>
             <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
-                <dd><input name="geography_description" id="geography_description" value="<?= $geography_description; ?>" />
-                    <input name="geography" id="geography" type="hidden" value="<?= $this->event->getGeography(); ?>" />
+                <dd><input name="geography" id="geography" value="<?= $this->event->getGeography(); ?>" />
+                    <p><?= View::escape($this->event->getSummary()); ?></p>
                 </dd>
             </dl>
             <div>
                 <div><label for="description"><?php echo $this->_('description'); ?></label></div>
-                <textarea  name="description" id="description"><?php echo $description; ?></textarea>
+                <p><?= View::escape($this->event->getDescription()); ?></p>
             </div>
             <div id="map">
                 <div class="ol-control"   id="clearFeaturesControl">

@@ -11,11 +11,13 @@
  */
 namespace Application\Models;
 
-require GOOGLE.'/autoload.php';
+require_once GOOGLE.'/autoload.php';
 
 class GoogleGateway
 {
-    const DATETIME_FORMAT = 'c';
+    const DATETIME_FORMAT = \DateTime::RFC3339;
+    const FIELDS = 'description,end,endTimeUnspecified,iCalUID,id,kind,location,locked,originalStartTime,privateCopy,recurrence,recurringEventId,sequence,source,start,status,summary,transparency,updated,visibility,extendedProperties';
+
     private static $service;
 
     private static function getService()
@@ -27,6 +29,8 @@ class GoogleGateway
                 ['https://www.googleapis.com/auth/calendar'],
                 $json->private_key
             );
+            $credentials->sub = GOOGLE_USER_EMAIL;
+
             $client = new \Google_Client();
             $client->setAssertionCredentials($credentials);
             if ($client->getAuth()->isAccessTokenExpired()) {
@@ -53,11 +57,42 @@ class GoogleGateway
     /**
      * @see https://developers.google.com/google-apps/calendar/v3/reference/events/list
      * @param string $calendarId
+     * @param DateTime $start
+     * @param DateTime $end
      * @return EventList
      */
-    public static function getEvents($calendarId)
+    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null)
+    {
+        $events = [];
+
+        $service = self::getService();
+
+        $opts = [ 'fields' => 'items('.self::FIELDS.')' ];
+        if ($start) { $opts['timeMin'] = $start->format(self::DATETIME_FORMAT); }
+        if ($end  ) { $opts['timeMax'] = $end  ->format(self::DATETIME_FORMAT); }
+
+        return $service->events->listEvents($calendarId, $opts);
+    }
+
+    /**
+     * @param string $calendarId
+     * @param string $eventId
+     * @return Event
+     */
+    public static function getEvent($calendarId, $eventId)
     {
         $service = self::getService();
-        return $service->events->listEvents($calendarId);
+        return $service->events->get($calendarId, $eventId);
+    }
+
+    /**
+     * @param string $calendarId
+     * @param string $eventId
+     * @param Google_Service_Calendar_Event $patch
+     */
+    public static function patchEvent($calendarId, $eventId, $patch)
+    {
+        $service = self::getService();
+        $service->events->patch($calendarId, $eventId, $patch);
     }
 }

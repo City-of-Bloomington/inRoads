@@ -13,13 +13,6 @@ create table people (
 );
 
 create table events (
-    id int unsigned not null primary key auto_increment,
-    eventType varchar(32) not null,
-    created      datetime not null,
-    updated      datetime not null,
-    startDate    date     not null,
-    endDate      date     not null,
-    description text,
-    geography             geometry,
-    geography_description varchar(128)
+    id varchar(128) not null primary key,
+    geography geometry
 );
