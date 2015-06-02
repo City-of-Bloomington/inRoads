@@ -10,6 +10,7 @@
     display: block;
     margin: 0;
     padding: .5rem .5rem 0 .5rem;
+    position: relative;
 
     &-title {
         display: block;
@@ -23,5 +24,22 @@
         display: block;
         font-size: (12rem/16);
         padding: 0 2.5rem .5rem 0;
+    }
+    
+    &:after {
+        background: url('images/forward-arrow.svg') no-repeat 0 0 / 100% 100%;
+        content: ' ';
+        display: block;
+        height: (19rem/16);
+        margin-top: (-8.5rem/16);
+        opacity: 0;
+        position: absolute;
+            right: .75rem;
+            top: 50%;
+        transition: opacity .25s ease-in-out;
+        width: (12rem/16);
+    }
+    &:hover:after {
+        opacity: 1;
     }
 }

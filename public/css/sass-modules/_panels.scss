@@ -20,22 +20,12 @@
         margin: 0;
 
         &Tools {
+            border-left: 1px solid #fff;
             height: 1.5rem;
+            padding: 0 .25rem 0 .25rem;
             position: absolute;
                 top: 0;
                 right: 0;
-
-            :before {
-                background-color: #fff;
-                content: ' ';
-                display: block;
-                height: 1.5rem;
-                position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    left: -.5rem;
-                width: 1px;                
-            }
         }
     }
     &-title {
@@ -46,13 +36,21 @@
         padding: .1rem 0 .5rem 0;
     }
     &-addButton {
-        background-color: $cornflower-darkest;
+        background-color: $cob-blue;
+        display: block;
         height: 1.5rem;
-        position: absolute;
-            top: 0;
-            right: .5rem;
+        position: relative;
         text-indent: -1000rem;
+        transition: background-color .25s ease-in-out;
         width: 1.5rem;
+        
+        &:hover {
+            background-color: $cob-blue-light;
+        }
+        &:focus, &:active {
+            background-color: $cob-blue;
+            outline: 1px solid $cob-blue-light;
+        }
 
         &:before {
             background: #fff;
