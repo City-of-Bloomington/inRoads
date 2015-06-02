@@ -39,7 +39,7 @@ use Blossom\Classes\View;
                 ?>
                     <a href="<?= $url ?>" class="panelItem">
                         <span class="panelItem-title"><?= $summary ?></span>
-                        <span class="panelItem-dates"><?= $e->getStart($format) ?> through <?= $e->getEnd($format) ?></span>
+                        <span class="panelItem-dates"><?= $e->getStart($format) ?> &ndash; <?= $e->getEnd($format) ?></span>
                     </a>
                 <?php
             }
