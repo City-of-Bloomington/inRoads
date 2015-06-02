@@ -8,6 +8,7 @@ namespace Application\Controllers;
 
 use Application\Models\Event;
 use Application\Models\GoogleGateway;
+use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Block;
 use Blossom\Classes\Controller;
 
@@ -35,16 +36,33 @@ class EventsController extends Controller
 
     public function index()
     {
-        $start = new \DateTime();
-        $list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start);
+        foreach (['start', 'end'] as $field) {
+            if (!empty($_GET[$field])) {
+                try {
+                    $$field = ActiveRecord::parseDate($_GET[$field], DATE_FORMAT);
+                }
+                catch (\Exception $e) {
+                    // Just ignore invalid dates
+                }
+            }
+        }
+
+        if (!isset($start)) { $start = new \DateTime(); }
+        if (!isset($end  )) { $end   = new \DateTime('tomorrow'); }
+
+        $list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
 
         $events = [];
         foreach ($list as $event) {
             $events[] = new Event($event);
         }
 
-        $this->template->blocks['panel-one'][] = new Block('events/list.inc', ['events'=>$events]);
-        $this->template->blocks[]              = new Block('events/map.inc',  ['events'=>$events]);
+        $this->template->blocks['panel-one'][] = new Block('events/displayPanel.inc', [
+            'events' => $events,
+            'start'  => $start,
+            'end'    => $end
+        ]);
+        $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
     }
 
     public function view()
@@ -57,8 +75,6 @@ class EventsController extends Controller
 
     public function update()
     {
-        $this->template->setFilename('full-width');
-
         $event =        !empty($_REQUEST['id'])
             ? $this->loadEvent($_REQUEST['id'])
             : new Event();
@@ -74,6 +90,7 @@ class EventsController extends Controller
                 $this->template->setFlashMessages($e, 'errorMessages');
             }
         }
-        $this->template->blocks[] = new Block('events/updateForm.inc', ['event'=>$event]);
+        $this->template->blocks['panel-one'][] = new Block('events/updateForm.inc', ['event'=>$event]);
+        $this->template->blocks[]              = new Block('events/mapEditor.inc',  ['event'=>$event]);
     }
 }

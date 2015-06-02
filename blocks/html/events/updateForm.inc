@@ -37,16 +37,7 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
                 <div><label for="description"><?php echo $this->_('description'); ?></label></div>
                 <p><?= View::escape($this->event->getDescription()); ?></p>
             </div>
-            <div id="map">
-                <div class="ol-control"   id="clearFeaturesControl">
-                    <button type="button" id="clearFeaturesButton">clear</button>
-                </div>
-            </div>
             <?php
-                $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol-debug.js');
-                $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
-                $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
-
                 $helper = $this->template->getHelper('saveAndCancelButtons');
                 echo $helper->saveAndCancelButtons(BASE_URI.'/events');
             ?>

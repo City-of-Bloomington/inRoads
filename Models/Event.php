@@ -60,7 +60,12 @@ class Event
 
     //---------------------------------------------------------------
     //---------------------------------------------------------------
-    public function getId() { return $this->event->id; }
+    public function getId()
+    {
+        return !empty($this->event->recurringEventId)
+            ? $this->event->recurringEventId
+            : $this->event->id;
+    }
     public function getSummary() { return $this->event->summary; }
     public function getDescription() { return $this->event->description; }
 

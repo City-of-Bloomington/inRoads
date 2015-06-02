@@ -30,6 +30,9 @@ msgstr "Edit"
 msgid "delete"
 msgstr "Delete"
 
+msgid "search"
+msgstr "Search"
+
 msgid "submit"
 msgstr "Submit"
 
@@ -158,3 +161,12 @@ msgstr "Location"
 
 msgid "upcoming_closures"
 msgstr "Upcoming Road Closures"
+
+msgid "today"
+msgstr "Today"
+
+msgid "nextWeek"
+msgstr "7 days"
+
+msgid "nextMonth"
+msgstr "30 days"

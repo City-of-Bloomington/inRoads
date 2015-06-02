@@ -131,21 +131,39 @@ abstract class ActiveRecord
 	{
 		$date = trim($date);
 		if ($date) {
-			$d = \DateTime::createFromFormat($format, $date);
-			if (!$d) {
-				try {
-					$d = new \DateTime($date);
-				}
-				catch (\Exception $e) {
-                    $class = strtolower((new \ReflectionClass($this))->getShortName());
-					throw new \Exception("$class/$dateField/invalidDate");
-				}
-			}
+            $d = self::parseDate($date, $format);
 			$this->data[$dateField] = $d->format(self::MYSQL_DATE_FORMAT);
 		}
 		else {
 			$this->data[$dateField] = null;
 		}
+	}
+
+	/**
+	 * Return a DateTime object for a date string
+	 *
+	 * Dates should be in $format.
+	 * If we cannot parse the string using $format, we will
+	 * fall back to trying something strtotime() understands
+	 * http://www.php.net/manual/en/function.strtotime.php
+	 *
+	 * @param string $date
+	 * @param string $format
+	 * @return DateTime
+	 */
+	public static function parseDate($date, $format=DATETIME_FORMAT)
+	{
+        $d = \DateTime::createFromFormat($format, $date);
+        if (!$d) {
+            try {
+                $d = new \DateTime($date);
+            }
+            catch (\Exception $e) {
+                $class = strtolower((new \ReflectionClass($this))->getShortName());
+                throw new \Exception("$class/$dateField/invalidDate");
+            }
+        }
+        return $d;
 	}
 
 	/**
