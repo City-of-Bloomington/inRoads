@@ -10,15 +10,17 @@ use Blossom\Classes\View;
 ?>
 <section>
     <header class="windowPanel-header">
-    <div class="windowPanel-title"><?= $this->_('upcoming_closures') ?></div>
-        <div class="windowPanel-headerTools">
+        <div class="windowPanel-title"><?= $this->_('upcoming_closures') ?></div>
         <?php
             if (Person::isAllowed('events', 'add')) {
                 $url = BASE_URI.'/events/update';
-                echo "<a href=\"$url\" class=\"windowPanel-addButton\" title=\"{$this->_('event_add')}\">{$this->_('event_add')}</a>";
+                ?>
+                    <div class="windowPanel-headerTools">
+                        <a href="<?= $url ?>" class="windowPanel-addButton" title="<?= $this->_('event_add') ?>"><?= $this->_('event_add') ?></a>
+                    </div>
+                <?php
             }
         ?>
-        </div>
     </header>
     <div class="panelList">
         <?php
