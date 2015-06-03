@@ -22,7 +22,7 @@ use Blossom\Classes\View;
                 echo $helper->buttonLink(
                     BASE_URI.'/events/update',
                     $this->_('event_add'),
-                    'windowPanel-addButton'
+                    'add'
                 );
                 echo '</div>';
             }

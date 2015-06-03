@@ -26,6 +26,49 @@
             position: absolute;
                 top: 0;
                 right: 0;
+
+            > .button.add {
+                background: $cob-blue;
+                border: 0;
+                border-radius: 0;
+                display: block;
+                height: 1.5rem;
+                padding: 0;
+                position: relative;
+                text-indent: -1000rem;
+                transition: background-color .25s ease-in-out;
+                width: 1.5rem;
+                
+                &:hover {
+                    background: $cob-blue-light;
+                }
+                &:focus, &:active {
+                    background: $cob-blue;
+                    outline: 1px solid $cob-blue-light;
+                }
+        
+                &:before {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: .85rem;
+                    position: absolute;
+                        top: .35rem;
+                        left: (11rem/16);
+                    width: (2rem/16);
+                }
+                &:after {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (2rem/16);
+                    position: absolute;
+                        top: (11rem/16);
+                        left: .35rem;
+                    width: .85rem;
+                }
+            }
+
         }
     }
     &-title {
@@ -34,43 +77,5 @@
         font-weight: 300;
         margin: 0 0 0 .5rem;
         padding: .1rem 0 .5rem 0;
-    }
-    &-addButton {
-        background-color: $cob-blue;
-        display: block;
-        height: 1.5rem;
-        position: relative;
-        text-indent: -1000rem;
-        transition: background-color .25s ease-in-out;
-        width: 1.5rem;
-        
-        &:hover {
-            background-color: $cob-blue-light;
-        }
-        &:focus, &:active {
-            background-color: $cob-blue;
-            outline: 1px solid $cob-blue-light;
-        }
-
-        &:before {
-            background: #fff;
-            content: ' ';
-            display: block;
-            height: .85rem;
-            position: absolute;
-                top: .35rem;
-                left: (11rem/16);
-            width: (2rem/16);
-        }
-        &:after {
-            background: #fff;
-            content: ' ';
-            display: block;
-            height: (2rem/16);
-            position: absolute;
-                top: (11rem/16);
-                left: .35rem;
-            width: .85rem;
-        }
     }
 }
