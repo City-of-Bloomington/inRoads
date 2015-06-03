@@ -1,7 +1,6 @@
 /buildignore
 /build.sh
 /build
-/dist
 .git/
 .git*
 configuration.inc
@@ -16,5 +15,3 @@ credentials.json
 /libraries/zf2/documentation/
 /libraries/zf2/resources/
 /libraries/zf2/tests/
-/public/css/Font-Awesome/src/
-/public/js/vendor/ol3/
