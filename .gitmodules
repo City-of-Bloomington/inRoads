@@ -4,9 +4,6 @@
 [submodule "libraries/phpCAS"]
 	path = libraries/phpCAS
 	url = https://github.com/Jasig/phpCAS.git
-[submodule "public/js/vendor/ol3"]
-	path = public/js/vendor/ol3
-	url = https://github.com/openlayers/ol3.git
 [submodule "libraries/google-api-php-client"]
 	path = libraries/google-api-php-client
 	url = https://github.com/google/google-api-php-client.git
