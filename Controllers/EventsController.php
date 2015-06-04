@@ -67,10 +67,12 @@ class EventsController extends Controller
 
     public function view()
     {
-        $this->template->setFilename('full-width');
-
         $event = $this->loadEvent($_GET['id']);
-        $this->template->blocks[] = new Block('events/info.inc', ['event'=>$event]);
+        $geography = $event->getGeography();
+        if ($geography) {
+            $this->template->blocks[]          = new Block('events/map.inc', ['events'=>[$event]]);
+        }
+        $this->template->blocks['panel-one'][] = new Block('events/info.inc', ['event'=>$event]);
     }
 
     public function update()

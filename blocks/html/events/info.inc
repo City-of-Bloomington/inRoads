@@ -23,21 +23,6 @@ use Blossom\Classes\View;
     ?>
     </div>
 
-    <?php
-        $geography = $this->event->getGeography();
-        if ($geography) {
-            $this->template->addToAsset('scripts', OPENLAYERS.'/build/ol.js');
-            $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
-            echo "
-            <div id=\"map\"></div>
-            <script type=\"text/javascript\">
-                PHP.mapdata = '$geography';
-            </script>
-            ";
-
-        }
-    ?>
-
     <p><?php echo View::escape($this->event->getDescription()); ?></p>
 
     <?php
