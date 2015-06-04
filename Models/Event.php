@@ -77,6 +77,7 @@ class Event
      */
     public function handleUpdate($post)
     {
+        $this->setDescription($post['description']);
         $this->setGeography($post['geography']);
     }
 
