@@ -150,6 +150,9 @@ msgstr "Start Date"
 msgid "endDate"
 msgstr "End Date"
 
+msgid "allDay"
+msgstr "All Day Event"
+
 msgid "eventType"
 msgstr "Event Type"
 

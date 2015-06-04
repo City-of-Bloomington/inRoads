@@ -3,7 +3,9 @@ use Blossom\Classes\View;
 ?>
 <header>
     <div class="container">
-        <img src="<?= BASE_URI ?>/css/images/bloomington-logo.svg" alt="Bloomington.in.gov - Mark Kruzan, Mayor" class="site-logo" />
+        <a href="<?= BASE_URI; ?>/events">
+            <img src="<?= BASE_URI ?>/css/images/bloomington-logo.svg" alt="Bloomington.in.gov - Mark Kruzan, Mayor" class="site-logo" />
+        </a>
         <div class="site-utilityBar">
         <?php
             $this->addToAsset('scripts', BASE_URI.'/js/menus.js');

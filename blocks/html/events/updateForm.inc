@@ -35,7 +35,7 @@ $title = $this->event->getId() ? $this->_('event_edit') : $this->_('event_add');
             </dl>
             <div>
                 <div><label for="description"><?php echo $this->_('description'); ?></label></div>
-                <p><?= View::escape($this->event->getDescription()); ?></p>
+                <textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea>
             </div>
             <?php
                 $helper = $this->template->getHelper('saveAndCancelButtons');

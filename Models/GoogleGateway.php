@@ -91,12 +91,24 @@ class GoogleGateway
 
     /**
      * @param string $calendarId
-     * @param string $eventId
-     * @param Google_Service_Calendar_Event $patch
+     * @param Google_Service_Calendar_Event $event
+     * @return Google_Service_Calendar_Event
      */
-    public static function patchEvent($calendarId, $eventId, $patch)
+    public static function insertEvent($calendarId, \Google_Service_Calendar_Event $event)
     {
         $service = self::getService();
-        $service->events->patch($calendarId, $eventId, $patch);
+        return $service->events->insert($calendarId, $event);
+    }
+
+    /**
+     * @param string $calendarId
+     * @param string $eventId
+     * @param Google_Service_Calendar_Event $patch
+     * @return Google_Service_Calendar_Event
+     */
+    public static function patchEvent($calendarId, $eventId, \Google_Service_Calendar_Event $patch)
+    {
+        $service = self::getService();
+        return $service->events->patch($calendarId, $eventId, $patch);
     }
 }
