@@ -24,15 +24,16 @@ $start = $this->start ? $this->start->format(DATE_FORMAT) : '';
 $end   = $this->end   ? $this->end  ->format(DATE_FORMAT) : '';
 
 $url = BASE_URI.'/events';
+$this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
-<div>
+<div id="searchPanel">
     <nav>
         <a href="<?= "$url?start=$now;end=$tomorrow";  ?>"><?= $this->_('today'); ?></a>
         <a href="<?= "$url?start=$now;end=$nextWeek";  ?>"><?= $this->_('nextWeek'); ?></a>
         <a href="<?= "$url?start=$now;end=$nextMonth"; ?>"><?= $this->_('nextMonth'); ?></a>
     </nav>
 
-    <form method="get" action="<?php echo BASE_URI; ?>">
+    <form method="get" action="<?php echo BASE_URI; ?>/events">
         <fieldset>
             <dl><dt><?= $this->_('startDate'); ?></dt>
                 <dd><input name="start" value="<?= $start; ?>"

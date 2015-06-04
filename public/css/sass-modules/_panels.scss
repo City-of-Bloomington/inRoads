@@ -38,7 +38,7 @@
                 text-indent: -1000rem;
                 transition: background-color .25s ease-in-out;
                 width: 1.5rem;
-                
+
                 &:hover {
                     background: $cob-blue-light;
                 }
@@ -46,7 +46,7 @@
                     background: $cob-blue;
                     outline: 1px solid $cob-blue-light;
                 }
-        
+
                 &:before {
                     background: #fff;
                     content: ' ';
@@ -77,5 +77,11 @@
         font-weight: 300;
         margin: 0 0 0 .5rem;
         padding: .1rem 0 .5rem 0;
+    }
+}
+
+#searchPanel {
+    nav a {
+        display:block;
     }
 }
