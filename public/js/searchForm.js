@@ -2,22 +2,32 @@
 
 (function () {
     var form     = document.querySelector('#searchPanel form'),
-        nav      = document.querySelector('#searchPanel nav'),
-        selected = nav.querySelector('selected'),
-        custom   = document.createElement('a');
+        selectorCurrent = document.querySelector('#searchPanel .selector-current'),
+        selectorOptions = document.querySelector('#searchPanel .selector-options'),
+        selected = selectorOptions.querySelector('a.current'),
+        chooseDates   = document.createElement('a'),
+        toggleOptions = function() {
+            if (selectorCurrent.getAttribute('aria-expanded') === 'true') {
+                selectorCurrent.setAttribute('aria-expanded', 'false');
+            }
+            else {
+                selectorCurrent.setAttribute('aria-expanded', 'true');
+            }
+        };
 
     form.style.display = 'none';
+    selectorCurrent.setAttribute('aria-expanded', 'false');
+    selectorCurrent.addEventListener('click', toggleOptions);
 
-    custom.innerHTML = 'Custom';
+    chooseDates.innerHTML = 'Choose Dates';
     if (!selected) {
-        custom.setAttribute('class', 'selected');
-        selected = custom;
+        custom.setAttribute('class', 'current');
+        selected = chooseDates;
     }
-    nav.appendChild(custom);
+    selectorOptions.appendChild(chooseDates);
 
-    nav.outerHTML = '<div class="dropdown"><span class="title">' + selected.innerHTML + '</span><nav>' + nav.innerHTML + '</nav></div>';
-
-    document.querySelector('#searchPanel nav').lastChild.addEventListener('click', function() {
+    document.querySelector('#searchPanel .selector-options').lastChild.addEventListener('click', function() {
         form.style.display = 'block';
+        toggleOptions();
     });
 })();

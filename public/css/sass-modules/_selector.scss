@@ -9,9 +9,8 @@
         color: $cob-gray-darkest;
         padding: .25em (16rem/16) .25em 1em; // <-second value provides room for :after pseudo-element
         position: relative;
-        &[aria-expanded="true"]+.selector-options {
-            display: block;
-        }
+        &[aria-expanded="false"] + .selector-options { display:none;   }
+        &[aria-expanded="true" ] + .selector-options { display: block; }
         &:after {
             position: absolute;
                 top: 50%;
@@ -36,6 +35,8 @@
             top: 100%;
             right: 0;
             left: 0;
+        background-color:$color-content-background;
+        z-index:1;
 
         > a {
             color: $cob-gray-darkest;
