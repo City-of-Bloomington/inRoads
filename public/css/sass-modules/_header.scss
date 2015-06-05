@@ -11,17 +11,8 @@ body > header {
         @include clearfix();
 
         .site {
-            &-title {
-                float: left;
-                padding: .5em 0;
-
-                a { color: $color-header; }
-
-                h1 {
-                    font-size:1.5em;
-                    font-weight: normal;
-                    margin: .5em 0 .25em 0;
-                }
+            &-homeLink {
+                display: inline-block;
             }
             &-utilityBar {
                 position: relative;

@@ -4,6 +4,13 @@
         right: 0;
         bottom: 0;
         left: 20rem;
+
+    #clearFeaturesControl {
+        top:100px;
+        left:0.5em;
+
+        button { width:7em; }
+    }
 }
 
 .windowPanel {

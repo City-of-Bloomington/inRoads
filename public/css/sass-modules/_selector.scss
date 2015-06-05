@@ -18,7 +18,6 @@
         display: none;
         padding: .25em (21rem/16) .25em 1em; // <-second value provides room for :after pseudo-element
         position: relative;
-
         &[aria-expanded] {
             display: block;
             &+.nav-dropdown-options {
@@ -53,6 +52,12 @@
         border: 1px solid $cob-gray;
         margin-top: -1px;
         padding: .5em 0;
+        z-index:1;
+        position: absolute;
+            top: 100%;
+            right: 0;
+            left: 0;
+        background-color:$color-content-background;
 
         > a {
             color: $cob-gray-darkest;
@@ -62,8 +67,12 @@
             transition: all .25s ease-in-out;
 
             &:hover {
-                background-color: $cob-gray;
-                color: $cob-blue-darkest;
+                background-color: $cob-blue;
+                color: #fff;
+            }
+            &.current {
+                border-left: (8rem/16) solid $cob-blue;
+                padding-left: (8rem/16);
             }
         }
     }

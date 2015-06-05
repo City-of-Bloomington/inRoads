@@ -1,7 +1,6 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title><?php echo isset($this->title) ? self::escape($this->title) : APPLICATION_NAME; ?></title>
-	<link rel="stylesheet" type="text/css" href="<?= BASE_URI; ?>/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="<?= BASE_URI; ?>/css/screen.css" />
 	<link rel="stylesheet" type="text/css" href="<?= OPENLAYERS; ?>/ol.css" />
 	<?php

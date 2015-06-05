@@ -140,16 +140,27 @@ class Event
     }
 
     /**
+     * @return Google_Service_Calendar_EventExtendedProperties
+     */
+    public function getExtendedProperties()
+    {
+        $properties = $this->event->getExtendedProperties();
+        if (!$properties instanceof \Google_Service_Calendar_EventExtendedProperties) {
+             $properties      = new \Google_Service_Calendar_EventExtendedProperties();
+        }
+        return $properties;
+    }
+
+    /**
      * @return string
      */
     public function getGeography()
     {
-        $properties = $this->event->getExtendedProperties();
-        if ($properties) {
-            $shared = $properties->getShared();
-            if (!empty($shared['geography'])) {
-                return $shared['geography'];
-            }
+        $properties = $this->getExtendedProperties();
+
+        $shared = $properties->getShared();
+        if (!empty($shared['geography'])) {
+            return $shared['geography'];
         }
     }
     //---------------------------------------------------------------
@@ -184,7 +195,7 @@ class Event
     {
         $new = preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $wkt);
         if ($this->getGeography() != $new) {
-            $properties = new \Google_Service_Calendar_EventExtendedProperties();
+            $properties = $this->getExtendedProperties();
             $properties->setShared(['geography'=>$new]);
 
             $this->set('extendedProperties', $properties);
