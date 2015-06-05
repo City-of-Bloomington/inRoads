@@ -17,29 +17,49 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+        <!-- Uninitialized state -->
+        <dl class="nav-dropdown">
+            <dt id="menu1">Choose an option</dt>
+            <dd>
+                <div class="nav-dropdown-current" role="button" aria-haspopup="true">Today</div>
+                <div class="nav-dropdown-options" role="menu" aria-labeledby="menu1">
+                    <a href="today" role="menuItem" tabindex="-1">Today</a>
+                    <a href="7days" role="menuItem" tabindex="-1">7 Days</a>
+                    <a href="30Days" role="menuItem" tabindex="-1">30 Days</a>
+                    <a href="custom" role="menuItem" tabindex="-1">Choose dates</a>
+                </div>
+            </dd>
+        </dl>
+
 
         <!-- Closed state -->
-        <div class="selector">
-            <div class="selector-current" id="selector1" role="button" aria-haspopup="true" aria-expanded="false">Today</div>
-            <div class="selector-options" role="menu" aria-labeledby="selector1">
-                <a href="today" role="menuItem" tabindex="-1">Today</a>
-                <a href="7days" role="menuItem" tabindex="-1">7 Days</a>
-                <a href="30Days" role="menuItem" tabindex="-1">30 Days</a>
-                <a href="custom" role="menuItem" tabindex="-1">Choose dates</a>
-            </div>
-        </div>
+        <dl class="nav-dropdown">
+            <dt id="menu1">Choose an option</dt>
+            <dd>
+                <div class="nav-dropdown-current" role="button" aria-haspopup="true" aria-expanded="false">Today</div>
+                <div class="nav-dropdown-options" role="menu" aria-labeledby="menu1">
+                    <a href="today" role="menuItem" tabindex="-1">Today</a>
+                    <a href="7days" role="menuItem" tabindex="-1">7 Days</a>
+                    <a href="30Days" role="menuItem" tabindex="-1">30 Days</a>
+                    <a href="custom" role="menuItem" tabindex="-1">Choose dates</a>
+                </div>
+            </dd>
+        </dl>
 
 
         <!-- Opened state -->
-        <div class="selector">
-            <div class="selector-current" role="button" aria-haspopup="true" aria-expanded="true">Today</div>
-            <div class="selector-options" role="menu" aria-labeledby="selector2">
-                <a href="today" role="menuItem" tabindex="-1">Today</a>
-                <a href="7days" role="menuItem" tabindex="-1">7 Days</a>
-                <a href="30Days" role="menuItem" tabindex="-1">30 Days</a>
-                <a href="custom" role="menuItem" tabindex="-1">Choose dates</a>
-            </div>
-        </div>
+        <dl class="nav-dropdown">
+            <dt id="menu2">Choose an option</dt>
+            <dd>
+                <div class="nav-dropdown-current" role="button" aria-haspopup="true" aria-expanded="true">Today</div>
+                <div class="nav-dropdown-options" role="menu" aria-labeledby="menu2">
+                    <a href="today" role="menuItem" tabindex="-1">Today</a>
+                    <a href="7days" role="menuItem" tabindex="-1">7 Days</a>
+                    <a href="30Days" role="menuItem" tabindex="-1">30 Days</a>
+                    <a href="custom" role="menuItem" tabindex="-1">Choose dates</a>
+                </div>
+            </dd>
+        </dl>
 
 
     </body>

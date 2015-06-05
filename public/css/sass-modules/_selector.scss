@@ -1,15 +1,37 @@
-.selector {
+.nav-dropdown {
     display: inline-block;
     position: relative;
-    width: (200rem/16); // <- Default width; overriding via JS encouraged in appropriate contexts
+
+    > dt {
+        display: inline-block;
+    }
+    > dd {
+        display: inline-block;
+        margin: 0;
+        width: (200rem/16); // <- Default width; overriding via JS encouraged in appropriate contexts
+    }
 
     &-current {
         border: 1px solid $cob-gray;
         box-sizing: border-box;
         color: $cob-gray-darkest;
-        padding: .25em (16rem/16) .25em 1em; // <-second value provides room for :after pseudo-element
+        display: none;
+        padding: .25em (21rem/16) .25em 1em; // <-second value provides room for :after pseudo-element
         position: relative;
-        &[aria-expanded="true"]+.selector-options {
+
+        &[aria-expanded] {
+            display: block;
+            &+.nav-dropdown-options {
+                position: absolute;
+                    top: 100%;
+                    right: 0;
+                    left: 0;
+            }
+        }
+        &[aria-expanded="false"]+.nav-dropdown-options {
+            display: none;
+        }
+        &[aria-expanded="true"]+.nav-dropdown-options {
             display: block;
         }
         &:after {
@@ -17,7 +39,7 @@
                 top: 50%;
                 right: (5rem/16);
                 bottom: 0;
-            margin-top: (-3rem/16);
+            margin-top: (-2rem/16);
             border-left: (5rem/16) solid transparent;
             border-right: (5rem/16) solid transparent;
             border-top: (6rem/16) solid $cob-gray;
@@ -29,13 +51,8 @@
     }
     &-options {
         border: 1px solid $cob-gray;
-        display: none;
         margin-top: -1px;
         padding: .5em 0;
-        position: absolute;
-            top: 100%;
-            right: 0;
-            left: 0;
 
         > a {
             color: $cob-gray-darkest;
