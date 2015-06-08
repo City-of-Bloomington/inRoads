@@ -1,3 +1,4 @@
+<div class="panelList">
 <?php
 /**
  * @copyright 2014-2015 City of Bloomington, Indiana
@@ -10,10 +11,10 @@ use Application\Models\Event;
 use Blossom\Classes\View;
 
 foreach ($this->events as $e) {
-    $url = BASE_URI.'/events/view?id='.$e->getId();
+    $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
 
     $description = View::escape($e->getDescription());
-    $summary     = View::escape($e->getSummary());
+    $summary     = View::escape($e->getGeographyDescription());
 
     $format = $e->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
 
@@ -28,3 +29,5 @@ foreach ($this->events as $e) {
     </a>
     ";
 }
+?>
+</div>

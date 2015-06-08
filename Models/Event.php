@@ -15,6 +15,25 @@ class Event
     public $event;
     private $patch;
 
+    private $data = [];
+
+    public static $departments = [
+        'BPW'    => 'Public Works',
+        'CPT'    => 'Planning & Transportation',
+        'STREET' => 'Street',
+        'CBU'    => 'Utilities',
+        'PROJ'   => 'External Project'
+    ];
+
+    public static $types = [
+        'Road Closed',
+        'Local Only',
+        'Reserved Meter',
+        'Lane Restriction',
+        'Noise Permit',
+        'Sidewalk'
+    ];
+
     public function __construct($event=null)
     {
         if ($event) {
@@ -27,6 +46,8 @@ class Event
                     throw new \Exception('event/unknown');
                 }
             }
+
+            $this->parseSummary();
         }
         else {
             $this->event = new \Google_Service_Calendar_Event();
@@ -100,8 +121,8 @@ class Event
     public function getStart($format=null)
     {
         if (!empty($this->event->start)) {
-            $date = $this->event->start->datetime
-                ?   $this->event->start->datetime
+            $date = $this->event->start->dateTime
+                ?   $this->event->start->dateTime
                 :   $this->event->start->date;
 
             if ($format) {
@@ -119,8 +140,8 @@ class Event
     public function getEnd($format=null)
     {
         if (!$this->event->endTimeUnspecified && !empty($this->event->end)) {
-            $date = $this->event->end->datetime
-                ?   $this->event->end->datetime
+            $date = $this->event->end->dateTime
+                ?   $this->event->end->dateTime
                 :   $this->event->end->date;
 
             if ($format) {
@@ -136,7 +157,7 @@ class Event
      */
     public function isAllDay()
     {
-        return isset($this->event->start->datetime) ? false : true;
+        return isset($this->event->start->dateTime) ? false : true;
     }
 
     /**
@@ -163,6 +184,34 @@ class Event
             return $shared['geography'];
         }
     }
+
+    /**
+     * Parses structured data out of the summary string
+     */
+    private function parseSummary()
+    {
+        $d = implode('|',array_keys(self::$departments));
+        $regex = "/^($d)\s+?-/i";
+        if (preg_match("/^($d)\s+?-/i", $this->getSummary(), $matches)) {
+            $this->data['department'] = strtoupper($matches[1]);
+        }
+
+        $d = implode('|', self::$types);
+        if (preg_match("/$d/i", $this->getSummary(), $matches)) {
+            $this->data['type'] = ucwords(strtolower($matches[0]));
+        }
+
+        if (preg_match('/-([^-]+)$/', $this->getSummary(), $matches)) {
+            $this->data['geography_description'] = trim($matches[1]);
+        }
+        else {
+            $this->data['geography_description'] = $this->getSummary();
+        }
+    }
+    public function getDepartment()           { return !empty($this->data['department'])            ? $this->data['department']            : ''; }
+    public function getType()                 { return !empty($this->data['type'])                  ? $this->data['type']                  : ''; }
+    public function getGeographyDescription() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
+
     //---------------------------------------------------------------
     // Setters
     //---------------------------------------------------------------

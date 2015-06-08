@@ -42,6 +42,9 @@ msgstr "Save"
 msgid "cancel"
 msgstr "Cancel"
 
+msgid "back"
+msgstr "Back"
+
 #. This is the short form for "Administrator".  This should be an abbreviation
 msgid "admin"
 msgstr "Admin"
@@ -153,8 +156,11 @@ msgstr "End Date"
 msgid "allDay"
 msgstr "All Day Event"
 
-msgid "eventType"
-msgstr "Event Type"
+msgid "department"
+msgstr "Department"
+
+msgid "type"
+msgstr "Type"
 
 msgid "geography"
 msgstr "Geography"

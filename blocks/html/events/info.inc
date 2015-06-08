@@ -9,7 +9,7 @@ use Application\Models\Person;
 use Blossom\Classes\View;
 ?>
 <section>
-    <h1><?php echo View::escape($this->event->getSummary()); ?></h1>
+    <h1><?php echo View::escape($this->event->getGeographyDescription()); ?></h1>
     <div class="tools">
     <?php
         if (Person::isAllowed('events', 'edit')) {
