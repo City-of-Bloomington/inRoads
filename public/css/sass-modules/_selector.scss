@@ -4,6 +4,7 @@
 
     > dt {
         display: inline-block;
+        font-size: (13rem/16);
     }
     > dd {
         display: inline-block;
@@ -12,6 +13,7 @@
     }
 
     &-current {
+        background: $color-content-background;
         border: 1px solid $cob-gray;
         box-sizing: border-box;
         color: $cob-gray-darkest;
@@ -57,7 +59,7 @@
             top: 100%;
             right: 0;
             left: 0;
-        background-color:$color-content-background;
+        background-color: $color-content-background;
 
         > a {
             color: $cob-gray-darkest;
@@ -75,5 +77,14 @@
                 padding-left: (8rem/16);
             }
         }
+    }
+}
+
+.searchPanel .nav-dropdown {
+    &-current {
+        border: 1px solid $color-border-input;
+    }
+    &-options {
+        border-color: $color-border-input;
     }
 }

@@ -25,7 +25,7 @@ $size = strlen($help);
 $url = BASE_URI.'/events';
 $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
-<div id="searchPanel">
+<div class="searchPanel" id="searchPanel">
     <?php
         $options = '';
         foreach (['today', 'nextWeek', 'nextMonth'] as $period) {
@@ -56,13 +56,15 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 
     <form method="get" action="<?php echo $url; ?>">
         <fieldset>
-            <dl><dt><?= $this->_('startDate'); ?></dt>
-                <dd><input name="start" value="<?= $start; ?>"
+            <dl class="dateRange">
+                <dt><label for="inputStartDate"><?= $this->_('startDate'); ?></label></dt>
+                <dd><input id= "inputStartDate" name="start" value="<?= $start; ?>"
                         size="<?= $size; ?>" placeholder="<?= $help; ?>" />
                 </dd>
             </dl>
-            <dl><dt><?= $this->_('endDate'); ?></dt>
-                <dd><input name="end" value="<?= $end; ?>"
+            <dl class="dateRange">
+                <dt><label for="inputEndDate"><?= $this->_('endDate'); ?></label></dt>
+                <dd><input id= "inputEndDate" name="end" value="<?= $end; ?>"
                         size="<?= $size; ?>" placeholder="<?= $help; ?>" />
                 </dd>
             </dl>

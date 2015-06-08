@@ -87,7 +87,11 @@
     }
 }
 
-#searchPanel {
+.searchPanel {
+    background: $color-background-field;
+    border-bottom: 1px solid $color-border-input;
+    padding: 0 .5rem;
+
     nav a {
         display:block;
     }

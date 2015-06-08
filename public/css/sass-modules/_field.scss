@@ -63,3 +63,37 @@ form dl {
         }
     }
 }
+
+.windowPanel > .searchPanel > form > fieldset {
+    border: none;
+    margin: 0;
+
+    > dl {
+        background: transparent;
+        padding: 0;
+
+        &:hover {
+            background: transparent;
+        }
+        > dt {
+            float: none;
+            padding: 0;
+        }
+        > dd {
+            margin-left: 0;
+        }
+        
+        &.dateRange {
+            display: inline-block;
+
+            > dd {
+                > input {
+                    width: 10em;
+                }
+            }
+        }
+    }
+    > button[type="submit"] {
+        margin: .5rem 0 .5rem 0;
+    }
+}
