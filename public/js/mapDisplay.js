@@ -33,6 +33,7 @@ var MAPDISPLAY = {
     loadWkt: function (wkt) {
         var len = 0,
             i   = 0,
+            extent   = ol.extent.createEmpty(),
             features = [];
         if (wkt) {
             if (Array.isArray(wkt)) {
@@ -40,14 +41,17 @@ var MAPDISPLAY = {
                 for (i=0; i<len; i++) {
                     features[i] = MAPDISPLAY.wktFormatter.readFeature(wkt[i]);
                     features[i].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                    ol.extent.extend(extent, features[i].getGeometry().getExtent());
                 }
             }
             else {
                 features[0] = MAPDISPLAY.wktFormatter.readFeature(wkt);
                 features[0].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                ol.extent.extend(extent, features[0].getGeometry().getExtent());
             }
             if (features.length) {
                 MAPDISPLAY.featureOverlay.setFeatures(new ol.Collection(features));
+                MAPDISPLAY.map.getView().fitExtent(extent, MAPDISPLAY.map.getSize());
             }
         }
     },
@@ -74,6 +78,7 @@ var MAPDISPLAY = {
     }
 };
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
+
 
 // Load any initial data the webpage specifies.
 if (PHP.mapdata) { MAPDISPLAY.loadWkt(PHP.mapdata); }
