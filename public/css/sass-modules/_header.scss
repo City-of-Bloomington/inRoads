@@ -15,7 +15,10 @@ body > header {
                 display: inline-block;
             }
             &-utilityBar {
-                position: relative;
+                display: inline-block;
+                position: absolute;
+                    right: .5rem;
+                    top: .5rem;
 
                 nav {
                     float: right;
