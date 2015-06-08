@@ -191,8 +191,7 @@ class Event
     private function parseSummary()
     {
         $d = implode('|',array_keys(self::$departments));
-        $regex = "/^($d)\s+?-/i";
-        if (preg_match("/^($d)\s+?-/i", $this->getSummary(), $matches)) {
+        if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
             $this->data['department'] = strtoupper($matches[1]);
         }
 
