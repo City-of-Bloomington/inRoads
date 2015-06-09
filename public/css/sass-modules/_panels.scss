@@ -77,6 +77,30 @@
                         width: (18rem/16);
                     }
                 }
+                &.back {
+                    &:before {
+                        background: #fff;
+                        content: ' ';
+                        display: block;
+                        height: (12rem/16);
+                        position: absolute;
+                            top: (3rem/16);
+                            left: (10rem/16);
+                        transform: rotate(45deg);
+                        width: (2rem/16);
+                    }
+                    &:after {
+                        background: #fff;
+                        content: ' ';
+                        display: block;
+                        height: (12rem/16);
+                        position: absolute;
+                            top: (10rem/16);
+                            left: (10rem/16);
+                        transform: rotate(-45deg);
+                        width: (2rem/16);
+                    }
+                }
                 &.cancel {
                     &:before {
                         background: #fff;
