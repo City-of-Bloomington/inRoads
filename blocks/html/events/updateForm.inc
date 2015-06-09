@@ -1,3 +1,4 @@
+<div class="editPanel">
 <?php
 /**
  * @copyright 2014-2015 City of Bloomington, Indiana
@@ -64,9 +65,13 @@ use Blossom\Classes\View;
         </dl>
     </fieldset>
 
-    <fieldset><legend><?= $this->_('description'); ?></legend>
-        <textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea>
+    <fieldset>
+        <dl>
+            <dt><label for="description"><?= $this->_('description'); ?></label></dt>
+            <dd><textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea></dd>
+        </dl>
 
         <button type="submit" class="save"><?= $this->template->_('save'); ?></button>
     </fieldset>
 </form>
+</div>

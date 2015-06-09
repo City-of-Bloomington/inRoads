@@ -34,17 +34,18 @@
                 top: 0;
                 right: 0;
 
-            > .button.add {
+            > .button {
                 background: $cob-blue;
                 border: 0;
                 border-radius: 0;
+                cursor: pointer;
                 display: block;
-                height: 1.5rem;
+                height: (24rem/16);
                 padding: 0;
                 position: relative;
                 text-indent: -1000rem;
                 transition: background-color .25s ease-in-out;
-                width: 1.5rem;
+                width: (24rem/16);
 
                 &:hover {
                     background: $cob-blue-light;
@@ -54,25 +55,51 @@
                     outline: 1px solid $cob-blue-light;
                 }
 
-                &:before {
-                    background: #fff;
-                    content: ' ';
-                    display: block;
-                    height: .85rem;
-                    position: absolute;
-                        top: .35rem;
-                        left: (11rem/16);
-                    width: (2rem/16);
+                &.add {
+                    &:before {
+                        background: #fff;
+                        content: ' ';
+                        display: block;
+                        height: (18rem/16);
+                        position: absolute;
+                            top: (3rem/16);
+                            left: (11rem/16);
+                        width: (2rem/16);
+                    }
+                    &:after {
+                        background: #fff;
+                        content: ' ';
+                        display: block;
+                        height: (2rem/16);
+                        position: absolute;
+                            top: (11rem/16);
+                            left: (3rem/16);
+                        width: (18rem/16);
+                    }
                 }
-                &:after {
-                    background: #fff;
-                    content: ' ';
-                    display: block;
-                    height: (2rem/16);
-                    position: absolute;
-                        top: (11rem/16);
-                        left: .35rem;
-                    width: .85rem;
+                &.cancel {
+                    &:before {
+                        background: #fff;
+                        content: ' ';
+                        display: block;
+                        height: (18rem/16);
+                        position: absolute;
+                            top: (3rem/16);
+                            left: (11rem/16);
+                        transform: rotate(45deg);
+                        width: (2rem/16);
+                    }
+                    &:after {
+                        background: #fff;
+                        content: ' ';
+                        display: block;
+                        height: (2rem/16);
+                        position: absolute;
+                            top: (11rem/16);
+                            left: (3rem/16);
+                        transform: rotate(45deg);
+                        width: (18rem/16);
+                    }
                 }
             }
 
@@ -91,8 +118,15 @@
     background: $color-background-field;
     border-bottom: 1px solid $color-border-input;
     padding: 0 .5rem;
+}
 
-    nav a {
-        display:block;
-    }
+.editPanel {
+    background: $color-background-field;
+    overflow: auto;
+    padding: 0 .5rem;
+    position: absolute;
+        top: 2rem;
+        right: 0;
+        bottom: 0;
+        left: 0;
 }

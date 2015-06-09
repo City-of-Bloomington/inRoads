@@ -82,6 +82,10 @@ form dl {
         }
         > dd {
             margin-left: 0;
+
+            > textarea {
+                width: 17rem;
+            }
         }
         
         &.dateRange {
