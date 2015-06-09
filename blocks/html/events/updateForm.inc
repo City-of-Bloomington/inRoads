@@ -16,7 +16,7 @@ use Blossom\Classes\View;
         <?php
             $format = $this->event->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
         ?>
-        <dl><dt><label  for="department"><?= $this->_('department'); ?></label></dt>
+        <dl><dt><label   for="department"><?= $this->_('department'); ?></label></dt>
             <dd><select name="department"><option value=""></option>
                 <?php
                     foreach (Event::$departments as $code=>$name) {
@@ -31,10 +31,10 @@ use Blossom\Classes\View;
                 </select>
             </dd>
         </dl>
-        <dl><dt><label  for="type"><?= $this->_('type'); ?></label></dt>
+        <dl><dt><label   for="type"><?= $this->_('type'); ?></label></dt>
             <dd><select name="type" id="type">
                 <?php
-                    foreach (Event::$types as $type) {
+                    foreach (Event::$types as $type=>$language) {
                         $selected = $this->event->getType()==$type
                             ? 'selected="selected"'
                             : '';
@@ -46,7 +46,7 @@ use Blossom\Classes\View;
         </dl>
         <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
             <dd><input name="geography_description" id="geography_description"
-                        value="<?= View::escape($this->event->getGeographyDescription()); ?>" />
+                        value="<?= View::escape($this->event->getGeography_description()); ?>" />
                 <input name="geography" id="geography" type="hidden"
                         value="<?= $this->event->getGeography(); ?>" />
             </dd>

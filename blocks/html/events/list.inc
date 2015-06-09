@@ -14,7 +14,7 @@ foreach ($this->events as $e) {
     $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
 
     $description = View::escape($e->getDescription());
-    $summary     = View::escape($e->getGeographyDescription());
+    $summary     = View::escape($e->getGeography_description());
 
     $format = $e->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
 

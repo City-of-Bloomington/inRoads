@@ -26,12 +26,12 @@ class Event
     ];
 
     public static $types = [
-        'Road Closed',
-        'Local Only',
-        'Reserved Meter',
-        'Lane Restriction',
-        'Noise Permit',
-        'Sidewalk'
+        'Road Closed'      => 'expect to detour, signage in place.',
+        'Local Only'       => 'expect delays, signage in place.',
+        'Reserved Meter'   => '',
+        'Lane Restriction' => 'expect short delays, signage in place.',
+        'Noise Permit'     => '',
+        'Sidewalk'         => ''
     ];
 
     public function __construct($event=null)
@@ -67,6 +67,11 @@ class Event
      */
     public function save()
     {
+        $summary = $this->getGeography_description();
+        if ($this->getType())       { $summary = "{$this->getType()}-$summary"; }
+        if ($this->getDepartment()) { $summary = "{$this->getDepartment()}-$summary"; }
+        $this->setSummary($summary);
+
         $errors = $this->validate();
         if (!count($errors)) {
             if (!$this->getId()) {
@@ -98,21 +103,63 @@ class Event
      */
     public function handleUpdate($post)
     {
-        $this->setDescription($post['description']);
-        $this->setGeography($post['geography']);
+        $fields = [
+            'department', 'type',
+            'description', 'geography', 'geography_description',
+        ];
+        foreach ($fields as $f) {
+            $set = 'set'.ucfirst($f);
+            $this->$set($post[$f]);
+        }
     }
 
+    /**
+     * Updates values on the GoogleEvent object
+     *
+     * This function keeps track of which values have actually
+     * changed, so we can submit a patch when we save the event
+     * back to Google.
+     */
+    private function set($field, $value)
+    {
+        if (is_string($value)) {
+            $value = trim($value);
+            if ($this->event->$field == $value) {
+                // Value has not changed - nothing to update
+                return;
+            }
+        }
 
-    //---------------------------------------------------------------
-    //---------------------------------------------------------------
+        if (!$this->patch) {
+            $this->patch = new \Google_Service_Calendar_Event();
+        }
+
+        $set = 'set'.ucfirst($field);
+        $this->event->$set($value);
+        $this->patch->$set($value);
+    }
+
+    /**
+     * @return string
+     */
     public function getId()
     {
         return !empty($this->event->recurringEventId)
             ? $this->event->recurringEventId
             : $this->event->id;
     }
-    public function getSummary() { return $this->event->summary; }
+    public function getSummary()     { return $this->event->summary;     }
     public function getDescription() { return $this->event->description; }
+    public function setSummary    ($s) { $this->set('summary',     $s); }
+    public function setDescription($s) { $this->set('description', $s); }
+
+    /**
+     * @return bool
+     */
+    public function isAllDay()
+    {
+        return isset($this->event->start->dateTime) ? false : true;
+    }
 
     /**
      * @param string $format
@@ -153,14 +200,6 @@ class Event
     }
 
     /**
-     * @return bool
-     */
-    public function isAllDay()
-    {
-        return isset($this->event->start->dateTime) ? false : true;
-    }
-
-    /**
      * @return Google_Service_Calendar_EventExtendedProperties
      */
     public function getExtendedProperties()
@@ -186,57 +225,6 @@ class Event
     }
 
     /**
-     * Parses structured data out of the summary string
-     */
-    private function parseSummary()
-    {
-        $d = implode('|',array_keys(self::$departments));
-        if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
-            $this->data['department'] = strtoupper($matches[1]);
-        }
-
-        $d = implode('|', self::$types);
-        if (preg_match("/$d/i", $this->getSummary(), $matches)) {
-            $this->data['type'] = ucwords(strtolower($matches[0]));
-        }
-
-        if (preg_match('/-([^-]+)$/', $this->getSummary(), $matches)) {
-            $this->data['geography_description'] = trim($matches[1]);
-        }
-        else {
-            $this->data['geography_description'] = $this->getSummary();
-        }
-    }
-    public function getDepartment()           { return !empty($this->data['department'])            ? $this->data['department']            : ''; }
-    public function getType()                 { return !empty($this->data['type'])                  ? $this->data['type']                  : ''; }
-    public function getGeographyDescription() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
-
-    //---------------------------------------------------------------
-    // Setters
-    //---------------------------------------------------------------
-    private function set($field, $value)
-    {
-        if (is_string($value)) {
-            $value = trim($value);
-            if ($this->event->$field == $value) {
-                // Value has not changed - nothing to update
-                return;
-            }
-        }
-
-        if (!$this->patch) {
-            $this->patch = new \Google_Service_Calendar_Event();
-        }
-
-        $set = 'set'.ucfirst($field);
-        $this->event->$set($value);
-        $this->patch->$set($value);
-    }
-
-    public function setSummary    ($s) { $this->set('summary',     $s); }
-    public function setDescription($s) { $this->set('description', $s); }
-
-    /**
      * @param string $wkt Geometry in Well-Known Text format
      */
     public function setGeography($wkt)
@@ -249,4 +237,44 @@ class Event
             $this->set('extendedProperties', $properties);
        }
     }
+
+    /**
+     * Parses structured data out of the summary string
+     */
+    private function parseSummary()
+    {
+        $d = implode('|',array_keys(self::$departments));
+        if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
+            $this->data['department'] = strtoupper($matches[1]);
+        }
+
+        $d = implode('|', array_keys(self::$types));
+        if (preg_match("/$d/i", $this->getSummary(), $matches)) {
+            $this->data['type'] = ucwords(strtolower($matches[0]));
+        }
+
+        if (preg_match('/-([^-]+)$/', $this->getSummary(), $matches)) {
+            $this->data['geography_description'] = trim($matches[1]);
+        }
+        else {
+            $this->data['geography_description'] = $this->getSummary();
+        }
+    }
+    public function getDepartment()            { return !empty($this->data['department'])            ? $this->data['department']            : ''; }
+    public function getType()                  { return !empty($this->data['type'])                  ? $this->data['type']                  : ''; }
+    public function getGeography_description() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
+    public function setDepartment($s) {
+        if (array_key_exists($s, self::$departments)) {
+            $this->data['department'] = strtoupper(trim($s));
+        }
+    }
+    public function setType($s) {
+        if (array_key_exists($s, self::$types)) {
+            $this->data['type'] = ucwords(strtolower(trim($s)));
+        }
+    }
+    public function setGeography_description($s) {
+        $this->data['geography_description'] = trim($s);
+    }
+
 }
