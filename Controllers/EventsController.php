@@ -8,6 +8,7 @@ namespace Application\Controllers;
 
 use Application\Models\Event;
 use Application\Models\GoogleGateway;
+use Application\Models\Person;
 use Application\Template\Helpers\ButtonLink;
 use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Block;
@@ -59,12 +60,14 @@ class EventsController extends Controller
         }
 
         $this->template->title = $this->template->_('upcoming_closures');
-        $helper = $this->template->getHelper('buttonLink');
-        $this->template->headerToolsButton = $helper->buttonLink(
-            BASE_URI.'/events/update',
-            $this->template->_('event_add'),
-            'add'
-        );
+        if (Person::isAllowed('events', 'update')) {
+            $helper = $this->template->getHelper('buttonLink');
+            $this->template->headerToolsButton = $helper->buttonLink(
+                BASE_URI.'/events/update',
+                $this->template->_('event_add'),
+                'add'
+            );
+        }
         $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
         $this->template->blocks['panel-one'][] = new Block('events/list.inc',       ['events'=>$events]);
         $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);

@@ -3,8 +3,10 @@
  * Where on the filesystem this application is installed
  */
 define('APPLICATION_HOME', __DIR__);
-define('BLOSSOM', APPLICATION_HOME.'/libraries/Blossom');
-define('ZEND',    APPLICATION_HOME.'/libraries/zf2/library/Zend');
+define('BLOSSOM',  APPLICATION_HOME.'/libraries/Blossom');
+define('ZEND',     APPLICATION_HOME.'/libraries/zf2/library/Zend');
+define('GOOGLE',   APPLICATION_HOME.'/libraries/google-api-php-client/src/Google');
+define('ICAL4PHP', APPLICATION_HOME.'/libraries/iCal4PHP');
 
 /**
  * Multi-Site support
@@ -59,7 +61,8 @@ $config = [
 		'namespaces' => [
 			'Application' => APPLICATION_HOME,
 			'Blossom'     => BLOSSOM,
-			'Zend'        => ZEND
+			'Zend'        => ZEND,
+			'iCal4PHP'    => ICAL4PHP
 		]
 	]
 ];

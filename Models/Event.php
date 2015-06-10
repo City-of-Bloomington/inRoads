@@ -7,6 +7,7 @@
 namespace Application\Models;
 
 use Blossom\Classes\Database;
+use iCal4PHP\Recur;
 
 require_once GOOGLE.'/autoload.php';
 
@@ -173,10 +174,14 @@ class Event
                 :   $this->event->start->date;
 
             if ($format) {
-                $d = new \DateTime($date);
-                return $d->format($format);
+                if (!($this->event->start->date && $format==TIME_FORMAT)) {
+                    $d = new \DateTime($date);
+                    return $d->format($format);
+                }
             }
-            return $date;
+            else {
+                return $date;
+            }
         }
     }
 
@@ -192,10 +197,14 @@ class Event
                 :   $this->event->end->date;
 
             if ($format) {
-                $d = new \DateTime($date);
-                return $d->format($format);
+                if (!($this->event->end->date && $format==TIME_FORMAT)) {
+                    $d = new \DateTime($date);
+                    return $d->format($format);
+                }
             }
-            return $date;
+            else {
+                return $date;
+            }
         }
     }
 
@@ -277,4 +286,18 @@ class Event
         $this->data['geography_description'] = trim($s);
     }
 
+    /**
+     * @return iCal4PHP\Recur
+     */
+    public function getRecur()
+    {
+        if ($this->event->recurrence) {
+            foreach ($this->event->recurrence as $r) {
+                if (strpos($r, 'RRULE:') !== false) {
+                    $rrule = substr($r, 6);
+                    return new Recur($rrule);
+                }
+            }
+        }
+    }
 }

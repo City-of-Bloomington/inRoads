@@ -11,6 +11,7 @@ public/css/screen.css.map
 public/css/**/.sass-cache
 node_modules
 gulpfile.js
+*.mo
 .sass-cache
 .build
 .ftppass
