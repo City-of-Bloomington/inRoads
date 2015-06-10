@@ -21,7 +21,7 @@
 
     chooseDates.innerHTML = 'Choose Dates';
     if (!selected) {
-        custom.setAttribute('class', 'current');
+        chooseDates.setAttribute('class', 'current');
         selected = chooseDates;
     }
     selectorOptions.appendChild(chooseDates);
