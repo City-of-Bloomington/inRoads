@@ -55,6 +55,7 @@ use Recurr\WeekDay;
             </dd>
         </dl>
         <dl>
+            <dt>Details</dt>
             <dd><label>
                     <?php
                         $checked = $this->event->isAllDay() ? 'checked="checked"' : '';
