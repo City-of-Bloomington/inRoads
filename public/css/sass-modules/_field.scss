@@ -1,77 +1,124 @@
-form dl {
-    padding: .5em 0;
+form {
+    > fieldset {
+        margin: 1rem 0;
 
-    > dt {
-        font-size: (12em/16);
-        font-weight: normal;
-        margin: 0 0 .25em 0;
-    }
-    > dd {
-        margin: 0;
-        padding: 0;
-
-        input {
-            box-sizing: border-box;
-            border: 1px solid $color-border-input;
-            font-family: $font-family-default;
-            font-size: 1em;
-            padding: .5em;
-            transition: border-color .35s ease-in-out, background-color .5s ease-in-out;
-            width: 100%;
-
-            &:focus {
-                background-color: $color-content-background;
-                border-color: $color-border-input-highlight;
-            }
+        &:before {
+            border-bottom: 1px solid $cob-gray;
+            content: ' ';
+            display: block;
+            height: 0;
+            position: relative;
+                top: -.5rem;
         }
-        > .intl-tel-input > input[type="tel"] {
-            padding-left: 44px;
+        &:first-of-type:before {
+            display: none;
+        }
+
+        > legend {
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        > dl {
+            padding: .5em 0;
+
+            > dt {
+                font-size: (12em/16);
+                font-weight: normal;
+                margin: 0 0 .25em 0;
+            }
+            > dd {
+                margin: 0;
+                padding: 0;
+
+                input {
+                    box-sizing: border-box;
+                    border: 1px solid $color-border-input;
+                    font-family: $font-family-default;
+                    font-size: 1em;
+                    padding: .5em;
+                    transition: border-color .35s ease-in-out, background-color .5s ease-in-out;
+                    width: 100%;
+
+                    &:focus {
+                        background-color: $color-content-background;
+                        border-color: $color-border-input-highlight;
+                    }
+                    &[size] {
+                        width: inherit;
+                    }
+
+                    &[type="checkbox"], &[type="radio"] {
+                        display: inline-block;
+                        width: auto;
+                    }
+                }
+                > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DL is because of a checkbox or radio button.
+                    vertical-align: middle;
+                    white-space: nowrap;
+                    > * {
+                        display: inline;
+                        line-height: 1.2em;
+                        margin: 0;
+                        padding: 0;
+                        vertical-align: middle;
+                    }
+                }
+                > .intl-tel-input > input[type="tel"] {
+                    padding-left: 44px;
+                }
+            }
         }
     }
 
     @media all and (min-width: $window-medium) {
-        background: $color-background-field;
-        margin: 2px 0;
-        transition: background .25s linear;
+        > fieldset {
+            > dl {
+                background: $color-background-field;
+                margin: 2px 0;
+                transition: background .25s linear;
 
-        &:after {
-            clear: both;
-            content: '';
-            display: table;
-        }
-        &:hover {
-            background: $color-background-field-highlight;
-        }
-        > dt {
-            color: $color-heading-3;
-            float: left;
-            font-size: (13em/16);
-            margin: 0;
-            padding: 1em 0 0 1em;
-            width: 8em;
-        }
-        > dd {
-            margin-left: 8em;
+                &:after {
+                    clear: both;
+                    content: '';
+                    display: table;
+                }
+                &:hover {
+                    background: $color-background-field-highlight;
+                }
+                > dt {
+                    color: $color-heading-3;
+                    float: left;
+                    font-size: (13em/16);
+                    margin: 0;
+                    padding: 1em 0 0 1em;
+                    width: 8em;
+                }
+                > dd {
+                    margin-left: 8em;
 
-            input {
-                font-size: (14em/16);
-                width: 20em;
+                    input {
+                        font-size: (14em/16);
+                        width: 20em;
 
-                &.datePicker { width:inherit; }
-                &.timePicker { width:inherit; }
+                        &.datePicker { width:inherit; }
+                        &.timePicker { width:inherit; }
+                    }
+                }
             }
         }
     }
 }
 
-.windowPanel > .editPanel > form > fieldset, 
+.windowPanel > .editPanel > form > fieldset,
 .windowPanel > .searchPanel > form > fieldset {
     border: none;
-    margin: 0;
 
     > dl {
         background: transparent;
         padding: 0;
+        margin: .75rem 0;
 
         &:hover {
             background: transparent;
@@ -87,7 +134,7 @@ form dl {
                 width: 17rem;
             }
         }
-        
+
         &.dateRange {
             display: inline-block;
 

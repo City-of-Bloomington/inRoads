@@ -47,7 +47,7 @@ $color-heading-3: #666;
 $color-background-field:           $cob-gray-light;
 $color-background-field-highlight: #fafafa;
 $color-border-input:           $cob-gray-dark;
-$color-border-input-highlight: #a0a0a0;
+$color-border-input-highlight: $cob-gray;
 $color-border-modal:           #f3f3f3;
 $color-border-table:           #c0c0c0;
 
@@ -77,4 +77,14 @@ $window-small: (400em/16);
         content: '';
         display: table;
     }
+}
+@mixin visuallyHidden() {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
