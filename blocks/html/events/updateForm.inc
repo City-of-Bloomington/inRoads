@@ -60,17 +60,11 @@ use iCal4PHP\WeekDay;
             $dateSize = strlen($dateHelp);
             $timeSize = strlen($timeHelp);
 
-            $recur = $this->event->getRecur();
-            if (!$recur) { $recur = new Recur(); }
+            $recur = $this->event->getRRule();
+            if (!$recur) { $recur = new Rule(); }
         ?>
         <dl><dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
-            <dd><input name="start[date]" id="start"
-                    placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
-                    value="<?= $this->event->getStart(DATE_FORMAT); ?>" />
-                <input name="start[time]"
-                    placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
-                    value="<?= $this->event->getStart(TIME_FORMAT); ?>" />
-                <label>
+            <dd><label>
                     <?php
                         $checked = $this->event->isAllDay() ? 'checked="checked"' : '';
                         echo "
@@ -79,6 +73,13 @@ use iCal4PHP\WeekDay;
                         ";
                     ?>
                 </label>
+            </dd>
+            <dd><input name="start[date]" id="start"
+                    placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
+                    value="<?= $this->event->getStart(DATE_FORMAT); ?>" />
+                <input name="start[time]"
+                    placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
+                    value="<?= $this->event->getStart(TIME_FORMAT); ?>" />
             </dd>
         </dl>
         <dl><dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
@@ -90,11 +91,11 @@ use iCal4PHP\WeekDay;
                     value="<?= $this->event->getEnd(TIME_FORMAT); ?>" />
             </dd>
         </dl>
-        <dl><dt><label   for="frequency"><?= $this->_('rrule_freq'); ?></label></dt>
+        <dl><dt><label   for="frequency"><?= $this->_('FREQ'); ?></label></dt>
             <dd><select name="frequency" id="frequency"><option value=""></option>
                 <?php
                     foreach (['DAILY', 'WEEKLY', 'MONTHLY'] as $f) {
-                        $selected = $recur->getFrequency()==$f
+                        $selected = $recur->getFreqAsText()==$f
                             ? 'selected="selected"'
                             : '';
                         echo "<option value=\"$f\" $selected>{$this->_($f)}</option>";
@@ -105,30 +106,29 @@ use iCal4PHP\WeekDay;
         </dl>
     </fieldset>
 
-    <fieldset id="DAILY">
-        <dl><dt><?= $this->_('rrule_interval'); ?></dt>
+    <fieldset id="DAILY"><legend><?= $this->_('DAILY'); ?></legend>
+        <dl><dt><?= $this->_('INTERVAL'); ?></dt>
             <dd><input name="DAILY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> days</dd>
         </dl>
     </fieldset>
 
-    <fieldset id="WEEKLY">
-        <dl><dt><?= $this->_('rrule_interval'); ?></dt>
+    <fieldset id="WEEKLY"><legend><?= $this->_('WEEKLY'); ?></legend>
+        <dl><dt><?= $this->_('INTERVAL'); ?></dt>
             <dd><input name="WEEKLY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> weeks</dd>
         </dl>
-        <dl><dt><?= $this->_('rrule_byday'); ?></dt>
+        <dl><dt><?= $this->_('BYDAY'); ?></dt>
             <dd><?php
-                    $weekdays = $recur->getDayList();
-                    $byday = [];
-                    foreach ($weekdays as $day) { $byday[] = $day->getDay(); }
+                    $days  = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+                    $byday = $recur->getByDay();
 
-                    foreach (WeekDay::$names as $code=>$name) {
-                        $checked = in_array($code, $byday)
+                    foreach ($days as $day) {
+                        $checked = ($byday && in_array($day, $byday))
                             ? 'checked="checked"'
                             : '';
                         echo "
                         <label>
-                            <input name=\"WEEKLY[ByDay][$code]\" type=\"checkbox\" $checked />
-                            {$this->_($name)}
+                            <input name=\"WEEKLY[byday][$day]\" type=\"checkbox\" $checked />
+                            {$this->_($day)}
                         </label>
                         ";
                     }
@@ -137,27 +137,36 @@ use iCal4PHP\WeekDay;
         </dl>
     </fieldset>
 
-    <fieldset id="MONTHLY">
+    <fieldset id="MONTHLY"><legend><?= $this->_('MONTHLY'); ?></legend>
         <div><?php
-                $bymonthday = implode(',', $recur->getMonthDayList());
-                $checked = ($bymonthday || !count($byday))
+                $bymonthday = $recur->getByMonthDay();
+                $checked = (count($bymonthday) || !count($byday))
                     ? 'checked="checked"'
                     : '';
             ?>
             <input name="MONTHLY[type]" type="radio" value="BYMONTHDAY" <?= $checked; ?> />
-            <label>Day      <input name="MONTHLY[ByMonthDay]" size="2" value="<?= $bymonthday ? $bymonthday : 30; ?>" /></label>
-            <label>of every <input name="MONTHLY[interval]"   size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
+            <label>Day      <input name="MONTHLY[bymonthday][daylist]"  size="2" value="<?= !empty($bymonthday[0]) ? $bymonthday[0] : 30; ?>" /></label>
+            <label>of every <input name="MONTHLY[bymonthday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
         </div>
         <div><?php
                 $checked = count($byday) ? 'checked="checked"' : '';
             ?>
             <input name="MONTHLY[type]" type="radio" value="BYDAY" <?php $checked; ?> />
 			<label>The
-				<select name="MONTHLY[offset]">
+				<select name="MONTHLY['byday'][offset]">
                 <?php
-                    $offset = count($weekdays) ? $weekdays[0]->offset() : null;
+                    $weekdays = $recur->getByDayTransformedToWeekdays();
+                    $offset = count($weekdays) ? $weekdays[0]->num : null;
+                    $offsets = [
+                        1  => 'First',
+                        2  => 'Second',
+                        3  => 'Third',
+                        4  => 'Fourth',
+                        -2 => 'Second To Last',
+                        -1 => 'Last'
+                    ];
 
-                    foreach (WeekDay::$offsets as $num => $label) {
+                    foreach ($offsets as $num => $label) {
                         $selected = $offset == $num
                             ? 'selected="selected"'
                             : '';
@@ -167,19 +176,45 @@ use iCal4PHP\WeekDay;
 				</select>
 			</label>
 			<label>
-				<select name="MONTHLY[ByDay]">
+				<select name="MONTHLY[byday][day]">
                 <?php
-                    foreach (WeekDay::$names as $code=>$name) {
-                        $selected = in_array($code, $byday)
+                    $byday = [];
+                    foreach ($weekdays as $weekday) { $byday[] = $weekday->weekday; }
+
+                    foreach ($days as $day) {
+                        $selected = in_array($day, $byday)
                             ? 'selected="selected"'
                             : '';
-                        echo "<option value=\"$code\" $selected>{$this->_($name)}</option>";
+                        echo "<option value=\"$day\" $selected>{$this->_($day)}</option>";
                     }
                 ?>
 				</select>
 				of every
 			</label>
-			<label><input name="MONTHLY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
+			<label><input name="MONTHLY[byday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
+        </div>
+    </fieldset>
+
+    <fieldset id="RRULE_END">
+        <?php
+            $count = $recur->getCount();
+            $until = $recur->getUntil();
+            if     ($count) { $type = 'count'; }
+            elseif ($until) { $type = 'until'; }
+            else            { $type = 'none' ; }
+
+            if (!$count) { $count = 10; }
+            if (!$until) { $until = strtotime('+2 weeks'); }
+
+            $checked = 'checked="checked"';
+        ?>
+        <div><label><input name="RRULE_END[type]" type="radio" value="none"  <?= $type=='none'  ? $checked : ''; ?> />No end date</label></div>
+        <div><label><input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />End after</label>
+             <label><input name="RRULE_END[count]" value="<?= $count; ?>" />occurances</label>
+        </div>
+        <div><label><input name="RRULE_END[type]" type="radio" value="until" <?= $type=='until' ? $checked : ''; ?> />End by</label>
+             <input name="RRULE_END[until][date]" value="<?= $until->format(DATE_FORMAT); ?>" />
+             <input name="RRULE_END[until][time]" value="23:59:59" type="hidden" />
         </div>
     </fieldset>
 

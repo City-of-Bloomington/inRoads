@@ -7,6 +7,7 @@ define('BLOSSOM',  APPLICATION_HOME.'/libraries/Blossom');
 define('ZEND',     APPLICATION_HOME.'/libraries/zf2/library/Zend');
 define('GOOGLE',   APPLICATION_HOME.'/libraries/google-api-php-client/src/Google');
 define('ICAL4PHP', APPLICATION_HOME.'/libraries/iCal4PHP');
+define('RECURR',   APPLICATION_HOME.'/libraries/recurr/src/Recurr');
 
 /**
  * Multi-Site support
@@ -62,7 +63,8 @@ $config = [
 			'Application' => APPLICATION_HOME,
 			'Blossom'     => BLOSSOM,
 			'Zend'        => ZEND,
-			'iCal4PHP'    => ICAL4PHP
+			'iCal4PHP'    => ICAL4PHP,
+			'Recurr'      => RECURR
 		]
 	]
 ];

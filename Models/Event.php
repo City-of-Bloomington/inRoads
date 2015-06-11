@@ -7,7 +7,7 @@
 namespace Application\Models;
 
 use Blossom\Classes\Database;
-use iCal4PHP\Recur;
+use Recurr\Rule;
 
 require_once GOOGLE.'/autoload.php';
 
@@ -73,6 +73,9 @@ class Event
         if ($this->getDepartment()) { $summary = "{$this->getDepartment()}-$summary"; }
         $this->setSummary($summary);
 
+        print_r($this);
+        exit();
+        /*
         $errors = $this->validate();
         if (!count($errors)) {
             if (!$this->getId()) {
@@ -87,7 +90,12 @@ class Event
         else {
             return $errors;
         }
+        */
     }
+    /**
+     * Updates the local copy of the event after doing posting
+     * changes to Google.
+     */
     private function handleSubmission($event)
     {
         if ($event instanceof \Google_Service_Calendar_Event) {
@@ -100,10 +108,13 @@ class Event
     }
 
     /**
+     * Processes a form post from this web application.
+     *
      * @param array $post
      */
     public function handleUpdate($post)
     {
+        print_r($post);
         $fields = [
             'department', 'type',
             'description', 'geography', 'geography_description',
@@ -112,10 +123,49 @@ class Event
             $set = 'set'.ucfirst($f);
             $this->$set($post[$f]);
         }
+
+        if (!empty($post['frequency'])) {
+            $recur = new Rule();
+            switch ($post['frequency']) {
+                case 'DAILY':
+                    $recur->setInterval($post['DAILY']['interval']);
+                    break;
+
+                case 'WEEKLY':
+                    $recur->setInterval($post['WEEKLY']['interval']);
+                    $recur->setByDay(implode(',',array_keys($post['WEEKLY']['byday'])));
+                    break;
+
+                case 'MONTHLY':
+                    switch ($post['MONTHLY']['type']) {
+                        case 'BYMONTHDAY':
+                            $recur->setByMonthDay($post['MONTHLY']['bymonthday']['daylist']);
+                            $recur->setInterval  ($post['MONTHLY']['bymonthday']['interval']);
+                            break;
+                        case 'BYDAY':
+                            $day = $post['MONTHLY']['byday']['offset'].$post['MONTHLY']['byday']['day'];
+                            $recur->setByDay($day);
+                            $recur->setInterval($post['MONTHLY']['byday']['interval']);
+                            break;
+                    }
+                    break;
+            }
+            switch ($post['RRULE_END']['type']) {
+                case 'count':
+                    $recur->setCount($post['RRULE_END']['count']);
+                    break;
+                case 'until':
+                    $recur->setUntil($post['RRULE_END']['until']);
+                    break;
+                default:
+                    $recur->setCount(null);
+                    $recur->setUntil(null);
+            }
+        }
     }
 
     /**
-     * Updates values on the GoogleEvent object
+     * Updates a value on the GoogleEvent object
      *
      * This function keeps track of which values have actually
      * changed, so we can submit a patch when we save the event
@@ -283,19 +333,19 @@ class Event
         }
     }
     public function setGeography_description($s) {
-        $this->data['geography_description'] = trim($s);
+        $this->data['geography_description'] = str_replace('-', ' ', trim($s));
     }
 
     /**
-     * @return iCal4PHP\Recur
+     * @return Recurr\Rule
      */
-    public function getRecur()
+    public function getRRule()
     {
         if ($this->event->recurrence) {
             foreach ($this->event->recurrence as $r) {
                 if (strpos($r, 'RRULE:') !== false) {
                     $rrule = substr($r, 6);
-                    return new Recur($rrule);
+                    return new Rule($rrule);
                 }
             }
         }
