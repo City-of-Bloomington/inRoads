@@ -15,8 +15,9 @@ use Recurr\WeekDay;
     <fieldset>
         <input name="id" type="hidden" value="<?php echo $this->event->getId(); ?>" />
 
-        <legend><?php echo $this->_('event_info'); ?></legend>
-        <dl><dt><label   for="department"><?= $this->_('department'); ?></label></dt>
+        <legend><span><?php echo $this->_('event_info'); ?></span></legend>
+        <dl>
+            <dt><label   for="department"><?= $this->_('department'); ?></label></dt>
             <dd><select name="department"><option value=""></option>
                 <?php
                     foreach (Event::$departments as $code=>$name) {
@@ -31,7 +32,8 @@ use Recurr\WeekDay;
                 </select>
             </dd>
         </dl>
-        <dl><dt><label   for="type"><?= $this->_('type'); ?></label></dt>
+        <dl>
+            <dt><label   for="type"><?= $this->_('type'); ?></label></dt>
             <dd><select name="type" id="type">
                 <?php
                     foreach (Event::$types as $type=>$language) {
@@ -44,13 +46,27 @@ use Recurr\WeekDay;
                 </select>
             </dd>
         </dl>
-        <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
+        <dl>
+            <dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
             <dd><input name="geography_description" id="geography_description"
                         value="<?= View::escape($this->event->getGeography_description()); ?>" />
                 <input name="geography" id="geography" type="hidden"
                         value="<?= $this->event->getGeography(); ?>" />
             </dd>
         </dl>
+        <dl>
+            <dd><label>
+                    <?php
+                        $checked = $this->event->isAllDay() ? 'checked="checked"' : '';
+                        echo "
+                        <input name=\"allDay\" type=\"checkbox\" $checked />
+                        {$this->_('allDay')}
+                        ";
+                    ?>
+                </label>
+            </dd>
+        </dl>
+
     </fieldset>
 
     <fieldset>
@@ -63,17 +79,8 @@ use Recurr\WeekDay;
             $recur = $this->event->getRRule();
             if (!$recur) { $recur = new Rule(); }
         ?>
-        <dl><dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
-            <dd><label>
-                    <?php
-                        $checked = $this->event->isAllDay() ? 'checked="checked"' : '';
-                        echo "
-                        <input name=\"allDay\" type=\"checkbox\" $checked />
-                        {$this->_('allDay')}
-                        ";
-                    ?>
-                </label>
-            </dd>
+        <dl>
+            <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
             <dd><input name="start[date]" id="start"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
                     value="<?= $this->event->getStart(DATE_FORMAT); ?>" />
@@ -82,7 +89,8 @@ use Recurr\WeekDay;
                     value="<?= $this->event->getStart(TIME_FORMAT); ?>" />
             </dd>
         </dl>
-        <dl><dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
+        <dl>
+            <dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
             <dd><input name="end[date]" id="end"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
                     value="<?= $this->event->getEnd(DATE_FORMAT); ?>" />
@@ -91,7 +99,8 @@ use Recurr\WeekDay;
                     value="<?= $this->event->getEnd(TIME_FORMAT); ?>" />
             </dd>
         </dl>
-        <dl><dt><label   for="frequency"><?= $this->_('FREQ'); ?></label></dt>
+        <dl>
+            <dt><label   for="frequency"><?= $this->_('FREQ'); ?></label></dt>
             <dd><select name="frequency" id="frequency"><option value=""></option>
                 <?php
                     foreach (['DAILY', 'WEEKLY', 'MONTHLY'] as $f) {
@@ -107,16 +116,20 @@ use Recurr\WeekDay;
     </fieldset>
 
     <fieldset id="DAILY"><legend><?= $this->_('DAILY'); ?></legend>
-        <dl><dt><?= $this->_('INTERVAL'); ?></dt>
+        <dl>
+            <dt><?= $this->_('INTERVAL'); ?></dt>
             <dd><input name="DAILY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> days</dd>
         </dl>
     </fieldset>
 
-    <fieldset id="WEEKLY"><legend><?= $this->_('WEEKLY'); ?></legend>
-        <dl><dt><?= $this->_('INTERVAL'); ?></dt>
+    <fieldset id="WEEKLY">
+        <legend><span><?= $this->_('WEEKLY'); ?></span></legend>
+        <dl>
+            <dt><?= $this->_('INTERVAL'); ?></dt>
             <dd><input name="WEEKLY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> weeks</dd>
         </dl>
-        <dl><dt><?= $this->_('BYDAY'); ?></dt>
+        <dl>
+            <dt><?= $this->_('BYDAY'); ?></dt>
             <dd><?php
                     $days  = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
                     $byday = $recur->getByDay();
@@ -219,7 +232,8 @@ use Recurr\WeekDay;
     </fieldset>
 
     <fieldset>
-        <dl><dt><label     for="description"><?= $this->_('description'); ?></label></dt>
+        <dl>
+            <dt><label     for="description"><?= $this->_('description'); ?></label></dt>
             <dd><textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea></dd>
         </dl>
 

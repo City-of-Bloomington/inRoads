@@ -1,23 +1,23 @@
 form {
     > fieldset {
         margin: 1rem 0;
-/*
-        &:before {
+
+        &:after {
             border-bottom: 1px solid $cob-gray;
             content: ' ';
             display: block;
             height: 0;
-            position: relative;
-                top: -.5rem;
+            margin: 1em 0 0 0;
         }
-        &:first-of-type:before {
+        &:last-of-type:after {
             display: none;
         }
-*/
+
         > legend {
-            display: block;
-            margin: 0;
-            padding: 0;
+            color: $cob-gray-darkest;
+            font-family: $font-headings;
+            font-size: (12rem/16);
+            text-transform: uppercase;
         }
 
         > dl {
@@ -114,14 +114,20 @@ form {
 .windowPanel > .editPanel > form > fieldset,
 .windowPanel > .searchPanel > form > fieldset {
     border: none;
-
+    &:not(:first-child) {
+        > legend {
+        }
+    }
     > dl {
         background: transparent;
         padding: 0;
-        margin: .75rem 0;
+        margin: .75rem 0 0 .5rem;
 
         &:hover {
             background: transparent;
+        }
+        &:first-child {
+            margin-top: 0;
         }
         > dt {
             float: none;
