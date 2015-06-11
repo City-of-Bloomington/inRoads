@@ -7,8 +7,8 @@
  */
 use Application\Models\Event;
 use Blossom\Classes\View;
-use iCal4PHP\Recur;
-use iCal4PHP\WeekDay;
+use Recurr\Rule;
+use Recurr\WeekDay;
 ?>
 <div class="editPanel">
 <form method="post" id="eventUpdateForm" action="<?php echo BASE_URI; ?>/events/update">

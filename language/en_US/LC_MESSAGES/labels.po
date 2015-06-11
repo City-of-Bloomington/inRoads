@@ -179,3 +179,21 @@ msgstr "7 days"
 
 msgid "nextMonth"
 msgstr "30 days"
+
+msgid "DAILY"
+msgstr "Daily"
+
+msgid "WEEKLY"
+msgstr "Weekly"
+
+msgid "MONTHLY"
+msgstr "Monthly"
+
+msgid "FREQ"
+msgstr "Repeats every"
+
+msgid "INTERVAL"
+msgstr "On every"
+
+msgid "BYDAY"
+msgstr "On every"

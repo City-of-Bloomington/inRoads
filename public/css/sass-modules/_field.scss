@@ -1,7 +1,7 @@
 form {
     > fieldset {
         margin: 1rem 0;
-
+/*
         &:before {
             border-bottom: 1px solid $cob-gray;
             content: ' ';
@@ -13,7 +13,7 @@ form {
         &:first-of-type:before {
             display: none;
         }
-
+*/
         > legend {
             display: block;
             margin: 0;
