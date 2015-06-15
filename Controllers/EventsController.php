@@ -101,13 +101,13 @@ class EventsController extends Controller
 
         if (isset($_POST['id'])) {
             $event->handleUpdate($_POST);
-            $errors = $event->save();
-            if (!count($errors)) {
+            try {
+                $event->save();
                 header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
                 exit();
             }
-            else {
-                $this->template->setFlashMessages($e, 'errorMessages');
+            catch (\Exception $e) {
+                $_SESSION['errorMessages'][] = $e;
             }
         }
 

@@ -228,20 +228,4 @@ class Template extends View
 			include APPLICATION_HOME."/templates/{$this->outputFormat}/$file";
 		}
 	}
-
-	public function setFlashMessages($messages, $category)
-	{
-        if ($messages instanceof \Exception) {
-            $e = explode('/', $messages->getMessage());
-            switch (count($e)) {
-                case 1: $m = [0     => [0     => [$e[0]]]]; break;
-                case 2: $m = [$e[0] => [0     => [$e[1]]]]; break;
-                case 3: $m = [$e[0] => [$e[1] => [$e[2]]]]; break;
-            }
-            $_SESSION[$category] = $m;
-        }
-        else {
-            $_SESSION[$category] = $messages;
-        }
-	}
 }

@@ -26,33 +26,23 @@ abstract class ActiveRecord
 
 	/**
 	 * Writes the database back to the database
-	 *
-	 * If there are validation errors, no database calls are made.
-	 * Instead, the errors are returned
-	 *
-	 * @return array Errors
 	 */
 	protected function save()
 	{
-        $errors = $this->validate();
-        if (!count($errors)) {
-            $zend_db = Database::getConnection();
-            $sql = new Sql($zend_db, $this->tablename);
-            if ($this->getId()) {
-                $update = $sql->update()
-                    ->set($this->data)
-                    ->where(array('id'=>$this->getId()));
-                $sql->prepareStatementForSqlObject($update)->execute();
-            }
-            else {
-                $insert = $sql->insert()->values($this->data);
-                $sql->prepareStatementForSqlObject($insert)->execute();
-                $this->data['id'] = $zend_db->getDriver()->getLastGeneratedValue();
-            }
-        }
-        else {
-            return $errors;
-        }
+		$this->validate();
+		$zend_db = Database::getConnection();
+		$sql = new Sql($zend_db, $this->tablename);
+		if ($this->getId()) {
+			$update = $sql->update()
+				->set($this->data)
+				->where(array('id'=>$this->getId()));
+			$sql->prepareStatementForSqlObject($update)->execute();
+		}
+		else {
+			$insert = $sql->insert()->values($this->data);
+			$sql->prepareStatementForSqlObject($insert)->execute();
+			$this->data['id'] = $zend_db->getDriver()->getLastGeneratedValue();
+		}
 	}
 
 	/**

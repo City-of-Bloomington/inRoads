@@ -73,37 +73,17 @@ class Event
         if ($this->getDepartment()) { $summary = "{$this->getDepartment()}-$summary"; }
         $this->setSummary($summary);
 
-        print_r($this);
-        exit();
-        /*
-        $errors = $this->validate();
-        if (!count($errors)) {
-            if (!$this->getId()) {
-                $event = GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $this->event);
-                $this->handleSubmission($event);
-            }
-            elseif ($this->patch instanceof \Google_Service_Calendar_Event) {
-                $event = GoogleGateway::patchEvent(GOOGLE_CALENDAR_ID, $this->event->id, $this->patch);
-                $this->handleSubmission($event);
-            }
+        $this->validate();
+        if (!$this->getId()) {
+            $event = GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $this->event);
         }
-        else {
-            return $errors;
+        elseif ($this->patch instanceof \Google_Service_Calendar_Event) {
+            $event = GoogleGateway::patchEvent(GOOGLE_CALENDAR_ID, $this->event->id, $this->patch);
         }
-        */
-    }
-    /**
-     * Updates the local copy of the event after doing posting
-     * changes to Google.
-     */
-    private function handleSubmission($event)
-    {
+
         if ($event instanceof \Google_Service_Calendar_Event) {
             $this->event = $event;
             $this->patch = null;
-        }
-        else {
-            throw new Exception('event/saveError');
         }
     }
 
@@ -114,7 +94,6 @@ class Event
      */
     public function handleUpdate($post)
     {
-        print_r($post);
         $fields = [
             'department', 'type',
             'description', 'geography', 'geography_description',
@@ -126,25 +105,26 @@ class Event
 
         if (!empty($post['frequency'])) {
             $recur = new Rule();
+            $recur->setFreq($post['frequency']);
             switch ($post['frequency']) {
                 case 'DAILY':
                     $recur->setInterval($post['DAILY']['interval']);
                     break;
 
                 case 'WEEKLY':
-                    $recur->setInterval($post['WEEKLY']['interval']);
-                    $recur->setByDay(implode(',',array_keys($post['WEEKLY']['byday'])));
+                    $recur->setInterval(        $post['WEEKLY']['interval']);
+                    $recur->setByDay(array_keys($post['WEEKLY']['byday']));
                     break;
 
                 case 'MONTHLY':
                     switch ($post['MONTHLY']['type']) {
                         case 'BYMONTHDAY':
-                            $recur->setByMonthDay($post['MONTHLY']['bymonthday']['daylist']);
-                            $recur->setInterval  ($post['MONTHLY']['bymonthday']['interval']);
+                            $recur->setByMonthDay([$post['MONTHLY']['bymonthday']['daylist']]);
+                            $recur->setInterval  ( $post['MONTHLY']['bymonthday']['interval']);
                             break;
                         case 'BYDAY':
                             $day = $post['MONTHLY']['byday']['offset'].$post['MONTHLY']['byday']['day'];
-                            $recur->setByDay($day);
+                            $recur->setByDay([$day]);
                             $recur->setInterval($post['MONTHLY']['byday']['interval']);
                             break;
                     }
@@ -155,12 +135,15 @@ class Event
                     $recur->setCount($post['RRULE_END']['count']);
                     break;
                 case 'until':
-                    $recur->setUntil($post['RRULE_END']['until']);
+                    $dateString = $post['RRULE_END']['until']['date'].
+                                  $post['RRULE_END']['until']['time'];
+
+                    $format = DATE_FORMAT.'H:i:s';
+                    $until = new \DateTime($dateString);
+                    $recur->setUntil($until);
                     break;
-                default:
-                    $recur->setCount(null);
-                    $recur->setUntil(null);
             }
+            $this->setRRule($recur);
         }
     }
 
@@ -347,6 +330,15 @@ class Event
                     $rrule = substr($r, 6);
                     return new Rule($rrule);
                 }
+            }
+        }
+    }
+    public function setRRule(Rule $rule)
+    {
+        if (!empty($this->event->recurrence[0])) {
+            $rrule = 'RRULE:'.$rule->getString();
+            if ($this->event->recurrence[0] != $rrule) {
+                $this->set('recurrence', [$rrule]);
             }
         }
     }
