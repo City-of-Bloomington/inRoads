@@ -85,6 +85,9 @@ class Event
             $this->event = $event;
             $this->patch = null;
         }
+        else {
+            throw new \Exception('google/saveError');
+        }
     }
 
     /**

@@ -5,14 +5,16 @@
 <body>
 	<?php $this->_include('partials/header.inc'); ?>
 	<main>
-		<?php $this->_include('partials/panel-one.inc'); ?>
-		<div class="panel" id="content-panel">
-			<?php
-				include BLOSSOM.'/errorMessages.php';
+        <div class="container two-column">
+            <?php $this->_include('partials/panel-one.inc'); ?>
+            <div class="panel" id="content-panel">
+                <?php
+                    include BLOSSOM.'/errorMessages.php';
 
-				echo $this->includeBlocks();
-			?>
-		</div>
+                    echo $this->includeBlocks();
+                ?>
+            </div>
+        </div>
 	</main>
 	<?php $this-> _include('partials/footer.inc'); ?>
 </body>
