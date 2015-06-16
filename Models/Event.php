@@ -51,12 +51,26 @@ class Event
             $this->parseSummary();
         }
         else {
-            $this->event = new \Google_Service_Calendar_Event();
+            $this->event = new \Google_Service_Calendar_Event([
+                'start' => [
+                    'date' => date(GoogleGateway::DATE_FORMAT),
+                    'timeZone'=> ini_get('date.timezone')
+                ],
+                'end'   => [
+                    'date' => date(GoogleGateway::DATE_FORMAT),
+                    'timeZone'=> ini_get('date.timezone')
+                ]
+            ]);
         }
     }
 
     public function validate()
     {
+        if (!$this->getStart() || !$this->getEnd()
+            || !$this->getGeography_description()
+            || !$this->getDescription()) {
+            throw new \Exception('missingRequiredFields');
+        }
     }
 
     /**
@@ -106,6 +120,35 @@ class Event
             $this->$set($post[$f]);
         }
 
+        if (isset($post['allDay'])) {
+            $startDate = \DateTime::createFromFormat(DATE_FORMAT, $post['start']['date']);
+              $endDate = \DateTime::createFromFormat(DATE_FORMAT, $post['end'  ]['date']);
+
+            $this->set('start', new \Google_Service_Calendar_EventDateTime([
+                'date'     => $startDate->format(GoogleGateway::DATE_FORMAT),
+                'timeZone' => ini_get('date.timezone')
+            ]));
+            $this->set('end', new \Google_Service_Calendar_EventDateTime([
+                'date'     => $endDate->format(GoogleGateway::DATE_FORMAT),
+                'timeZone' => ini_get('date.timezone')
+            ]));
+        }
+        else {
+            $startDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['start']['date']} {$post['start']['time']}");
+              $endDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['end']['date']} {$post['end']['time']}");
+
+            $this->set('start', new \Google_Service_Calendar_EventDateTime([
+                'dateTime' => $startDate->format(GoogleGateway::DATETIME_FORMAT),
+                'timeZone' => ini_get('date.timezone')
+            ]));
+            $this->set('end', new \Google_Service_Calendar_EventDateTime([
+                'dateTime' => $endDate->format(GoogleGateway::DATETIME_FORMAT),
+                'timeZone' => ini_get('date.timeZone')
+            ]));
+        }
+
+
+
         if (!empty($post['frequency'])) {
             $recur = new Rule();
             $recur->setFreq($post['frequency']);
@@ -138,11 +181,7 @@ class Event
                     $recur->setCount($post['RRULE_END']['count']);
                     break;
                 case 'until':
-                    $dateString = $post['RRULE_END']['until']['date'].
-                                  $post['RRULE_END']['until']['time'];
-
-                    $format = DATE_FORMAT.'H:i:s';
-                    $until = new \DateTime($dateString);
+                    $until = \DateTime::createFromFormat(DATE_FORMAT, $post['RRULE_END']['until']['date']);
                     $recur->setUntil($until);
                     break;
             }
@@ -159,12 +198,9 @@ class Event
      */
     private function set($field, $value)
     {
-        if (is_string($value)) {
-            $value = trim($value);
-            if ($this->event->$field == $value) {
-                // Value has not changed - nothing to update
-                return;
-            }
+        if ($this->event->$field && $this->event->$field == $value) {
+            // Value has not changed nothing to update
+            return;
         }
 
         if (!$this->patch) {
@@ -222,6 +258,14 @@ class Event
     }
 
     /**
+     * @param Google_Service_Calendar_EventDateTime $start
+     */
+    public function setStart(\Google_Service_Calendar_EventDateTime $start)
+    {
+        $this->set('start', $start);
+    }
+
+    /**
      * @param string $format
      * @return string
      */
@@ -242,6 +286,14 @@ class Event
                 return $date;
             }
         }
+    }
+
+    /**
+     * @param Google_Service_Calendar_EventDateTime $end
+     */
+    public function setEnd(\Google_Service_Calendar_EventDateTime $end)
+    {
+        $this->set('end', $end);
     }
 
     /**
@@ -338,11 +390,13 @@ class Event
     }
     public function setRRule(Rule $rule)
     {
-        if (!empty($this->event->recurrence[0])) {
-            $rrule = 'RRULE:'.$rule->getString();
-            if ($this->event->recurrence[0] != $rrule) {
-                $this->set('recurrence', [$rrule]);
-            }
+        $rrule = 'RRULE:'.$rule->getString(Rule::TZ_FIXED);
+        $this->set('recurrence', [$rrule]);
+
+        // Setting a recurrence requires us to send start and end dates
+        if ($this->patch) {
+            $this->patch->start = $this->event->start;
+            $this->patch->end   = $this->event->end;
         }
     }
 }

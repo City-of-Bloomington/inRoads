@@ -15,6 +15,7 @@ require_once GOOGLE.'/autoload.php';
 
 class GoogleGateway
 {
+    const DATE_FORMAT     = 'Y-m-d';
     const DATETIME_FORMAT = \DateTime::RFC3339;
     const FIELDS = 'description,end,endTimeUnspecified,iCalUID,id,kind,location,locked,originalStartTime,privateCopy,recurrence,recurringEventId,sequence,source,start,status,summary,transparency,updated,visibility,extendedProperties';
 

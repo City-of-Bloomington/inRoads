@@ -213,16 +213,13 @@ use Recurr\WeekDay;
         <?php
             $count = $recur->getCount();
             $until = $recur->getUntil();
-            if     ($count) { $type = 'count'; }
-            elseif ($until) { $type = 'until'; }
-            else            { $type = 'none' ; }
+            $type  = $count ? 'count' : 'until';
 
             if (!$count) { $count = 10; }
-            if (!$until) { $until = strtotime('+2 weeks'); }
+            if (!$until) { $until = new \DateTime('+2 weeks'); }
 
             $checked = 'checked="checked"';
         ?>
-        <div><label><input name="RRULE_END[type]" type="radio" value="none"  <?= $type=='none'  ? $checked : ''; ?> />No end date</label></div>
         <div><label><input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />End after</label>
              <label><input name="RRULE_END[count]" value="<?= $count; ?>" />occurances</label>
         </div>
