@@ -8,6 +8,7 @@ namespace Application\Models;
 
 use Blossom\Classes\Database;
 use Recurr\Rule;
+use Recurr\Transformer\TextTransformer;
 
 require_once GOOGLE.'/autoload.php';
 
@@ -235,6 +236,16 @@ class Event
     }
 
     /**
+     * @return DateTimeZone
+     */
+    public function getTimezone()
+    {
+        return $this->event->start->timeZone
+            ? new \DateTimeZone($this->event->start->timeZone)
+            : new \DateTimeZone(ini_get('date.timezone'));
+    }
+
+    /**
      * @param string $format
      * @return string
      */
@@ -247,7 +258,7 @@ class Event
 
             if ($format) {
                 if (!($this->event->start->date && $format==TIME_FORMAT)) {
-                    $d = new \DateTime($date);
+                    $d = new \DateTime($date, $this->getTimezone());
                     return $d->format($format);
                 }
             }
@@ -278,7 +289,7 @@ class Event
 
             if ($format) {
                 if (!($this->event->end->date && $format==TIME_FORMAT)) {
-                    $d = new \DateTime($date);
+                    $d = new \DateTime($date, $this->getTimezone());
                     return $d->format($format);
                 }
             }
@@ -398,5 +409,41 @@ class Event
             $this->patch->start = $this->event->start;
             $this->patch->end   = $this->event->end;
         }
+    }
+
+    /**
+     * @param string $dateFormat
+     * @param string $timeFormat
+     * @return string
+     */
+    public function getHumanReadableDuration($dateFormat=DATE_FORMAT, $timeFormat=TIME_FORMAT)
+    {
+        $startDate = $this->getStart($dateFormat);
+          $endDate = $this->getEnd  ($dateFormat);
+
+        if (!$this->isAllDay()) {
+            $startTime = $this->getStart($timeFormat);
+              $endTime = $this->getEnd  ($timeFormat);
+        }
+        else {
+            $startTime = null;
+              $endTime = null;
+        }
+
+                                           $text = $startDate;
+        if ($startTime)                  { $text.= ' '.$startTime; }
+        if ($endDate !== $startDate
+            || $endTime) {
+                                           $text.= ' to ';
+            if ($endTime)                { $text.= ' '.$endTime; }
+            if ($endDate !== $startDate) { $text.= ' '.$endDate; }
+        }
+
+        $rule = $this->getRRule();
+        if ($rule) {
+            $t = new TextTransformer();
+            $text.= ' '.$t->transform($rule);
+        }
+        return $text;
     }
 }

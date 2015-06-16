@@ -5,6 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
+use Application\Models\Event;
 use Application\Models\Person;
 use Blossom\Classes\View;
 ?>
@@ -22,18 +23,13 @@ use Blossom\Classes\View;
         }
     ?>
     </div>
-
-    <p><?php echo View::escape($this->event->getDescription()); ?></p>
-
+    <p><?= $this->event->getHumanReadableDuration('F j,Y'); ?></p>
     <?php
-        $format = $this->event->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
+        $t = $this->event->getType();
+        if ($t) {
+            echo "<p>$t; ".Event::$types[$t]."</p>";
+        }
     ?>
-    <table>
-        <tr><th><?php echo $this->_('startDate'); ?></th>
-            <td><?php echo $this->event->getStart($format); ?></td>
-        </tr>
-        <tr><th><?php echo $this->_('endDate'); ?></th>
-            <td><?php echo $this->event->getEnd($format); ?></td>
-        </tr>
-    </table>
+
+    <p><?= View::escape($this->event->getDescription()); ?></p>
 </section>
