@@ -16,14 +16,13 @@
 .windowPanel {
     position: absolute;
         top: 4.35rem;
-        bottom: 0;
         left: 0;
+        bottom: 0;
     width: 20rem;
 
     &-header {
         background-color: $cob-blue;
         color: #fff;
-
         margin: 0;
 
         &Tools {
@@ -142,7 +141,14 @@
 .searchPanel {
     background: $color-background-field;
     border-bottom: 1px solid $color-border-input;
+    height: 5rem;
     padding: 0 .5rem;
+    &.expanded {
+        height: 10.75rem;
+        &+.panelList {
+            top: 12.9rem;
+        }
+    }
 }
 
 .editPanel {

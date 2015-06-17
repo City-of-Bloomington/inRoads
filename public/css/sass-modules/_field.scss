@@ -54,7 +54,7 @@ form {
                         width: auto;
                     }
                 }
-                > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DL is because of a checkbox or radio button.
+                > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DD is because of a checkbox or radio button.
                     vertical-align: middle;
                     white-space: nowrap;
                     > * {
@@ -143,6 +143,7 @@ form {
 
         &.dateRange {
             display: inline-block;
+            margin-left: 0;
 
             > dd {
                 > input {

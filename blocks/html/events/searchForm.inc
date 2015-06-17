@@ -25,7 +25,7 @@ $size = strlen($help);
 $url = BASE_URI.'/events';
 $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
-<div class="searchPanel" id="searchPanel">
+<div class="searchPanel expanded" id="searchPanel">
     <?php
         $options = '';
         foreach (['today', 'nextWeek', 'nextMonth'] as $period) {

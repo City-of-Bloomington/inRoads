@@ -1,6 +1,10 @@
 .panelList {
+    position: absolute;
+        top: 7.1rem;
+        left: 0;
+        bottom: 0;
     overflow: auto;
-    width: 20rem;
+//    width: 20rem;
 }
 .panelItem {
     display: block;
