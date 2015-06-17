@@ -20,3 +20,6 @@ msgstr ""
 
 msgid "signed_in_as"
 msgstr "Signed in as %s"
+
+msgid "departmentContactInfo"
+msgstr "If you have any problems with this project, please contact %s %s"
