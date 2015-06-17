@@ -16,17 +16,27 @@ MAPDISPLAY.modify = new ol.interaction.Modify({
 });
 MAPDISPLAY.map.addInteraction(MAPDISPLAY.modify);
 
-MAPDISPLAY.draw = new ol.interaction.Draw({
-    features: MAPDISPLAY.featureOverlay.getFeatures(),
-    type: 'LineString'
-});
-MAPDISPLAY.map.addInteraction(MAPDISPLAY.draw);
+MAPDISPLAY.draw = {};
+MAPDISPLAY.activateDrawMode = function (geometryType) {
+    MAPDISPLAY.map.removeInteraction(MAPDISPLAY.draw);
 
-MAPDISPLAY.map.addControl(new ol.control.Control({element: document.getElementById('clearFeaturesControl')}));
+    MAPDISPLAY.draw = new ol.interaction.Draw({
+        features: MAPDISPLAY.featureOverlay.getFeatures(),
+        type: geometryType
+    });
+    MAPDISPLAY.map.addInteraction(MAPDISPLAY.draw);
+}
+document.getElementById('geometryType').addEventListener('change', function(e) {
+    MAPDISPLAY.activateDrawMode(e.target.value);
+});
+MAPDISPLAY.activateDrawMode(document.getElementById('geometryType').value);
+
+
 document.getElementById('clearFeaturesButton').addEventListener('click', function(e) {
     document.getElementById('geography').value = '';
     MAPDISPLAY.featureOverlay.getFeatures().clear();
 });
+
 
 
 document.getElementById('eventUpdateForm').addEventListener('submit', function () {
