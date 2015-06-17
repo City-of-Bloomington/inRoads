@@ -9,8 +9,9 @@ use Application\Models\Event;
 use Application\Models\Person;
 use Blossom\Classes\View;
 ?>
-<section>
-    <h1><?php echo View::escape($this->event->getGeography_description()); ?></h1>
+<section class="detailPanel">
+    <h1 class="detailPanel-title"><?php echo View::escape($this->event->getGeography_description()); ?></h1>
+    <div class="detailPanel-dates"><?= $this->event->getHumanReadableDuration('F j,Y'); ?></div>
     <div class="tools">
     <?php
         if (Person::isAllowed('events', 'edit')) {
@@ -23,7 +24,6 @@ use Blossom\Classes\View;
         }
     ?>
     </div>
-    <p><?= $this->event->getHumanReadableDuration('F j,Y'); ?></p>
     <?php
         $t = $this->event->getType();
         if ($t) {
@@ -31,5 +31,5 @@ use Blossom\Classes\View;
         }
     ?>
 
-    <p><?= View::escape($this->event->getDescription()); ?></p>
+    <div class="detailPanel-description"><?= View::escape($this->event->getDescription()); ?></div>
 </section>

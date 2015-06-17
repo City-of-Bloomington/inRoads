@@ -24,6 +24,7 @@
         background-color: $cob-blue;
         color: #fff;
         margin: 0;
+        height: (32rem/16);
 
         &Tools {
             border-left: 1px solid $cob-blue-light;
@@ -160,4 +161,27 @@
         right: 0;
         bottom: 0;
         left: 0;
+}
+
+.detailPanel {
+    overflow: auto;
+    padding: 0 .5rem;
+    position: absolute;
+        top: 2rem;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+    &-title {
+        display: inline-block;
+        font-size: (18rem/16);
+        margin: 1em 0 .25em 0;
+    }
+    &-dates {
+        font-size: (14rem/16);
+        margin: 0 0 1rem 0;
+    }
+    &-description {
+        white-space: pre-wrap;
+    }
 }
