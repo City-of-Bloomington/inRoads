@@ -16,7 +16,7 @@
             }
         };
 
-    searchPanel.classList.remove('expanded');
+    searchPanel.setAttribute('class', 'searchPanel');
     form.style.display = 'none';
     selectorCurrent.setAttribute('aria-expanded', 'false');
     selectorCurrent.addEventListener('click', toggleOptions);
@@ -29,7 +29,7 @@
     selectorOptions.appendChild(chooseDates);
 
     document.querySelector('#searchPanel .nav-dropdown-options').lastChild.addEventListener('click', function() {
-        searchPanel.classList.add('expanded');
+        searchPanel.setAttribute('class', 'searchPanel expanded');
         form.style.display = 'block';
         toggleOptions();
     });
