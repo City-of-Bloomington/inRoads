@@ -20,8 +20,10 @@ use Recurr\WeekDay;
             <dt><label   for="department"><?= $this->_('department'); ?></label></dt>
             <dd><select name="department"><option value=""></option>
                 <?php
-                    foreach (Event::$departments as $code=>$name) {
-                        $name = View::escape($name);
+                    global $DEPARTMENTS;
+
+                    foreach ($DEPARTMENTS as $code=>$d) {
+                        $name = View::escape($d['name']);
                         $selected = $this->event->getDepartment()==$code
                             ? 'selected="selected"'
                             : '';

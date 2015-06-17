@@ -99,3 +99,26 @@ define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'H:i:s');
 define('DATETIME_FORMAT', 'n/j/Y H:i:s');
 define('LOCALE', 'en_US');
+
+$DEPARTMENTS = [
+    'BPW'    => [
+        'name'  => 'Public Works',
+        'phone' => ''
+    ],
+    'CPT'    => [
+        'name'  => 'Planning & Transportation',
+        'phone' => ''
+    ],
+    'STREET' => [
+        'name'  => 'Street',
+        'phone' => ''
+    ],
+    'CBU'    => [
+        'name'  => 'Utilities',
+        'phone' => ''
+    ]
+    'PROJ'   => [
+        'name'  => 'External Project',
+        'phone' => ''
+    ]
+];

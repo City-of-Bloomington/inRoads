@@ -19,14 +19,6 @@ class Event
 
     private $data = [];
 
-    public static $departments = [
-        'BPW'    => 'Public Works',
-        'CPT'    => 'Planning & Transportation',
-        'STREET' => 'Street',
-        'CBU'    => 'Utilities',
-        'PROJ'   => 'External Project'
-    ];
-
     public static $types = [
         'Road Closed'      => 'expect to detour, signage in place.',
         'Local Only'       => 'expect delays, signage in place.',
@@ -351,7 +343,9 @@ class Event
      */
     private function parseSummary()
     {
-        $d = implode('|',array_keys(self::$departments));
+        global $DEPARTMENTS;
+
+        $d = implode('|',array_keys($DEPARTMENTS));
         if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
             $this->data['department'] = strtoupper($matches[1]);
         }
@@ -372,7 +366,9 @@ class Event
     public function getType()                  { return !empty($this->data['type'])                  ? $this->data['type']                  : ''; }
     public function getGeography_description() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
     public function setDepartment($s) {
-        if (array_key_exists($s, self::$departments)) {
+        global $DEPARTMENTS;
+
+        if (array_key_exists($s, $DEPARTMENTS)) {
             $this->data['department'] = strtoupper(trim($s));
         }
     }
