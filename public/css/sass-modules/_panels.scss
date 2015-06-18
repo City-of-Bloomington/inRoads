@@ -12,6 +12,18 @@
         button { width:7em; }
     }
 }
+.mapTools {
+    position: absolute;
+        top: 10rem;
+        left: 20.75rem;
+        z-index: 2;
+
+    > button {
+        display: block;
+        margin: 0 0 .5rem 0;
+        width: 5rem;
+    }
+}
 
 .windowPanel {
     position: absolute;
@@ -187,9 +199,10 @@
 }
 
 .errorPanel {
-    margin-left: -25rem;
+    margin-left: -15rem;
     position: absolute;
         top: 5rem;
         left: 50%;
-    width: 50rem;
+        z-index: 2;
+    width: 30rem;
 }

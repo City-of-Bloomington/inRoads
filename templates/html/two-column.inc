@@ -7,7 +7,7 @@
 	<main>
         <div class="container two-column">
             <?php $this->_include('partials/panel-one.inc'); ?>
-			<div class="errorPannel">
+			<div class="errorPanel">
 				<?php include BLOSSOM.'/errorMessages.php'; ?>
 			</div>
             <div class="panel" id="content-panel">

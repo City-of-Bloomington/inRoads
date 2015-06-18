@@ -8,7 +8,7 @@ $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
 ?>
-<div class="tools">
+<div class="mapTools">
     <button type="button" id="clearFeaturesButton">clear</button>
     <select name="geometryType" id="geometryType">
         <option value="LineString">Line</option>
