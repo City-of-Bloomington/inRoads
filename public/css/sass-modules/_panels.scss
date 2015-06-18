@@ -19,17 +19,26 @@
         z-index: 2;
     vertical-align: top;
 
-    > select, option {
-        font-family: $font-family-default !important;
-    }
     > button {
-        background: #fff;
+        background: $color-button-background;
         border-color: $cob-gray;
+        box-shadow: 0 0 0 0 $color-shadow;
+        color: $color-button-text;
         line-height: .9rem; // <- Should bump height of button down to 25px
         margin: 0 0 .5rem 0;
+        transition: box-shadow .25s ease-in-out, background-color .1s ease-in-out, color .1s ease-in-out;
         width: 5rem;
-        &, select {
-            vertical-align: top;
+
+        &.current {
+            background-color: $color-button-background-current;
+            color: $color-button-text-active;
+        }
+
+        &:hover {
+            box-shadow: 0 .25rem .5rem 0 $color-shadow;
+        }
+        &:focus {
+            outline: -webkit-focus-ring-color none;
         }
     }
 }

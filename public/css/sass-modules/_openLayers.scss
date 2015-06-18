@@ -4,11 +4,19 @@
     .ol-control {
         background: none;
 
+        &:hover {
+            background: none;
+        }
         button {
             background: #fff;
             border: 1px solid $cob-gray;
             border-radius: (4rem/16);
             color: $cob-gray-darkest;
+
+            &:hover {
+                background-color: #fff;
+                border-color: $cob-gray-dark;
+            }
         }
     }
 }
