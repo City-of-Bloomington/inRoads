@@ -9,6 +9,8 @@ use Application\Models\Event;
 use Blossom\Classes\View;
 use Recurr\Rule;
 use Recurr\WeekDay;
+
+$this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 ?>
 <div class="editPanel">
 <form method="post" id="eventUpdateForm" action="<?php echo BASE_URI; ?>/events/update">
@@ -62,7 +64,7 @@ use Recurr\WeekDay;
                     <?php
                         $checked = $this->event->isAllDay() ? 'checked="checked"' : '';
                         echo "
-                        <input name=\"allDay\" type=\"checkbox\" $checked />
+                        <input name=\"allDay\" id=\"allDay\" type=\"checkbox\" $checked />
                         {$this->_('allDay')}
                         ";
                     ?>
@@ -87,7 +89,7 @@ use Recurr\WeekDay;
             <dd><input name="start[date]" id="start"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
                     value="<?= $this->event->getStart(DATE_FORMAT); ?>" />
-                <input name="start[time]"
+                <input name="start[time]" id="startTime"
                     placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
                     value="<?= $this->event->getStart(TIME_FORMAT); ?>" />
             </dd>
@@ -97,7 +99,7 @@ use Recurr\WeekDay;
             <dd><input name="end[date]" id="end"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
                     value="<?= $this->event->getEnd(DATE_FORMAT); ?>" />
-                <input name="end[time]"
+                <input name="end[time]" id="endTime"
                     placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
                     value="<?= $this->event->getEnd(TIME_FORMAT); ?>" />
             </dd>
