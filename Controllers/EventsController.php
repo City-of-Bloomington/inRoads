@@ -52,12 +52,7 @@ class EventsController extends Controller
         if (!isset($start)) { $start = new \DateTime(); }
         if (!isset($end  )) { $end   = new \DateTime('tomorrow'); }
 
-        $list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
-
-        $events = [];
-        foreach ($list as $event) {
-            $events[] = new Event($event);
-        }
+        $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
 
         $this->template->title = $this->template->_('upcoming_closures');
         if (Person::isAllowed('events', 'update')) {

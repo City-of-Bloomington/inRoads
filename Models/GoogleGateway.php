@@ -60,7 +60,7 @@ class GoogleGateway
      * @param string $calendarId
      * @param DateTime $start
      * @param DateTime $end
-     * @return EventList
+     * @return array An array of Application\Model\Events
      */
     public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null)
     {
@@ -76,7 +76,12 @@ class GoogleGateway
         if ($start) { $opts['timeMin'] = $start->format(self::DATETIME_FORMAT); }
         if ($end  ) { $opts['timeMax'] = $end  ->format(self::DATETIME_FORMAT); }
 
-        return $service->events->listEvents($calendarId, $opts);
+        $events = [];
+        $list = $service->events->listEvents($calendarId, $opts);
+        foreach ($list as $e) {
+            $events[] = new Event($e);
+        }
+        return $events;
     }
 
     /**
