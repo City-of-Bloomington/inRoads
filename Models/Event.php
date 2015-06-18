@@ -119,11 +119,11 @@ class Event
 
             $this->set('start', new \Google_Service_Calendar_EventDateTime([
                 'date'     => $startDate->format(GoogleGateway::DATE_FORMAT),
-                'timeZone' => ini_get('date.timezone')
+                'timeZone' => $startDate->getTimezone()->getName()
             ]));
             $this->set('end', new \Google_Service_Calendar_EventDateTime([
                 'date'     => $endDate->format(GoogleGateway::DATE_FORMAT),
-                'timeZone' => ini_get('date.timezone')
+                'timeZone' => $endDate->getTimezone()->getName()
             ]));
         }
         else {
@@ -132,11 +132,11 @@ class Event
 
             $this->set('start', new \Google_Service_Calendar_EventDateTime([
                 'dateTime' => $startDate->format(GoogleGateway::DATETIME_FORMAT),
-                'timeZone' => ini_get('date.timezone')
+                'timeZone' => $startDate->getTimezone()->getName()
             ]));
             $this->set('end', new \Google_Service_Calendar_EventDateTime([
                 'dateTime' => $endDate->format(GoogleGateway::DATETIME_FORMAT),
-                'timeZone' => ini_get('date.timeZone')
+                'timeZone' => $endDate->getTimezone()->getName()
             ]));
         }
 
