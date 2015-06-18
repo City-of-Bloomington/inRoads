@@ -10,6 +10,10 @@ use Application\Models\Person;
 use Application\Models\Event;
 use Blossom\Classes\View;
 
+    <div class="panelList-googleLinks">
+        <a href="#">Data source</a>
+    </div>
+
 foreach ($this->events as $e) {
     $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
 
