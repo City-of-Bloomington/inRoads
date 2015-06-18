@@ -7,12 +7,13 @@
 	<main>
         <div class="container two-column">
             <?php $this->_include('partials/panel-one.inc'); ?>
+			<div class="errorPannel">
+				<?php include BLOSSOM.'/errorMessages.php'; ?>
+			</div>
             <div class="panel" id="content-panel">
-                <?php
-                    include BLOSSOM.'/errorMessages.php';
 
-                    echo $this->includeBlocks();
-                ?>
+
+                <?php echo $this->includeBlocks(); ?>
             </div>
         </div>
 	</main>
