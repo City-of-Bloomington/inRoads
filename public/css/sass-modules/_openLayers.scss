@@ -1,0 +1,14 @@
+// Overrides for OpenLayers
+
+.mapPanel {
+    .ol-control {
+        background: none;
+
+        button {
+            background: #fff;
+            border: 1px solid $cob-gray;
+            border-radius: (4rem/16);
+            color: $cob-gray-darkest;
+        }
+    }
+}
