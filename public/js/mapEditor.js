@@ -26,11 +26,24 @@ MAPDISPLAY.activateDrawMode = function (geometryType) {
     });
     MAPDISPLAY.map.addInteraction(MAPDISPLAY.draw);
 }
-document.getElementById('geometryType').addEventListener('change', function(e) {
-    MAPDISPLAY.activateDrawMode(e.target.value);
-});
-MAPDISPLAY.activateDrawMode(document.getElementById('geometryType').value);
 
+MAPDISPLAY.toggleDrawMode = function (e) {
+    var button = e.target,
+        currentButton = document.querySelector('#mapTools button.current');
+
+    if (button.classList.contains('current')) {
+        MAPDISPLAY.map.removeInteraction(MAPDISPLAY.draw);
+        MAPDISPLAY.draw = {};
+        button.classList.remove('current');
+    }
+    else {
+        if (currentButton) { currentButton.classList.remove('current'); }
+        MAPDISPLAY.activateDrawMode(button.getAttribute('id'));
+        button.classList.add('current');
+    }
+}
+document.getElementById('LineString').addEventListener('click', MAPDISPLAY.toggleDrawMode);
+document.getElementById('Point')     .addEventListener('click', MAPDISPLAY.toggleDrawMode);
 
 document.getElementById('clearFeaturesButton').addEventListener('click', function(e) {
     document.getElementById('geography').value = '';
