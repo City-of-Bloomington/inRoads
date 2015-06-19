@@ -14,6 +14,9 @@
 
 
                 <?php echo $this->includeBlocks(); ?>
+				<a class="mapLinks disclaimer" title="Terms and Conditions" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Terms &amp; Conditions</a>
+				<a class="mapLinks calendar" title="Calendar Feed" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Calendar</a>
+				<a class="mapLinks feed" title="JSON Feed" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Feed</a>
             </div>
         </div>
 	</main>

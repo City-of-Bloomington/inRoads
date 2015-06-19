@@ -8,9 +8,11 @@ $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
 ?>
+
+<div id="map" class="mapPanel"></div>
+
 <div id="mapTools" class="mapTools">
     <button type="button" id="LineString">Line</button>
     <button type="button" id="Point">Point</button>
     <button type="button" id="clearFeaturesButton">Clear</button>
 </div>
-<div id="map" class="mapPanel"></div>

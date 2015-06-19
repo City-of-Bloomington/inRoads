@@ -19,4 +19,17 @@
             }
         }
     }
+    .ol-attribution {
+        bottom: .29rem;
+        right: 4.3rem;
+
+        &:not(.ol-collapsed):hover {
+            background: rgba(255, 255, 255, .8);
+        }
+        > button {
+            box-sizing: border-box;
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+    }
 }

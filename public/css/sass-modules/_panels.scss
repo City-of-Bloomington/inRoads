@@ -42,6 +42,47 @@
         }
     }
 }
+.mapLinks {
+    background-color: $color-button-background;
+    border: 1px solid $cob-gray;
+    border-radius: (4rem/16);
+    box-sizing: border-box;
+    color: $color-button-background;
+    display: inline-block;
+    font-size: 0;
+    font-weight: bold;
+    height: 1.5rem;
+    position: absolute;
+        bottom: .5rem;
+    text-align: center;
+    width: 1.5rem;
+    &:after {
+        color: $color-button-text;
+        display: inline-block;
+        font-size: 1rem;
+    }
+
+    $multiplier: 2;
+    &.disclaimer {
+        color: $color-button-text;
+        left: 20.75rem;
+        font-size: (14rem/16);
+        font-weight: normal;
+        padding: .125rem 1rem;
+        width: auto;
+    }
+    &.calendar {
+        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
+        right: (0rem * $multiplier + .5);
+    }
+    &.feed {
+        right: (1rem * $multiplier + .5);
+
+        &:after {
+            content: '{ }';
+        }
+    }
+}
 
 .windowPanel {
     position: absolute;
