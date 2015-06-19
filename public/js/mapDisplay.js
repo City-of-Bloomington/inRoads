@@ -8,6 +8,22 @@ var MAPDISPLAY = {
             zoom: 14
         })
     }),
+    popup: new ol.Overlay({
+        element: document.getElementById('popup'),
+        positioning: 'bottom-center'
+    }),
+    displayPopup: function (e) {
+        var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
+        if (feature) {
+            var coords = ol.extent.getCenter(feature.getGeometry().getExtent());
+            MAPDISPLAY.popup.getElement().innerHTML = '<p>Feature Clicked</p>';
+            MAPDISPLAY.popup.setPosition(coords);
+        }
+        else {
+            MAPDISPLAY.popup.getElement().innerHTML = '';
+            MAPDISPLAY.popup.setPosition([0,0]);
+        }
+    },
     /**
     * The features are not added to a regular vector layer/source,
     * but to a feature overlay which holds a collection of features.
@@ -17,7 +33,7 @@ var MAPDISPLAY = {
     featureOverlay: new ol.FeatureOverlay({
         style: new ol.style.Style({
             fill:   new ol.style.Fill({color: 'rgba(255,255,255,0.2)'}),
-            stroke: new ol.style.Stroke({color:'#ff0000', width:2}),
+            stroke: new ol.style.Stroke({color:'#ff0000', width:8}),
             image:  new ol.style.Circle({radius:7, fill: new ol.style.Fill({color:'#ff0000'})})
         })
     }),
@@ -77,8 +93,10 @@ var MAPDISPLAY = {
         return wkt;
     }
 };
+MAPDISPLAY.map.addOverlay(MAPDISPLAY.popup);
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
-
+MAPDISPLAY.map.on('click', MAPDISPLAY.displayPopup);
 
 // Load any initial data the webpage specifies.
 if (PHP.mapdata) { MAPDISPLAY.loadWkt(PHP.mapdata); }
+

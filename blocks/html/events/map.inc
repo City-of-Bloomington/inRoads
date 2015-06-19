@@ -14,6 +14,7 @@ foreach ($this->events as $e) {
 }
 ?>
 <div id="map" class="mapPanel"></div>
+<div id="popup"></div>
 <script type="text/javascript">
     PHP.mapdata = <?= json_encode($mapdata); ?>;
 </script>

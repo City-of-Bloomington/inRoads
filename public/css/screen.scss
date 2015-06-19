@@ -15,3 +15,10 @@
 @import 'sass-modules/_panelList';
 @import 'sass-modules/_openLayers';
 @import 'sass-modules/_selector.scss';
+
+#popup {
+    background-color: $color-content-background;
+    padding:1em;
+    border: 2px solid black;
+    border-radius:4px;
+}
