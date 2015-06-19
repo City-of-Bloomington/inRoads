@@ -19,6 +19,33 @@
 #popup {
     background-color: $color-content-background;
     padding:1em;
-    border: 2px solid black;
-    border-radius:4px;
+    border: (1rem/16) solid $cob-gray-dark;
+    border-radius: (8rem/16);
+    box-shadow: 0 (8rem/16) 1rem 0 rgba(0, 0, 0, .5);
+
+    &:before {
+        border: (8rem/16) solid transparent;
+        border-top-color: $cob-gray-dark;
+        content: ' ';
+        display: block;
+        height: 0;
+        margin-left: (-4rem/16);
+        position: absolute;
+            top: 100%;
+            left: 50%;
+        width: 0;
+    }
+    &:after {
+        border: (8rem/16) solid transparent;
+        border-top-color: $color-content-background;
+        content: ' ';
+        display: block;
+        height: 0;
+        margin-top: (-2rem/16);
+        margin-left: (-4rem/16);
+        position: absolute;
+            top: 100%;
+            left: 50%;
+        width: 0;
+    }
 }
