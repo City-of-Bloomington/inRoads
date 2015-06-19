@@ -8,7 +8,7 @@
 use Application\Models\Event;
 
 $t = $this->event->getType();
-$type = $t ? Event::$types[$t] : '';
+$type = $t ? $t.'; '.Event::$types[$t] : '';
 
 $url = BASE_URL.'/events/view?id='.$this->event->getId();
 
