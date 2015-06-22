@@ -15,11 +15,9 @@ var MAPDISPLAY = {
     handleClick: function (e) {
         var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
 
+        MAPDISPLAY.closePopup();
         if (feature && feature.event_id) {
             MAPDISPLAY.displayPopup(feature.event_id, feature);
-        }
-        else {
-            MAPDISPLAY.closePopup();
         }
     },
     findFeature: function (event_id) {
