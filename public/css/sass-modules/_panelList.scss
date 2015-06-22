@@ -64,39 +64,40 @@
         opacity: 1;
     }
 */
-
-    &:after {
-        background: url('images/forward-arrow.svg') no-repeat 75% 50% / 100% 100%;
-        content: ' ';
-        display: block;
-        height: (19rem/16);
-        margin-top: (-8.5rem/16);
-        opacity: .2;
-        position: absolute;
-            right: .75rem;
-            top: 50%;
-        transition: opacity .25s ease-in-out, width .25s ease-in-out, height .25s ease-in-out, margin .25s ease-in-out;
-        width: (12rem/16);
-    }
-    &:hover:after {
-        opacity: 1;
-    }
-    > div, > h2 {
-        transition: color .25s ease-in-out;
-    }
-    &.current {
-        background-color: $cob-blue-light;
-        > div, > h2 {
-            color: #fff;
-        }
+    &.hasGeography {
         &:after {
-            background-color: #fff;
-            background-size: 75% 75%;
-            border-radius: 2rem;
-            margin-top: (-12.5rem/16);
+            background: url('images/forward-arrow.svg') no-repeat 75% 50% / 100% 100%;
+            content: ' ';
+            display: block;
+            height: (19rem/16);
+            margin-top: (-8.5rem/16);
+            opacity: .2;
+            position: absolute;
+                right: .75rem;
+                top: 50%;
+            transition: opacity .25s ease-in-out, width .25s ease-in-out, height .25s ease-in-out, margin .25s ease-in-out;
+            width: (12rem/16);
+        }
+        &:hover:after {
             opacity: 1;
-            height: (25rem/16);
-            width: (25rem/16);
+        }
+        > div, > h2 {
+            transition: color .25s ease-in-out;
+        }
+        &.current {
+            background-color: $cob-blue-light;
+            > div, > h2 {
+                color: #fff;
+            }
+            &:after {
+                background-color: #fff;
+                background-size: 75% 75%;
+                border-radius: 2rem;
+                margin-top: (-12.5rem/16);
+                opacity: 1;
+                height: (25rem/16);
+                width: (25rem/16);
+            }
         }
     }
 }
