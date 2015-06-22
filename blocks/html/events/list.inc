@@ -22,9 +22,20 @@ use Blossom\Classes\Block;
             $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
             $block->event = $e;
 
-            echo "<a href=\"$url\" class=\"panelItem\" id=\"e_{$e->getId()}\">";
-            echo $block->render('html', $this->template);
-            echo "</a>";
+            $classes = '';
+            if ($e->getGeography()) { $classes.= ' hasGeography'; }
+
+            $t = $e->getType();
+            if ($t) {
+                $t = lcfirst(str_replace(' ', '', ucwords($t)));
+                $classes.= " $t";
+            }
+
+            echo "
+            <a href=\"$url\" class=\"panelItem $classes\" id=\"e_{$e->getId()}\">
+            {$block->render('html', $this->template)}
+            </a>
+            ";
         }
     ?>
     </div>
