@@ -72,14 +72,21 @@
         width: auto;
     }
     &.calendar {
-        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
+//        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
         right: (0rem * $multiplier + .5);
+        &:after {
+            content: 'iCal';
+            font-size: (12rem/16);
+            padding: (3rem/16) 0 0 0;
+        }
     }
     &.feed {
         right: (1rem * $multiplier + .5);
 
         &:after {
-            content: '{ }';
+            content: '</>';
+            font-size: (12rem/16);
+            padding: (3rem/16) 0 0 0;
         }
     }
 }

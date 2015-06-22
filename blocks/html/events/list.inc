@@ -10,10 +10,6 @@ use Application\Models\Event;
 use Blossom\Classes\Block;
 ?>
 <div class="panelList">
-    <div class="panelList-googleLinks">
-        <a href="<?= 'https://www.google.com/calendar/feeds/'.GOOGLE_CALENDAR_ID.'/public/basic'; ?>">XML</a>
-        <a href="<?= 'https://www.google.com/calendar/ical/' .GOOGLE_CALENDAR_ID.'/public/basic.ics'; ?>">iCal</a>
-    </div>
     <div id="events">
     <?php
         $block = new Block('events/info.inc');

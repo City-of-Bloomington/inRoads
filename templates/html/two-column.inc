@@ -15,8 +15,8 @@
 
                 <?php echo $this->includeBlocks(); ?>
 				<a class="mapLinks disclaimer" title="Terms and Conditions" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Terms &amp; Conditions</a>
-				<a class="mapLinks calendar" title="Calendar Feed" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Calendar</a>
-				<a class="mapLinks feed" title="JSON Feed" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Feed</a>
+				<a class="mapLinks calendar" title="iCal Feed" href="https://www.google.com/calendar/ical/bloomington.in.gov_rm22gcl2hatcmjk0boh75d6pec@group.calendar.google.com/public/basic.ics">iCal</a>
+				<a class="mapLinks feed" title="XML Feed" href="https://www.google.com/calendar/feeds/bloomington.in.gov_rm22gcl2hatcmjk0boh75d6pec@group.calendar.google.com/public/basic">XML</a>
             </div>
         </div>
 	</main>
