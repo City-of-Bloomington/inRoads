@@ -47,7 +47,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
     <dl class="nav-dropdown">
         <dt id="dropdown-label1">How many closures to show</dt>
         <dd>
-            <div class="nav-dropdown-current" role="button" aria-haspopup="true" tabindex="0"><?= $currentPeriod; ?></div>
+            <div class="nav-dropdown-current" role="button" aria-haspopup="true" tabindex="0"><?= $this->_($currentPeriod); ?></div>
             <div class="nav-dropdown-options" role="listbox" aria-labeledby="dropdown-label1">
                 <?= $options; ?>
             </div>

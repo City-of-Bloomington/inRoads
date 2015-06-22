@@ -172,7 +172,7 @@ msgid "upcoming_closures"
 msgstr "Upcoming Road Closures"
 
 msgid "today"
-msgstr "Today"
+msgstr "Next 24 hours"
 
 msgid "nextWeek"
 msgstr "7 days"
