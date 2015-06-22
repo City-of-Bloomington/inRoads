@@ -11,38 +11,92 @@
     margin: 0;
     padding: .5rem .5rem 0 .5rem;
     position: relative;
+    transition: background-color .25s ease-in-out;
 
-    .title {
+    > .title {
+        color: $color-link;
         display: block;
         font-family: $font-family-default;
         font-size: (14rem/16);
         margin: 0 2.5rem .25rem 0;
     }
-    .dates {
+    > .dates {
         border-bottom: 1px solid $cob-gray;
         color: $cob-gray-dark;
         display: block;
         font-size: (12rem/16);
         padding: 0 2.5rem .5rem 0;
     }
-    .type        { display:none; }
-    .description { display:none; }
-    .geography   { display:none; }
+    > .type        { display:none; }
+    > .description { display:none; }
+    > .geography   { display:none; }
+
+/*
+    &:before {
+        background: $color-link;
+        content: ' ';
+        display: block;
+        height: (12rem/16);
+        margin: (-3rem/16) 0 0 0;
+        opacity: 0;
+        position: absolute;
+            top: 50%;
+            right: (1rem);
+        transform: rotate(45deg);
+        transition: background-color .25s ease-in-out, opacity .25s ease-in-out;
+        width: (3rem/16);
+    }
+    &:after {
+        background: $color-link;
+        content: ' ';
+        display: block;
+        height: (12rem/16);
+        margin: (-9.5rem/16) 0 0 0;
+        opacity: 0;
+        position: absolute;
+            top: 50%;
+            right: (1rem);
+        transform: rotate(-45deg);
+        transition: background-color .25s ease-in-out, opacity .25s ease-in-out;
+        width: (3rem/16);
+    }
+    &:hover:before, &:hover:after {
+        opacity: 1;
+    }
+*/
 
     &:after {
-        background: url('images/forward-arrow.svg') no-repeat 0 0 / 100% 100%;
+        background: url('images/forward-arrow.svg') no-repeat 75% 50% / 100% 100%;
         content: ' ';
         display: block;
         height: (19rem/16);
         margin-top: (-8.5rem/16);
-        opacity: 0;
+        opacity: .2;
         position: absolute;
             right: .75rem;
             top: 50%;
-        transition: opacity .25s ease-in-out;
+        transition: opacity .25s ease-in-out, width .25s ease-in-out, height .25s ease-in-out, margin .25s ease-in-out;
         width: (12rem/16);
     }
     &:hover:after {
         opacity: 1;
+    }
+    > div, > h2 {
+        transition: color .25s ease-in-out;
+    }
+    &.current {
+        background-color: $cob-blue-light;
+        > div, > h2 {
+            color: #fff;
+        }
+        &:after {
+            background-color: #fff;
+            background-size: 75% 75%;
+            border-radius: 2rem;
+            margin-top: (-12.5rem/16);
+            opacity: 1;
+            height: (25rem/16);
+            width: (25rem/16);
+        }
     }
 }
