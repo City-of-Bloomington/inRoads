@@ -50,7 +50,6 @@
     color: $color-button-background;
     display: inline-block;
     font-size: 0;
-    font-weight: bold;
     height: 1.5rem;
     position: absolute;
         bottom: .5rem;
@@ -71,9 +70,13 @@
         padding: .125rem 1rem;
         width: auto;
     }
+    &.gCalendar {
+        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
+        right: (0rem * $multiplier + .5);
+    }
     &.calendar {
 //        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
-        right: (0rem * $multiplier + .5);
+        right: (1rem * $multiplier + .5);
         &:after {
             content: 'iCal';
             font-size: (12rem/16);
@@ -81,7 +84,7 @@
         }
     }
     &.feed {
-        right: (1rem * $multiplier + .5);
+        right: (2rem * $multiplier + .5);
 
         &:after {
             content: '</>';
