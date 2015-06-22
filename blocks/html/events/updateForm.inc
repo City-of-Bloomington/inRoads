@@ -44,7 +44,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                         $selected = $this->event->getType()==$type
                             ? 'selected="selected"'
                             : '';
-                        echo "<option>$type</option>";
+                        echo "<option $selected>$type</option>";
                     }
                 ?>
                 </select>
