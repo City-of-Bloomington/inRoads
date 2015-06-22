@@ -14,9 +14,15 @@ var MAPDISPLAY = {
     }),
     displayPopup: function (e) {
         var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
-        if (feature) {
-            var coords = ol.extent.getCenter(feature.getGeometry().getExtent());
-            MAPDISPLAY.popup.getElement().innerHTML = '<p>Feature Clicked</p>';
+        if (feature && feature.event_id) {
+            var coords = ol.extent.getCenter(feature.getGeometry().getExtent()),
+                link   = document.createElement('a'),
+                event  = document.getElementById(feature.event_id);
+
+            link.setAttribute('href', event.getAttribute('href'));
+            link.innerHTML = event.innerHTML;
+
+            MAPDISPLAY.popup.getElement().appendChild(link);
             MAPDISPLAY.popup.setPosition(coords);
         }
         else {
@@ -89,11 +95,14 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.displayPopup);
     for (i=0; i<len; i++) {
         geography = events[i].innerHTML;
         if (geography) {
-            id = events[i].parentElement.getAttribute('id');
-
             f = features.length;
             features[f] = MAPDISPLAY.wktFormatter.readFeature(geography);
             features[f].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+
+            id = events[i].parentElement.getAttribute('id');
+            if (id) {
+                features[f].event_id = id;
+            }
         }
     }
     if (features.length) { MAPDISPLAY.setFeatures(features); }
