@@ -73,7 +73,7 @@ class EventsController extends Controller
         $event = $this->loadEvent($_GET['id']);
         $geography = $event->getGeography();
         if ($geography) {
-            $this->template->blocks[]          = new Block('events/map.inc', ['events'=>[$event]]);
+            $this->template->blocks[] = new Block('events/map.inc', ['events'=>[$event]]);
         }
 
         $this->template->title = $event->getType();
@@ -85,7 +85,14 @@ class EventsController extends Controller
             $this->template->_('back'),
             'back'
         );
-        $this->template->blocks['panel-one'][] = new Block('events/info.inc', ['event'=>$event]);
+        if (Person::isAllowed('events', 'update')) {
+            $this->template->headerToolsButton.= $helper->buttonLink(
+                BASE_URI.'/events/update?id='.$event->getId(),
+                $this->template->_('event_edit'),
+                'edit'
+            );
+        }
+        $this->template->blocks['panel-one'][] = new Block('events/single.inc', ['event'=>$event]);
     }
 
     public function update()
