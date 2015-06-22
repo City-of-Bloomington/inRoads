@@ -13,21 +13,30 @@ var MAPDISPLAY = {
         positioning: 'bottom-center'
     }),
     displayPopup: function (e) {
-        var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
-        if (feature && feature.event_id) {
-            var coords = ol.extent.getCenter(feature.getGeometry().getExtent()),
-                link   = document.createElement('a'),
-                event  = document.getElementById(feature.event_id);
+        var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; }),
+            coords = [],
+            link   = {},
+            event  = {};
 
+        if (feature && feature.event_id) {
+            event  = document.getElementById(feature.event_id);
+            event.classList.add('current');
+
+            link = document.createElement('a');
             link.setAttribute('href', event.getAttribute('href'));
             link.innerHTML = event.innerHTML;
 
+            coords = ol.extent.getCenter(feature.getGeometry().getExtent());
             MAPDISPLAY.popup.getElement().appendChild(link);
             MAPDISPLAY.popup.setPosition(coords);
         }
         else {
             MAPDISPLAY.popup.getElement().innerHTML = '';
             MAPDISPLAY.popup.setPosition([0,0]);
+            event = document.querySelector('#events .current');
+            if (event) {
+                event.classList.remove('current');
+            }
         }
     },
     /**
