@@ -12,32 +12,56 @@ var MAPDISPLAY = {
         element: document.getElementById('popup'),
         positioning: 'bottom-center'
     }),
-    displayPopup: function (e) {
-        var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; }),
-            coords = [],
-            link   = {},
-            event  = {};
+    handleClick: function (e) {
+        var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
 
         if (feature && feature.event_id) {
-            event  = document.getElementById(feature.event_id);
-            event.classList.add('current');
-
-            link = document.createElement('a');
-            link.setAttribute('href', event.getAttribute('href'));
-            link.innerHTML = event.innerHTML;
-
-            coords = ol.extent.getCenter(feature.getGeometry().getExtent());
-            MAPDISPLAY.popup.getElement().appendChild(link);
-            MAPDISPLAY.popup.setPosition(coords);
+            MAPDISPLAY.displayPopup(feature.event_id, feature);
         }
         else {
-            MAPDISPLAY.popup.getElement().innerHTML = '';
-            MAPDISPLAY.popup.setPosition([0,0]);
-            event = document.querySelector('#events .current');
-            if (event) {
-                event.classList.remove('current');
+            MAPDISPLAY.closePopup();
+        }
+    },
+    findFeature: function (event_id) {
+        var features = MAPDISPLAY.featureOverlay.getFeatures().getArray(),
+        len = features.length,
+        i   = 0;
+
+        for (i=0; i<len; i++) {
+            if (features[i].event_id === event_id) {
+                return features[i];
             }
         }
+    },
+    displayPopup: function (event_id, feature) {
+        var event  = document.getElementById(event_id),
+            link   = {},
+            coords = [];
+
+        if (!feature) {
+            feature = MAPDISPLAY.findFeature(event_id);
+            if (!feature) {
+                return;
+            }
+        }
+
+        event.classList.add('current');
+
+        link = document.createElement('a');
+        link.setAttribute('href', event.getAttribute('href'));
+        link.innerHTML = event.innerHTML;
+
+        coords = ol.extent.getCenter(feature.getGeometry().getExtent());
+        MAPDISPLAY.popup.getElement().appendChild(link);
+        MAPDISPLAY.popup.setPosition(coords);
+    },
+    closePopup: function () {
+        var event = document.querySelector('#events .current');
+        if (event) {
+            event.classList.remove('current');
+        }
+        MAPDISPLAY.popup.getElement().innerHTML = '';
+        MAPDISPLAY.popup.setPosition([0,0]);
     },
     /**
      * The features are not added to a regular vector layer/source,
@@ -88,7 +112,7 @@ var MAPDISPLAY = {
 };
 MAPDISPLAY.map.addOverlay(MAPDISPLAY.popup);
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
-MAPDISPLAY.map.on('click', MAPDISPLAY.displayPopup);
+MAPDISPLAY.map.on('click', MAPDISPLAY.handleClick);
 
 // Load any initial data the webpage specifies.
 //if (PHP.mapdata) { MAPDISPLAY.loadWkt(PHP.mapdata); }
@@ -111,6 +135,13 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.displayPopup);
             id = events[i].parentElement.getAttribute('id');
             if (id) {
                 features[f].event_id = id;
+                // Override the event link and have it open the popup on the map
+                document.getElementById(id).addEventListener('click', function (e) {
+                    e.preventDefault();
+                    MAPDISPLAY.closePopup();
+                    MAPDISPLAY.displayPopup(e.currentTarget.getAttribute('id'));
+                    return false;
+                });
             }
         }
     }
