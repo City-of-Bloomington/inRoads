@@ -1,6 +1,13 @@
 "use strict";
-
-MAPDISPLAY.loadWkt(document.getElementById('geography').value);
+(function () {
+    var geography = document.getElementById('geography').value,
+        features  = [];
+    if (geography) {
+        features[0] = MAPDISPLAY.wktFormatter.readFeature(geography);
+        features[0].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+    }
+    if (features.length) { MAPDISPLAY.setFeatures(features); }
+}());
 
 /**
  * the SHIFT key must be pressed to delete vertices, so

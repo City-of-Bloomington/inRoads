@@ -1,4 +1,3 @@
-<div class="panelList">
 <?php
 /**
  * @copyright 2014-2015 City of Bloomington, Indiana
@@ -8,26 +7,24 @@
  */
 use Application\Models\Person;
 use Application\Models\Event;
-use Blossom\Classes\View;
-
-foreach ($this->events as $e) {
-    $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
-
-    $description = View::escape($e->getDescription());
-    $summary     = View::escape($e->getGeography_description());
-
-    $format = $e->isAllDay() ? DATE_FORMAT : DATETIME_FORMAT;
-
-    #$geography = $e->getGeography();
-    #if ($geography) {
-
-    #}
-    echo "
-    <a href=\"$url\" class=\"panelItem\">
-        <span class=\"panelItem-title\">$summary</span>
-        <span class=\"panelItem-dates\">{$e->getStart($format)} &ndash; {$e->getEnd($format)}</span>
-    </a>
-    ";
-}
+use Blossom\Classes\Block;
 ?>
+<div class="panelList">
+    <div class="panelList-googleLinks">
+        <a href="#">Data source</a>
+    </div>
+    <div id="events">
+    <?php
+        $block = new Block('events/info.inc');
+
+        foreach ($this->events as $e) {
+            $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
+            $block->event = $e;
+
+            echo "<a href=\"$url\" class=\"panelItem\" id=\"e_{$e->getId()}\">";
+            echo $block->render('html', $this->template);
+            echo "</a>";
+        }
+    ?>
+    </div>
 </div>

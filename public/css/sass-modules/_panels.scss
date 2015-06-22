@@ -110,7 +110,7 @@
                 border: 0;
                 border-radius: 0;
                 cursor: pointer;
-                display: block;
+                display: inline-block;
                 height: (24rem/16);
                 overflow: hidden;
                 padding: 0;
@@ -148,6 +148,10 @@
                             left: (3rem/16);
                         width: (18rem/16);
                     }
+                }
+                &.edit {
+                    // @TODO
+                    // Need icon styles for edit button
                 }
                 &.back {
                     &:before {
@@ -243,18 +247,20 @@
         bottom: 0;
         left: 0;
 
-    &-title {
+    .title {
         display: inline-block;
         font-size: (18rem/16);
         margin: 1em 0 .25em 0;
     }
-    &-dates {
+    .dates {
         font-size: (14rem/16);
         margin: 0 0 1rem 0;
     }
-    &-description {
+    .description {
         white-space: pre-wrap;
     }
+    .type      { display:none; }
+    .geography { display:none; }
 }
 
 .errorPanel {
