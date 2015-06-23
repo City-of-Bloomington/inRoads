@@ -16,52 +16,9 @@
 @import 'sass-modules/_openLayers';
 @import 'sass-modules/_selector.scss';
 
-#popup {
-    background-color: $color-content-background;
-    border: (1rem/16) solid $cob-gray-dark;
-    border-radius: (8rem/16);
-    box-shadow: 0 (8rem/16) 1rem 0 rgba(0, 0, 0, .5);
-    padding:1em;
-    width: 30em;
-
-    &:before {
-        border: (8rem/16) solid transparent;
-        border-top-color: $cob-gray-dark;
-        content: ' ';
-        display: block;
-        height: 0;
-        margin-left: (-4rem/16);
-        position: absolute;
-            top: 100%;
-            left: 50%;
-        width: 0;
-    }
-    &:after {
-        border: (8rem/16) solid transparent;
-        border-top-color: $color-content-background;
-        content: ' ';
-        display: block;
-        height: 0;
-        margin-top: (-2rem/16);
-        margin-left: (-4rem/16);
-        position: absolute;
-            top: 100%;
-            left: 50%;
-        width: 0;
-    }
-    > a {
-        color: $cob-gray-darkest;
-
-        > h2 {
-            color: $cob-blue-dark;
-            font-weight: 300;
-            margin: 0 0 0 0;
-        }
-        > .dates {
-            color: $cob-gray-darkest;
-            font-size: (13rem/16);
-            margin: 0 0 1rem 0;
-        }
-        > .geography { display:none; }
-    }
+#marker {
+    background: url('images/locationMarker-map.svg') left top no-repeat;
+    background-size: 100%;
+    width:26px;
+    height:38px;
 }

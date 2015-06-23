@@ -27,6 +27,10 @@ var MAPDISPLAY = {
             stroke: new ol.style.Stroke({color:'#0000ff', width:8})
         })
     },
+    marker: new ol.Overlay({
+        element: document.getElementById('marker'),
+        positioning: 'bottom-center'
+    }),
     /**
      * Adds features to the map
      *
@@ -85,7 +89,8 @@ var MAPDISPLAY = {
     },
     currentlySelectedEventId: null,
     selectEvent: function (event_id, feature) {
-        var event = document.getElementById(event_id);
+        var event  = document.getElementById(event_id),
+            coords = [];
 
         event.classList.add('current');
         MAPDISPLAY.currentlySelectedEventId = event_id;
@@ -97,6 +102,9 @@ var MAPDISPLAY = {
             }
         }
         feature.setStyle(MAPDISPLAY.styles.selected);
+
+        coords = ol.extent.getCenter(feature.getGeometry().getExtent());
+        MAPDISPLAY.marker.setPosition(coords);
     },
     deselectEvents: function () {
         var event   = document.querySelector('#events .current'),
@@ -112,6 +120,7 @@ var MAPDISPLAY = {
         }
 
         MAPDISPLAY.currentlySelectedEventId = null;
+        MAPDISPLAY.marker.setPosition([0,0]);
     },
     highlightEvent: function (e) {
         var id = e.currentTarget.getAttribute('id'),
@@ -149,12 +158,12 @@ var MAPDISPLAY = {
         return false;
     }
 };
+MAPDISPLAY.map.addOverlay(MAPDISPLAY.marker);
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
 MAPDISPLAY.featureOverlay.setStyle(MAPDISPLAY.styles.default);
 MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 
 // Load any initial data the webpage specifies.
-//if (PHP.mapdata) { MAPDISPLAY.loadWkt(PHP.mapdata); }
 (function () {
     var events = document.querySelectorAll('#events a'),
         len    = events.length,
