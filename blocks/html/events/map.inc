@@ -8,4 +8,3 @@ $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
 ?>
 <div id="map" class="mapPanel"></div>
-<div id="popup"></div>

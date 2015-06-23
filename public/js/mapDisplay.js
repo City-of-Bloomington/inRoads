@@ -27,10 +27,6 @@ var MAPDISPLAY = {
             stroke: new ol.style.Stroke({color:'#0000ff', width:8})
         })
     },
-    popup: new ol.Overlay({
-        element: document.getElementById('popup'),
-        positioning: 'bottom-center'
-    }),
     /**
      * Adds features to the map
      *
@@ -89,9 +85,10 @@ var MAPDISPLAY = {
     },
     currentlySelectedEventId: null,
     selectEvent: function (event_id, feature) {
-        var event  = document.getElementById(event_id),
-            link   = {},
-            coords = [];
+        var event = document.getElementById(event_id);
+
+        event.classList.add('current');
+        MAPDISPLAY.currentlySelectedEventId = event_id;
 
         if (!feature) {
             feature = MAPDISPLAY.findFeature(event_id);
@@ -100,18 +97,6 @@ var MAPDISPLAY = {
             }
         }
         feature.setStyle(MAPDISPLAY.styles.selected);
-
-        event.classList.add('current');
-
-        link = document.createElement('a');
-        link.setAttribute('href', event.getAttribute('href'));
-        link.innerHTML = event.innerHTML;
-
-        coords = ol.extent.getCenter(feature.getGeometry().getExtent());
-        MAPDISPLAY.popup.getElement().appendChild(link);
-        MAPDISPLAY.popup.setPosition(coords);
-
-        MAPDISPLAY.currentlySelectedEventId = event_id;
     },
     deselectEvents: function () {
         var event   = document.querySelector('#events .current'),
@@ -125,8 +110,6 @@ var MAPDISPLAY = {
                 feature.setStyle(null);
             }
         }
-        MAPDISPLAY.popup.getElement().innerHTML = '';
-        MAPDISPLAY.popup.setPosition([0,0]);
 
         MAPDISPLAY.currentlySelectedEventId = null;
     },
@@ -166,7 +149,6 @@ var MAPDISPLAY = {
         return false;
     }
 };
-MAPDISPLAY.map.addOverlay(MAPDISPLAY.popup);
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
 MAPDISPLAY.featureOverlay.setStyle(MAPDISPLAY.styles.default);
 MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
@@ -174,7 +156,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 // Load any initial data the webpage specifies.
 //if (PHP.mapdata) { MAPDISPLAY.loadWkt(PHP.mapdata); }
 (function () {
-    var events = document.querySelectorAll('.geography'),
+    var events = document.querySelectorAll('#events a'),
         len    = events.length,
         i      = 0,
         id        = '',
@@ -183,20 +165,19 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         features  = [];
 
     for (i=0; i<len; i++) {
-        geography = events[i].innerHTML;
-        if (geography) {
-            f = features.length;
-            features[f] = MAPDISPLAY.wktFormatter.readFeature(geography);
-            features[f].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+        id = events[i].getAttribute('id');
+        events[i].addEventListener('click', MAPDISPLAY.handleListClick);
 
-            id = events[i].parentElement.getAttribute('id');
-            if (id) {
-                features[f].event_id = id;
-                // Override the event link and have it open the popup on the map
-                document.getElementById(id).addEventListener('click',      MAPDISPLAY.handleListClick);
-                document.getElementById(id).addEventListener('mouseenter', MAPDISPLAY.highlightEvent);
-                document.getElementById(id).addEventListener('mouseleave', MAPDISPLAY.unhighlightEvent);
-            }
+        geography = events[i].querySelector('.geography');
+        if (geography && geography.innerHTML) {
+            f = features.length;
+            features[f] = MAPDISPLAY.wktFormatter.readFeature(geography.innerHTML);
+            features[f].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            features[f].event_id = id;
+
+            // Override the event link and have it open the popup on the map
+            document.getElementById(id).addEventListener('mouseenter', MAPDISPLAY.highlightEvent);
+            document.getElementById(id).addEventListener('mouseleave', MAPDISPLAY.unhighlightEvent);
         }
     }
     if (features.length) { MAPDISPLAY.setFeatures(features); }
