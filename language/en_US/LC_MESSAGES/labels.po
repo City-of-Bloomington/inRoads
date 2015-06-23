@@ -171,8 +171,14 @@ msgstr "Location"
 msgid "upcoming_closures"
 msgstr "Upcoming Road Closures"
 
+msgid "searchPresets"
+msgstr "How many closures to show"
+
 msgid "today"
-msgstr "Next 24 hours"
+msgstr "Today"
+
+msgid "tomorrow"
+msgstr "Tomorrow"
 
 msgid "nextWeek"
 msgstr "7 days"

@@ -38,19 +38,25 @@ class EventsController extends Controller
 
     public function index()
     {
-        foreach (['start', 'end'] as $field) {
-            if (!empty($_GET[$field])) {
-                try {
-                    $$field = ActiveRecord::parseDate($_GET[$field], DATE_FORMAT);
-                }
-                catch (\Exception $e) {
-                    // Just ignore invalid dates
-                }
+        if (!empty($_GET['start'])) {
+            try {
+                $start = ActiveRecord::parseDate($_GET['start'], DATE_FORMAT);
+                $start->setTime(0, 0);
+            }
+            catch (\Exception $e) {
+            }
+        }
+        if (!empty($_GET['end'])) {
+            try {
+                $end = ActiveRecord::parseDate($_GET['end'], DATE_FORMAT);
+                $end->setTime(23, 59);
+            }
+            catch (\Exception $e) {
             }
         }
 
-        if (!isset($start)) { $start = new \DateTime(); }
-        if (!isset($end  )) { $end   = new \DateTime('tomorrow'); }
+        if (!isset($start)) { $start = new \DateTime(); $start->setTime(0,  0); }
+        if (!isset($end  )) { $end   = new \DateTime(); $end  ->setTime(23, 59); }
 
         $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
 

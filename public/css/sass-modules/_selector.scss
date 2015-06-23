@@ -4,11 +4,11 @@
     margin-bottom: 0;
 
     > dt {
-        display: inline-block;
+        display: block;
         font-size: (13rem/16);
     }
     > dd {
-        display: inline-block;
+        display: block;
         margin: 0;
         width: (200rem/16); // <- Default width; overriding via JS encouraged in appropriate contexts
     }

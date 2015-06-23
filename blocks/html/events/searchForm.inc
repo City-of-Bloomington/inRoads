@@ -6,15 +6,14 @@
  * @param DateTime $this->start
  * @param DateTime $this->end
  */
-$now             = new \DateTime();
-$endOf_today     = new \DateTime('tomorrow');
-$endOf_nextWeek  = new \DateTime('+1 week');
-$endOf_nextMonth = new \DateTime('+1 month');
+$periods = [
+    'today'     => new \DateTime(),
+    'tomorrow'  => new \DateTime('+1 day'),
+    'nextWeek'  => new \DateTime('+1 week'),
+    'nextMonth' => new \DateTime('+1 month')
+];
 
-$now             =             $now->format(DATE_FORMAT);
-$endOf_today     =     $endOf_today->format(DATE_FORMAT);
-$endOf_nextWeek  =  $endOf_nextWeek->format(DATE_FORMAT);
-$endOf_nextMonth = $endOf_nextMonth->format(DATE_FORMAT);
+$today = $periods['today']->format(DATE_FORMAT);
 
 $start = $this->start ? $this->start->format(DATE_FORMAT) : '';
 $end   = $this->end   ? $this->end  ->format(DATE_FORMAT) : '';
@@ -28,24 +27,23 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 <div class="searchPanel expanded" id="searchPanel">
     <?php
         $options = '';
-        foreach (['today', 'nextWeek', 'nextMonth'] as $period) {
-            $a = "<a href=\"$url?start=$now;end=%s\" %s role=\"option\" tabindex=\"-1\">%s</a>";
-            $var = "endOf_$period";
+        $a = "<a href=\"$url?start=$today;end=%s\" %s role=\"option\" tabindex=\"-1\">%s</a>";
+        foreach ($periods as $period => $datetime) {
+            $date = $datetime->format(DATE_FORMAT);
 
-            if ($start === $now && $end === $$var) {
+            if ($start === $today && $end === $date) {
                 $selected = 'class="current"';
                 $currentPeriod = $period;
             }
             else {
                 $selected = '';
             }
-
-            $options.= sprintf($a, $$var, $selected, $this->_($period));
+            $options.= sprintf($a, $date, $selected, $this->_($period));
         }
         if (!isset($currentPeriod)) { $currentPeriod = $this->_('chooseDates'); }
     ?>
     <dl class="nav-dropdown">
-        <dt id="dropdown-label1">How many closures to show</dt>
+        <dt id="dropdown-label1"><?= $this->_('searchPresets'); ?></dt>
         <dd>
             <div class="nav-dropdown-current" role="button" aria-haspopup="true" tabindex="0"><?= $this->_($currentPeriod); ?></div>
             <div class="nav-dropdown-options" role="listbox" aria-labeledby="dropdown-label1">
