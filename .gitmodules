@@ -10,3 +10,6 @@
 [submodule "libraries/iCal4PHP"]
 	path = libraries/iCal4PHP
 	url = https://github.com/City-of-Bloomington/iCal4PHP.git
+[submodule "libraries/recurr"]
+	path = libraries/recurr
+	url = https://github.com/City-of-Bloomington/recurr.git
