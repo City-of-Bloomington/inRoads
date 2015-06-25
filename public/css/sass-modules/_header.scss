@@ -14,6 +14,19 @@ body > header {
             &-homeLink {
                 display: inline-block;
             }
+            &-breadCrumb {
+                display: inline-block;
+                font-family: $font-family-heading;
+                margin: 0 0 0 2rem;
+
+                &-ancestors {
+                    font-size: (13rem/16);
+                    text-transform: uppercase;
+                }
+                &-home {
+                    font-size: (20rem/16);
+                }
+            }
             &-utilityBar {
                 display: inline-block;
                 position: absolute;
