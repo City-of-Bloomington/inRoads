@@ -111,8 +111,8 @@ form {
     }
 }
 
-.windowPanel > .editPanel > form > fieldset,
-.windowPanel > .searchPanel > form > fieldset {
+.editPanel > form > fieldset,
+.filterPanel > form > fieldset {
     border: none;
     &:not(:first-child) {
         > legend {

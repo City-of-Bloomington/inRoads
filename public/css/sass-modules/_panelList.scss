@@ -1,35 +1,31 @@
 .panelList {
     position: absolute;
-        top: 7.1rem;
-        left: 0;
+        top: 4.35rem;
         bottom: 0;
+        left: 13rem;
     overflow: auto;
-//    width: 20rem;
+    width: 22rem;
+    @media screen and (min-width: 84rem) {
+        width: 27rem;
+    }
 }
 .panelItem {
     display: block;
-    border-bottom: 1px solid $cob-gray;
     margin: 0;
     padding: .5rem .5rem 0 .5rem;
     position: relative;
     transition: background-color .2s ease-in-out;
 
-    > .title {
-        color: $color-link;
+    &:after {
+        background-color: $cob-gray;
+        content: ' ';
         display: block;
-        font-family: $font-family-default;
-        font-size: (14rem/16);
-        margin: 0 2.5rem .25rem 0;
+        height: (1rem/16);
+        position: absolute;
+            right: .5rem;
+            bottom: 0;
+            left: .5rem;
     }
-    > .dates {
-        color: $cob-gray-dark;
-        display: block;
-        font-size: (12rem/16);
-        padding: 0 2.5rem .5rem 0;
-    }
-    > .type        { display:none; }
-    > .description { display:none; }
-    > .geography   { display:none; }
 
     &:before {
         background: url('images/locationMarker-listing-noGeo.svg') no-repeat 50% 50%;
@@ -72,4 +68,21 @@
             background-image: url('images/locationMarker-listing.svg');
         }
     }
+    > .title {
+        color: $color-link;
+        display: block;
+        font-family: $font-family-default;
+        font-size: (16rem/16);
+        margin: 0 2.5rem .25rem 0;
+    }
+    > .dates {
+        color: $cob-gray-dark;
+        display: block;
+        font-size: (13rem/16);
+        padding: 0 2.5rem .5rem 0;
+    }
+    > .type        { display:none; }
+    > .description { display:none; }
+    > .geography   { display:none; }
+
 }

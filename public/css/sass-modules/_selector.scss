@@ -10,7 +10,7 @@
     > dd {
         display: block;
         margin: 0;
-        width: (200rem/16); // <- Default width; overriding via JS encouraged in appropriate contexts
+        width: (180rem/16); // <- Default width; overriding via JS encouraged in appropriate contexts
     }
 
     &-current {
@@ -56,7 +56,7 @@
         margin-top: -1px;
         padding: .5em 0;
         z-index:1;
-        position: absolute;
+        position: static; // <- gets changes to absolute via JS
             top: 100%;
             right: 0;
             left: 0;
@@ -81,7 +81,7 @@
     }
 }
 
-.searchPanel .nav-dropdown {
+.filterPanel .nav-dropdown {
     &-current {
         border: 1px solid $color-border-input;
     }

@@ -24,7 +24,7 @@ $size = strlen($help);
 $url = BASE_URI.'/events';
 $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
-<div class="searchPanel expanded" id="searchPanel">
+<div class="filterPanel expanded" id="filterPanel">
     <?php
         $options = '';
         $a = "<a href=\"$url?start=$today;end=%s\" %s role=\"option\" tabindex=\"-1\">%s</a>";

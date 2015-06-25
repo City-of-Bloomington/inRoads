@@ -1,1 +1,1 @@
-two-column.inc
+three-column.inc

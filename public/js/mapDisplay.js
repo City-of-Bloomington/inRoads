@@ -18,10 +18,10 @@ var MAPDISPLAY = {
     wktFormatter: new ol.format.WKT(),
     styles: {
         default: new ol.style.Style({
-            stroke: new ol.style.Stroke({color:'#ff0000', width:8})
+            stroke: new ol.style.Stroke({color:'#ee0000', width:8})
         }),
         hover: new ol.style.Style({
-            stroke: new ol.style.Stroke({color:'#00ff00', width:8})
+            stroke: new ol.style.Stroke({color:'#ff0000', width:16})
         }),
         selected: new ol.style.Style({
             stroke: new ol.style.Stroke({color:'#0000ff', width:8})

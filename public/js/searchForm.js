@@ -1,10 +1,10 @@
 "use strict";
 
 (function () {
-    var searchPanel     = document.querySelector('#searchPanel'),
-        form            = document.querySelector('#searchPanel > form'),
-        selectorCurrent = document.querySelector('#searchPanel .nav-dropdown-current'),
-        selectorOptions = document.querySelector('#searchPanel .nav-dropdown-options'),
+    var filterPanel     = document.querySelector('#filterPanel'),
+        form            = document.querySelector('#filterPanel > form'),
+        selectorCurrent = document.querySelector('#filterPanel .nav-dropdown-current'),
+        selectorOptions = document.querySelector('#filterPanel .nav-dropdown-options'),
         selected        = selectorOptions.querySelector('a.current'),
         chooseDates     = document.createElement('a'),
         toggleOptions   = function() {
@@ -16,10 +16,10 @@
             }
         };
 
-    searchPanel.setAttribute('class', 'searchPanel');
     form.style.display = 'none';
     selectorCurrent.setAttribute('aria-expanded', 'false');
     selectorCurrent.addEventListener('click', toggleOptions);
+    dropDownOptions.style.position = 'absolute';
 
     chooseDates.innerHTML = 'Choose Dates';
     if (!selected) {
@@ -28,8 +28,7 @@
     }
     selectorOptions.appendChild(chooseDates);
 
-    document.querySelector('#searchPanel .nav-dropdown-options').lastChild.addEventListener('click', function() {
-        searchPanel.setAttribute('class', 'searchPanel expanded');
+    document.querySelector('#filterPanel .nav-dropdown-options').lastChild.addEventListener('click', function() {
         form.style.display = 'block';
         toggleOptions();
     });

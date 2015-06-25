@@ -71,7 +71,7 @@ class EventsController extends Controller
         }
         if ($this->template->outputFormat === 'html') {
             $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
-            $this->template->blocks['panel-one'][] = new Block('events/list.inc',       ['events'=>$events]);
+            $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
             $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
         }
         else {
@@ -82,9 +82,16 @@ class EventsController extends Controller
     public function view()
     {
         $event = $this->loadEvent($_GET['id']);
+
+        if (!isset($start)) { $start = new \DateTime(); $start->setTime(0,  0); }
+        if (!isset($end  )) { $end   = new \DateTime(); $end  ->setTime(23, 59); }
+        $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
+
         $geography = $event->getGeography();
         if ($geography) {
-            $this->template->blocks[] = new Block('events/map.inc', ['events'=>[$event]]);
+            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
+            $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
+//            $this->template->blocks[] = new Block('events/map.inc', ['events'=>[$event]]);
         }
 
         $this->template->title = $event->getType();
@@ -103,7 +110,7 @@ class EventsController extends Controller
                 'edit'
             );
         }
-        $this->template->blocks['panel-one'][] = new Block('events/single.inc', ['event'=>$event]);
+        $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);
     }
 
     public function update()

@@ -3,7 +3,7 @@
         top: 4.35rem;
         right: 0;
         bottom: 0;
-        left: 20rem;
+        left: 0;
 
     #clearFeaturesControl {
         top:100px;
@@ -75,7 +75,6 @@
         right: (0rem * $multiplier + .5);
     }
     &.calendar {
-//        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
         right: (1rem * $multiplier + .5);
         &:after {
             content: 'iCal';
@@ -94,12 +93,15 @@
     }
 }
 
-.windowPanel {
+.contentPanel {
     position: absolute;
         top: 4.35rem;
-        left: 0;
+        left: 35rem;
         bottom: 0;
-    width: 20rem;
+        right: 0;
+        @media screen and (min-width: 84rem) {
+            left: 40rem;
+        }
 
     &-header {
         background-color: $cob-blue;
@@ -224,17 +226,15 @@
     }
 }
 
-.searchPanel {
+.filterPanel {
     background: $color-background-field;
     border-bottom: 1px solid $color-border-input;
-    height: 5rem;
     padding: 0 .5rem;
-    &.expanded {
-        height: 10.75rem;
-        &+.panelList {
-            top: 12.9rem;
-        }
-    }
+    position: absolute;
+        top: 4.35rem;
+        bottom: 0;
+        left: 0;
+    width: 12rem;
 }
 
 .editPanel {
