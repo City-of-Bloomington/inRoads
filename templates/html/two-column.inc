@@ -12,7 +12,6 @@
 			</div>
             <div class="panel" id="content-panel">
 
-
                 <?php echo $this->includeBlocks(); ?>
             </div>
         </div>

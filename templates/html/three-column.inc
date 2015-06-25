@@ -8,10 +8,10 @@
 	<main>
         <div class="container three-column">
             <?php $this->_include('partials/panel-one.inc'); ?>
-			<?php $this->_include('partials/panel-two.inc'); ?>
-			<div class="errorPanel">
-				<?php include BLOSSOM.'/errorMessages.php'; ?>
-			</div>
+            <?php $this->_include('partials/panel-two.inc'); ?>
+            <div class="errorPanel">
+                <?php include BLOSSOM.'/errorMessages.php'; ?>
+            </div>
             <div class="contentPanel" id="content-panel">
 
 				<header class="contentPanel-header">

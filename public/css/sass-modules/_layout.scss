@@ -7,17 +7,20 @@
             top: 4.35rem;
             bottom: 0;
             left: 0;
-        width: 13rem;
+        width: 20rem;
+        @media screen and (min-width: 84rem) {
+            width: 25rem;
+        }
     }
 
     > #content-panel {
         position: absolute;
             top: 4.35rem;
-            left: 35rem;
+            left: 20rem;
             bottom: 0;
             right: 0;
         @media screen and (min-width: 84rem) {
-            left: 40rem;
+            left: 25rem;
         }
     }
 }

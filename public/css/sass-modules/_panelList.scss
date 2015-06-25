@@ -58,17 +58,26 @@
         color: $color-link;
         display: block;
         font-family: $font-family-default;
-        font-size: (16rem/16);
+        font-size: (14rem/16);
         margin: 0 2.5rem .25rem 0;
     }
     > .dates {
         color: $cob-gray-dark;
         display: block;
-        font-size: (13rem/16);
+        font-size: (12rem/16);
         padding: 0 2.5rem .5rem 0;
     }
     > .type        { display:none; }
     > .description { display:none; }
     > .geography   { display:none; }
+
+    @media screen and (min-width: 84rem) {
+        > .title {
+            font-size: (16rem/16);
+        }
+        > .dates {
+            font-size: (13rem/16);
+        }
+    }
 
 }
