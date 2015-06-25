@@ -69,9 +69,14 @@ class EventsController extends Controller
                 'add'
             );
         }
-        $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
-        $this->template->blocks['panel-one'][] = new Block('events/list.inc',       ['events'=>$events]);
-        $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
+        if ($this->template->outputFormat === 'html') {
+            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
+            $this->template->blocks['panel-one'][] = new Block('events/list.inc',       ['events'=>$events]);
+            $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
+        }
+        else {
+            $this->template->blocks[] = new Block('events/list.inc', ['events'=>$events]);
+        }
     }
 
     public function view()
