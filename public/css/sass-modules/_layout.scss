@@ -1,9 +1,67 @@
 .container.full-width { }
 .full-width #content-panel { }
 
-.container.three-column { overflow:auto; }
-.three-column #panel-one { float:left; width:180px; }
-.three-column #panel-two { float:right; width:180px; }
-.three-column #content-panel { margin-left: 190px; margin-right: 190px; }
+.two-column {
+    > #panel-one {
+        position: absolute;
+            top: 4.35rem;
+            bottom: 0;
+            left: 0;
+        width: 13rem;
+
+    > #content-panel {
+        position: absolute;
+            top: 4.35rem;
+            left: 35rem;
+            bottom: 0;
+            right: 0;
+        @media screen and (min-width: 84rem) {
+            left: 40rem;
+        }
+    }
+}
+.three-column {
+    > #panel-one {
+        position: absolute;
+            top: 4.35rem;
+            bottom: 0;
+            left: 0;
+        width: 13rem;
+
+        > footer {
+            background: $cob-gray-darkest;
+            color: #fff;
+            position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+        }
+    }
+    > #panel-two {
+        position: absolute;
+            top: 4.35rem;
+            bottom: 0;
+            left: 13rem;
+        overflow: auto;
+        width: 22rem;
+        @media screen and (min-width: 84rem) {
+            width: 27rem;
+        }
+    }
+    > #content-panel {
+        position: absolute;
+            top: 4.35rem;
+            left: 35rem;
+            bottom: 0;
+            right: 0;
+        @media screen and (min-width: 84rem) {
+            left: 40rem;
+        }
+    }
+}
+//.three-column #panel-two { float:right; width:180px; }
+//.three-column #content-panel { margin-left: 190px; margin-right: 190px; }
+
+
 
 footer { clear:both; }

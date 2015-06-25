@@ -6,7 +6,7 @@
 <body>
 	<?php $this->_include('partials/header.inc'); ?>
 	<main>
-        <div class="container two-column">
+        <div class="container three-column">
             <?php $this->_include('partials/panel-one.inc'); ?>
 			<?php $this->_include('partials/panel-two.inc'); ?>
 			<div class="errorPanel">

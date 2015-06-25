@@ -51,8 +51,6 @@
     display: inline-block;
     font-size: 0;
     height: 1.5rem;
-    position: absolute;
-        bottom: .5rem;
     text-align: center;
     width: 1.5rem;
     &:after {
@@ -94,15 +92,6 @@
 }
 
 .contentPanel {
-    position: absolute;
-        top: 4.35rem;
-        left: 35rem;
-        bottom: 0;
-        right: 0;
-        @media screen and (min-width: 84rem) {
-            left: 40rem;
-        }
-
     &-header {
         background-color: $cob-blue;
         color: #fff;
@@ -231,10 +220,10 @@
     border-bottom: 1px solid $color-border-input;
     padding: 0 .5rem;
     position: absolute;
-        top: 4.35rem;
+        top: 0;
+        right: 0;
         bottom: 0;
         left: 0;
-    width: 12rem;
 }
 
 .editPanel {
@@ -242,7 +231,7 @@
     overflow: auto;
     padding: 0 .5rem;
     position: absolute;
-        top: 2rem;
+        top: 0;
         right: 0;
         bottom: 0;
         left: 0;
@@ -251,11 +240,6 @@
 .detailPanel {
     overflow: auto;
     padding: 0 .5rem;
-    position: absolute;
-        top: 2rem;
-        right: 0;
-        bottom: 0;
-        left: 0;
 
     .title {
         display: inline-block;

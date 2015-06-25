@@ -115,6 +115,7 @@ class EventsController extends Controller
 
     public function update()
     {
+        $this->template->setFilename('two-column');
         $event =        !empty($_REQUEST['id'])
             ? $this->loadEvent($_REQUEST['id'])
             : new Event();

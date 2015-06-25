@@ -1,13 +1,4 @@
 .panelList {
-    position: absolute;
-        top: 4.35rem;
-        bottom: 0;
-        left: 13rem;
-    overflow: auto;
-    width: 22rem;
-    @media screen and (min-width: 84rem) {
-        width: 27rem;
-    }
 }
 .panelItem {
     display: block;
@@ -28,17 +19,17 @@
     }
 
     &:before {
-        background: url('images/locationMarker-listing-noGeo.svg') no-repeat 50% 50%;
+        border: (5rem/16) solid transparent;
+        border-top: (5rem/16) solid $cob-gray-darkest;
         content: ' ';
         display: block;
-        height: (17rem/16);
-        margin-top: (-8.5rem/16);
-        opacity: .2;
+        height: 0;
+        opacity: .5;
         position: absolute;
-            right: .75rem;
-            top: 50%;
-        transition: opacity .2s ease-in-out, width .2s ease-in-out, height .2s ease-in-out, margin .2s ease-in-out;
-        width: (16rem/16);
+            right: 1rem;
+            top: 1rem;
+        transition: opacity .2s ease-in-out;
+        width: 0;
     }
     &:hover:before {
         opacity: 1;
@@ -47,25 +38,20 @@
         transition: color .2s ease-in-out;
     }
     &.current {
-        background-color: $cob-blue-light;
-        > div, > h2 {
-            color: #fff;
+        background-color: $cob-gray-light;
+        > div {
+            color: $cob-gray-darkest;
         }
+
         > .description { display:block; }
 
         &:before {
-            background-color: #fff;
-            background-size: 75% 75%;
-            border-radius: 2rem;
-            margin-top: (-12.5rem/16);
-            opacity: 1;
-            height: (25rem/16);
-            width: (25rem/16);
+            transform: rotate(180deg);
         }
     }
     &.hasGeography {
         &:before {
-            background-image: url('images/locationMarker-listing.svg');
+//            background-image: url('images/locationMarker-listing.svg');
         }
     }
     > .title {

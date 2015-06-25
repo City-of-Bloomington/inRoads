@@ -7,6 +7,7 @@
         selectorOptions = document.querySelector('#filterPanel .nav-dropdown-options'),
         selected        = selectorOptions.querySelector('a.current'),
         chooseDates     = document.createElement('a'),
+        dropDownOptions = document.querySelector('.nav-dropdown-options'),
         toggleOptions   = function() {
             if (selectorCurrent.getAttribute('aria-expanded') === 'true') {
                 selectorCurrent.setAttribute('aria-expanded', 'false');
