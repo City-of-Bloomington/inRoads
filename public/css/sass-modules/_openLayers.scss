@@ -2,35 +2,49 @@
 
 .mapPanel {
     background-color: #f1eee8; // <- color sampled from a screenshot of OpenLayers
-    .ol-control {
-        background: none;
-
-        &:hover {
+    .ol {
+        &-control {
             background: none;
-        }
-        button {
-            background: #fff;
-            border: 1px solid $cob-gray;
-            border-radius: (4rem/16);
-            color: $cob-gray-darkest;
 
             &:hover {
-                background-color: #fff;
-                border-color: $cob-gray-dark;
+                background: none;
+            }
+            button {
+                background: #fff;
+                border: 1px solid $cob-gray;
+                border-radius: (4rem/16);
+                color: $cob-gray-darkest;
+
+                &:hover {
+                    background-color: #fff;
+                    border-color: $cob-gray-dark;
+                }
             }
         }
-    }
-    .ol-attribution {
-        bottom: .29rem;
-        right: 6.3rem;
+        &-attribution {
+            bottom: .29rem;
+            right: 6.3rem;
 
-        &:not(.ol-collapsed):hover {
-            background: rgba(255, 255, 255, .8);
+            &:not(.ol-collapsed):hover {
+                background: rgba(255, 255, 255, .8);
+            }
+            > button {
+                box-sizing: border-box;
+                height: 1.5rem;
+                width: 1.5rem;
+            }
         }
-        > button {
-            box-sizing: border-box;
-            height: 1.5rem;
-            width: 1.5rem;
+        &-zoom {
+            right: .5rem;
+            left: auto;
+            > .ol-zoom-in {
+                border-radius: .25rem .25rem 0 0;
+                margin: 0;
+            }
+        > .ol-zoom-out {
+            border-radius: 0 0 .25rem .25rem;
+            margin: 0;
+        }
         }
     }
 }
