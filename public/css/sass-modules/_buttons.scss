@@ -22,6 +22,12 @@ button, .button {
     &:hover {
         background: linear-gradient(to bottom, #f8f8fd 21%, #d5dfe4 80%);
     }
+    &.feedback {
+        background: #23ae4d;
+        border: 0 none;
+        border-bottom: .25em solid #70bf88;
+        color: #fff;
+    }
 }
 a.button:hover {
     cursor: default;
