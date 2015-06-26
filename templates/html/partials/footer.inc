@@ -9,7 +9,7 @@
     </div>
     <div class="open-source">
         <h2>Open Source</h2>
-        <a class="github-button" href="https://github.com/City-of-Bloomington/road_closings" data-style="mega" data-count-href="/City-of-Bloomington/road_closings/watchers" data-count-api="/repos/City-of-Bloomington/road_closings#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch City-of-Bloomington/road_closings on GitHub">Watch</a>
+        <a class="github-button" href="https://github.com/City-of-Bloomington/inRoads" data-style="mega" data-count-href="/City-of-Bloomington/inRoads/watchers" data-count-api="/repos/City-of-Bloomington/inRoads#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch City-of-Bloomington/inRoads on GitHub">Watch</a>
     </div>
     <a class="footer-links disclaimer" title="Terms and Conditions" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Terms &amp; Conditions</a>
     <div class="copyright">&copy; <?= date('Y') ?> The City of Bloomington</div>
