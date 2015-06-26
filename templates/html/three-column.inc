@@ -3,28 +3,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <?php $this->_include('partials/head.inc'); ?>
-<body>
+<body class="three-column">
 	<?php $this->_include('partials/header.inc'); ?>
 	<main>
-        <div class="container three-column">
-            <?php $this->_include('partials/panel-one.inc'); ?>
-            <?php $this->_include('partials/panel-two.inc'); ?>
-            <div class="errorPanel">
-                <?php include BLOSSOM.'/errorMessages.php'; ?>
-            </div>
-            <div class="contentPanel" id="content-panel">
+        <?php $this->_include('partials/panel-one.inc'); ?>
+        <?php $this->_include('partials/panel-two.inc'); ?>
+        <div class="errorPanel">
+            <?php include BLOSSOM.'/errorMessages.php'; ?>
+        </div>
+        <div class="contentPanel" id="content-panel">
 
-				<header class="contentPanel-header">
-			        <div class="contentPanel-title"><?= View::escape($this->title); ?></div>
-			        <?php
-			            if ($this->headerToolsButton) {
-			                echo "<div class=\"contentPanel-headerTools\">{$this->headerToolsButton}</div>";
-			            }
-			        ?>
-			    </header>
+			<header class="contentPanel-header">
+		        <div class="contentPanel-title"><?= View::escape($this->title); ?></div>
+		        <?php
+		            if ($this->headerToolsButton) {
+		                echo "<div class=\"contentPanel-headerTools\">{$this->headerToolsButton}</div>";
+		            }
+		        ?>
+		    </header>
 
-                <?php echo $this->includeBlocks(); ?>
-            </div>
+            <?php echo $this->includeBlocks(); ?>
         </div>
 	</main>
 	<?php $this-> _include('partials/footer.inc'); ?>

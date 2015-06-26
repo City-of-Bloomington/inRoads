@@ -2,18 +2,16 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <?php $this->_include('partials/head.inc'); ?>
-<body>
+<body class="two-column">
 	<?php $this->_include('partials/header.inc'); ?>
 	<main>
-        <div class="container two-column">
-            <?php $this->_include('partials/panel-one.inc'); ?>
-			<div class="errorPanel">
-				<?php include BLOSSOM.'/errorMessages.php'; ?>
-			</div>
-            <div class="panel" id="content-panel">
+        <?php $this->_include('partials/panel-one.inc'); ?>
+		<div class="errorPanel">
+			<?php include BLOSSOM.'/errorMessages.php'; ?>
+		</div>
+        <div class="panel" id="content-panel">
 
-                <?php echo $this->includeBlocks(); ?>
-            </div>
+            <?php echo $this->includeBlocks(); ?>
         </div>
 	</main>
 	<?php $this-> _include('partials/footer.inc'); ?>
