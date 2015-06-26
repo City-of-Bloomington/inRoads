@@ -42,54 +42,6 @@
         }
     }
 }
-.mapLinks {
-    background-color: $color-button-background;
-    border: 1px solid $cob-gray;
-    border-radius: (4rem/16);
-    box-sizing: border-box;
-    color: $color-button-background;
-    display: inline-block;
-    font-size: 0;
-    height: 1.5rem;
-    text-align: center;
-    width: 1.5rem;
-    &:after {
-        color: $color-button-text;
-        display: inline-block;
-        font-size: 1rem;
-    }
-
-    $multiplier: 2;
-    &.disclaimer {
-        color: $color-button-text;
-        left: 20.75rem;
-        font-size: (14rem/16);
-        font-weight: normal;
-        padding: .125rem 1rem;
-        width: auto;
-    }
-    &.gCalendar {
-        background: url('images/calendar-o.svg') no-repeat 50% 50% / 75% 75% #fff;
-        right: (0rem * $multiplier + .5);
-    }
-    &.calendar {
-        right: (1rem * $multiplier + .5);
-        &:after {
-            content: 'iCal';
-            font-size: (12rem/16);
-            padding: (3rem/16) 0 0 0;
-        }
-    }
-    &.feed {
-        right: (2rem * $multiplier + .5);
-
-        &:after {
-            content: '</>';
-            font-size: (12rem/16);
-            padding: (3rem/16) 0 0 0;
-        }
-    }
-}
 
 .contentPanel {
     &-header {
@@ -216,8 +168,9 @@
 }
 
 .filterPanel {
-    background: $color-background-field;
+    background: $color-filters-background;
     border-bottom: 1px solid $color-border-input;
+    color: $color-filters-text;
     padding: 0 .5rem;
     position: absolute;
         top: 0;

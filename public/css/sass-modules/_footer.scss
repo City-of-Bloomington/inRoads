@@ -1,0 +1,39 @@
+body > footer {
+    background: $color-footer-background;
+    box-sizing: border-box;
+    font-size: (13rem/16);
+    padding: .5rem;
+    position: absolute;
+        bottom: 0;
+        left: 0;
+    width: 13rem;
+
+    h2 {
+        color: $color-footer-heading;
+        font-family: $font-family-heading;
+        font-size: (14rem/16);
+        text-transform: uppercase;
+
+    }
+    > .button.feedback {
+        font-size: 1rem;
+    }
+    > .open-data {
+        margin: 1em 0;
+
+        > h2 {
+            background: url('images/open-data.svg') 0 0 / 1.2em 1.2em no-repeat;
+            line-height: 1.25em;
+            padding: 0 0 0 1.5em;
+        }
+    }
+    > .open-source {
+        margin: 1em 0;
+    }
+}
+
+.footer-links {
+    box-sizing: border-box;
+    color: $color-footer-links;
+    display: block;
+}
