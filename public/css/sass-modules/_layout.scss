@@ -31,19 +31,19 @@
         > #panel-one {
             position: absolute;
                 top: 4.35rem;
-                bottom: 0;
+                bottom: 16rem;
                 left: 0;
-            width: 13rem;
+            width: 14.5rem;
         }
         > #panel-two {
             position: absolute;
                 top: 4.35rem;
                 bottom: 0;
-                left: 13rem;
+                left: 14.5rem;
             overflow: auto;
-            width: 22rem;
+            width: 20.5rem;
             @media screen and (min-width: 84rem) {
-                width: 27rem;
+                width: 25.5rem;
             }
         }
         > #content-panel {

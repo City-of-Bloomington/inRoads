@@ -1,4 +1,7 @@
 .panelList {
+    background: $cob-gray-light;
+    height: 100%;
+    overflow-x: auto;
 }
 .panelItem {
     display: block;
@@ -31,14 +34,17 @@
         transition: opacity .2s ease-in-out;
         width: 0;
     }
-    &:hover:before {
-        opacity: 1;
+    &:hover {
+        background: #fff;
+        &:before {
+            opacity: 1;
+        }
     }
     > div, > h2 {
         transition: color .2s ease-in-out;
     }
     &.current {
-        background-color: $cob-gray-light;
+        background-color: #fff;
         > div {
             color: $cob-gray-darkest;
         }

@@ -171,7 +171,8 @@
     background: $color-filters-background;
     border-bottom: 1px solid $color-border-input;
     color: $color-filters-text;
-    padding: 0 .5rem;
+    overflow-x: auto;
+    padding: .5rem;
     position: absolute;
         top: 0;
         right: 0;

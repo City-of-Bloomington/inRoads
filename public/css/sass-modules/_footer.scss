@@ -1,10 +1,11 @@
 body {
     &.three-column, &.two-column {
         > footer {
+            height: 16rem;
             position: absolute;
                 bottom: 0;
                 left: 0;
-            width: 13rem;
+            width: 14.5rem;
         }
     }
     > footer {

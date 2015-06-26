@@ -2,7 +2,7 @@
 
 (function () {
     var filterPanel     = document.querySelector('#filterPanel'),
-        form            = document.querySelector('#filterPanel > form'),
+        dateFieldSet    = document.getElementById('dateFieldSet'),
         selectorCurrent = document.querySelector('#filterPanel .nav-dropdown-current'),
         selectorOptions = document.querySelector('#filterPanel .nav-dropdown-options'),
         selected        = selectorOptions.querySelector('a.current'),
@@ -17,7 +17,7 @@
             }
         };
 
-    form.style.display = 'none';
+    dateFieldSet.style.display = 'none';
     selectorCurrent.setAttribute('aria-expanded', 'false');
     selectorCurrent.addEventListener('click', toggleOptions);
     dropDownOptions.style.position = 'absolute';
@@ -30,7 +30,7 @@
     selectorOptions.appendChild(chooseDates);
 
     document.querySelector('#filterPanel .nav-dropdown-options').lastChild.addEventListener('click', function() {
-        form.style.display = 'block';
+        dateFieldSet.style.display = 'block';
         toggleOptions();
     });
 })();

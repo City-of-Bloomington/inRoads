@@ -53,7 +53,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
     </dl>
 
     <form method="get" action="<?php echo $url; ?>">
-        <fieldset>
+        <fieldset id="dateFieldSet">
             <dl class="dateRange">
                 <dt><label for="inputStartDate"><?= $this->_('startDate'); ?></label></dt>
                 <dd><input id= "inputStartDate" name="start" value="<?= $start; ?>"
@@ -66,7 +66,31 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
                         size="<?= $size; ?>" placeholder="<?= $help; ?>" />
                 </dd>
             </dl>
-            <button type="submit" class="search"><?= $this->_('search'); ?></button>
         </fieldset>
+        <fieldset>
+            <legend>Filter by type</legend>
+            <dl class="mod-checkbox">
+                <dt></dt>
+                <dd>
+                    <label><input type="checkbox"><span>Local traffic only</span></label>
+                </dd>
+                <dd>
+                    <label><input type="checkbox"><span>Road closed</span></label>
+                </dd>
+                <dd>
+                    <label><input type="checkbox"><span>Lane closed</span></label>
+                </dd>
+                <dd>
+                    <label><input type="checkbox"><span>Sidewalk closed</span></label>
+                </dd>
+                <dd>
+                    <label><input type="checkbox"><span>Parking spaces unavailable</span></label>
+                </dd>
+                <dd>
+                    <label><input type="checkbox"><span>Noise permit</span></label>
+                </dd>
+            </dl>
+        </fieldset>
+    <button type="submit" class="search"><?= $this->_('search'); ?></button>
     </form>
 </div>

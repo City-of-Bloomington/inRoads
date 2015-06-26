@@ -35,6 +35,7 @@ form {
                 input {
                     box-sizing: border-box;
                     border: 1px solid $color-border-input;
+                    color: $cob-gray-dark;
                     font-family: $font-family-default;
                     font-size: 1em;
                     padding: .5em;
@@ -56,10 +57,10 @@ form {
                 }
                 > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DD is because of a checkbox or radio button.
                     vertical-align: middle;
-                    white-space: nowrap;
+//                    white-space: nowrap;
                     > * {
                         display: inline;
-                        line-height: 1.2em;
+                        line-height: 1em;
                         margin: 0;
                         padding: 0;
                         vertical-align: middle;
@@ -67,6 +68,59 @@ form {
                 }
                 > .intl-tel-input > input[type="tel"] {
                     padding-left: 44px;
+                }
+            }
+
+            &.mod-radio {
+                > dd {
+                    box-sizing: border-box;
+                    margin-bottom: .25em;
+                    padding: 0 0 0 1.6em;
+                    vertical-align: middle;
+
+                    > label {
+                        margin: 0;
+                        vertical-align: middle;
+
+                        > input[type="radio"] {
+                            font-size: 1em;
+                            margin: 0 .45em 0 -1.4em;
+                            padding: 0;
+                            vertical-align: middle;
+
+                            + span {
+                                margin: 0;
+                                padding: 0;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+            }
+            &.mod-checkbox {
+                > dd {
+                    box-sizing: border-box;
+                    margin-bottom: .25em;
+                    padding: 0 0 0 1.6em;
+                    vertical-align: middle;
+
+                    > label {
+                        margin: 0;
+                        vertical-align: middle;
+
+                        > input[type="checkbox"] {
+                            font-size: 1em;
+                            margin: 0 .45em 0 -1.4em;
+                            padding: 0;
+                            vertical-align: middle;
+
+                            + span {
+                                margin: 0;
+                                padding: 0;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -121,7 +175,7 @@ form {
     > dl {
         background: transparent;
         padding: 0;
-        margin: .75rem 0 0 .5rem;
+        margin: .5rem 0;
 
         &:hover {
             background: transparent;
