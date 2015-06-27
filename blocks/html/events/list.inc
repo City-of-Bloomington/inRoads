@@ -28,9 +28,12 @@ use Blossom\Classes\Block;
             }
 
             echo "
-            <a href=\"$url\" class=\"panelItem $classes\" id=\"e_{$e->getId()}\">
-            {$block->render('html', $this->template)}
-            </a>
+                <div class=\"panelItem-container $classes\">
+                    <a href=\"$url\" class=\"panelItem\" id=\"e_{$e->getId()}\">
+                        {$block->render('html', $this->template)}
+                    </a>
+                    <a href=\"#\" class=\"edit\">Edit</a>
+                </div>
             ";
         }
     ?>
