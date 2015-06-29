@@ -62,7 +62,7 @@ class GoogleGateway
      * @param DateTime $end
      * @return array An array of Application\Model\Events
      */
-    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null, array $filters)
+    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null, array $filters=null)
     {
         $events = [];
 

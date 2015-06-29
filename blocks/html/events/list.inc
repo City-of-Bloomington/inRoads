@@ -4,6 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->events An array of Events
+ * @param Event $this->event Optional: currently selected event
  */
 use Application\Models\Person;
 use Application\Models\Event;
@@ -39,9 +40,13 @@ use Blossom\Classes\Block;
                 );
             }
 
+            $current = (isset($this->event) && $e->getId()===$this->event->getId())
+                ? 'current'
+                : '';
+
             echo "
             <div class=\"panelItem-container $classes\">
-                <a href=\"$url\" class=\"panelItem\" id=\"e_{$e->getId()}\">
+                <a href=\"$url\" class=\"panelItem $current\" id=\"e_{$e->getId()}\">
                     {$block->render('html', $this->template)}
                 </a>
                 $editButton

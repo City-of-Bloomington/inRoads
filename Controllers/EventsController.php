@@ -16,6 +16,11 @@ use Blossom\Classes\Controller;
 
 class EventsController extends Controller
 {
+    /**
+     * Tries to load an event, and handles any errors
+     *
+     * @return Event
+     */
     private function loadEvent($id)
     {
         if ($id) {
@@ -36,7 +41,12 @@ class EventsController extends Controller
         }
     }
 
-    public function index()
+    /**
+     * Creates variables from the searchForm submission
+     *
+     * @return array
+     */
+    private function getSearchParameters()
     {
         if (!empty($_GET['start'])) {
             try {
@@ -68,8 +78,18 @@ class EventsController extends Controller
                 if ($info['default']) { $filters['eventTypes'][] = $t; }
             }
         }
+        return ['start'=>$start, 'end'=>$end, 'filters'=>$filters];
+    }
 
-        $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
+    public function index()
+    {
+        $search = $this->getSearchParameters();
+        $events = GoogleGateway::getEvents(
+            GOOGLE_CALENDAR_ID,
+            $search['start'],
+            $search['end'],
+            $search['filters']
+        );
 
         $this->template->title = $this->template->_('upcoming_closures');
         if (Person::isAllowed('events', 'update')) {
@@ -81,7 +101,7 @@ class EventsController extends Controller
             );
         }
         if ($this->template->outputFormat === 'html') {
-            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end, 'filters'=>$filters]);
+            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
             $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
             $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
         }
@@ -94,15 +114,18 @@ class EventsController extends Controller
     {
         $event = $this->loadEvent($_GET['id']);
 
-        if (!isset($start)) { $start = new \DateTime(); $start->setTime(0,  0); }
-        if (!isset($end  )) { $end   = new \DateTime(); $end  ->setTime(23, 59); }
-        $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
+        $search = $this->getSearchParameters();
+        $events = GoogleGateway::getEvents(
+            GOOGLE_CALENDAR_ID,
+            $search['start'],
+            $search['end'],
+            $search['filters']
+        );
 
         $geography = $event->getGeography();
         if ($geography) {
-            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
-            $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
-//            $this->template->blocks[] = new Block('events/map.inc', ['events'=>[$event]]);
+            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
+            $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events, 'event'=>$event]);
         }
 
         $this->template->title = $event->getType();
