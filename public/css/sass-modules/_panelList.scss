@@ -7,14 +7,9 @@
     &-container {
         position: relative;
         > .edit {
-            background: url('images/pencil.svg') no-repeat 0 0 / 100% 100%;
-            height: 1rem;
-            overflow: hidden;
             position: absolute;
                 top: 1rem;
                 right: 2rem;
-            text-indent: -100rem;
-            width: 1rem;
         }
     }
     display: block;

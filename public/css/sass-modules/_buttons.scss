@@ -16,9 +16,6 @@ button, .button {
     font-weight:normal;
     background: linear-gradient(to bottom, #f2f2f9 21%,#CDD1D9 80%);
     vertical-align: middle;
-    > .fa {
-        font-size: (15em/15);
-    }
     &:hover {
         background: linear-gradient(to bottom, #f8f8fd 21%, #d5dfe4 80%);
     }
@@ -29,19 +26,18 @@ button, .button {
         color: #fff;
     }
 }
-a.button:hover {
+.icon {
+    height: 1rem;
+    overflow: hidden;
+    text-indent: -100rem;
+    width: 1rem;
+}
+
+a.button:hover,
+a.icon.hover {
     cursor: default;
     text-decoration: none;
 }
-.hidden-label       { font-size:0; height:1px; overflow:hidden; }
-.fa-times       { color:red;   }
-.fa-pencil      { color:blue;  }
-.fa-edit        { color:blue;  }
-.fa-plus        { color:green; }
-.fa-ok          { color:green; }
-.fa-save        { color:green; }
-.fa-map-marker  { color:blue;  }
-.fa-list-ul     { color:blue;  }
-.fa-print       { color:blue;  }
-.fa-upload      { color:black; }
-.fa-download    { color:black; }
+
+.edit { background: url('images/pencil.svg') no-repeat 0 0 / 100% 100%; }
+.feedback { }

@@ -7,12 +7,14 @@
  */
 use Application\Models\Person;
 use Application\Models\Event;
+use Application\Templates\Helpers\ButtonLink;
 use Blossom\Classes\Block;
 ?>
 <div class="panelList">
     <div id="events">
     <?php
         $block = new Block('events/info.inc');
+        $helper = $this->template->getHelper('buttonLink');
 
         foreach ($this->events as $e) {
             $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
@@ -27,13 +29,23 @@ use Blossom\Classes\Block;
                 $classes.= " $t";
             }
 
+            $editButton = '';
+            if (Person::isAllowed('events', 'update')) {
+                $editButton = $helper->buttonLink(
+                    BASE_URI.'/events/update?id='.$e->getId(),
+                    $this->_('event_edit'),
+                    'edit',
+                    ButtonLink::SIZE_ICON
+                );
+            }
+
             echo "
-                <div class=\"panelItem-container $classes\">
-                    <a href=\"$url\" class=\"panelItem\" id=\"e_{$e->getId()}\">
-                        {$block->render('html', $this->template)}
-                    </a>
-                    <a href=\"#\" class=\"edit\">Edit</a>
-                </div>
+            <div class=\"panelItem-container $classes\">
+                <a href=\"$url\" class=\"panelItem\" id=\"e_{$e->getId()}\">
+                    {$block->render('html', $this->template)}
+                </a>
+                $editButton
+            </div>
             ";
         }
     ?>
