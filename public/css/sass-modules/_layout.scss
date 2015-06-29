@@ -6,7 +6,7 @@
         > #panel-one {
             position: absolute;
                 top: 4.35rem;
-                bottom: 0;
+                bottom: 13rem;
                 left: 0;
             width: 20rem;
             @media screen and (min-width: 84rem) {
@@ -31,7 +31,7 @@
         > #panel-one {
             position: absolute;
                 top: 4.35rem;
-                bottom: 16rem;
+                bottom: 13rem;
                 left: 0;
             width: 14.5rem;
         }
@@ -58,9 +58,3 @@
         }
     }
 }
-//.three-column #panel-two { float:right; width:180px; }
-//.three-column #content-panel { margin-left: 190px; margin-right: 190px; }
-
-
-
-footer { clear:both; }

@@ -1,18 +1,19 @@
 <footer>
-    <a href="#" class="button feedback">Feedback</a>
+    <a href="https://bloomington.in.gov/webmaster" class="button feedback">Feedback</a>
     <div class="open-data">
         <h2>Open Data</h2>
-        <a class="footer-links" href="https://groups.google.com/forum/#!forum/cob_road_closings">Email subscription</a>
-        <a class="footer-links" href="https://www.google.com/calendar/embed?src=<?= GOOGLE_CALENDAR_ID ?>&amp;ctz=America/New_York">Google Calendar</a>
-        <a class="footer-links" href="https://www.google.com/calendar/ical/<?= GOOGLE_CALENDAR_ID ?>/public/basic.ics">iCal</a>
+        <a class="footer-links" href="https://groups.google.com/forum/#!forum/cob_road_closings">Email subscription</a>,
+        <a class="footer-links" href="https://www.google.com/calendar/embed?src=<?= GOOGLE_CALENDAR_ID ?>&amp;ctz=America/New_York">Google Calendar</a>,
+        <a class="footer-links" href="https://www.google.com/calendar/ical/<?= GOOGLE_CALENDAR_ID ?>/public/basic.ics">iCal</a>,
+        <a class="footer-links" href="">JSON (TODO)</a>,
         <a class="footer-links" href="https://www.google.com/calendar/feeds/<?= GOOGLE_CALENDAR_ID ?>/public/basic">XML</a>
     </div>
     <div class="open-source">
         <h2>Open Source</h2>
-        <a class="github-button" href="https://github.com/City-of-Bloomington/inRoads" data-style="mega" data-count-href="/City-of-Bloomington/inRoads/watchers" data-count-api="/repos/City-of-Bloomington/inRoads#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch City-of-Bloomington/inRoads on GitHub">Watch</a>
+        <a class="footer-links" href="https://github.com/City-of-Bloomington/inRoads">See the source code on Github</a>
     </div>
     <a class="footer-links disclaimer" title="Terms and Conditions" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Terms &amp; Conditions</a>
-    <div class="copyright">&copy; <?= date('Y') ?> The City of Bloomington</div>
+    <div class="copyright">&copy;<?= date('Y') ?> The City of Bloomington</div>
 
     <?php
         global $startTime;
@@ -45,5 +46,3 @@
   ga('send', 'pageview');
 
 </script>
-<!-- Place this tag right after the last button or just before your close body tag. -->
-<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>

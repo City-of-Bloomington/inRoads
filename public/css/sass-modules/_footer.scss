@@ -1,11 +1,23 @@
 body {
-    &.three-column, &.two-column {
+    &.three-column {
         > footer {
-            height: 16rem;
+            height: 13rem;
             position: absolute;
                 bottom: 0;
                 left: 0;
             width: 14.5rem;
+        }
+    }
+    &.two-column {
+        > footer {
+            height: 13rem;
+            position: absolute;
+                bottom: 0;
+                left: 0;
+            width: 20rem;
+            @media screen and (min-width: 84rem) {
+                width: 25rem;
+            }
         }
     }
     > footer {
@@ -35,12 +47,15 @@ body {
         }
         > .open-source {
             margin: 1em 0;
+            > h2 {
+                background: url('images/github.svg') 0 0 / 1.2em 1.2em no-repeat;
+                line-height: 1.25em;
+                padding: 0 0 0 1.5em;
+            }
         }
     }
 }
 
 .footer-links {
-    box-sizing: border-box;
     color: $color-footer-links;
-    display: block;
 }

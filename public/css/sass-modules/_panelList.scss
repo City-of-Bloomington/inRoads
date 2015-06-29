@@ -38,7 +38,7 @@
         position: absolute;
             right: 1rem;
             top: 1rem;
-        transition: opacity .2s ease-in-out;
+        transition: opacity .2s ease-in-out, transform .2s ease-in-out;
         width: 0;
     }
     &:hover {
@@ -59,7 +59,7 @@
         > .description { display:block; }
 
         &:before {
-            transform: rotate(180deg);
+            transform: rotate(180deg) translateY((5rem/16));
         }
     }
     > .title {
