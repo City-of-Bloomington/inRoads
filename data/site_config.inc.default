@@ -23,6 +23,12 @@ define('BASE_URI','/application');
  * Javascript APIs
  */
 define('OPENLAYERS', BASE_URI.'/js/vendor/ol3');
+$MAPLAYERS = [
+    [
+        'source'  => 'OSM',
+        'options' => []
+    ]
+];
 
 /**
  * Used when there's an error on the site.  The Framework will

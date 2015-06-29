@@ -2,7 +2,6 @@
 var MAPDISPLAY = {
     map: new ol.Map({
         target: 'map',
-        layers: [ new ol.layer.Tile({source: new ol.source.OSM()}) ],
         view: new ol.View({
             center: ol.proj.transform([PHP.DEFAULT_LONGITUDE, PHP.DEFAULT_LATITUDE], 'EPSG:4326', 'EPSG:3857'),
             zoom: 14
@@ -158,6 +157,7 @@ var MAPDISPLAY = {
         return false;
     }
 };
+
 MAPDISPLAY.map.addOverlay(MAPDISPLAY.marker);
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
 MAPDISPLAY.featureOverlay.setStyle(MAPDISPLAY.styles.default);
@@ -166,13 +166,25 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 // Load any initial data the webpage specifies.
 (function () {
     var events = document.querySelectorAll('#events a'),
-        len    = events.length,
+        len    = 0,
         i      = 0,
         id        = '',
         f         = 0,
         geography = '',
         features  = [];
 
+    // Maplayers are defined in site_config.
+    // We have to remember to write the PHP variables out as Javascript,
+    // so we can reference them here.
+    // See: blocks/html/events/map.inc
+    len = PHP.maplayers.length;
+    for (i=0; i<len; i++) {
+        MAPDISPLAY.map.addLayer(new ol.layer.Tile({
+            source: new ol.source[PHP.maplayers[i].source](PHP.maplayers[i].options)
+        }));
+    }
+
+    len = events.length;
     for (i=0; i<len; i++) {
         id = events[i].getAttribute('id');
         events[i].addEventListener('click', MAPDISPLAY.handleListClick);
