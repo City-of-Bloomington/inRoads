@@ -62,7 +62,7 @@ class GoogleGateway
      * @param DateTime $end
      * @return array An array of Application\Model\Events
      */
-    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null)
+    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null, array $filters)
     {
         $events = [];
 
@@ -79,7 +79,14 @@ class GoogleGateway
         $events = [];
         $list = $service->events->listEvents($calendarId, $opts);
         foreach ($list as $e) {
-            $events[] = new Event($e);
+            $event = new Event($e);
+
+            if (!empty($filters['eventTypes'])
+                && !in_array($event->getType(), $filters['eventTypes'])) {
+
+                continue;
+            }
+            $events[] = $event;
         }
         return $events;
     }

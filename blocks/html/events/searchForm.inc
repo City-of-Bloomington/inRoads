@@ -5,7 +5,10 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param DateTime $this->start
  * @param DateTime $this->end
+ * @param array $this->filters
  */
+use Application\Models\Event;
+
 $periods = [
     'today'     => new \DateTime(),
     'tomorrow'  => new \DateTime('+1 day'),
@@ -68,27 +71,25 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
             </dl>
         </fieldset>
         <fieldset>
-            <legend>Filter by type</legend>
+            <legend><?= $this->_('eventTypeLegend'); ?></legend>
             <dl class="mod-checkbox">
                 <dt></dt>
-                <dd>
-                    <label><input type="checkbox"><span>Local traffic only</span></label>
-                </dd>
-                <dd>
-                    <label><input type="checkbox"><span>Road closed</span></label>
-                </dd>
-                <dd>
-                    <label><input type="checkbox"><span>Lane closed</span></label>
-                </dd>
-                <dd>
-                    <label><input type="checkbox"><span>Sidewalk closed</span></label>
-                </dd>
-                <dd>
-                    <label><input type="checkbox"><span>Parking spaces unavailable</span></label>
-                </dd>
-                <dd>
-                    <label><input type="checkbox"><span>Noise permit</span></label>
-                </dd>
+                <?php
+                    global $EVENT_TYPES;
+                    foreach ($EVENT_TYPES as $type=>$info) {
+                        $checked = in_array($type, $this->filters['eventTypes'])
+                            ? 'checked="checked"'
+                            : '';
+
+                        echo "
+                        <dd><label>
+                                <input type=\"checkbox\" name=\"eventTypes[]\" value=\"$type\" $checked />
+                                <span>$type<span>
+                            </label>
+                        </dd>
+                        ";
+                    }
+                ?>
             </dl>
         </fieldset>
     <button type="submit" class="search"><?= $this->_('search'); ?></button>

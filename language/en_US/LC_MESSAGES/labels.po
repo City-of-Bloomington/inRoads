@@ -203,3 +203,6 @@ msgstr "On every"
 
 msgid "BYDAY"
 msgstr "On every"
+
+msgid "eventTypeLegend"
+msgstr "Filter By Type"

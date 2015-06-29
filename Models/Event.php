@@ -343,14 +343,14 @@ class Event
      */
     private function parseSummary()
     {
-        global $DEPARTMENTS;
+        global $DEPARTMENTS, $EVENT_TYPES;
 
         $d = implode('|',array_keys($DEPARTMENTS));
         if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
             $this->data['department'] = strtoupper($matches[1]);
         }
 
-        $d = implode('|', array_keys(self::$types));
+        $d = implode('|', array_keys($EVENT_TYPES));
         if (preg_match("/$d/i", $this->getSummary(), $matches)) {
             $this->data['type'] = ucwords(strtolower($matches[0]));
         }
@@ -373,7 +373,9 @@ class Event
         }
     }
     public function setType($s) {
-        if (array_key_exists($s, self::$types)) {
+        global $EVENT_TYPES;
+
+        if (array_key_exists($s, $EVENT_TYPES)) {
             $this->data['type'] = ucwords(strtolower(trim($s)));
         }
     }

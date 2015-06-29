@@ -7,13 +7,15 @@
  */
 use Application\Models\Event;
 use Blossom\Classes\View;
+
+global $EVENT_TYPES;
 ?>
 <h2 class="title"><?php echo View::escape($this->event->getGeography_description()); ?></h2>
 <div class="dates"><?= $this->event->getHumanReadableDuration('F j,Y'); ?></div>
 <?php
     $t = $this->event->getType();
     if ($t) {
-        echo "<div class=\"type\">$t; ".Event::$types[$t]."</div>";
+        echo "<div class=\"type\">$t; {$EVENT_TYPES[$t]['description']}</div>";
     }
 
     $description = View::escape($this->event->getDescription());

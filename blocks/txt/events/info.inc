@@ -7,8 +7,10 @@
  */
 use Application\Models\Event;
 
+global $EVENT_TYPES;
+
 $t = $this->event->getType();
-$type = $t ? $t.'; '.Event::$types[$t] : '';
+$type = $t ? "$t; {$EVENT_TYPES[$t]['description']}" : '';
 
 $url = BASE_URL.'/events/view?id='.$this->event->getId();
 

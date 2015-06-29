@@ -40,7 +40,8 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dt><label   for="type"><?= $this->_('type'); ?></label></dt>
             <dd><select name="type" id="type">
                 <?php
-                    foreach (Event::$types as $type=>$language) {
+                    global $EVENT_TYPES;
+                    foreach ($EVENT_TYPES as $type=>$info) {
                         $selected = $this->event->getType()==$type
                             ? 'selected="selected"'
                             : '';

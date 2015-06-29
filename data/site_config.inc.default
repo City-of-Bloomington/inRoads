@@ -123,3 +123,21 @@ $DEPARTMENTS = [
         'phone' => ''
     ]
 ];
+
+$EVENT_TYPES = [
+    'Road Closed'      => [
+        'description' => 'expect to detour, signage in place.',
+        'default'     => true
+    ],
+    'Local Only'       => [
+        'description' => 'expect delays, signage in place.',
+        'default'     => true
+    ],
+    'Lane Restriction' => [
+        'description' => 'expect short delays, signage in place.',
+        'default'     => true
+    ],
+    'Reserved Meter'   => ['description'=>'', 'default'=>false],
+    'Noise Permit'     => ['description'=>'', 'default'=>false],
+    'Sidewalk'         => ['description'=>'', 'default'=>false]
+];

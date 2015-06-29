@@ -58,7 +58,18 @@ class EventsController extends Controller
         if (!isset($start)) { $start = new \DateTime(); $start->setTime(0,  0); }
         if (!isset($end  )) { $end   = new \DateTime(); $end  ->setTime(23, 59); }
 
-        $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end);
+        $filters['eventTypes'] = [];
+        if (!empty($_GET['eventTypes'])) {
+            $filters['eventTypes'] = $_GET['eventTypes'];
+        }
+        else {
+            global $EVENT_TYPES;
+            foreach ($EVENT_TYPES as $t=>$info) {
+                if ($info['default']) { $filters['eventTypes'][] = $t; }
+            }
+        }
+
+        $events = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
 
         $this->template->title = $this->template->_('upcoming_closures');
         if (Person::isAllowed('events', 'update')) {
@@ -70,7 +81,7 @@ class EventsController extends Controller
             );
         }
         if ($this->template->outputFormat === 'html') {
-            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end]);
+            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$start, 'end'=>$end, 'filters'=>$filters]);
             $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
             $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
         }
