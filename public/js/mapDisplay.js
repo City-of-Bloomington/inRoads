@@ -165,7 +165,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 
 // Load any initial data the webpage specifies.
 (function () {
-    var events = document.querySelectorAll('#events a'),
+    var events = document.querySelectorAll('#events a.panelItem'),
         len    = 0,
         i      = 0,
         id        = '',

@@ -7,6 +7,8 @@
 $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
+
+global $MAPLAYERS;
 ?>
 
 <div id="map" class="mapPanel"></div>
@@ -16,3 +18,6 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
     <button type="button" id="Point">Point</button>
     <button type="button" id="clearFeaturesButton">Clear</button>
 </div>
+<script type="text/javascript">
+    PHP.maplayers = <?= json_encode($MAPLAYERS, JSON_PRETTY_PRINT); ?>;
+</script>

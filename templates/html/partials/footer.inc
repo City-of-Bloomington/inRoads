@@ -3,7 +3,7 @@
     <div class="open-data">
         <h2>Open Data</h2>
         <a class="footer-links" href="https://groups.google.com/forum/#!forum/cob_road_closings">Email subscription</a>
-        <a class="footer-links" href="https://www.google.com/calendar/embed?src=<?= GOOGLE_CALENDAR_ID ?>&ctz=America/New_York">Google Calendar</a>
+        <a class="footer-links" href="https://www.google.com/calendar/embed?src=<?= GOOGLE_CALENDAR_ID ?>&amp;ctz=America/New_York">Google Calendar</a>
         <a class="footer-links" href="https://www.google.com/calendar/ical/<?= GOOGLE_CALENDAR_ID ?>/public/basic.ics">iCal</a>
         <a class="footer-links" href="https://www.google.com/calendar/feeds/<?= GOOGLE_CALENDAR_ID ?>/public/basic">XML</a>
     </div>
