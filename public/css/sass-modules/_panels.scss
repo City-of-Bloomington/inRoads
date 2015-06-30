@@ -212,10 +212,15 @@
 }
 
 .errorPanel {
-    margin-left: -15rem;
+    background: #fff;
+    border: 1px solid $cob-gray;
+    border-radius: 1em;
+    box-shadow: 0 0 3rem 0 rgba(0, 0, 0, .75);
+    margin-left: -16rem;
+    padding: 0 2rem;
     position: absolute;
-        top: 5rem;
+        top: 10rem;
         left: 50%;
-        z-index: 2;
+        z-index: 5;
     width: 30rem;
 }
