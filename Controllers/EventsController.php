@@ -92,15 +92,15 @@ class EventsController extends Controller
         );
 
         $this->template->title = $this->template->_('upcoming_closures');
-        if (Person::isAllowed('events', 'update')) {
-            $helper = $this->template->getHelper('buttonLink');
-            $this->template->headerToolsButton = $helper->buttonLink(
-                BASE_URI.'/events/update',
-                $this->template->_('event_add'),
-                'add'
-            );
-        }
         if ($this->template->outputFormat === 'html') {
+            if (Person::isAllowed('events', 'update')) {
+                $helper = $this->template->getHelper('buttonLink');
+                $this->template->headerToolsButton = $helper->buttonLink(
+                    BASE_URI.'/events/update',
+                    $this->template->_('event_add'),
+                    'add'
+                );
+            }
             $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
             $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
             $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
