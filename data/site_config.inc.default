@@ -131,19 +131,35 @@ $DEPARTMENTS = [
 ];
 
 $EVENT_TYPES = [
-    'Road Closed'      => [
+    'Road Closed'     => [
         'description' => 'expect to detour, signage in place.',
-        'default'     => true
+        'default'     => true,
+        'color'       => [215, 0, 0, .6]
     ],
-    'Local Only'       => [
+    'Local Only'      => [
         'description' => 'expect delays, signage in place.',
-        'default'     => true
+        'default'     => true,
+        'color'       => [214, 81, 0, .6]
+
     ],
-    'Lane Restriction' => [
+    'Lane Restriction'=> [
         'description' => 'expect short delays, signage in place.',
-        'default'     => true
+        'default'     => true,
+        'color'       => [235, 150, 2, .6]
     ],
-    'Reserved Meter'   => ['description'=>'', 'default'=>false],
-    'Noise Permit'     => ['description'=>'', 'default'=>false],
-    'Sidewalk'         => ['description'=>'', 'default'=>false]
+    'Reserved Meter'  => [
+        'description' => '',
+        'default'     => false,
+        'color'       => [215, 0, 0, .6]
+    ],
+    'Noise Permit'    => [
+        'description' => '',
+        'default'     => false,
+        'color'       => [124, 83, 29, .6]
+    ],
+    'Sidewalk'        => [
+        'description' => '',
+        'default'     => false,
+        'color'       => [0, 182, 235, .6]
+    ]
 ];

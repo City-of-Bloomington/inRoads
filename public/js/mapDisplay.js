@@ -17,19 +17,19 @@ var MAPDISPLAY = {
     wktFormatter: new ol.format.WKT(),
     styles: {
         default: new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:'#ee0000'}),
-            stroke: new ol.style.Stroke({color:'#ee0000', width:8}),
-            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:'#ee0000'})})
+            fill:   new ol.style.Fill(  {color:[215, 0, 0, .6]}),
+            stroke: new ol.style.Stroke({color:[215, 0, 0, .6], width:6, lineCap:'square'}),
+            image:  new ol.style.Circle({radius:3, fill:new ol.style.Fill({color:[215, 0, 0, .6]})})
         }),
         hover: new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:'#ff0000'}),
-            stroke: new ol.style.Stroke({color:'#ff0000', width:16}),
-            image:  new ol.style.Circle({radius:8, fill:new ol.style.Fill({color:'#ff0000'})})
+            fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]}),
+            stroke: new ol.style.Stroke({color:[215,0,0,1], width:8, lineCap:'square'}),
+            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:[215, 0, 0, 1]})})
         }),
         selected: new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:'#0000ff'}),
-            stroke: new ol.style.Stroke({color:'#0000ff', width:8}),
-            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:'#0000ff'})})
+            fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]}),
+            stroke: new ol.style.Stroke({color:[215, 0, 0, 1], width:8}),
+            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:[215, 0, 0, 1]})})
         })
     },
     marker: new ol.Overlay({

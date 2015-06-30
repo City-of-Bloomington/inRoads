@@ -79,13 +79,14 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
                         $checked = in_array($type, $this->filters['eventTypes'])
                             ? 'checked="checked"'
                             : '';
-
+                        $cssClass = lcfirst(str_replace(' ', '', ucwords($type)));
                         echo "
-                        <dd><label>
-                                <input type=\"checkbox\" name=\"eventTypes[]\" value=\"$type\" $checked />
-                                <span>$type<span>
-                            </label>
-                        </dd>
+                            <dd class=\"$cssClass\">
+                                <label>
+                                    <input type=\"checkbox\" name=\"eventTypes[]\" value=\"$type\" $checked />
+                                    <span>$type<span>
+                                </label>
+                            </dd>
                         ";
                     }
                 ?>
