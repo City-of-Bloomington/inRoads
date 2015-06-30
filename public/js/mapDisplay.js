@@ -17,13 +17,19 @@ var MAPDISPLAY = {
     wktFormatter: new ol.format.WKT(),
     styles: {
         default: new ol.style.Style({
-            stroke: new ol.style.Stroke({color:'#ee0000', width:8})
+            fill:   new ol.style.Fill(  {color:'#ee0000'}),
+            stroke: new ol.style.Stroke({color:'#ee0000', width:8}),
+            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:'#ee0000'})})
         }),
         hover: new ol.style.Style({
-            stroke: new ol.style.Stroke({color:'#ff0000', width:16})
+            fill:   new ol.style.Fill(  {color:'#ff0000'}),
+            stroke: new ol.style.Stroke({color:'#ff0000', width:16}),
+            image:  new ol.style.Circle({radius:8, fill:new ol.style.Fill({color:'#ff0000'})})
         }),
         selected: new ol.style.Style({
-            stroke: new ol.style.Stroke({color:'#0000ff', width:8})
+            fill:   new ol.style.Fill(  {color:'#0000ff'}),
+            stroke: new ol.style.Stroke({color:'#0000ff', width:8}),
+            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:'#0000ff'})})
         })
     },
     marker: new ol.Overlay({
