@@ -11,8 +11,6 @@
  */
 namespace Application\Models;
 
-require_once GOOGLE.'/autoload.php';
-
 class GoogleGateway
 {
     const DATE_FORMAT     = 'Y-m-d';

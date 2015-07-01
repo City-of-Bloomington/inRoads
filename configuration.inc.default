@@ -69,6 +69,7 @@ $config = [
 	]
 ];
 Zend\Loader\AutoloaderFactory::factory($config);
+require_once GOOGLE.'/autoload.php';
 
 /**
  * Session Startup

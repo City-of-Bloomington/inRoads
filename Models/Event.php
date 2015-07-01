@@ -10,8 +10,6 @@ use Blossom\Classes\Database;
 use Recurr\Rule;
 use Recurr\Transformer\TextTransformer;
 
-require_once GOOGLE.'/autoload.php';
-
 class Event
 {
     public $event;
