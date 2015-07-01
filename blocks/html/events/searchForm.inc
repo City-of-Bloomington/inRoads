@@ -71,7 +71,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
             </dl>
         </fieldset>
         <fieldset>
-            <dl class="mod-checkbox">
+            <dl class="mod-checkbox filters-legend">
                 <dt class="accessible-hide"><?= $this->_('eventTypeLegend'); ?></dt>
                 <?php
                     global $EVENT_TYPES;
