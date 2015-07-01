@@ -122,12 +122,6 @@ class EventsController extends Controller
             $search['filters']
         );
 
-        $geography = $event->getGeography();
-        if ($geography) {
-            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
-            $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events, 'event'=>$event]);
-        }
-
         $this->template->title = $event->getType();
 
         $return_uri = !empty($_GET['return_uri']) ? $_GET['return_uri'] : BASE_URI.'/events';
@@ -144,6 +138,9 @@ class EventsController extends Controller
                 'edit'
             );
         }
+        
+        $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
+        $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events, 'event'=>$event]);
         $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);
     }
 
