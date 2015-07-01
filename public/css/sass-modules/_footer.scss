@@ -1,5 +1,5 @@
 body {
-    &.three-column {
+    &.three-column, &.schedule {
         > footer {
             height: 13rem;
             position: absolute;

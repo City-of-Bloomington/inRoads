@@ -58,3 +58,23 @@
         }
     }
 }
+.schedule {
+    > main {
+        > #panel-one {
+            overflow-x: auto;
+            position: absolute;
+                top: 4.35rem;
+                bottom: 13rem;
+                left: 0;
+            width: 14.5rem;
+        }
+        > #content-panel {
+            overflow: auto;
+            position: absolute;
+                top: 4.35rem;
+                left: 14.5rem;
+                bottom: 0;
+                right: 0;
+        }
+    }
+}

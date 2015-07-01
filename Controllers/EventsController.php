@@ -83,6 +83,10 @@ class EventsController extends Controller
 
     public function index()
     {
+        if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
+            $this->template->setFilename('schedule');
+        }
+
         $search = $this->getSearchParameters();
         $events = GoogleGateway::getEvents(
             GOOGLE_CALENDAR_ID,
@@ -92,6 +96,7 @@ class EventsController extends Controller
         );
 
         $this->template->title = $this->template->_('upcoming_closures');
+        $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
         $searchFormBlock = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
         $eventListBlock  = new Block('events/list.inc',       ['events'=>$events]);
         $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
@@ -108,7 +113,7 @@ class EventsController extends Controller
             $this->template->blocks['panel-one'][] = $searchFormBlock;
 
             if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
-                $this->template->blocks[] = $eventListBlock;
+                $this->template->blocks[] = $scheduleBlock;
             }
             else {
                 $this->template->blocks['panel-two'][] = $eventListBlock;
