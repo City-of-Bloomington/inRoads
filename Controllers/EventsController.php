@@ -92,6 +92,10 @@ class EventsController extends Controller
         );
 
         $this->template->title = $this->template->_('upcoming_closures');
+        $searchFormBlock = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
+        $eventListBlock  = new Block('events/list.inc',       ['events'=>$events]);
+        $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
+
         if ($this->template->outputFormat === 'html') {
             if (Person::isAllowed('events', 'update')) {
                 $helper = $this->template->getHelper('buttonLink');
@@ -101,12 +105,18 @@ class EventsController extends Controller
                     'add'
                 );
             }
-            $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
-            $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events]);
-            $this->template->blocks[] = new Block('events/map.inc', ['events'=>$events]);
+            $this->template->blocks['panel-one'][] = $searchFormBlock;
+
+            if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
+                $this->template->blocks[] = $eventListBlock;
+            }
+            else {
+                $this->template->blocks['panel-two'][] = $eventListBlock;
+                $this->template->blocks[]              = $mapBlock;
+            }
         }
         else {
-            $this->template->blocks[] = new Block('events/list.inc', ['events'=>$events]);
+            $this->template->blocks[] = $eventListBlock;
         }
     }
 
@@ -138,7 +148,7 @@ class EventsController extends Controller
                 'edit'
             );
         }
-        
+
         $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
         $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events, 'event'=>$event]);
         $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);

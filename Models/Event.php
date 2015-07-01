@@ -117,10 +117,12 @@ class Event
 
             $this->set('start', new \Google_Service_Calendar_EventDateTime([
                 'date'     => $startDate->format(GoogleGateway::DATE_FORMAT),
+                'dateTime' => \Google_Model::NULL_VALUE,
                 'timeZone' => $startDate->getTimezone()->getName()
             ]));
             $this->set('end', new \Google_Service_Calendar_EventDateTime([
                 'date'     => $endDate->format(GoogleGateway::DATE_FORMAT),
+                'dateTime' => \Google_Model::NULL_VALUE,
                 'timeZone' => $endDate->getTimezone()->getName()
             ]));
         }
@@ -129,10 +131,12 @@ class Event
               $endDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['end']['date']} {$post['end']['time']}");
 
             $this->set('start', new \Google_Service_Calendar_EventDateTime([
+                'date'     => \Google_Model::NULL_VALUE,
                 'dateTime' => $startDate->format(GoogleGateway::DATETIME_FORMAT),
                 'timeZone' => $startDate->getTimezone()->getName()
             ]));
             $this->set('end', new \Google_Service_Calendar_EventDateTime([
+                'date'     => \Google_Model::NULL_VALUE,
                 'dateTime' => $endDate->format(GoogleGateway::DATETIME_FORMAT),
                 'timeZone' => $endDate->getTimezone()->getName()
             ]));

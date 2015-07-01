@@ -8,6 +8,7 @@
  * @param array $this->filters
  */
 use Application\Models\Event;
+use Blossom\Classes\Url;
 
 $periods = [
     'today'     => new \DateTime(),
@@ -29,6 +30,18 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
 <div class="filterPanel expanded" id="filterPanel">
     <?php
+        $u = new Url(Url::current_url());
+        $c = $u->view === 'schedule' ? 'schedule' : 'map';
+
+        unset($u->view);
+        $current = $c === 'map' ? 'class="current"' : '';
+        echo "<a href=\"$u\" $current>{$this->_('map')}</a>\n";
+
+        $u->view = 'schedule';
+        $current = $c === 'schedule' ? 'class="current"' : '';
+        echo "<a href=\"$u\" $current>{$this->_('schedule')}</a>\n";
+
+
         $options = '';
         $a = "<a href=\"$url?start=$today;end=%s\" %s role=\"option\" tabindex=\"-1\">%s</a>";
         foreach ($periods as $period => $datetime) {
