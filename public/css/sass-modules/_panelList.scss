@@ -14,7 +14,6 @@
         &.hasGeography {
             &:before {
                 background: url('images/locationMarker-listing.svg') no-repeat 0 0 / 100% 100%;
-                pointer-events: none;
                 content: ' ';
                 display: block;
                 height: 1rem;
