@@ -11,7 +11,7 @@ use Blossom\Classes\View;
 global $EVENT_TYPES;
 ?>
 <h2 class="title"><?php echo View::escape($this->event->getGeography_description()); ?></h2>
-<div class="dates"><?= $this->event->getHumanReadableDuration('F j,Y'); ?></div>
+<div class="dates"><?= $this->event->getHumanReadableDuration('F j, Y'); ?></div>
 <?php
     $t = $this->event->getType();
     if ($t) {
