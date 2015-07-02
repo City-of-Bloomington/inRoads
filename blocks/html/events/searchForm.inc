@@ -8,6 +8,8 @@
  * @param array $this->filters
  */
 use Application\Models\Event;
+use Application\Models\EventType;
+use Blossom\Classes\View;
 use Blossom\Classes\Url;
 
 $periods = [
@@ -93,24 +95,23 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
             <dl class="mod-checkbox filters-legend">
                 <dt class="accessible-hide"><?= $this->_('eventTypeLegend'); ?></dt>
                 <?php
-                    global $EVENT_TYPES;
-                    foreach ($EVENT_TYPES as $type=>$info) {
-                        $checked = in_array($type, $this->filters['eventTypes'])
+                    foreach (EventType::types() as $type) {
+                        $checked = in_array($type->getCode(), $this->filters['eventTypes'])
                             ? 'checked="checked"'
                             : '';
-                        $cssClass = lcfirst(str_replace(' ', '', ucwords($type)));
+                        $name = View::escape($type->getName());
                         echo "
-                            <dd class=\"$cssClass\">
-                                <label>
-                                    <input type=\"checkbox\" name=\"eventTypes[]\" value=\"$type\" $checked />
-                                    <span>$type<span>
-                                </label>
-                            </dd>
+                        <dd class=\"{$type->getCode()}\">
+                            <label>
+                                <input type=\"checkbox\" name=\"eventTypes[]\" value=\"{$type->getCode()}\" $checked />
+                                <span>$name<span>
+                            </label>
+                        </dd>
                         ";
                     }
                 ?>
             </dl>
         </fieldset>
-    <button type="submit" class="search"><?= $this->_('search'); ?></button>
+        <button type="submit" class="search"><?= $this->_('search'); ?></button>
     </form>
 </div>

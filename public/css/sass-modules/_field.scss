@@ -206,26 +206,14 @@ form {
         }
         &.filters-legend {
             > dd {
+                border-left-width: (10rem/16);
+                border-left-style: solid;
+                // border-color will be set in a style declaration by PHP
+                // see: templates/html/partials/head.inc
                 background: #fff;
-                border-left: (10rem/16) solid rgba(215, 0, 0, 1);
                 color: $cob-gray-darkest;
                 padding-bottom: (4rem/16);
                 padding-left: (30rem/16);
-                &:nth-child(0n+3) {
-                    border-color: rgba(214, 81, 0, 1);
-                }
-                &:nth-child(0n+4) {
-                    border-color: rgba(235, 150, 2, 1);
-                }
-                &:nth-child(0n+5) {
-                    border-color: rgba(0, 88, 235, 1);
-                }
-                &:nth-child(0n+6) {
-                    border-color: rgba(0, 182, 235, 1);
-                }
-                &:nth-child(0n+7) {
-                    border-color: rgba(124, 83, 29, 1);
-                }
             }
         }
     }
