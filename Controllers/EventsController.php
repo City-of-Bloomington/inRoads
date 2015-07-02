@@ -83,10 +83,6 @@ class EventsController extends Controller
 
     public function index()
     {
-        if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
-            $this->template->setFilename('schedule');
-        }
-
         $search = $this->getSearchParameters();
         $events = GoogleGateway::getEvents(
             GOOGLE_CALENDAR_ID,
@@ -113,6 +109,7 @@ class EventsController extends Controller
             $this->template->blocks['panel-one'][] = $searchFormBlock;
 
             if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
+                $this->template->setFilename('schedule');
                 $this->template->blocks[] = $scheduleBlock;
             }
             else {
@@ -123,6 +120,7 @@ class EventsController extends Controller
         else {
             $this->template->blocks[] = $eventListBlock;
         }
+
     }
 
     public function view()

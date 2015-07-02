@@ -18,7 +18,7 @@ use Blossom\Classes\Block;
         $helper = $this->template->getHelper('buttonLink');
 
         foreach ($this->events as $e) {
-            $url = BASE_URI."/events/view?id={$e->getId()};return_uri=$_SERVER[REQUEST_URI]";
+            $url = BASE_URI."/events/view?id={$e->getId()}";
             $block->event = $e;
 
             $classes = '';

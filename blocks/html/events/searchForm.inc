@@ -25,25 +25,30 @@ $end   = $this->end   ? $this->end  ->format(DATE_FORMAT) : '';
 $help = $this->translateDateString(DATE_FORMAT);
 $size = strlen($help);
 
-$url = BASE_URI.'/events';
 $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
 <div class="filterPanel expanded" id="filterPanel">
     <?php
-        $u = new Url(Url::current_url());
-        $c = $u->view === 'schedule' ? 'schedule' : 'map';
+        $c = (!empty($_GET['view']) && $_GET['view'] === 'schedule')
+            ? 'schedule'
+            : 'map';
 
-        unset($u->view);
+        $url = new Url(BASE_URL.'/events');
+        $url->start   = !empty($_GET['start'])   ? $_GET['start']   : null;
+        $url->end     = !empty($_GET['end'])     ? $_GET['end']     : null;
+        $url->filters = !empty($_GET['filters']) ? $_GET['filters'] : null;
+
         $current = $c === 'map' ? 'class="current"' : '';
-        echo "<a href=\"$u\" $current>{$this->_('map')}</a>\n";
+        echo "<a href=\"$url\" $current>{$this->_('map')}</a>\n";
 
-        $u->view = 'schedule';
         $current = $c === 'schedule' ? 'class="current"' : '';
-        echo "<a href=\"$u\" $current>{$this->_('schedule')}</a>\n";
+        $url->view = 'schedule';
+        echo "<a href=\"$url\" $current>{$this->_('schedule')}</a>\n";
 
 
         $options = '';
-        $a = "<a href=\"$url?start=$today;end=%s\" %s role=\"option\" tabindex=\"-1\">%s</a>";
+        $url->start = $today;
+        $url->view = $c;
         foreach ($periods as $period => $datetime) {
             $date = $datetime->format(DATE_FORMAT);
 
@@ -54,7 +59,8 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
             else {
                 $selected = '';
             }
-            $options.= sprintf($a, $date, $selected, $this->_($period));
+            $url->end = $date;
+            $options.= "<a href=\"$url\" $selected role=\"option\" tabindex=\"-1\">{$this->_($period)}</a>";
         }
         if (!isset($currentPeriod)) { $currentPeriod = $this->_('chooseDates'); }
     ?>

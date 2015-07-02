@@ -72,11 +72,11 @@
     }
     &.current {
         background-color: #fff;
-        > div {
+        div {
             color: $cob-gray-darkest;
         }
 
-        > .description {
+        .description {
             display:block;
             padding: 0 0 (10rem/16) 0;
         }
@@ -85,24 +85,24 @@
             transform: rotate(180deg) translateY((5rem/16));
         }
     }
-    > .title {
+    .title {
         color: $color-link;
         display: block;
         font-family: $font-family-default;
         font-size: (14rem/16);
         margin: 0 3rem (2rem/16) 0;
     }
-    > .dates {
+    .dates {
         color: $cob-gray-dark;
         display: block;
         font-size: (12rem/16);
         padding: 0 2.5rem .5rem 0;
     }
-    > .type        { display:none; }
-    > .description {
+    .type        { display:none; }
+    .description {
         display:none;
     }
-    > .geography   { display:none; }
+    .geography   { display:none; }
 
     @media screen and (min-width: 84rem) {
         > .title {
