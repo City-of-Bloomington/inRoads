@@ -85,7 +85,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             $recur = $this->event->getRRule();
             if (!$recur) { $recur = new Rule(); }
         ?>
-        <dl>
+        <dl class="dateRange">
             <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
             <dd><input name="start[date]" id="start"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
@@ -95,7 +95,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                     value="<?= $this->event->getStart(TIME_FORMAT); ?>" />
             </dd>
         </dl>
-        <dl>
+        <dl class="dateRange">
             <dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
             <dd><input name="end[date]" id="end"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
