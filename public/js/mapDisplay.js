@@ -119,14 +119,7 @@ var MAPDISPLAY = {
             event.classList.remove('current');
 
             feature = MAPDISPLAY.findFeature(event.getAttribute('id'));
-            if (feature) {
-                if (feature.type) {
-                    feature.setStyle(MAPDISPLAY.styles[feature.type]);
-                }
-                else {
-                    feature.setStyle(null);
-                }
-            }
+            if (feature) { MAPDISPLAY.resetStyle(feature); }
         }
 
         MAPDISPLAY.currentlySelectedEventId = null;
@@ -145,7 +138,15 @@ var MAPDISPLAY = {
              f = MAPDISPLAY.findFeature(id);
 
         if (f && id != MAPDISPLAY.currentlySelectedEventId) {
-            f.setStyle(null);
+            MAPDISPLAY.resetStyle(f);
+        }
+    },
+    resetStyle: function (feature) {
+        if (feature.type) {
+            feature.setStyle(MAPDISPLAY.styles[feature.type]);
+        }
+        else {
+            feature.setStyle(null);
         }
     },
     /**
