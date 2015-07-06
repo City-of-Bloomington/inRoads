@@ -6,6 +6,9 @@
 .panelItem {
     &-container {
         position: relative;
+        border-left-width: (10rem/16);
+        border-left-style: solid;
+
         > .edit {
             position: absolute;
                 top: 1rem;

@@ -7,6 +7,7 @@
 namespace Application\Controllers;
 
 use Application\Models\Event;
+use Application\Models\EventType;
 use Application\Models\GoogleGateway;
 use Application\Models\Person;
 use Application\Template\Helpers\ButtonLink;
@@ -73,9 +74,8 @@ class EventsController extends Controller
             $filters['eventTypes'] = $_GET['eventTypes'];
         }
         else {
-            global $EVENT_TYPES;
-            foreach ($EVENT_TYPES as $t=>$info) {
-                if ($info['default']) { $filters['eventTypes'][] = $t; }
+            foreach (EventType::types() as $type) {
+                if ($type->isDefaultForSearch()) { $filters['eventTypes'][] = $type->getCode(); }
             }
         }
         return ['start'=>$start, 'end'=>$end, 'filters'=>$filters];

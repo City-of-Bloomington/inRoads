@@ -17,15 +17,6 @@ class Event
 
     private $data = [];
 
-    public static $types = [
-        'Road Closed'      => 'expect to detour, signage in place.',
-        'Local Only'       => 'expect delays, signage in place.',
-        'Reserved Meter'   => '',
-        'Lane Restriction' => 'expect short delays, signage in place.',
-        'Noise Permit'     => '',
-        'Sidewalk'         => ''
-    ];
-
     public function __construct($event=null)
     {
         if ($event) {
@@ -345,14 +336,14 @@ class Event
      */
     private function parseSummary()
     {
-        global $DEPARTMENTS, $EVENT_TYPES;
+        global $DEPARTMENTS;
 
         $d = implode('|',array_keys($DEPARTMENTS));
         if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
             $this->data['department'] = strtoupper($matches[1]);
         }
 
-        $d = implode('|', array_keys($EVENT_TYPES));
+        $d = implode('|', EventType::names());
         if (preg_match("/$d/i", $this->getSummary(), $matches)) {
             $this->data['type'] = ucwords(strtolower($matches[0]));
         }
@@ -365,7 +356,7 @@ class Event
         }
     }
     public function getDepartment()            { return !empty($this->data['department'])            ? $this->data['department']            : ''; }
-    public function getType()                  { return !empty($this->data['type'])                  ? $this->data['type']                  : ''; }
+    public function getType()                  { return !empty($this->data['type'])                  ? new EventType($this->data['type'])   : ''; }
     public function getGeography_description() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
     public function setDepartment($s) {
         global $DEPARTMENTS;
@@ -374,13 +365,17 @@ class Event
             $this->data['department'] = strtoupper(trim($s));
         }
     }
-    public function setType($s) {
-        global $EVENT_TYPES;
 
-        if (array_key_exists($s, $EVENT_TYPES)) {
-            $this->data['type'] = ucwords(strtolower(trim($s)));
-        }
+    /**
+     * @param string $s
+     */
+    public function setType($s) {
+        $this->data['type'] = new EventType($s);
     }
+
+    /**
+     * @param string $s
+     */
     public function setGeography_description($s) {
         $this->data['geography_description'] = str_replace('-', ' ', trim($s));
     }

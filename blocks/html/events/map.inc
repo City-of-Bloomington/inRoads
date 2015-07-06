@@ -7,10 +7,11 @@
 $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
 
-global $MAPLAYERS;
+global $MAPLAYERS, $EVENT_TYPES;
 ?>
 <div id="map" class="mapPanel"></div>
 <div id="marker"></div>
 <script type="text/javascript">
-    PHP.maplayers = <?= json_encode($MAPLAYERS, JSON_PRETTY_PRINT); ?>;
+    PHP.maplayers  = <?= json_encode($MAPLAYERS,   JSON_PRETTY_PRINT); ?>;
+    PHP.eventTypes = <?= json_encode($EVENT_TYPES, JSON_PRETTY_PRINT); ?>;
 </script>

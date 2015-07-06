@@ -6,6 +6,7 @@
  * @param Event $this->event
  */
 use Application\Models\Event;
+use Application\Models\EventType;
 use Blossom\Classes\View;
 use Recurr\Rule;
 use Recurr\WeekDay;
@@ -40,12 +41,12 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dt><label   for="type"><?= $this->_('type'); ?></label></dt>
             <dd><select name="type" id="type">
                 <?php
-                    global $EVENT_TYPES;
-                    foreach ($EVENT_TYPES as $type=>$info) {
-                        $selected = $this->event->getType()==$type
+                    foreach (EventType::types() as $type) {
+                        $selected = $this->event->getType()->getCode()==$type->getCode()
                             ? 'selected="selected"'
                             : '';
-                        echo "<option $selected>$type</option>";
+                        $name = View::escape($type->getName());
+                        echo "<option $selected value=\"{$type->getCode()}\">$name</option>";
                     }
                 ?>
                 </select>

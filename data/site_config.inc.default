@@ -131,35 +131,46 @@ $DEPARTMENTS = [
 ];
 
 $EVENT_TYPES = [
-    'Road Closed'     => [
+    [
+        'code'        => 'roadClosed',
+        'name'        => 'Road Closed',
         'description' => 'expect to detour, signage in place.',
         'default'     => true,
-        'color'       => [215, 0, 0, .6]
+        'rgba'        => [215, 0, 0, 1]
     ],
-    'Local Only'      => [
+    [
+        'code'        => 'localOnly',
+        'name'        => 'Local Only',
         'description' => 'expect delays, signage in place.',
         'default'     => true,
-        'color'       => [214, 81, 0, .6]
-
+        'rgba'        => [214, 81, 0, 1]
     ],
-    'Lane Restriction'=> [
+    [
+        'code'        => 'laneRestriction',
+        'name'        => 'Lane Restriction',
         'description' => 'expect short delays, signage in place.',
         'default'     => true,
-        'color'       => [235, 150, 2, .6]
+        'rgba'        => [235, 150, 2, 1]
     ],
-    'Reserved Meter'  => [
+    [
+        'code'        => 'reservedMeter',
+        'name'        => 'Reserved Meter',
         'description' => '',
         'default'     => false,
-        'color'       => [215, 0, 0, .6]
+        'rgba'        => [0, 88, 235, 1]
     ],
-    'Noise Permit'    => [
+    [
+        'code'        => 'noisePermit',
+        'name'        => 'Noise Permit',
         'description' => '',
         'default'     => false,
-        'color'       => [124, 83, 29, .6]
+        'rgba'        => [0, 182, 235, 1]
     ],
-    'Sidewalk'        => [
+    [
+        'code'        => 'sidewalk',
+        'name'        => 'Sidewalk',
         'description' => '',
         'default'     => false,
-        'color'       => [0, 182, 235, .6]
+        'rgba'        => [124, 83, 29, 1]
     ]
 ];

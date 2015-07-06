@@ -79,10 +79,11 @@ class GoogleGateway
         foreach ($list as $e) {
             $event = new Event($e);
 
-            if (!empty($filters['eventTypes'])
-                && !in_array($event->getType(), $filters['eventTypes'])) {
-
-                continue;
+            if (!empty($filters['eventTypes'])) {
+                $t = $event->getType();
+                if (!$t || !in_array($t->getCode(), $filters['eventTypes'])) {
+                    continue;
+                }
             }
             $events[] = $event;
         }
