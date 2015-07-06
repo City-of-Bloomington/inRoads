@@ -27,6 +27,7 @@ use Application\Models\EventType;
 
             echo ".$class { border-color:rgba($color); }\n";
             echo ".$class > h2 { border-color:rgba($color); }\n";
+			echo ".$class > a { border-color:rgba($color); }\n";
         }
 
 	?>

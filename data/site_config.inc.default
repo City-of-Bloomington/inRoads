@@ -143,7 +143,7 @@ $EVENT_TYPES = [
         'name'        => 'Local Only',
         'description' => 'expect delays, signage in place.',
         'default'     => true,
-        'rgba'        => [214, 81, 0, 1]
+        'rgba'        => [214, 104, 0, 1]
     ],
     [
         'code'        => 'laneRestriction',

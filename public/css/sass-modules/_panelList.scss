@@ -75,13 +75,11 @@
     }
     &.current {
         background-color: #fff;
-        div {
-            color: $cob-gray-darkest;
-        }
+        border-left-width: (6rem/16);
+        border-left-style: solid;
 
         .description {
             display:block;
-            padding: 0 0 (10rem/16) 0;
         }
 
         &:before {
@@ -103,7 +101,11 @@
     }
     .type        { display:none; }
     .description {
+        color: $cob-gray-darkest;
         display:none;
+        font-size: (14rem/16);
+        line-height: 1.25em;
+        padding: 0 0 (10rem/16) 0;
     }
     .geography   { display:none; }
 
