@@ -105,6 +105,9 @@ class Event
         if (isset($post['allDay'])) {
             $startDate = \DateTime::createFromFormat(DATE_FORMAT, $post['start']['date']);
               $endDate = \DateTime::createFromFormat(DATE_FORMAT, $post['end'  ]['date']);
+            if (!$startDate || !$endDate) {
+                throw new \Exception('events/invalidDate');
+            }
 
             $this->set('start', new \Google_Service_Calendar_EventDateTime([
                 'date'     => $startDate->format(GoogleGateway::DATE_FORMAT),
@@ -120,6 +123,9 @@ class Event
         else {
             $startDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['start']['date']} {$post['start']['time']}");
               $endDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['end']['date']} {$post['end']['time']}");
+            if (!$startDate || !$endDate) {
+                throw new \Exception('events/invalidDate');
+            }
 
             $this->set('start', new \Google_Service_Calendar_EventDateTime([
                 'date'     => \Google_Model::NULL_VALUE,
@@ -372,7 +378,7 @@ class Event
     {
         return !empty($this->data['type'])
             ? new EventType($this->data['type'])
-            : '';
+            : null;
     }
     /**
      * @param string $s

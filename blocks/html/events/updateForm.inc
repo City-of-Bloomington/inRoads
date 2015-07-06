@@ -42,7 +42,8 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dd><select name="type" id="type">
                 <?php
                     foreach (EventType::types() as $type) {
-                        $selected = $this->event->getType()->getCode()==$type->getCode()
+                        $currentType = $this->event->getType();
+                        $selected = ($currentType && $currentType->getCode()===$type->getCode())
                             ? 'selected="selected"'
                             : '';
                         $name = View::escape($type->getName());
