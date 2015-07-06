@@ -356,7 +356,6 @@ class Event
         }
     }
     public function getDepartment()            { return !empty($this->data['department'])            ? $this->data['department']            : ''; }
-    public function getType()                  { return !empty($this->data['type'])                  ? new EventType($this->data['type'])   : ''; }
     public function getGeography_description() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
     public function setDepartment($s) {
         global $DEPARTMENTS;
@@ -367,10 +366,20 @@ class Event
     }
 
     /**
+     * @return EventType
+     */
+    public function getType()
+    {
+        return !empty($this->data['type'])
+            ? new EventType($this->data['type'])
+            : '';
+    }
+    /**
      * @param string $s
      */
     public function setType($s) {
-        $this->data['type'] = new EventType($s);
+        $type = new EventType($s);
+        $this->data['type'] = $type->getName();
     }
 
     /**

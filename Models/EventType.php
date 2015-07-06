@@ -70,6 +70,7 @@ class EventType
                 foreach ($EVENT_TYPES as $t) {
                     if ($t['code'] === $data || $t['name'] === $data) {
                         $this->data = $t;
+                        break;
                     }
                 }
             }
