@@ -1,3 +1,6 @@
+<?php
+use Blossom\Classes\Url;
+?>
 <footer>
     <a href="https://bloomington.in.gov/webmaster" class="button feedback">Feedback</a>
     <div class="open-data">
@@ -5,7 +8,11 @@
         <a class="footer-links" href="https://groups.google.com/forum/#!forum/cob_road_closings">Email subscription</a>,
         <a class="footer-links" href="https://www.google.com/calendar/embed?src=<?= GOOGLE_CALENDAR_ID ?>&amp;ctz=America/New_York">Google Calendar</a>,
         <a class="footer-links" href="https://www.google.com/calendar/ical/<?= GOOGLE_CALENDAR_ID ?>/public/basic.ics">iCal</a>,
-        <a class="footer-links" href="">JSON (TODO)</a>,
+        <?php
+            $url = new Url(Url::current_url());
+            $url->format = 'json';
+            echo "<a href=\"$url\" class=\"footer-links\">JSON</a>,";
+        ?>
         <a class="footer-links" href="https://www.google.com/calendar/feeds/<?= GOOGLE_CALENDAR_ID ?>/public/basic">XML</a>
     </div>
     <div class="open-source">
