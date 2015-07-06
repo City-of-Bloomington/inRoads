@@ -120,7 +120,12 @@ var MAPDISPLAY = {
 
             feature = MAPDISPLAY.findFeature(event.getAttribute('id'));
             if (feature) {
-                feature.setStyle(null);
+                if (feature.type) {
+                    feature.setStyle(MAPDISPLAY.styles[feature.type]);
+                }
+                else {
+                    feature.setStyle(null);
+                }
             }
         }
 
@@ -175,6 +180,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         len    = 0,
         i      = 0,
         id        = '',
+        type      = '',
         f         = 0,
         geography = '',
         features  = [];
@@ -190,9 +196,23 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         }));
     }
 
+    // Colors for features are also defined in site_conf.
+    // We need to remember to write the PHP variables out as Javascript,
+    // so we can load them here
+    // See: blocks/html/events/map.inc
+    len = PHP.eventTypes.length;
+    for (i=0; i<len; i++) {
+        MAPDISPLAY.styles[PHP.eventTypes[i].code] = new ol.style.Style({
+            fill:   new ol.style.Fill(  {color:PHP.eventTypes[i].rgba}),
+            stroke: new ol.style.Stroke({color:PHP.eventTypes[i].rgba, width:6, lineCap:'square'}),
+            image:  new ol.style.Circle({radius:3, fill:new ol.style.Fill({color:PHP.eventTypes[i].rgba})})
+        });
+    }
+
     len = events.length;
     for (i=0; i<len; i++) {
-        id = events[i].getAttribute('id');
+        id   = events[i].getAttribute('id');
+        type = events[i].firstElementChild.className;
         events[i].addEventListener('click', MAPDISPLAY.handleListClick);
 
         geography = events[i].querySelector('.geography');
@@ -201,6 +221,10 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
             features[f] = MAPDISPLAY.wktFormatter.readFeature(geography.innerHTML);
             features[f].getGeometry().transform('EPSG:4326', 'EPSG:3857');
             features[f].event_id = id;
+            features[f].type     = type;
+            if (MAPDISPLAY.styles[type]) {
+                features[f].setStyle(MAPDISPLAY.styles[type]);
+            }
 
             // Override the event link and have it open the popup on the map
             document.getElementById(id).addEventListener('mouseenter', MAPDISPLAY.highlightEvent);
