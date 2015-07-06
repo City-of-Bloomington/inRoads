@@ -14,7 +14,7 @@ class PeopleController extends Controller
 {
     public function __construct(&$template)
     {
-        $template->setFilename('full-width');
+        $template->setFilename('admin');
         parent::__construct($template);
     }
 

@@ -125,7 +125,7 @@ class EventsController extends Controller
 
     public function view()
     {
-        $this->template->setFilename('two-column');
+        $this->template->setFilename('viewSingle');
         $event = $this->loadEvent($_GET['id']);
 
         $search = $this->getSearchParameters();
@@ -159,7 +159,7 @@ class EventsController extends Controller
 
     public function update()
     {
-        $this->template->setFilename('two-column');
+        $this->template->setFilename('eventEdit');
         $event =        !empty($_REQUEST['id'])
             ? $this->loadEvent($_REQUEST['id'])
             : new Event();

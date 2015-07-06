@@ -1,5 +1,5 @@
-.container.full-width { }
-.full-width #content-panel { }
+.container.admin { }
+.admin #content-panel { }
 
 > .content-container {
     position: absolute;
@@ -9,7 +9,7 @@
         left: $filters-width;
 }
 
-.two-column {
+.viewSingle, .eventEdit {
     > main {
         > .headerBar {
             width: 20rem;
@@ -37,6 +37,13 @@
             @media screen and (min-width: 84rem) {
                 left: 25rem;
             }
+        }
+    }
+}
+.eventEdit {
+    > main {
+        #panel-one {
+            bottom: 0;
         }
     }
 }
