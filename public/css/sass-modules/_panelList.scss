@@ -35,10 +35,12 @@
             }
         }
     }
+    border-left-style: solid;
+    border-left-width: 0;
     display: block;
     margin: 0;
     padding: .5rem .5rem 0 .5rem;
-    transition: background-color .2s ease-in-out;
+    transition: border-width .15s ease-in-out;
 
     &:after {
         background-color: $cob-gray;
@@ -74,9 +76,7 @@
         transition: color .2s ease-in-out;
     }
     &.current {
-        background-color: #fff;
         border-left-width: (6rem/16);
-        border-left-style: solid;
 
         .description {
             display:block;
