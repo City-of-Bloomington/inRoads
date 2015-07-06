@@ -5,7 +5,12 @@
 <body class="two-column">
 	<?php $this->_include('partials/header.inc'); ?>
 	<main>
+        <header class="headerBar">
+            <h1>Page title</h1>
+        </header>
+
         <?php $this->_include('partials/panel-one.inc'); ?>
+
 		<div class="errorPanel">
 			<?php include BLOSSOM.'/errorMessages.php'; ?>
 		</div>

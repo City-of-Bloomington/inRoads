@@ -10,7 +10,6 @@ use Application\Models\Event;
 use Application\Templates\Helpers\ButtonLink;
 use Blossom\Classes\Block;
 ?>
-<div class="schedule-container">
 <?php
     $block = new Block('events/info.inc');
 
@@ -19,4 +18,3 @@ use Blossom\Classes\Block;
         echo $block->render('html', $this->template);
     }
 ?>
-</div>

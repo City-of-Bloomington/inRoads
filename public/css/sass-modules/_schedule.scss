@@ -1,11 +1,15 @@
 .schedule {
-    &-container {
-        margin: 0 0 0 3rem;
-        max-width: 50rem;
-
+    .contentPanel {
+        position: absolute;
+            top: $headerBarHeight;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        overflow-x: auto;
     }
-    &-article {
-        margin: 2rem 0;
+    article {
+        margin: 2rem 0 2rem 3rem;
+        max-width: 50rem;
         &:not(:first-child) {
             border-top: (1rem/16) solid $cob-blue-dark;
             padding: 2rem 0 0 0;

@@ -1,11 +1,25 @@
 .container.full-width { }
 .full-width #content-panel { }
 
+> .content-container {
+    position: absolute;
+        top: 4.35rem;
+        right: 0;
+        bottom: 0;
+        left: $filters-width;
+}
+
 .two-column {
     > main {
+        > .headerBar {
+            width: 20rem;
+            @media screen and (min-width: 84rem) {
+                width: 25rem;
+            }
+        }
         > #panel-one {
             position: absolute;
-                top: 4.35rem;
+                top: ($siteHeaderHeight + $headerBarHeight);
                 bottom: 13rem;
                 left: 0;
             width: 20rem;
@@ -16,7 +30,7 @@
 
         > #content-panel {
             position: absolute;
-                top: 4.35rem;
+            top: $siteHeaderHeight;
                 left: 20rem;
                 bottom: 0;
                 right: 0;
@@ -26,7 +40,7 @@
         }
     }
 }
-.three-column {
+.eventsMap {
     > main {
         > #panel-one {
             position: absolute;
@@ -35,25 +49,29 @@
                 left: 0;
             width: $filters-width;
         }
-        > #panel-two {
-            position: absolute;
-                top: 6.36rem;
-                bottom: 0;
-                left: 14.5rem;
-            overflow: auto;
-            width: 20.5rem;
-            @media screen and (min-width: 84rem) {
-                width: 25.5rem;
+        > .content-container {
+            $listWidth: 20.5rem;
+
+            > #panel-two {
+                position: absolute;
+                    top: $headerBarHeight;
+                    bottom: 0;
+                    left: 0;
+                overflow: auto;
+                width: $listWidth;
+                @media screen and (min-width: 84rem) {
+                    width: ($listWidth + 5);
+                }
             }
-        }
-        > #content-panel {
-            position: absolute;
-                top: 6.36rem;
-                left: 35rem;
-                bottom: 0;
-                right: 0;
-            @media screen and (min-width: 84rem) {
-                left: 40rem;
+            > #content-panel {
+                position: absolute;
+                    top: $headerBarHeight;
+                    left: $listWidth;
+                    bottom: 0;
+                    right: 0;
+                @media screen and (min-width: 84rem) {
+                    left: ($listWidth + 5);
+                }
             }
         }
     }

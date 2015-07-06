@@ -10,18 +10,18 @@
         <div class="errorPanel">
             <?php include BLOSSOM.'/errorMessages.php'; ?>
         </div>
-        <div class="contentPanel" id="content-panel">
-
-			<header class="contentPanel-header">
-		        <div class="contentPanel-title"><?= View::escape($this->title); ?></div>
-		        <?php
-		            if ($this->headerToolsButton) {
-		                echo "<div class=\"contentPanel-headerTools\">{$this->headerToolsButton}</div>";
-		            }
-		        ?>
-		    </header>
-
-            <?php echo $this->includeBlocks(); ?>
+		<div class="content-container">
+			<header class="headerBar">
+				<div class="headerBar-title"><?= View::escape($this->title); ?></div>
+				<?php
+					if ($this->headerToolsButton) {
+						echo "<div class=\"headerBar-tools\">{$this->headerToolsButton}</div>";
+					}
+				?>
+			</header>
+        	<div class="contentPanel" id="content-panel">
+	            <?php echo $this->includeBlocks(); ?>
+			</div>
         </div>
 	</main>
 	<?php $this-> _include('partials/footer.inc'); ?>
