@@ -16,7 +16,9 @@
     }
 }
 .headerBar > .pillNav {
-    margin: 0 auto;
+    margin: (0) auto;
+    position: relative;
+        top: (-2rem/16);
     width: 30rem;
     > a {
         $border-width: (1rem/16);
@@ -28,7 +30,7 @@
             background-color: $cob-cornflower;
         }
         &.current {
-            background-color: $cob-cornflower-dark;
+            background-color: $cob-blue-dark;
         }
     }
 }

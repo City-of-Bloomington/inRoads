@@ -20,7 +20,7 @@
         > #panel-one {
             position: absolute;
                 top: ($siteHeaderHeight + $headerBarHeight);
-                bottom: 13rem;
+                bottom: $footerHeight;
                 left: 0;
             width: 20rem;
             @media screen and (min-width: 84rem) {
@@ -52,7 +52,7 @@
         > #panel-one {
             position: absolute;
                 top: 4.35rem;
-                bottom: 13rem;
+                bottom: $footerHeight;
                 left: 0;
             width: $filters-width;
         }
@@ -89,7 +89,7 @@
             overflow-x: auto;
             position: absolute;
                 top: 4.35rem;
-                bottom: 13rem;
+                bottom: $footerHeight;
                 left: 0;
             width: $filters-width;
         }

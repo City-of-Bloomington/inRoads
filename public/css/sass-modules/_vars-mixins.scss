@@ -33,6 +33,10 @@ $cob-gray-dark: #8d98a5;
 $cob-gray-darkest: #585f68;
 $cob-nightshade: #2a2e32; // Darker than darkest
 
+// Warning red
+$cob-red: #b54548;
+$cob-red-dark: #872528;
+$cob-red-darkest: #541214;
 
 $color-text-default: $cob-gray-darkest;
 $color-content-background: #fff;
@@ -89,8 +93,9 @@ $window-small: (400em/16);
 
 // Values for absolute positioning
 $filters-width: 14.5rem;
-$siteHeaderHeight: 4.35rem;
+$footerHeight: 13.5rem;
 $headerBarHeight: 2rem;
+$siteHeaderHeight: 4.35rem;
 
 
 @mixin clearfix {

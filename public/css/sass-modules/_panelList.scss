@@ -1,12 +1,12 @@
 .panelList {
-    background: $cob-gray-light;
+    background: #fff;
     height: 100%;
     overflow-x: auto;
 }
 .panelItem {
     &-container {
         position: relative;
-        border-left-width: (10rem/16);
+        border-left-width: (6rem/16);
         border-left-style: solid;
 
         > .edit {

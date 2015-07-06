@@ -1,7 +1,7 @@
 body {
     &.eventsMap, &.schedule {
         > footer {
-            height: 13rem;
+            height: $footerHeight;
             position: absolute;
                 bottom: 0;
                 left: 0;
@@ -10,7 +10,7 @@ body {
     }
     &.viewSingle {
         > footer {
-            height: 13rem;
+            height: $footerHeight;
             position: absolute;
                 bottom: 0;
                 left: 0;

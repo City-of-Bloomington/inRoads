@@ -8,22 +8,22 @@
         overflow-x: auto;
     }
     article {
+        border-top: (1rem/16) solid $cob-blue-dark;
         margin: 2rem 0 2rem 3rem;
         max-width: 50rem;
-        &:not(:first-child) {
-            border-top: (1rem/16) solid $cob-blue-dark;
-            padding: 2rem 0 0 0;
-        }
+        padding: 0;
 
         h2 {
-            border-top-width: (10rem/16);
+            border-top-width: (6rem/16);
             border-top-style: solid;
-            border-color:inherit;
+            display: inline-block;
+            padding: .5em 0 0 0;
+            margin: (-1rem/16) 0 0 0;
         }
         > .title {
         }
         > .dates {
-
+            color: $cob-gray-dark;
         }
         > .description {
             margin: 1rem 0;

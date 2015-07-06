@@ -43,6 +43,12 @@
     }
 }
 
+#clearFeaturesButton {
+    background-color: $cob-red;
+    border-color: $cob-red-darkest;
+    color: #fff;
+}
+
 .headerBar {
     background-color: $cob-blue;
     color: #fff;
@@ -157,6 +163,7 @@
         }
     }
     &-title {
+        color: #fff;
         font-family: $font-family-heading;
         font-size: (20rem/16);
         font-weight: 300;
