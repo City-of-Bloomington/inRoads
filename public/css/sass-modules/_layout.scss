@@ -33,11 +33,11 @@
                 top: 4.35rem;
                 bottom: 13rem;
                 left: 0;
-            width: 14.5rem;
+            width: $filters-width;
         }
         > #panel-two {
             position: absolute;
-                top: 4.35rem;
+                top: 6.36rem;
                 bottom: 0;
                 left: 14.5rem;
             overflow: auto;
@@ -48,7 +48,7 @@
         }
         > #content-panel {
             position: absolute;
-                top: 4.35rem;
+                top: 6.36rem;
                 left: 35rem;
                 bottom: 0;
                 right: 0;
@@ -66,13 +66,13 @@
                 top: 4.35rem;
                 bottom: 13rem;
                 left: 0;
-            width: 14.5rem;
+            width: $filters-width;
         }
         > #content-panel {
             overflow: auto;
             position: absolute;
                 top: 4.35rem;
-                left: 14.5rem;
+                left: $filters-width;
                 bottom: 0;
                 right: 0;
         }

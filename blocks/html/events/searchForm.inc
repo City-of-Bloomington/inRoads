@@ -38,14 +38,6 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
         $url->end     = !empty($_GET['end'])     ? $_GET['end']     : null;
         $url->filters = !empty($_GET['filters']) ? $_GET['filters'] : null;
 
-        $current = $c === 'map' ? 'class="current"' : '';
-        echo "<a href=\"$url\" $current>{$this->_('map')}</a>\n";
-
-        $current = $c === 'schedule' ? 'class="current"' : '';
-        $url->view = 'schedule';
-        echo "<a href=\"$url\" $current>{$this->_('schedule')}</a>\n";
-
-
         $options = '';
         $url->start = $today;
         $url->view = $c;

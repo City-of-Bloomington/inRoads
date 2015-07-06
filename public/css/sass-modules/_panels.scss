@@ -43,119 +43,117 @@
     }
 }
 
-.contentPanel {
-    &-header {
-        background-color: $cob-blue;
-        color: #fff;
-        margin: 0;
-        height: (32rem/16);
+.headerBar {
+    background-color: $cob-blue;
+    color: #fff;
+    height: (32rem/16);
+    margin: 0;
+    position: relative;
 
-        &Tools {
-            border-left: 1px solid $cob-blue-light;
-            height: 1.5rem;
-            padding: 0 .25rem 0 .25rem;
-            position: absolute;
-                top: 0;
-                right: 0;
+    &-tools {
+        border-left: 1px solid $cob-blue-light;
+        height: 1.5rem;
+        padding: 0 .25rem 0 .25rem;
+        position: absolute;
+            top: 0;
+            right: 0;
 
-            > .button {
+        > .button {
+            background: $cob-blue;
+            border: 0;
+            border-radius: 0;
+            cursor: pointer;
+            display: inline-block;
+            height: (24rem/16);
+            overflow: hidden;
+            padding: 0;
+            position: relative;
+            text-indent: -1000rem;
+            transition: background-color .25s ease-in-out;
+            width: (24rem/16);
+
+            &:hover {
+                background: $cob-blue-light;
+            }
+            &:focus, &:active {
                 background: $cob-blue;
-                border: 0;
-                border-radius: 0;
-                cursor: pointer;
-                display: inline-block;
-                height: (24rem/16);
-                overflow: hidden;
-                padding: 0;
-                position: relative;
-                text-indent: -1000rem;
-                transition: background-color .25s ease-in-out;
-                width: (24rem/16);
-
-                &:hover {
-                    background: $cob-blue-light;
-                }
-                &:focus, &:active {
-                    background: $cob-blue;
-                    outline: 1px solid $cob-blue-light;
-                }
-
-                &.add {
-                    &:before {
-                        background: #fff;
-                        content: ' ';
-                        display: block;
-                        height: (18rem/16);
-                        position: absolute;
-                            top: (3rem/16);
-                            left: (11rem/16);
-                        width: (2rem/16);
-                    }
-                    &:after {
-                        background: #fff;
-                        content: ' ';
-                        display: block;
-                        height: (2rem/16);
-                        position: absolute;
-                            top: (11rem/16);
-                            left: (3rem/16);
-                        width: (18rem/16);
-                    }
-                }
-                &.edit {
-                    // @TODO
-                    // Need icon styles for edit button
-                }
-                &.back {
-                    &:before {
-                        background: #fff;
-                        content: ' ';
-                        display: block;
-                        height: (12rem/16);
-                        position: absolute;
-                            top: (3rem/16);
-                            left: (10rem/16);
-                        transform: rotate(45deg);
-                        width: (2rem/16);
-                    }
-                    &:after {
-                        background: #fff;
-                        content: ' ';
-                        display: block;
-                        height: (12rem/16);
-                        position: absolute;
-                            top: (10rem/16);
-                            left: (10rem/16);
-                        transform: rotate(-45deg);
-                        width: (2rem/16);
-                    }
-                }
-                &.cancel {
-                    &:before {
-                        background: #fff;
-                        content: ' ';
-                        display: block;
-                        height: (18rem/16);
-                        position: absolute;
-                            top: (3rem/16);
-                            left: (11rem/16);
-                        transform: rotate(45deg);
-                        width: (2rem/16);
-                    }
-                    &:after {
-                        background: #fff;
-                        content: ' ';
-                        display: block;
-                        height: (2rem/16);
-                        position: absolute;
-                            top: (11rem/16);
-                            left: (3rem/16);
-                        transform: rotate(45deg);
-                        width: (18rem/16);
-                    }
-                }
+                outline: 1px solid $cob-blue-light;
             }
 
+            &.add {
+                &:before {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (18rem/16);
+                    position: absolute;
+                        top: (3rem/16);
+                        left: (11rem/16);
+                    width: (2rem/16);
+                }
+                &:after {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (2rem/16);
+                    position: absolute;
+                        top: (11rem/16);
+                        left: (3rem/16);
+                    width: (18rem/16);
+                }
+            }
+            &.edit {
+                // @TODO
+                // Need icon styles for edit button
+            }
+            &.back {
+                &:before {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (12rem/16);
+                    position: absolute;
+                        top: (3rem/16);
+                        left: (10rem/16);
+                    transform: rotate(45deg);
+                    width: (2rem/16);
+                }
+                &:after {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (12rem/16);
+                    position: absolute;
+                        top: (10rem/16);
+                        left: (10rem/16);
+                    transform: rotate(-45deg);
+                    width: (2rem/16);
+                }
+            }
+            &.cancel {
+                &:before {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (18rem/16);
+                    position: absolute;
+                        top: (3rem/16);
+                        left: (11rem/16);
+                    transform: rotate(45deg);
+                    width: (2rem/16);
+                }
+                &:after {
+                    background: #fff;
+                    content: ' ';
+                    display: block;
+                    height: (2rem/16);
+                    position: absolute;
+                        top: (11rem/16);
+                        left: (3rem/16);
+                    transform: rotate(45deg);
+                    width: (18rem/16);
+                }
+            }
         }
     }
     &-title {
@@ -166,7 +164,9 @@
         padding: .1rem 0 .5rem 0;
     }
 }
-
+.three-column > main > .headerBar {
+    margin-left: $filters-width;
+}
 .filterPanel {
     background: $color-filters-background;
     border-bottom: 1px solid $color-border-input;

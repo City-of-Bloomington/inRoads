@@ -206,3 +206,9 @@ msgstr "On every"
 
 msgid "eventTypeLegend"
 msgstr "Filter By Type"
+
+msgid "mapView"
+msgstr "Map of Closings"
+
+msgid "scheduleView"
+msgstr "Schedule of Closings"

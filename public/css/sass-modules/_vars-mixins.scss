@@ -18,6 +18,7 @@ $cob-blue-darkest: #06204b;
 $cob-cornflower-brightest: #acf2ff;
 $cob-cornflower-light: #5991c2;
 $cob-cornflower: #447aa8;
+$cob-cornflower-dark: #24537b;
 $cob-cornflower-darkest: #12314c;
 
 // Action Green
@@ -84,6 +85,10 @@ $font-headings: Lato, 'Helvetica Neue', Arial, sans-serif;
 $window-large: (1024em/16);
 $window-medium: (700em/16);
 $window-small: (400em/16);
+
+// Values for absolute positioning
+$filters-width: 14.5rem;
+
 
 @mixin clearfix {
     &:after {

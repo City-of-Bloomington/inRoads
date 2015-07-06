@@ -125,6 +125,7 @@ class EventsController extends Controller
 
     public function view()
     {
+        $this->template->setFilename('two-column');
         $event = $this->loadEvent($_GET['id']);
 
         $search = $this->getSearchParameters();
@@ -152,9 +153,8 @@ class EventsController extends Controller
             );
         }
 
-        $this->template->blocks['panel-one'][] = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
-        $this->template->blocks['panel-two'][] = new Block('events/list.inc',       ['events'=>$events, 'event'=>$event]);
-        $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);
+        $this->template->blocks['panel-one'][] = new Block('events/single.inc', ['event'=>$event]);
+        $this->template->blocks[]              = new Block('events/map.inc', ['event'=>$event]);
     }
 
     public function update()
