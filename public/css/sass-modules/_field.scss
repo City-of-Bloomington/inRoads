@@ -1,124 +1,122 @@
-form {
-    > fieldset {
-        margin: 1rem 0;
+fieldset {
+    margin: 1rem 0;
 
-        &:after {
-            border-bottom: 1px solid $cob-gray;
-            content: ' ';
-            display: block;
-            height: 0;
-            margin: 1em 0 0 0;
+    &:after {
+        border-bottom: 1px solid $cob-gray;
+        content: ' ';
+        display: block;
+        height: 0;
+        margin: 1em 0 0 0;
+    }
+    &:last-of-type:after {
+        display: none;
+    }
+
+    > legend {
+        color: $cob-gray-darkest;
+        font-family: $font-headings;
+        font-size: (12rem/16);
+        text-transform: uppercase;
+    }
+
+    > dl {
+        padding: .5em 0;
+
+        > dt {
+            font-size: (12em/16);
+            font-weight: normal;
+            margin: 0 0 .25em 0;
         }
-        &:last-of-type:after {
-            display: none;
-        }
+        > dd {
+            margin: 0;
+            padding: 0;
 
-        > legend {
-            color: $cob-gray-darkest;
-            font-family: $font-headings;
-            font-size: (12rem/16);
-            text-transform: uppercase;
-        }
+            input {
+                box-sizing: border-box;
+                border: 1px solid $color-border-input;
+                color: $cob-gray-dark;
+                font-family: $font-family-default;
+                font-size: 1em;
+                padding: .5em;
+                transition: border-color .35s ease-in-out, background-color .5s ease-in-out;
+                width: 100%;
 
-        > dl {
-            padding: .5em 0;
-
-            > dt {
-                font-size: (12em/16);
-                font-weight: normal;
-                margin: 0 0 .25em 0;
-            }
-            > dd {
-                margin: 0;
-                padding: 0;
-
-                input {
-                    box-sizing: border-box;
-                    border: 1px solid $color-border-input;
-                    color: $cob-gray-dark;
-                    font-family: $font-family-default;
-                    font-size: 1em;
-                    padding: .5em;
-                    transition: border-color .35s ease-in-out, background-color .5s ease-in-out;
-                    width: 100%;
-
-                    &:focus {
-                        background-color: $color-content-background;
-                        border-color: $color-border-input-highlight;
-                    }
-                    &[size] {
-                        width: inherit;
-                    }
-
-                    &[type="checkbox"], &[type="radio"] {
-                        display: inline-block;
-                        width: auto;
-                    }
+                &:focus {
+                    background-color: $color-content-background;
+                    border-color: $color-border-input-highlight;
                 }
-                > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DD is because of a checkbox or radio button.
-                    vertical-align: middle;
+                &[size] {
+                    width: inherit;
+                }
+
+                &[type="checkbox"], &[type="radio"] {
+                    display: inline-block;
+                    width: auto;
+                }
+            }
+            > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DD is because of a checkbox or radio button.
+                vertical-align: middle;
 //                    white-space: nowrap;
-                    > * {
-                        display: inline;
-                        line-height: 1em;
-                        margin: 0;
+                > * {
+                    display: inline;
+                    line-height: 1em;
+                    margin: 0;
+                    padding: 0;
+                    vertical-align: middle;
+                }
+            }
+            > .intl-tel-input > input[type="tel"] {
+                padding-left: 44px;
+            }
+        }
+
+        &.mod-radio {
+            > dd {
+                box-sizing: border-box;
+                margin-bottom: .25em;
+                padding: 0 0 0 1.6em;
+                vertical-align: middle;
+
+                > label {
+                    margin: 0;
+                    vertical-align: middle;
+
+                    > input[type="radio"] {
+                        font-size: 1em;
+                        margin: 0 .45em 0 -1.4em;
                         padding: 0;
                         vertical-align: middle;
-                    }
-                }
-                > .intl-tel-input > input[type="tel"] {
-                    padding-left: 44px;
-                }
-            }
 
-            &.mod-radio {
-                > dd {
-                    box-sizing: border-box;
-                    margin-bottom: .25em;
-                    padding: 0 0 0 1.6em;
-                    vertical-align: middle;
-
-                    > label {
-                        margin: 0;
-                        vertical-align: middle;
-
-                        > input[type="radio"] {
-                            font-size: 1em;
-                            margin: 0 .45em 0 -1.4em;
+                        + span {
+                            margin: 0;
                             padding: 0;
                             vertical-align: middle;
-
-                            + span {
-                                margin: 0;
-                                padding: 0;
-                                vertical-align: middle;
-                            }
                         }
                     }
                 }
             }
-            &.mod-checkbox {
-                > dd {
-                    box-sizing: border-box;
-                    margin-bottom: .25em;
-                    padding: 0 0 0 1.6em;
+        }
+        &.mod-checkbox {
+            > dd {
+                box-sizing: border-box;
+                margin-bottom: .25em;
+                padding: 0 0 0 1.6em;
+                vertical-align: middle;
+
+                > label {
+                    margin: 0;
                     vertical-align: middle;
 
-                    > label {
-                        margin: 0;
+                    > input[type="checkbox"] {
+                        font-size: 1em;
+                        margin: 0 .45em 0 -1.4em;
+                        padding: 0;
                         vertical-align: middle;
 
-                        > input[type="checkbox"] {
-                            font-size: 1em;
-                            margin: 0 .45em 0 -1.4em;
+                        + span {
+                            margin: 0;
                             padding: 0;
                             vertical-align: middle;
-
-                            + span {
-                                margin: 0;
-                                padding: 0;
-                                vertical-align: middle;
-                            }
                         }
                     }
                 }
@@ -127,48 +125,51 @@ form {
     }
 
     @media all and (min-width: $window-medium) {
-        > fieldset {
-            > dl {
-                background: $color-background-field;
-                margin: 2px 0;
-                transition: background .25s linear;
+        > dl {
+            background: $color-background-field;
+            margin: 2px 0;
+            transition: background .25s linear;
 
-                &:after {
-                    clear: both;
-                    content: '';
-                    display: table;
-                }
-                &:hover {
-                    background: $color-background-field-highlight;
-                }
-                > dt {
-                    float: left;
-                    font-size: (13em/16);
-                    margin: 0;
-                    padding: 1em 0 0 1em;
-                    width: 8em;
-                }
-                > dd {
-                    margin-left: 8em;
+            &:after {
+                clear: both;
+                content: '';
+                display: table;
+            }
+            &:hover {
+                background: $color-background-field-highlight;
+            }
+            > dt {
+                float: left;
+                font-size: (13em/16);
+                margin: 0;
+                padding: 1em 0 0 1em;
+                width: 8em;
+            }
+            > dd {
+                margin-left: 8em;
 
-                    input {
-                        font-size: (14em/16);
-                        width: 20em;
+                input {
+                    font-size: (14em/16);
+                    width: 20em;
 
-                        &.datePicker { width:inherit; }
-                        &.timePicker { width:inherit; }
-                    }
+                    &.datePicker { width:inherit; }
+                    &.timePicker { width:inherit; }
                 }
             }
         }
     }
 }
 
-.editPanel > form > fieldset,
-.filterPanel > form > fieldset {
+.editPanel fieldset,
+.filterPanel fieldset {
     border: none;
     &:not(:first-child) {
         > legend {
+        }
+    }
+    > fieldset {
+        > legend {
+            display: none;
         }
     }
     > dl {

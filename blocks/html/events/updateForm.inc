@@ -60,8 +60,22 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                         value="<?= $this->event->getGeography(); ?>" />
             </dd>
         </dl>
+    </fieldset>
+
+    <fieldset>
+        <legend><span><?= $this->_('dateTimeInfo') ?></span></legend>
+        <?php
+            $dateHelp = View::translateDateString(DATE_FORMAT);
+            $timeHelp = View::translateDateString(TIME_FORMAT);
+            $dateSize = strlen($dateHelp);
+            $timeSize = strlen($timeHelp);
+
+            $recur = $this->event->getRRule();
+            if (!$recur) { $recur = new Rule(); }
+        ?>
+
         <dl>
-            <dt>Details</dt>
+            <dt class="visuallyHidden">Details</dt>
             <dd><label>
                     <?php
                         $checked = $this->event->isAllDay() ? 'checked="checked"' : '';
@@ -74,18 +88,6 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             </dd>
         </dl>
 
-    </fieldset>
-
-    <fieldset>
-        <?php
-            $dateHelp = View::translateDateString(DATE_FORMAT);
-            $timeHelp = View::translateDateString(TIME_FORMAT);
-            $dateSize = strlen($dateHelp);
-            $timeSize = strlen($timeHelp);
-
-            $recur = $this->event->getRRule();
-            if (!$recur) { $recur = new Rule(); }
-        ?>
         <dl class="dateRange">
             <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
             <dd><input name="start[date]" id="start"
@@ -106,6 +108,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                     value="<?= $this->event->getEnd(TIME_FORMAT); ?>" />
             </dd>
         </dl>
+
         <dl>
             <dt><label   for="frequency"><?= $this->_('FREQ'); ?></label></dt>
             <dd><select name="frequency" id="frequency"><option value=""></option>
@@ -120,126 +123,128 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </select>
             </dd>
         </dl>
-    </fieldset>
 
-    <fieldset id="DAILY"><legend><?= $this->_('DAILY'); ?></legend>
-        <dl>
-            <dt><?= $this->_('INTERVAL'); ?></dt>
-            <dd><input name="DAILY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> days</dd>
-        </dl>
-    </fieldset>
+        <fieldset id="DAILY"><legend><?= $this->_('DAILY'); ?></legend>
+            <dl>
+                <dt><?= $this->_('INTERVAL'); ?></dt>
+                <dd><input name="DAILY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> days</dd>
+            </dl>
+        </fieldset>
 
-    <fieldset id="WEEKLY">
-        <legend><span><?= $this->_('WEEKLY'); ?></span></legend>
-        <dl>
-            <dt><?= $this->_('INTERVAL'); ?></dt>
-            <dd><input name="WEEKLY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> weeks</dd>
-        </dl>
-        <dl>
-            <dt><?= $this->_('BYDAY'); ?></dt>
-            <dd><?php
-                    $days  = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
-                    $byday = $recur->getByDay();
-
-                    foreach ($days as $day) {
-                        $checked = ($byday && in_array($day, $byday))
-                            ? 'checked="checked"'
-                            : '';
-                        echo "
-                        <label>
-                            <input name=\"WEEKLY[byday][$day]\" type=\"checkbox\" $checked />
-                            {$this->_($day)}
-                        </label>
-                        ";
-                    }
-                ?>
-            </dd>
-        </dl>
-    </fieldset>
-
-    <fieldset id="MONTHLY"><legend><?= $this->_('MONTHLY'); ?></legend>
-        <dl>
-            <dt>Monthly recursion</dt>
-            <dd><?php
-                    $bymonthday = $recur->getByMonthDay();
-                    $checked = (count($bymonthday) || !count($byday))
-                        ? 'checked="checked"'
-                        : '';
-                ?>
-                <input name="MONTHLY[type]" type="radio" value="BYMONTHDAY" <?= $checked; ?> />
-                <label>Day      <input name="MONTHLY[bymonthday][daylist]"  size="2" value="<?= !empty($bymonthday[0]) ? $bymonthday[0] : 30; ?>" /></label>
-                <label>of every <input name="MONTHLY[bymonthday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
-            </dd>
-            <dd><?php
-                    $checked = count($byday) ? 'checked="checked"' : '';
-                ?>
-                <input name="MONTHLY[type]" type="radio" value="BYDAY" <?php $checked; ?> />
-    			<label>The
-    				<select name="MONTHLY['byday'][offset]">
-                    <?php
-                        $weekdays = $recur->getByDayTransformedToWeekdays();
-                        $offset = count($weekdays) ? $weekdays[0]->num : null;
-                        $offsets = [
-                            1  => 'First',
-                            2  => 'Second',
-                            3  => 'Third',
-                            4  => 'Fourth',
-                            -2 => 'Second To Last',
-                            -1 => 'Last'
-                        ];
-
-                        foreach ($offsets as $num => $label) {
-                            $selected = $offset == $num
-                                ? 'selected="selected"'
-                                : '';
-                            echo "<option value=\"$num\" $selected>$label</option>";
-                        }
-                    ?>
-    				</select>
-    			</label>
-    			<label>
-    				<select name="MONTHLY[byday][day]">
-                    <?php
-                        $byday = [];
-                        foreach ($weekdays as $weekday) { $byday[] = $weekday->weekday; }
+        <fieldset id="WEEKLY">
+            <legend><span><?= $this->_('WEEKLY'); ?></span></legend>
+            <dl>
+                <dt><?= $this->_('INTERVAL'); ?></dt>
+                <dd><input name="WEEKLY[interval]" size="1" value="<?= $recur->getInterval(); ?>" /> weeks</dd>
+            </dl>
+            <dl>
+                <dt><?= $this->_('BYDAY'); ?></dt>
+                <dd><?php
+                        $days  = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+                        $byday = $recur->getByDay();
 
                         foreach ($days as $day) {
-                            $selected = in_array($day, $byday)
-                                ? 'selected="selected"'
+                            $checked = ($byday && in_array($day, $byday))
+                                ? 'checked="checked"'
                                 : '';
-                            echo "<option value=\"$day\" $selected>{$this->_($day)}</option>";
+                            echo "
+                            <label>
+                                <input name=\"WEEKLY[byday][$day]\" type=\"checkbox\" $checked />
+                                {$this->_($day)}
+                            </label>
+                            ";
                         }
                     ?>
-    				</select>
-    				of every
-    			</label>
-    			<label><input name="MONTHLY[byday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
-            </dd>
-        </dl>
+                </dd>
+            </dl>
+        </fieldset>
+
+        <fieldset id="MONTHLY"><legend><?= $this->_('MONTHLY'); ?></legend>
+            <dl>
+                <dt>Monthly recursion</dt>
+                <dd><?php
+                        $bymonthday = $recur->getByMonthDay();
+                        $checked = (count($bymonthday) || !count($byday))
+                            ? 'checked="checked"'
+                            : '';
+                    ?>
+                    <input name="MONTHLY[type]" type="radio" value="BYMONTHDAY" <?= $checked; ?> />
+                    <label>Day      <input name="MONTHLY[bymonthday][daylist]"  size="2" value="<?= !empty($bymonthday[0]) ? $bymonthday[0] : 30; ?>" /></label>
+                    <label>of every <input name="MONTHLY[bymonthday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
+                </dd>
+                <dd><?php
+                        $checked = count($byday) ? 'checked="checked"' : '';
+                    ?>
+                    <input name="MONTHLY[type]" type="radio" value="BYDAY" <?php $checked; ?> />
+        			<label>The
+        				<select name="MONTHLY['byday'][offset]">
+                        <?php
+                            $weekdays = $recur->getByDayTransformedToWeekdays();
+                            $offset = count($weekdays) ? $weekdays[0]->num : null;
+                            $offsets = [
+                                1  => 'First',
+                                2  => 'Second',
+                                3  => 'Third',
+                                4  => 'Fourth',
+                                -2 => 'Second To Last',
+                                -1 => 'Last'
+                            ];
+
+                            foreach ($offsets as $num => $label) {
+                                $selected = $offset == $num
+                                    ? 'selected="selected"'
+                                    : '';
+                                echo "<option value=\"$num\" $selected>$label</option>";
+                            }
+                        ?>
+        				</select>
+        			</label>
+        			<label>
+        				<select name="MONTHLY[byday][day]">
+                        <?php
+                            $byday = [];
+                            foreach ($weekdays as $weekday) { $byday[] = $weekday->weekday; }
+
+                            foreach ($days as $day) {
+                                $selected = in_array($day, $byday)
+                                    ? 'selected="selected"'
+                                    : '';
+                                echo "<option value=\"$day\" $selected>{$this->_($day)}</option>";
+                            }
+                        ?>
+        				</select>
+        				of every
+        			</label>
+        			<label><input name="MONTHLY[byday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
+                </dd>
+            </dl>
+        </fieldset>
+
+        <fieldset id="RRULE_END">
+            <?php
+                $count = $recur->getCount();
+                $until = $recur->getUntil();
+                $type  = $count ? 'count' : 'until';
+
+                if (!$count) { $count = 10; }
+                if (!$until) { $until = new \DateTime('+2 weeks'); }
+
+                $checked = 'checked="checked"';
+            ?>
+            <dl>
+                <dt>End date</dt>
+                <dd><label><input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />End after</label>
+                     <label><input name="RRULE_END[count]" size="2" value="<?= $count; ?>" />occurances</label>
+                </dd>
+                <dd><label><input name="RRULE_END[type]" type="radio" value="until" <?= $type=='until' ? $checked : ''; ?> />End by</label>
+                     <input name="RRULE_END[until][date]" size="7" value="<?= $until->format(DATE_FORMAT); ?>" />
+                     <input name="RRULE_END[until][time]" value="23:59:59" type="hidden" />
+                </dd>
+            </dl>
+        </fieldset>
+
     </fieldset>
 
-    <fieldset id="RRULE_END">
-        <?php
-            $count = $recur->getCount();
-            $until = $recur->getUntil();
-            $type  = $count ? 'count' : 'until';
-
-            if (!$count) { $count = 10; }
-            if (!$until) { $until = new \DateTime('+2 weeks'); }
-
-            $checked = 'checked="checked"';
-        ?>
-        <dl>
-            <dt>End date</dt>
-            <dd><label><input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />End after</label>
-                 <label><input name="RRULE_END[count]" size="2" value="<?= $count; ?>" />occurances</label>
-            </dd>
-            <dd><label><input name="RRULE_END[type]" type="radio" value="until" <?= $type=='until' ? $checked : ''; ?> />End by</label>
-                 <input name="RRULE_END[until][date]" size="7" value="<?= $until->format(DATE_FORMAT); ?>" />
-                 <input name="RRULE_END[until][time]" value="23:59:59" type="hidden" />
-            </dd>
-        </dl>
-    </fieldset>
 
     <fieldset>
         <dl>

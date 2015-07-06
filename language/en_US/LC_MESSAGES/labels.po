@@ -212,3 +212,6 @@ msgstr "Map of Closings"
 
 msgid "scheduleView"
 msgstr "Schedule of Closings"
+
+msgid "dateTimeInfo"
+msgstr "Date and time information"
