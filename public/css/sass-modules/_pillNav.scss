@@ -1,7 +1,9 @@
 .pillNav {
+    text-align: center;
     > a {
         border: 1px solid $cob-blue-darkest;
         display: inline-block;
+
         margin: 0;
         padding: .25em 2em;
 
@@ -20,8 +22,6 @@
         $border-width: (1rem/16);
         border: $border-width solid $cob-cornflower-light;
         color: #fff;
-        display: block;
-        float: left;
         margin: 0 (-$border-width) 0 0;
         transition: background-color .5s ease-in-out;
         &:hover {

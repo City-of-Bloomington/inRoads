@@ -98,14 +98,7 @@ class EventsController extends Controller
         $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
 
         if ($this->template->outputFormat === 'html') {
-            if (Person::isAllowed('events', 'update')) {
-                $helper = $this->template->getHelper('buttonLink');
-                $this->template->headerToolsButton = $helper->buttonLink(
-                    BASE_URI.'/events/update',
-                    $this->template->_('event_add'),
-                    'add'
-                );
-            }
+            $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewToggle.inc');
             $this->template->blocks['panel-one'][] = $searchFormBlock;
 
             if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
@@ -137,24 +130,9 @@ class EventsController extends Controller
         );
 
         $this->template->title = $event->getType();
-
-        $return_uri = !empty($_GET['return_uri']) ? $_GET['return_uri'] : BASE_URI.'/events';
-        $helper = $this->template->getHelper('buttonLink');
-        $this->template->headerToolsButton = $helper->buttonLink(
-            $return_uri,
-            $this->template->_('back'),
-            'back'
-        );
-        if (Person::isAllowed('events', 'update')) {
-            $this->template->headerToolsButton.= $helper->buttonLink(
-                BASE_URI.'/events/update?id='.$event->getId(),
-                $this->template->_('event_edit'),
-                'edit'
-            );
-        }
-
-        $this->template->blocks['panel-one'][] = new Block('events/single.inc', ['event'=>$event]);
-        $this->template->blocks[]              = new Block('events/map.inc', ['event'=>$event]);
+        $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
+        $this->template->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);
+        $this->template->blocks[]              = new Block('events/map.inc',                   ['event'=>$event]);
     }
 
     public function update()
@@ -179,12 +157,7 @@ class EventsController extends Controller
         $this->template->title = $event->getId()
             ? $this->template->_('event_edit')
             : $this->template->_('event_add');
-        $helper = $this->template->getHelper('buttonLink');
-        $this->template->headerToolsButton = $helper->buttonLink(
-            BASE_URI.'/events/view?id='.$event->getId(),
-            $this->template->_('cancel'),
-            'cancel'
-        );
+        $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'=>$event]);
         $this->template->blocks['panel-one'][] = new Block('events/updateForm.inc', ['event'=>$event]);
         $this->template->blocks[]              = new Block('events/mapEditor.inc',  ['event'=>$event]);
     }

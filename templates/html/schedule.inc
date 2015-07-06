@@ -12,15 +12,10 @@
         </div>
 		<div class="content-container">
 			<header class="headerBar">
-				<div class="headerBar-title"><?= View::escape($this->title); ?></div>
-				<?php
-					if ($this->headerToolsButton) {
-						echo "<div class=\"headerBar-tools\">{$this->headerToolsButton}</div>";
-					}
-				?>
+                <?= $this->includeBlocks('headerBar'); ?>
 			</header>
         	<div class="contentPanel" id="content-panel">
-	            <?php echo $this->includeBlocks(); ?>
+	            <?= $this->includeBlocks(); ?>
 			</div>
         </div>
 	</main>

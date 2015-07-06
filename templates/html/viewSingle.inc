@@ -6,7 +6,7 @@
 	<?php $this->_include('partials/header.inc'); ?>
 	<main>
         <header class="headerBar">
-            <h1>Page title</h1>
+            <?= $this->includeBlocks('headerBar'); ?>
         </header>
 
         <?php $this->_include('partials/panel-one.inc'); ?>
@@ -14,9 +14,8 @@
 		<div class="errorPanel">
 			<?php include BLOSSOM.'/errorMessages.php'; ?>
 		</div>
-        <div class="panel" id="content-panel">
-
-            <?php echo $this->includeBlocks(); ?>
+        <div id="content-panel">
+            <?= $this->includeBlocks(); ?>
         </div>
 	</main>
 	<?php $this-> _include('partials/footer.inc'); ?>
