@@ -1,11 +1,12 @@
 .nav-dropdown {
     display: inline-block;
     position: relative;
-    margin-bottom: 0;
+    margin: 0;
 
     > dt {
         display: block;
         font-size: (13rem/16);
+        margin: 0 0 .5em 0;
     }
     > dd {
         display: block;

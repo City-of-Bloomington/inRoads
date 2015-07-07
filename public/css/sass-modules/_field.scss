@@ -185,7 +185,9 @@ fieldset {
         }
         > dt {
             float: none;
+            margin-bottom: .5em;
             padding: 0;
+            width: auto;
         }
         > dd {
             margin-left: 0;

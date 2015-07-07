@@ -67,7 +67,7 @@
         width: 0;
     }
     &:hover {
-        background: #fff;
+        background: #e7edf4;
         &:before {
             opacity: 1;
         }
@@ -83,7 +83,7 @@
         }
 
         &:before {
-            transform: rotate(180deg) translateY((5rem/16));
+            transform: scaleY(-1) translateY((5rem/16));
         }
     }
     .title {
