@@ -196,13 +196,22 @@ msgid "MONTHLY"
 msgstr "Monthly"
 
 msgid "FREQ"
-msgstr "Repeats every"
+msgstr "Repeats"
 
 msgid "INTERVAL"
 msgstr "On every"
 
 msgid "BYDAY"
 msgstr "On every"
+
+msgid "RRULE_END"
+msgstr "Recurrence End"
+
+msgid "RRULE_COUNT"
+msgstr "End after"
+
+msgid "RRULE_UNTIL"
+msgstr "Until"
 
 msgid "eventTypeLegend"
 msgstr "Choose closure types"

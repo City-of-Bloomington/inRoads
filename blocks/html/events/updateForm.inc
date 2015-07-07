@@ -233,11 +233,17 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 $checked = 'checked="checked"';
             ?>
             <dl>
-                <dt>End date</dt>
-                <dd><label><input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />End after</label>
-                     <label><input name="RRULE_END[count]" size="2" value="<?= $count; ?>" />occurances</label>
+                <dt><?= $this->_('RRULE_END'); ?></dt>
+                <dd><label>
+                        <input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />
+                        <?= $this->_('RRULE_COUNT'); ?>
+                    </label>
+                    <label><input name="RRULE_END[count]" size="2" value="<?= $count; ?>" />occurances</label>
                 </dd>
-                <dd><label><input name="RRULE_END[type]" type="radio" value="until" <?= $type=='until' ? $checked : ''; ?> />End by</label>
+                <dd><label>
+                        <input name="RRULE_END[type]" type="radio" value="until" <?= $type=='until' ? $checked : ''; ?> />
+                        <?= $this->_('RRULE_UNTIL'); ?>
+                    </label>
                      <input name="RRULE_END[until][date]" size="7" value="<?= $until->format(DATE_FORMAT); ?>" />
                      <input name="RRULE_END[until][time]" value="23:59:59" type="hidden" />
                 </dd>
