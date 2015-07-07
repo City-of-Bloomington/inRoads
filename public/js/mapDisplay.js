@@ -94,10 +94,10 @@ var MAPDISPLAY = {
     },
     currentlySelectedEventId: null,
     selectEvent: function (event_id, feature) {
-        var event  = document.getElementById(event_id),
-            coords = [];
+        var article = document.getElementById(event_id),
+            coords  = [];
 
-        event.classList.add('current');
+        article.parentElement.classList.add('current');
         MAPDISPLAY.currentlySelectedEventId = event_id;
 
         if (!feature) {
@@ -112,13 +112,13 @@ var MAPDISPLAY = {
         MAPDISPLAY.marker.setPosition(coords);
     },
     deselectEvents: function () {
-        var event   = document.querySelector('#events .current'),
+        var a       = document.querySelector('#events .current'),
             feature = {};
 
-        if (event) {
-            event.classList.remove('current');
+        if (a) {
+            a.classList.remove('current');
 
-            feature = MAPDISPLAY.findFeature(event.getAttribute('id'));
+            feature = MAPDISPLAY.findFeature(a.firstElementChild.getAttribute('id'));
             if (feature) { MAPDISPLAY.resetStyle(feature); }
         }
 
@@ -168,7 +168,7 @@ var MAPDISPLAY = {
         e.preventDefault();
         MAPDISPLAY.deselectEvents();
         if (!current) {
-            MAPDISPLAY.selectEvent(e.currentTarget.getAttribute('id'));
+            MAPDISPLAY.selectEvent(e.currentTarget.firstElementChild.getAttribute('id'));
         }
         return false;
     }
@@ -181,7 +181,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 
 // Load any initial data the webpage specifies.
 (function () {
-    var events = document.querySelectorAll('#events a.panelItem'),
+    var events = [],
         len    = 0,
         i      = 0,
         id        = '',
@@ -214,11 +214,21 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         });
     }
 
+    // Event data can be in either the eventList or the single event view.
+    events = document.querySelectorAll('#events article');
+    if (!events.length) {
+        events = document.querySelectorAll('#event article');
+    }
     len = events.length;
     for (i=0; i<len; i++) {
         id   = events[i].getAttribute('id');
-        type = events[i].firstElementChild.className;
-        events[i].addEventListener('click', MAPDISPLAY.handleListClick);
+        type = events[i].className;
+
+        // tagName case varies from browser to browser and from XHMTL to HTML
+        if (events[i].parentElement.tagName === 'a' ||
+            events[i].parentElement.tagName === 'A') {
+            events[i].parentElement.addEventListener('click', MAPDISPLAY.handleListClick);
+        }
 
         geography = events[i].querySelector('.geography');
         if (geography && geography.innerHTML) {
