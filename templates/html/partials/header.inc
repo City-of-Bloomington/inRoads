@@ -8,7 +8,7 @@ use Blossom\Classes\View;
         </a>
         <div class="site-breadCrumb">
             <div class="site-breadCrumb-ancestors">
-                Residents &gt; Getting Around Bloomington
+                <a href="https://bloomington.in.gov/community">Residents</a> &gt; <a href="https://bloomington.in.gov/sections/viewSection.php?section_id=26">Getting Around Bloomington</a>
             </div>
             <a href="<?= BASE_URI; ?>/events" class="site-breadCrumb-home">
                 <?= APPLICATION_NAME ?>
