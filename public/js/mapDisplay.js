@@ -28,7 +28,7 @@ var MAPDISPLAY = {
         }),
         selected: new ol.style.Style({
             fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]}),
-            stroke: new ol.style.Stroke({color:[215, 0, 0, 1], width:8}),
+            stroke: new ol.style.Stroke({color:[215, 0, 0, 1], width:8, lineCap:'square'}),
             image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:[215, 0, 0, 1]})})
         })
     },
