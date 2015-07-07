@@ -188,10 +188,13 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         type      = '',
         f         = 0,
         geography = '',
-        features  = [];
+        features  = [],
+        noscriptMessage = document.getElementById('pleaseEnableJavascript');
 
     // Remove the prompt to enable Javascript before we begin to render the map
-    document.getElementById('map').removeChild(document.getElementById('pleaseEnableJavascript'));
+    if (noscriptMessage) {
+        noscriptMessage.parentElement.removeChild(noscriptMessage);
+    }
 
     // Maplayers are defined in site_config.
     // We have to remember to write the PHP variables out as Javascript,
