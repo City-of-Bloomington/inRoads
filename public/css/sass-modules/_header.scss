@@ -15,16 +15,27 @@ body > header {
                 display: inline-block;
             }
             &-breadCrumb {
+                border-left: (1rem/16) solid $cob-blue-darkest;
                 display: inline-block;
                 font-family: $font-family-heading;
-                margin: 0 0 0 2rem;
+                margin: 0 0 0 1rem;
+                padding: 0 0 0 1rem;
+                position: relative;
+                    top: (-4rem/16);
 
                 &-ancestors {
-                    font-size: (13rem/16);
+                    color: $cob-cornflower;
+                    font-size: (12rem/16);
+                    line-height: 1em;
                     text-transform: uppercase;
+                    > a {
+                        color: $cob-cornflower;
+                    }
                 }
                 &-home {
+                    display: block;
                     font-size: (20rem/16);
+                    line-height: 1em;
                 }
             }
             &-utilityBar {
