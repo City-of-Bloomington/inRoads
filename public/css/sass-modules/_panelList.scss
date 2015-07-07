@@ -39,8 +39,8 @@
     border-left-width: 0;
     display: block;
     margin: 0;
-    padding: .5rem .5rem 0 .5rem;
-    transition: border-width .15s ease-in-out;
+    padding: .5rem .5rem (6rem/16) .5rem;
+    transition: border-width .15s ease-in-out, padding .15s ease-in-out;
 
     &:after {
         background-color: $cob-gray;
@@ -76,7 +76,9 @@
         transition: color .2s ease-in-out;
     }
     &.current {
+        background: #e7edf4;
         border-left-width: (6rem/16);
+        padding-right: 0;
 
         .description {
             display:block;
