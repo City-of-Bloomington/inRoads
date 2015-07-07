@@ -36,9 +36,9 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
             : 'map';
 
         $url = new Url(BASE_URL.'/events');
-        $url->start   = !empty($_GET['start'])   ? $_GET['start']   : null;
-        $url->end     = !empty($_GET['end'])     ? $_GET['end']     : null;
-        $url->filters = !empty($_GET['filters']) ? $_GET['filters'] : null;
+        $url->start      = !empty($_GET['start'])      ? $_GET['start']      : null;
+        $url->end        = !empty($_GET['end'])        ? $_GET['end']        : null;
+        $url->eventTypes = !empty($_GET['eventTypes']) ? $_GET['eventTypes'] : null;
 
         $options = '';
         $url->start = $today;
@@ -68,7 +68,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
         </dd>
     </dl>
 
-    <form method="get" action="<?php echo $url; ?>">
+    <form method="get" action="<?php echo BASE_URI.'/events'; ?>">
         <fieldset id="dateFieldSet">
             <dl class="dateRange">
                 <dt><label for="inputStartDate"><?= $this->_('startDate'); ?></label></dt>
