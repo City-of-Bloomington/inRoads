@@ -1,10 +1,10 @@
 "use strict";
 
 (function () {
-    var filterPanel     = document.querySelector('#filterPanel'),
+    var filterPanel     = document.getElementById('filterPanel'),
         dateFieldSet    = document.getElementById('dateFieldSet'),
-        selectorCurrent = document.querySelector('#filterPanel .nav-dropdown-current'),
-        selectorOptions = document.querySelector('#filterPanel .nav-dropdown-options'),
+        selectorCurrent = filterPanel.querySelector('.nav-dropdown-current'),
+        selectorOptions = filterPanel.querySelector('.nav-dropdown-options'),
         selected        = selectorOptions.querySelector('a.current'),
         chooseDates     = document.createElement('a'),
         dropDownOptions = document.querySelector('.nav-dropdown-options'),
@@ -22,14 +22,15 @@
     selectorCurrent.addEventListener('click', toggleOptions);
     dropDownOptions.style.position = 'absolute';
 
-    chooseDates.innerHTML = 'Choose Dates';
+    chooseDates.innerHTML = selectorCurrent.innerHTML;
     if (!selected) {
         chooseDates.setAttribute('class', 'current');
+        dateFieldSet.style.display = 'block';
         selected = chooseDates;
     }
     selectorOptions.appendChild(chooseDates);
 
-    document.querySelector('#filterPanel .nav-dropdown-options').lastChild.addEventListener('click', function() {
+    selectorOptions.lastChild.addEventListener('click', function() {
         dateFieldSet.style.display = 'block';
         toggleOptions();
     });
