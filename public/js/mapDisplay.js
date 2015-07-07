@@ -190,6 +190,9 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         geography = '',
         features  = [];
 
+    // Remove the prompt to enable Javascript before we begin to render the map
+    document.getElementById('map').removeChild(document.getElementById('pleaseEnableJavascript'));
+
     // Maplayers are defined in site_config.
     // We have to remember to write the PHP variables out as Javascript,
     // so we can reference them here.
