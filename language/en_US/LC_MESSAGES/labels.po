@@ -205,13 +205,13 @@ msgid "BYDAY"
 msgstr "On every"
 
 msgid "eventTypeLegend"
-msgstr "Filter By Type"
+msgstr "Choose closure types"
 
 msgid "mapView"
-msgstr "Map of Closings"
+msgstr "Map of Closures"
 
 msgid "scheduleView"
-msgstr "Schedule of Closings"
+msgstr "Schedule of Closures"
 
 msgid "dateTimeInfo"
 msgstr "Date and time information"
