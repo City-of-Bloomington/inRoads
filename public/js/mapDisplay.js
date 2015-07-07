@@ -163,9 +163,13 @@ var MAPDISPLAY = {
         }
     },
     handleListClick: function (e) {
+        var current = e.currentTarget.classList.contains('current');
+
         e.preventDefault();
         MAPDISPLAY.deselectEvents();
-        MAPDISPLAY.selectEvent(e.currentTarget.getAttribute('id'));
+        if (!current) {
+            MAPDISPLAY.selectEvent(e.currentTarget.getAttribute('id'));
+        }
         return false;
     }
 };
