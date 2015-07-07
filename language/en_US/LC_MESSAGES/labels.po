@@ -31,7 +31,7 @@ msgid "delete"
 msgstr "Delete"
 
 msgid "search"
-msgstr "Search"
+msgstr "Filter"
 
 msgid "submit"
 msgstr "Submit"
@@ -172,7 +172,7 @@ msgid "upcoming_closures"
 msgstr "Upcoming Road Closures"
 
 msgid "searchPresets"
-msgstr "How many closures to show"
+msgstr "Show closures for:"
 
 msgid "today"
 msgstr "Today"

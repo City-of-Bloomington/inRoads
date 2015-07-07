@@ -46,7 +46,7 @@ use Blossom\Classes\Block;
 
             echo "
             <div class=\"panelItem-container $classes\">
-                <a href=\"$url\" class=\"panelItem $current\" id=\"e_{$e->getId()}\">
+                <a href=\"$url\" class=\"panelItem $current\" >
                     {$block->render('html', $this->template)}
                 </a>
                 $editButton

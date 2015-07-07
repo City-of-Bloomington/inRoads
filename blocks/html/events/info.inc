@@ -25,7 +25,7 @@ if ($t) {
     $typeClass = "class=\"{$t->getCode()}\"";
 }
 ?>
-<article <?= $typeClass; ?>>
+<article id="e_<?= $this->event->getId(); ?>" <?= $typeClass; ?>>
     <h2 class="title"><?= $title; ?></h2>
     <div class="dates"><?= $this->event->getHumanReadableDuration('F j, Y'); ?></div>
     <?php
