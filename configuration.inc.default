@@ -78,6 +78,7 @@ require_once GOOGLE.'/autoload.php';
  */
 if (!defined('STDIN')) {
 	ini_set('session.save_path', SITE_HOME.'/sessions');
+	ini_set('session.cookie_path', BASE_URI);
 	session_start();
 }
 
