@@ -2,6 +2,27 @@
     background: #fff;
     height: 100%;
     overflow-x: auto;
+
+    > .emptyResult {
+        margin: 2rem;
+        &:before {
+            background: url('images/empty-result-icon.svg') no-repeat 50% 50% / 100% 100%;
+            content: '';
+            display: block;
+            height: (150rem/16);
+            margin: 1rem auto 0 auto;
+            width: (150rem/16);
+        }
+        > h2 {
+            color: $cob-blue-darkest;
+            margin: 1em 0 .25em 0;
+            text-align: center;
+        }
+        > p {
+            color: $cob-gray-darkest;
+            margin: 0 0 1em 0;
+        }
+    }
 }
 .panelItem {
     &-container {
