@@ -91,7 +91,7 @@ class EventsController extends Controller
             $search['filters']
         );
 
-        $this->template->title = $this->template->_('upcoming_closures');
+        $this->template->title = $this->template->_('application_title');
         $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
         $searchFormBlock = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
         $eventListBlock  = new Block('events/list.inc',       ['events'=>$events]);
