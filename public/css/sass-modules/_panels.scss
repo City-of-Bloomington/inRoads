@@ -109,8 +109,7 @@
                 }
             }
             &.edit {
-                // @TODO
-                // Need icon styles for edit button
+                background: url('images/pencil-white.svg') no-repeat 50% 50% / 80% 80%;
             }
             &.back {
                 &:before {
