@@ -4,7 +4,9 @@ var MAPDISPLAY = {
         target: 'map',
         view: new ol.View({
             center: ol.proj.transform([PHP.DEFAULT_LONGITUDE, PHP.DEFAULT_LATITUDE], 'EPSG:4326', 'EPSG:3857'),
-            zoom: 14
+            zoom: 14,
+            minZoom: 1,
+            maxZoom: 20
         })
     }),
     /**

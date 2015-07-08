@@ -311,6 +311,29 @@ class Event
     }
 
     /**
+     * Setting extendedProperties MUST ALWAYS result in a patch
+     *
+     * Because extendedProperties is a special object, you cannot
+     * rely on our simple set() function to update the patch based
+     * on the new value.
+     *
+     * For the things you want to store in extendedProperties,
+     * make sure to check against your existing value before calling
+     * this function.
+     *
+     * @param Google_Service_Calendar_EventExtendedProperties $properties
+     */
+    public function setExtendedProperties(\Google_Service_Calendar_EventExtendedProperties $properties)
+    {
+        if (!$this->patch) {
+            $this->patch = new \Google_Service_Calendar_Event();
+        }
+
+        $this->event->setExtendedProperties($properties);
+        $this->patch->setExtendedProperties($properties);
+    }
+
+    /**
      * @return string
      */
     public function getGeography()
@@ -332,8 +355,7 @@ class Event
         if ($this->getGeography() != $new) {
             $properties = $this->getExtendedProperties();
             $properties->setShared(['geography'=>$new]);
-
-            $this->set('extendedProperties', $properties);
+            $this->setExtendedProperties($properties);
        }
     }
 
