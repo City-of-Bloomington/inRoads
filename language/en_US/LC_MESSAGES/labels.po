@@ -241,3 +241,9 @@ msgstr "Schedule of Closures"
 
 msgid "dateTimeInfo"
 msgstr "Date and time information"
+
+msgid "noEventsReturned.heading"
+msgstr "Smooth driving ahead!"
+
+msgid "noEventsReturned.message"
+msgstr "Either you've found the perfect day to travel, or your query returned no results (it's probably more the second thing)."

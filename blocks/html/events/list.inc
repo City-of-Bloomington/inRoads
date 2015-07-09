@@ -58,8 +58,8 @@ use Blossom\Classes\Block;
         } else {
             ?>
                 <div class="emptyResult">
-                    <h2>No results found</h2>
-                    <p>Sorry, we couldn't find any results for that query. Maybe you should try changing your query&mdash;or maybe you just found the <strong>perfect day</strong> to travel.</p>
+                    <h2><?= $this->_('noEventsReturned.heading') ?></h2>
+                    <p><?= $this->_('noEventsReturned.message') ?></p>
                 </div>
             <?php
         }
