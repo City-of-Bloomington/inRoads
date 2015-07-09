@@ -5,6 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
+use Application\Models\DepartmentsTable;
 use Application\Models\Event;
 use Application\Models\EventType;
 use Blossom\Classes\View;
@@ -23,15 +24,15 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dt><label   for="department"><?= $this->_('department'); ?></label></dt>
             <dd><select name="department"><option value=""></option>
                 <?php
-                    global $DEPARTMENTS;
+                    $table = new DepartmentsTable();
+                    $departments = $table->find();
 
-                    foreach ($DEPARTMENTS as $code=>$d) {
-                        $name = View::escape($d['name']);
-                        $selected = $this->event->getDepartment()==$code
+                    foreach ($departments as $d) {
+                        $name = View::escape($d->getName());
+                        $selected = $this->event->getDepartment()===$d->getCode()
                             ? 'selected="selected"'
                             : '';
-                        echo "<option value=\"$code\" $selected>$name</option>";
-
+                        echo "<option value=\"{$d->getCode()}\" $selected>$name</option>";
                     }
                 ?>
                 </select>

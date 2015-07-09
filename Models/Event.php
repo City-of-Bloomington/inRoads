@@ -364,9 +364,7 @@ class Event
      */
     private function parseSummary()
     {
-        global $DEPARTMENTS;
-
-        $d = implode('|',array_keys($DEPARTMENTS));
+        $d = implode('|', Department::codes());
         if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
             $this->data['department'] = strtoupper($matches[1]);
         }
@@ -383,13 +381,36 @@ class Event
             $this->data['geography_description'] = $this->getSummary();
         }
     }
-    public function getDepartment()            { return !empty($this->data['department'])            ? $this->data['department']            : ''; }
-    public function getGeography_description() { return !empty($this->data['geography_description']) ? $this->data['geography_description'] : ''; }
-    public function setDepartment($s) {
-        global $DEPARTMENTS;
 
-        if (array_key_exists($s, $DEPARTMENTS)) {
-            $this->data['department'] = strtoupper(trim($s));
+    /**
+     * @return string
+     */
+    public function getGeography_description()
+    {
+        return !empty($this->data['geography_description'])
+            ?         $this->data['geography_description']
+            : '';
+    }
+    
+    /**
+     * Returns the department code
+     *
+     * The department code is prepended to the summary field in Google Calendar
+     *
+     * @return string The department code
+     */
+    public function getDepartment()
+    {
+        return !empty($this->data['department'])
+            ? $this->data['department']
+            : '';
+    }
+    /**
+     * @param string $code
+     */
+    public function setDepartment($code) {
+        if (in_array($code, Department::codes())) {
+            $this->data['department'] = strtoupper(trim($code));
         }
     }
 

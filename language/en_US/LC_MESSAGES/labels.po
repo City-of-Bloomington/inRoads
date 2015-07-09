@@ -88,6 +88,9 @@ msgstr "Role"
 msgid "domain"
 msgstr "Domain"
 
+msgid "code"
+msgstr "Code"
+
 msgid "phone"
 msgstr "Phone"
 
@@ -157,7 +160,15 @@ msgid "allDay"
 msgstr "All Day Event"
 
 msgid "department"
-msgstr "Department"
+msgid_plural "departments"
+msgstr[0] "Department"
+msgstr[1] "Departments"
+
+msgid "department_add"
+msgstr "New Department"
+
+msgid "department_edit"
+msgstr "Edit Department"
 
 msgid "type"
 msgstr "Type"

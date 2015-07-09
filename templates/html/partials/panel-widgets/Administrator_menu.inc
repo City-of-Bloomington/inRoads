@@ -9,6 +9,7 @@ use Application\Models\Person;
 $links = '';
 if (Person::isAllowed('users')) {
     $routes = [
+        'departments'   => 'department',
         'people'        => 'person',
         'users'         => 'user'
     ];
