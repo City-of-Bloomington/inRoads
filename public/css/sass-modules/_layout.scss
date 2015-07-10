@@ -18,7 +18,6 @@
             }
         }
         > #panel-one {
-            border-top: .4em solid $color-accent;
             position: absolute;
                 top: ($siteHeaderHeight + $headerBarHeight);
                 bottom: $footerHeight;
@@ -45,7 +44,6 @@
 .eventEdit {
     > main {
         #panel-one {
-            border-top: .4em solid $color-accent;
             bottom: 0;
         }
     }

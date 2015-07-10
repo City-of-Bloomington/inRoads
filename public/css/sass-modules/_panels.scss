@@ -51,9 +51,11 @@
 
 .headerBar {
     background-color: $cob-blue;
+    box-sizing: border-box;
     color: #fff;
-    height: (32rem/16);
+    height: $headerBarHeight;
     margin: 0;
+    padding: (6rem/16) 0 0 0;
     position: relative;
 
     &-tools {
@@ -61,7 +63,7 @@
         height: 1.5rem;
         padding: 0 .25rem 0 .25rem;
         position: absolute;
-            top: 0;
+            top: (6rem/16);
             right: 0;
 
         > .button {
