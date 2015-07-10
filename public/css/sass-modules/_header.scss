@@ -1,8 +1,7 @@
 body > header {
     border-top: .4em solid $color-accent;
-    border-bottom: .4em solid $color-accent;
     box-sizing: border-box;
-    height: 4.35rem;
+    height: $siteHeaderHeight;
 
     > .container {
         margin: 0 auto 0;

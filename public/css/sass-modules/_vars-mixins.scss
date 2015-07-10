@@ -41,10 +41,10 @@ $cob-red-darkest: #541214;
 $color-text-default: $cob-gray-darkest;
 $color-content-background: #fff;
 
-$color-link:   #1e59ae;
-$color-nav1:   #1e59ae;
-$color-header: #1e59ae;
-$color-accent: #1e59ae;
+$color-link:   $cob-blue;
+$color-nav1:   $cob-blue;
+$color-header: $cob-blue;
+$color-accent: $cob-blue;
 
 $color-heading-1: #777;
 $color-heading-2: #555;
@@ -95,7 +95,7 @@ $window-small: (400em/16);
 $filters-width: 14.5rem;
 $footerHeight: 13.5rem;
 $headerBarHeight: 2rem;
-$siteHeaderHeight: 4.35rem;
+$siteHeaderHeight: 4rem;
 
 
 @mixin clearfix {
