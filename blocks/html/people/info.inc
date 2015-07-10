@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2009-2014 City of Bloomington, Indiana
+ * @copyright 2009-2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Person $this->person
@@ -30,15 +30,19 @@ if (Person::isAllowed('people', 'edit')) {
     );
 }
 $name = View::escape($this->person->getFullname());
+$dept = View::escape($this->person->getDepartment());
 echo "
 <section>
 	<h1>$name</h1>
 	<div>$editButton</div>
 	<table>
-		<tr><th>Email</th>
+        <tr><th>{$this->_('department')}</th>
+            <td>$dept</td>
+        </tr>
+		<tr><th>{$this->_('email')}</th>
 			<td>{$this->person->getEmail()}</td>
 		</tr>
-		<tr><th>Username</th>
+		<tr><th>{$this->_('username')}</th>
 			<td>$username</td>
 		</tr>
 	</table>

@@ -142,6 +142,12 @@ class EventsController extends Controller
             ? $this->loadEvent($_REQUEST['id'])
             : new Event();
 
+        if (!$event->permitsEditingBy($_SESSION['USER'])) {
+            $_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
+            header('Location: '.BASE_URL.'/events');
+            exit();
+        }
+
         if (isset($_POST['id'])) {
             try {
                 $event->handleUpdate($_POST);

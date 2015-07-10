@@ -13,6 +13,8 @@ class Person extends ActiveRecord
 {
 	protected $tablename = 'people';
 
+	protected $department;
+
 	/**
 	 * Populates the object with data
 	 *
@@ -67,13 +69,14 @@ class Person extends ActiveRecord
 	{
         $errors = [];
 
-		if ($this->getUsername() && !$this->getAuthenticationMethod()) {
-			$this->setAuthenticationMethod('local');
-		}
-
-
 		if (!$this->getFirstname()) { $errors['firstname'][] = 'missingRequiredField'; }
 		if (!$this->getEmail())     { $errors['email'][]     = 'missingRequiredField'; }
+
+		if ($this->getUsername()) {
+            if (!$this->getAuthenticationMethod()) { $this->setAuthenticationMethod('local'); }
+            if (!$this->getRole())                 { $this->setRole('Public'); }
+            // Members of the public with user accounts should assigned to a department
+		}
 
 		if (count($errors)) {
             return ['people' => $errors];
@@ -118,10 +121,14 @@ class Person extends ActiveRecord
 	public function getPassword()             { return parent::get('password'); } # Encrypted
 	public function getRole()                 { return parent::get('role');     }
 	public function getAuthenticationMethod() { return parent::get('authenticationMethod'); }
+	public function getDepartment_id()        { return parent::get('getDepartment_id'); }
+    public function getDepartment() { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
 
 	public function setUsername            ($s) { parent::set('username',             $s); }
 	public function setRole                ($s) { parent::set('role',                 $s); }
 	public function setAuthenticationMethod($s) { parent::set('authenticationMethod', $s); }
+    public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
+    public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
 
 	public function setPassword($s)
 	{
@@ -150,9 +157,10 @@ class Person extends ActiveRecord
 	public function handleUpdateUserAccount($post)
 	{
 		$fields = array(
-			'firstname','lastname','email',
-			'username','authenticationMethod','role'
+			'firstname', 'lastname', 'email', 'department_id',
+			'username', 'authenticationMethod', 'role'
 		);
+
 		foreach ($fields as $f) {
 			if (isset($post[$f])) {
 				$set = 'set'.ucfirst($f);

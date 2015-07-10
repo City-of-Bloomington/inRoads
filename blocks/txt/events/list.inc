@@ -13,3 +13,5 @@ foreach ($this->events as $e) {
     $block->event = $e;
     echo $block->render('txt')."\n\n";
 }
+
+$group = GOOGLE_GROUP;

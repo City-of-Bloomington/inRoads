@@ -16,5 +16,7 @@ create table people (
 	username  varchar(40) unique,
 	password  varchar(40),
 	authenticationMethod varchar(40),
-	role varchar(30)
+	role varchar(30),
+	department_id int unsigned,
+	foreign key (department_id) references departments(id)
 );

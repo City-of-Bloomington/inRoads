@@ -90,6 +90,8 @@ class Department extends ActiveRecord
 	//----------------------------------------------------------------
 	// Custom functions
     //----------------------------------------------------------------
+    public function __toString() { return $this->getName(); }
+    
     /**
      * @return array
      */

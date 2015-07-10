@@ -10,10 +10,7 @@
         </header>
 
         <?php $this->_include('partials/panel-one.inc'); ?>
-
-		<div class="errorPanel">
-			<?php include BLOSSOM.'/errorMessages.php'; ?>
-		</div>
+        <?php include BLOSSOM.'/errorMessages.php'; ?>
         <div id="content-panel">
             <?= $this->includeBlocks(); ?>
         </div>

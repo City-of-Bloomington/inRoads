@@ -5,7 +5,6 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
-use Application\Models\DepartmentsTable;
 use Application\Models\Event;
 use Application\Models\EventType;
 use Blossom\Classes\View;
@@ -22,10 +21,14 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
         <legend><span><?php echo $this->_('event_info'); ?></span></legend>
         <dl>
             <dt><label   for="department"><?= $this->_('department'); ?></label></dt>
-            <dd><select name="department"><option value=""></option>
+            <dd><select name="department">
                 <?php
-                    $table = new DepartmentsTable();
-                    $departments = $table->find();
+                    // Department should be a required field for People who
+                    // can only create events for their department
+                    $departments = Event::validDepartments($_SESSION['USER']);
+                    if (count($departments) > 1) {
+                        echo '<option value=""></option>';
+                    }
 
                     foreach ($departments as $d) {
                         $name = View::escape($d->getName());

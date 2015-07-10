@@ -32,6 +32,7 @@ class Event
 
             $this->parseSummary();
         }
+        // Code to create a new Event with default values
         else {
             $this->event = new \Google_Service_Calendar_Event([
                 'start' => [
@@ -43,6 +44,12 @@ class Event
                     'timeZone'=> ini_get('date.timezone')
                 ]
             ]);
+            if (isset($_SESSION['USER'])) {
+                $d =  $_SESSION['USER']->getDepartment();
+                if ($d) {
+                    $this->setDepartment($d->getCode());
+                }
+            }
         }
     }
 
@@ -391,7 +398,7 @@ class Event
             ?         $this->data['geography_description']
             : '';
     }
-    
+
     /**
      * Returns the department code
      *
@@ -498,5 +505,43 @@ class Event
             $text.= ' '.$t->transform($rule);
         }
         return $text;
+    }
+
+    /**
+     * @param Person $person
+     * @return bool
+     */
+    public function permitsEditingBy(Person $person)
+    {
+        if (   $person->getRole() === 'Administrator'
+            || $person->getRole() === 'Staff') {
+            return true;
+        }
+
+        if (   $person->getRole() === 'Public') {
+            $d = $person->getDepartment();
+            if ($d && $this->getDepartment() === $d->getCode()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return array An array of Department objects
+     */
+    public static function validDepartments(Person $person)
+    {
+        if ($person->getRole() === 'Public') {
+            $d = $person->getDepartment();
+            if ($d) { return [$d]; }
+        }
+        if (   $person->getRole() == 'Administrator'
+            || $person->getRole() == 'Staff') {
+
+            $table = new DepartmentsTable();
+            return $table->find();
+        }
+        return [];
     }
 }

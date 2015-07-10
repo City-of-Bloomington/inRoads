@@ -33,6 +33,8 @@ $ZEND_ACL->allow(null,'login');
 // Permissions for unauthenticated browsing
 $ZEND_ACL->allow(null, ['index', 'events'], ['index', 'view']);
 
+$ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
+
 // Allow Staff to do stuff
 $ZEND_ACL->allow('Staff', ['people', 'departments'], ['index','view']);
 $ZEND_ACL->allow('Staff', ['events']);
