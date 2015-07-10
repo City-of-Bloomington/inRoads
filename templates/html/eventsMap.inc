@@ -16,9 +16,7 @@
 				<?= $this->includeBlocks('headerBar'); ?>
 			</header>
 	        <?php $this->_include('partials/panel-two.inc'); ?>
-	        <div class="errorPanel">
-	            <?php include BLOSSOM.'/errorMessages.php'; ?>
-	        </div>
+            <?php include BLOSSOM.'/errorMessages.php'; ?>
 	        <div class="contentPanel" id="content-panel">
 	            <?= $this->includeBlocks(); ?>
 	        </div>

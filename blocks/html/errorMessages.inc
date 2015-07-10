@@ -6,7 +6,7 @@
  * @param array $this->errorMessages
  */
 ?>
-<div id="errorMessages">
+<div id="errorMessages" class="errorPanel">
 	<h2>Sorry</h2>
 	<?php
 		foreach ($this->errorMessages as $e) {

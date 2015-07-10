@@ -29,10 +29,7 @@ if (isset($resource) && isset($action) && $ZEND_ACL->hasResource($resource)) {
 	}
 	else {
 		header('HTTP/1.1 403 Forbidden', true, 403);
-		$template->setFlashMessages(
-            [$resource => [$action => ['noAccessAllowed']]],
-            'errorMessages'
-		);
+		$_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
 	}
 }
 else {

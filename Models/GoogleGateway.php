@@ -67,9 +67,9 @@ class GoogleGateway
         $service = self::getService();
 
         $opts = [
-            'fields'  => 'items('.self::FIELDS.')',
-            'orderBy' => 'startTime',
-            'singleEvents' => true
+            'fields'  => 'items('.self::FIELDS.')'
+            #'orderBy' => 'startTime',
+            #'singleEvents' => true
         ];
         if ($start) { $opts['timeMin'] = $start->format(self::DATETIME_FORMAT); }
         if ($end  ) { $opts['timeMax'] = $end  ->format(self::DATETIME_FORMAT); }
