@@ -30,11 +30,13 @@ if (isset($resource) && isset($action) && $ZEND_ACL->hasResource($resource)) {
 	else {
 		header('HTTP/1.1 403 Forbidden', true, 403);
 		$_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
+		$template->setFilename('admin');
 	}
 }
 else {
 	header('HTTP/1.1 404 Not Found', true, 404);
 	$template->blocks[] = new Block('404.inc');
+	$template->setFilename('admin');
 }
 
 echo $template->render();

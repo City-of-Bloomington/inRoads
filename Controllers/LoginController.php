@@ -17,6 +17,7 @@ class LoginController extends Controller
 	public function __construct(Template $template)
 	{
 		parent::__construct($template);
+		$this->template->setFilename('admin');
 		$this->return_url = !empty($_REQUEST['return_url']) ? $_REQUEST['return_url'] : BASE_URL;
 	}
 
