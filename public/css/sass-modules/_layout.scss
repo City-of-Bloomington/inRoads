@@ -2,7 +2,6 @@
 .admin #content-panel { }
 
 .content-container {
-    border-top: .4em solid $color-accent;
     position: absolute;
         top: $siteHeaderHeight;
         right: 0;
@@ -106,6 +105,64 @@
                 left: $filters-width;
                 bottom: 0;
                 right: 0;
+        }
+    }
+}
+.admin {
+    > main {
+        @media screen and (min-width: $window-medium) {
+            padding: 3rem 0 0 0;
+            position: relative;
+
+            &:before {
+                background: -moz-linear-gradient(top,  #e4eff8 0%,   $color-content-background 200px); /* FF3.6+ */
+                background:   -o-linear-gradient(top,  #e4eff8 0%,   $color-content-background 200px); /* Opera 11.10+ */
+                background:  -ms-linear-gradient(top,  #e4eff8 0%,   $color-content-background 200px); /* IE10+ */
+                background: linear-gradient(to bottom, #e4eff8 20em, $color-content-background 30em); /* W3C */
+                box-sizing: content-box;
+                content: '';
+                display: block;
+                height: 200px;
+                padding: 20em 0 0 0;
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
+                z-index: 1;
+            }
+
+            &:after {
+                background: url($url-header-background);
+                background-size: 100% auto;
+                content: '';
+                display: block;
+                height: 18.75em;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 2;
+            }
+
+
+        }
+
+        #content-panel {
+            @media screen and (min-width: $window-medium) {
+                background: $color-content-background;
+                border-top: .4em solid $color-accent;
+                margin: 0 auto 0 auto;
+                min-height: 40em;
+                padding: 2em;
+                position: relative;
+                width: 46em;
+                z-index: 3;
+
+            }
+            @media screen and (min-width: $window-large) {
+                width: 60rem;
+            }
+
         }
     }
 }

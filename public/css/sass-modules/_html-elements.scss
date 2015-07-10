@@ -39,7 +39,10 @@ p {
 }
 address { white-space: pre-line; }
 
-table { margin: 1em 0 1em 0; }
+table {
+    margin: 1em 0 1em 0;
+    width: 100%;
+}
 th { font-weight: $font-weight-heading; }
 td { padding:.25em; }
 thead th { text-align:left; }
