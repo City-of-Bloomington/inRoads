@@ -20,23 +20,21 @@ $title = $this->person->getId() ? View::escape('Edit '.$this->person->getFirstna
 		<fieldset><legend><?php echo $this->_('person_info'); ?></legend>
 			<input name="person_id" type="hidden" value="<?php echo $this->person->getId(); ?>" />
 
-			<table>
-				<tr><td><label for="firstname"><?php echo $this->_('firstname'); ?></label></td>
-					<td><input name="firstname" id="firstname" value="<?php echo $firstname; ?>"
+			<dl><dt><label for="firstname"><?php echo $this->_('firstname'); ?></label></dt>
+                <dd><input name="firstname" id="firstname" value="<?php echo $firstname; ?>"
                             required="required" inputmode="latin-name" />
-                    </td>
-				</tr>
+                </dd>
+            </dl>
 
-				<tr><td><label for="lastname"><?php echo $this->_('lastname'); ?></label></td>
-					<td><input name="lastname" id="lastname" value="<?php echo $lastname; ?>"
-                            required="required" inputmode="latin-name" />
-                    </td>
-				</tr>
+            <dl><dt><label for="lastname"><?php echo $this->_('lastname'); ?></label></dt>
+                <dd><input name="lastname" id="lastname" value="<?php echo $lastname; ?>"
+                        required="required" inputmode="latin-name" />
+                </dd>
+            </dl>
 
-				<tr><td><label for="email"><?php echo $this->_(['email', 'emails', 1]); ?></label></td>
-					<td><input name="email" id="email" type="email" value="<?php echo $email; ?>" /></td>
-				</tr>
-			</table>
+            <dl><dt><label for="email"><?php echo $this->_(['email', 'emails', 1]); ?></label></dt>
+                <dd><input name="email" id="email" type="email" value="<?php echo $email; ?>" /></dd>
+            </dl>
 			<?php
 				$h = $this->template->getHelper('saveAndCancelButtons');
 				echo $h->saveAndCancelButtons(BASE_URI.'/people');
