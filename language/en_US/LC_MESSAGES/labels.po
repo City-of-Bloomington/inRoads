@@ -231,13 +231,13 @@ msgid "RRULE_UNTIL"
 msgstr "Until"
 
 msgid "eventTypeLegend"
-msgstr "Choose closure types"
+msgstr "Choose types"
 
 msgid "mapView"
-msgstr "Map of Closures"
+msgstr "Map"
 
 msgid "scheduleView"
-msgstr "Schedule of Closures"
+msgstr "Schedule"
 
 msgid "dateTimeInfo"
 msgstr "Date and time information"
