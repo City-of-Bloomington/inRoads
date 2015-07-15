@@ -26,9 +26,9 @@ use Application\Models\EventType;
             $color = implode(', ', $type->getColor());
 
             echo "
-            .$class      { border-color:rgba($color, .6); }
-            .$class > h2 { border-color:rgba($color, .6); }
-			.$class > a  { border-color:rgba($color, .6); }
+            .$class      { border-color:rgba($color, 1); }
+            .$class > h2 { border-color:rgba($color, 1); }
+			.$class > a  { border-color:rgba($color, 1); }
 			";
         }
 	?>
