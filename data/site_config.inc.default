@@ -113,41 +113,41 @@ $EVENT_TYPES = [
         'name'        => 'Road Closed',
         'description' => 'expect to detour, signage in place.',
         'default'     => true,
-        'rgba'        => [215, 0, 0, 1]
+        'color'        => [215, 0, 0]
     ],
     [
         'code'        => 'localOnly',
         'name'        => 'Local Only',
         'description' => 'expect delays, signage in place.',
         'default'     => true,
-        'rgba'        => [214, 104, 0, 1]
+        'color'        => [214, 104, 0]
     ],
     [
         'code'        => 'laneRestriction',
         'name'        => 'Lane Restriction',
         'description' => 'expect short delays, signage in place.',
         'default'     => true,
-        'rgba'        => [235, 150, 2, 1]
+        'color'        => [235, 150, 2]
     ],
     [
         'code'        => 'reservedMeter',
         'name'        => 'Reserved Meter',
         'description' => '',
         'default'     => false,
-        'rgba'        => [0, 88, 235, 1]
+        'color'        => [0, 88, 235]
     ],
     [
         'code'        => 'noisePermit',
         'name'        => 'Noise Permit',
         'description' => '',
         'default'     => false,
-        'rgba'        => [0, 182, 235, 1]
+        'color'        => [0, 182, 235]
     ],
     [
         'code'        => 'sidewalk',
         'name'        => 'Sidewalk',
         'description' => '',
         'default'     => false,
-        'rgba'        => [124, 83, 29, 1]
+        'color'        => [124, 83, 29]
     ]
 ];

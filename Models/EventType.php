@@ -82,7 +82,7 @@ class EventType
 
     public function getCode           () { return $this->data['code'];        }
     public function getName           () { return $this->data['name'];        }
-    public function getColor          () { return $this->data['rgba'];        }
+    public function getColor          () { return $this->data['color'];       }
     public function getDescription    () { return $this->data['description']; }
     public function isDefaultForSearch() { return $this->data['default'];     }
 
