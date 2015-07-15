@@ -186,7 +186,7 @@ var MAPDISPLAY = {
     },
     enableStyle: function (feature, style) {
         if (feature.type) {
-            feature.setStyle(MAPDISPLAY.styles[feature.type][style];
+            feature.setStyle(MAPDISPLAY.styles[feature.type][style]);
         }
         else {
             feature.setStyle(MAPDISPLAY.styles.default[style]);
