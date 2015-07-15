@@ -18,9 +18,10 @@
             }
         }
         > #panel-one {
+            overflow-y: auto;
             position: absolute;
                 top: ($siteHeaderHeight + $headerBarHeight);
-                bottom: $footerHeight;
+                bottom: 0;
                 left: 0;
             width: 20rem;
             @media screen and (min-width: 84rem) {
@@ -52,9 +53,10 @@
     > main {
         > #panel-one {
             border-top: .4em solid $color-accent;
+            overflow-y: auto;
             position: absolute;
                 top: $siteHeaderHeight;
-                bottom: $footerHeight;
+                bottom: 0;
                 left: 0;
             width: $filters-width;
         }
@@ -89,10 +91,10 @@
     > main {
         > #panel-one {
             border-top: .4em solid $color-accent;
-            overflow-x: auto;
+            overflow-y: auto;
             position: absolute;
                 top: $siteHeaderHeight;
-                bottom: $footerHeight;
+                bottom: 0;
                 left: 0;
             width: $filters-width;
         }
