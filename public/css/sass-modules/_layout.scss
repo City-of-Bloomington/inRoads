@@ -10,34 +10,70 @@
 }
 
 .viewSingle, .eventEdit {
-    > main {
-        > .headerBar {
-            width: 20rem;
-            @media screen and (min-width: 84rem) {
-                width: 25rem;
-            }
+    > header {
+        display: none;
+        @media screen and (min-width: $window-medium) {
+            display: block;
         }
-        > #panel-one {
+    }
+    > main {
+//        min-height: 100%;
+
+        > .headerBar {
             overflow-y: auto;
             position: absolute;
-                top: ($siteHeaderHeight + $headerBarHeight);
+                top: 0;
+            width: 100%;
+        }
+        $mobileMapHeight: 12rem;
+        > #content-panel {
+            height: $mobileMapHeight;
+            position: absolute;
+            top: $headerBarHeight;
+            width: 100%;
+        }
+        > #panel-one {
+            overflow: auto;
+            position: absolute;
+                top: ($mobileMapHeight + $headerBarHeight);
+                right: 0;
                 bottom: 0;
                 left: 0;
-            width: 20rem;
-            @media screen and (min-width: 84rem) {
-                width: 25rem;
-            }
+            width: 100%;
         }
+        @media screen and (min-width: $window-medium) {
+            min-height: inherit;
+            > .headerBar {
+                position: relative;
+                width: 20rem;
+                @media screen and (min-width: 84rem) {
+                    width: 25rem;
+                }
+            }
+            > #panel-one {
+                    top: ($siteHeaderHeight + $headerBarHeight);
+                    right: auto;
+                    bottom: 0;
+                    left: 0;
+                overflow-y: auto;
+                margin-top: 0;
+                min-height: inherit;
+                width: 20rem;
+                @media screen and (min-width: 84rem) {
+                    width: 25rem;
+                }
+            }
 
-        > #content-panel {
-            border-top: .4em solid $color-accent;
-            position: absolute;
-            top: $siteHeaderHeight;
-                left: 20rem;
-                bottom: 0;
-                right: 0;
-            @media screen and (min-width: 84rem) {
-                left: 25rem;
+            > #content-panel {
+                border-top: .4em solid $color-accent;
+                height: auto;
+                top: $siteHeaderHeight;
+                    left: 20rem;
+                    bottom: 0;
+                    right: 0;
+                @media screen and (min-width: 84rem) {
+                    left: 25rem;
+                }
             }
         }
     }

@@ -24,4 +24,6 @@ if (   isset($this->assets['stylesheets'])) {
   ga('create', 'UA-9224894-7', 'auto');
   ga('send', 'pageview');
 
+  document.querySelector("html").setAttribute('class', 'js');
+
 </script>
