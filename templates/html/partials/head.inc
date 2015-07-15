@@ -25,11 +25,12 @@ use Application\Models\EventType;
             $class = $type->getCode();
             $color = implode(', ', $type->getColor());
 
-            echo ".$class { border-color:rgba($color); }\n";
-            echo ".$class > h2 { border-color:rgba($color); }\n";
-			echo ".$class > a { border-color:rgba($color); }\n";
+            echo "
+            .$class      { border-color:rgba($color, .6); }
+            .$class > h2 { border-color:rgba($color, .6); }
+			.$class > a  { border-color:rgba($color, .6); }
+			";
         }
-
 	?>
 	</style>
 </head>

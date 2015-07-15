@@ -18,21 +18,62 @@ var MAPDISPLAY = {
     featureOverlay: new ol.FeatureOverlay(),
     wktFormatter: new ol.format.WKT(),
     styles: {
-        default: new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:[215, 0, 0, .6]}),
-            stroke: new ol.style.Stroke({color:[215, 0, 0, .6], width:6, lineCap:'square'}),
-            image:  new ol.style.Circle({radius:3, fill:new ol.style.Fill({color:[215, 0, 0, .6]})})
-        }),
-        hover: new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]}),
-            stroke: new ol.style.Stroke({color:[215,0,0,1], width:8, lineCap:'square'}),
-            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:[215, 0, 0, 1]})})
-        }),
-        selected: new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]}),
-            stroke: new ol.style.Stroke({color:[215, 0, 0, 1], width:8, lineCap:'square'}),
-            image:  new ol.style.Circle({radius:4, fill:new ol.style.Fill({color:[215, 0, 0, 1]})})
-        })
+        default: {
+            normal: new ol.style.Style({
+                image:  new ol.style.Circle({fill:new ol.style.Fill(
+                                            {color:[215, 0, 0, .6]}), radius:3}),
+                stroke: new ol.style.Stroke({color:[215, 0, 0, .6], width:6, lineCap:'square'}),
+                fill:   new ol.style.Fill(  {color:[215, 0, 0, .6]})
+            }),
+            hover: new ol.style.Style({
+                image:  new ol.style.Circle({fill:new ol.style.Fill(
+                                            {color:[215, 0, 0, 1]}), radius:4}),
+                stroke: new ol.style.Stroke({color:[215, 0, 0, 1], width:8, lineCap:'square'}),
+                fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]})
+            }),
+            selected: new ol.style.Style({
+                image:  new ol.style.Circle({fill:new ol.style.Fill(
+                                            {color:[215, 0, 0, 1]}), radius:4}),
+                stroke: new ol.style.Stroke({color:[215, 0, 0, 1], width:8, lineCap:'square'}),
+                fill:   new ol.style.Fill(  {color:[215, 0, 0, 1]})
+            })
+        }
+    },
+    /**
+     * Colors for features are defined in site_conf.
+     * We need to remember to write the PHP variables out as Javascript,
+     * so we can load them here
+     * See: blocks/html/events/map.inc
+     */
+    loadEventTypeStyles: function (types) {
+        var len = types.length,
+            i   = 0,
+            c   = [];
+
+        for (i=0; i<len; i++) {
+            c = types[i].color;
+
+            MAPDISPLAY.styles[types[i].code] = {
+                normal: new ol.style.Style({
+                    image:  new ol.style.Circle({fill:new ol.style.Fill(
+                                                {color:[c[0], c[1], c[2], .6]}), radius:3}),
+                    stroke: new ol.style.Stroke({color:[c[0], c[1], c[2], .6], width:6, lineCap:'square'}),
+                    fill:   new ol.style.Fill(  {color:[c[0], c[1], c[2], .6]}),
+                }),
+                hover: new ol.style.Style({
+                    image:  new ol.style.Circle({fill:new ol.style.Fill(
+                                                {color:[c[0], c[1], c[2], 1]}), radius:4}),
+                    stroke: new ol.style.Stroke({color:[c[0], c[1], c[2], 1], width:8, lineCap:'square'}),
+                    fill:   new ol.style.Fill(  {color:[c[0], c[1], c[2], 1]}),
+                }),
+                selected: new ol.style.Style({
+                    image:  new ol.style.Circle({fill:new ol.style.Fill(
+                                                {color:[c[0], c[1], c[2], 1]}), radius:4}),
+                    stroke: new ol.style.Stroke({color:[c[0], c[1], c[2], 1], width:8, lineCap:'square'}),
+                    fill:   new ol.style.Fill(  {color:[c[0], c[1], c[2], 1]}),
+                }),
+            }
+        }
     },
     marker: new ol.Overlay({
         element: document.getElementById('marker'),
@@ -108,7 +149,7 @@ var MAPDISPLAY = {
                 return;
             }
         }
-        feature.setStyle(MAPDISPLAY.styles.selected);
+        MAPDISPLAY.enableStyle(feature, 'selected');
 
         coords = ol.extent.getCenter(feature.getGeometry().getExtent());
         MAPDISPLAY.marker.setPosition(coords);
@@ -132,7 +173,7 @@ var MAPDISPLAY = {
              f = MAPDISPLAY.findFeature(id);
 
         if (f && id != MAPDISPLAY.currentlySelectedEventId) {
-            f.setStyle(MAPDISPLAY.styles.hover);
+            MAPDISPLAY.enableStyle(f, 'hover');
         }
     },
     unhighlightEvent: function (e) {
@@ -143,9 +184,17 @@ var MAPDISPLAY = {
             MAPDISPLAY.resetStyle(f);
         }
     },
+    enableStyle: function (feature, style) {
+        if (feature.type) {
+            feature.setStyle(MAPDISPLAY.styles[feature.type][style];
+        }
+        else {
+            feature.setStyle(MAPDISPLAY.styles.default[style]);
+        }
+    },
     resetStyle: function (feature) {
         if (feature.type) {
-            feature.setStyle(MAPDISPLAY.styles[feature.type]);
+            feature.setStyle(MAPDISPLAY.styles[feature.type].normal);
         }
         else {
             feature.setStyle(null);
@@ -178,7 +227,7 @@ var MAPDISPLAY = {
 
 MAPDISPLAY.map.addOverlay(MAPDISPLAY.marker);
 MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
-MAPDISPLAY.featureOverlay.setStyle(MAPDISPLAY.styles.default);
+MAPDISPLAY.featureOverlay.setStyle(MAPDISPLAY.styles.default.normal);
 MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 
 // Load any initial data the webpage specifies.
@@ -213,14 +262,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
     // We need to remember to write the PHP variables out as Javascript,
     // so we can load them here
     // See: blocks/html/events/map.inc
-    len = PHP.eventTypes.length;
-    for (i=0; i<len; i++) {
-        MAPDISPLAY.styles[PHP.eventTypes[i].code] = new ol.style.Style({
-            fill:   new ol.style.Fill(  {color:PHP.eventTypes[i].rgba}),
-            stroke: new ol.style.Stroke({color:PHP.eventTypes[i].rgba, width:6, lineCap:'square'}),
-            image:  new ol.style.Circle({radius:3, fill:new ol.style.Fill({color:PHP.eventTypes[i].rgba})})
-        });
-    }
+    MAPDISPLAY.loadEventTypeStyles(PHP.eventTypes);
 
     // Event data can be in either the eventList or the single event view.
     events = document.querySelectorAll('#events article');
@@ -246,7 +288,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
             features[f].event_id = id;
             features[f].type     = type;
             if (MAPDISPLAY.styles[type]) {
-                features[f].setStyle(MAPDISPLAY.styles[type]);
+                features[f].setStyle(MAPDISPLAY.styles[type].normal);
             }
 
             // Override the event link and have it open the popup on the map
