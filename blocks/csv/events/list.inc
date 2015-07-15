@@ -9,7 +9,8 @@ use Application\Models\Person;
 use Application\Models\Event;
 use Blossom\Classes\Block;
 
-$events = [];
+$out = fopen('php://output', 'w');
+
 foreach ($this->events as $e) {
     $url = BASE_URI."/events/view?id={$e->getId()}";
 
@@ -31,5 +32,6 @@ foreach ($this->events as $e) {
     if ($geography) { $event['geography'] = $geography; }
 
     $events[] = $event;
+    fputcsv($out, $event);
 }
-echo json_encode($events, JSON_PRETTY_PRINT);
+fclose($out);

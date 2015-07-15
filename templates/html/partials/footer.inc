@@ -12,6 +12,9 @@ use Blossom\Classes\Url;
             $url = new Url(Url::current_url());
             $url->format = 'json';
             echo "<a href=\"$url\" class=\"footer-links\">JSON</a>,";
+
+            $url->format = 'csv';
+            echo "<a href=\"$url\" class=\"footer-links\">CSV</a>,";
         ?>
         <a class="footer-links" href="https://www.google.com/calendar/feeds/<?= GOOGLE_CALENDAR_ID ?>/public/basic">XML</a>
     </div>
