@@ -1,10 +1,11 @@
 body > header {
     border-top: .4em solid $color-accent;
     box-sizing: border-box;
-    height: $siteHeaderHeight;
+    height: ($siteHeaderHeight - .5);
 
     > .container {
         margin: 0 auto 0;
+        padding-top: .25rem;
         color: $color-header;
         position: relative;
         @include clearfix();
@@ -38,7 +39,7 @@ body > header {
                 }
             }
             &-utilityBar {
-                display: inline-block;
+                display: none;
                 position: absolute;
                     right: .5rem;
                     top: .5rem;
@@ -55,10 +56,30 @@ body > header {
         }
     }
 
+    @media screen and (max-width: $window-small) {
+        > .container {
+            .site {
+                &-logo {
+                    display: none;
+                }
+                &-breadCrumb {
+                    margin: .5rem 0 0 .5rem;
+                }
+            }
+        }
+    }
+
     @media screen and (min-width: $window-medium) {
+        height: $siteHeaderHeight;
+
         > .container {
             box-sizing: border-box;
-            padding-top: .5em;
+            padding-top: .5rem;
+            .site {
+                &-utilityBar {
+                    display: inline-block;
+                }
+            }
         }
     }
 

@@ -1,17 +1,12 @@
 .schedule {
-    .contentPanel {
-        position: absolute;
-            top: $headerBarHeight;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        overflow-x: auto;
-    }
     article {
         border-top: (1rem/16) solid $cob-blue-dark;
-        margin: 2rem 0 2rem 3rem;
+        margin: 1rem .5rem 1rem .5rem;
         max-width: 50rem;
         padding: 0;
+        @media screen and (min-width: $window-medium) {
+            margin: 2rem 2rem 2rem 3rem;
+        }
 
         h2 {
             border-top-width: (6rem/16);

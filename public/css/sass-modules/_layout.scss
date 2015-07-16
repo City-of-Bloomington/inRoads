@@ -2,11 +2,13 @@
 .admin #content-panel { }
 
 .content-container {
-    position: absolute;
-        top: $siteHeaderHeight;
-        right: 0;
-        bottom: 0;
-        left: $filters-width;
+    @media screen and (min-width: $window-medium) {
+        position: absolute;
+            top: $siteHeaderHeight;
+            right: 0;
+            bottom: 0;
+            left: $filters-width;
+    }
 }
 
 .viewSingle, .eventEdit {
@@ -88,36 +90,62 @@
 .eventsMap {
     > main {
         > #panel-one {
+            position: relative;
             border-top: .4em solid $color-accent;
-            overflow-y: auto;
-            position: absolute;
-                top: $siteHeaderHeight;
-                bottom: 0;
-                left: 0;
-            width: $filters-width;
         }
-        > .content-container {
-            $listWidth: 20.5rem;
-
-            > #panel-two {
+        .mapPanel {
+            display: none;
+        }
+        @media screen and (min-width: $window-medium) {
+            > #panel-one {
+                overflow-y: auto;
                 position: absolute;
-                    top: $headerBarHeight;
+                    top: $siteHeaderHeight;
                     bottom: 0;
                     left: 0;
-                overflow: auto;
-                width: $listWidth;
-                @media screen and (min-width: 84rem) {
-                    width: ($listWidth + 5);
+                width: $filters-width;
+            }
+            > .content-container {
+                $listWidth: 20.5rem;
+
+                > #panel-two {
+                    position: absolute;
+                        top: $headerBarHeight;
+                        bottom: 0;
+                        left: 0;
+                    overflow: auto;
+                    width: $listWidth;
+                    @media screen and (min-width: 84rem) {
+                        width: ($listWidth + 5);
+                    }
+                }
+                > #content-panel {
+                    position: absolute;
+                        top: $headerBarHeight;
+                        left: $listWidth;
+                        bottom: 0;
+                        right: 0;
+                    @media screen and (min-width: 84rem) {
+                        left: ($listWidth + 5);
+                    }
+                    > .mapPanel {
+                        display: block;
+                    }
                 }
             }
-            > #content-panel {
-                position: absolute;
-                    top: $headerBarHeight;
-                    left: $listWidth;
-                    bottom: 0;
-                    right: 0;
-                @media screen and (min-width: 84rem) {
-                    left: ($listWidth + 5);
+
+        }
+    }
+}
+.js > .eventsMap {
+    > main {
+        @media screen and (max-width: $window-small) {
+            > #panel-one {
+                .filtersToggle {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 100%;
                 }
             }
         }
@@ -126,24 +154,32 @@
 .schedule {
     > main {
         > #panel-one {
-            border-top: .4em solid $color-accent;
-            overflow-y: auto;
-            position: absolute;
-                top: $siteHeaderHeight;
-                bottom: 0;
-                left: 0;
-            width: $filters-width;
+            position: relative;
         }
-        > #content-panel {
-            overflow: auto;
-            position: absolute;
-                top: $siteHeaderHeight;
-                left: $filters-width;
-                bottom: 0;
-                right: 0;
+        @media screen and (min-width: $window-medium) {
+            > #panel-one {
+                border-top: .4em solid $color-accent;
+                overflow-y: auto;
+                position: absolute;
+                    top: $siteHeaderHeight;
+                    bottom: 0;
+                    left: 0;
+                width: $filters-width;
+            }
+            > .content-container {
+                > .contentPanel {
+                    overflow: auto;
+                    position: absolute;
+                        top: $headerBarHeight;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                }
+            }
         }
     }
 }
+
 .admin {
     > main {
         @media screen and (min-width: $window-medium) {

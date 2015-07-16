@@ -197,7 +197,7 @@
     margin: 0 0 (-$footerHeight) 0;
     min-height: 100%;
     overflow: hidden;
-    padding: 0 .5rem ($footerHeight + 1) 0;
+    padding: 0 .5rem ($footerHeight + 1) .5rem;
 
     .title {
         display: inline-block;
