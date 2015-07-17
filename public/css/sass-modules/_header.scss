@@ -10,6 +10,10 @@ body > header {
         position: relative;
         @include clearfix();
 
+        > .showFilterButton {
+            display: none;
+        }
+
         .site {
             &-homeLink {
                 display: inline-block;

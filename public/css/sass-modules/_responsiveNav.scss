@@ -1,0 +1,48 @@
+.showFilterButton, .hideFilterButton {
+    display: none;
+}
+@media screen and (max-width: $window-medium) {
+}
+@media screen and (max-width: $window-large) {
+    .js > .eventsMap {
+        > header {
+            .container {
+                > .showFilterButton {
+                    background: $cob-gray;
+                    cursor: pointer;
+                    display: block;
+                    position: absolute;
+                        top: 0;
+                        right: 0;
+                    width: 3rem;
+                }
+            }
+        }
+        > main {
+            > #panel-one {
+                position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    z-index: 99;
+                transform: translate(($filters-width), 0);
+                width: $filters-width;
+                &[data-enabled] {
+                    transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                &[data-enabled="true"] {
+                    transform: translate(0, 0);
+                }
+
+
+                .hideFilterButton {
+                    background: $cob-gray;
+                    cursor: pointer;
+                    display: block;
+                    margin: 0 0 0 auto;
+                    width: 3rem;
+                }
+            }
+        }
+    }
+}

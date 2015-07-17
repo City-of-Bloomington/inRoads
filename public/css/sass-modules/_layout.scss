@@ -91,13 +91,22 @@
     > main {
         > #panel-one {
             position: relative;
-            border-top: .4em solid $color-accent;
         }
         .mapPanel {
             display: none;
         }
+        > .content-container {
+            > .headerBar {
+                display: none;
+            }
+        }
+        @media screen and (min-width: $window-small) {
+            > #panel-one {
+            }
+        }
         @media screen and (min-width: $window-medium) {
             > #panel-one {
+                border-top: .4em solid $color-accent;
                 overflow-y: auto;
                 position: absolute;
                     top: $siteHeaderHeight;
@@ -106,14 +115,24 @@
                 width: $filters-width;
             }
             > .content-container {
-                $listWidth: 20.5rem;
-
                 > #panel-two {
                     position: absolute;
-                        top: $headerBarHeight;
+                        top: 0;
                         bottom: 0;
                         left: 0;
                     overflow: auto;
+                }
+            }
+        }
+
+        @media screen and (min-width: $window-large) {
+            > .content-container {
+                $listWidth: 20.5rem;
+
+                > .headerBar {
+                    display: block;
+                }
+                > #panel-two {
                     width: $listWidth;
                     @media screen and (min-width: 84rem) {
                         width: ($listWidth + 5);
@@ -134,20 +153,6 @@
                 }
             }
 
-        }
-    }
-}
-.js > .eventsMap {
-    > main {
-        @media screen and (max-width: $window-small) {
-            > #panel-one {
-                .filtersToggle {
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    left: 100%;
-                }
-            }
         }
     }
 }
