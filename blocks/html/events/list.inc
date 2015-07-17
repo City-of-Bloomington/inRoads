@@ -32,7 +32,9 @@ use Blossom\Classes\Block;
                     }
 
                     $editButton = '';
-                    if (Person::isAllowed('events', 'update')) {
+                    if (Person::isAllowed('events', 'update')
+                        && $e->permitsEditingBy($_SESSION['USER'])) {
+                        
                         $editButton = $helper->buttonLink(
                             BASE_URI.'/events/update?id='.$e->getId(),
                             $this->_('event_edit'),
