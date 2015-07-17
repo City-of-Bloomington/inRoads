@@ -11,7 +11,7 @@ use Blossom\Classes\Block;
 
 // You'll need to edit the path to the configuration file in your
 // road_closings installation.
-include __DIR__'/../configuration.inc';
+include __DIR__.'/../configuration.inc';
 
 $start = new \DateTime('+1 monday');
 $end   = new \DateTIme('+2 monday');
