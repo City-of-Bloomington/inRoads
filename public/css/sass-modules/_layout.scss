@@ -87,72 +87,79 @@
         }
     }
 }
-.eventsMap {
-    > main {
-        > #panel-one {
-            position: relative;
-        }
-        .mapPanel {
-            display: none;
-        }
-        > .content-container {
-            > .headerBar {
+html {
+    > body.eventsMap {
+        > main {
+            > #panel-one {
+                position: relative;
+            }
+            .mapPanel {
                 display: none;
             }
-        }
-        @media screen and (min-width: $window-small) {
-            > #panel-one {
-            }
-        }
-        @media screen and (min-width: $window-medium) {
-            > #panel-one {
-                border-top: .4em solid $color-accent;
-                overflow-y: auto;
-                position: absolute;
-                    top: $siteHeaderHeight;
-                    bottom: 0;
-                    left: 0;
-                width: $filters-width;
-            }
             > .content-container {
-                > #panel-two {
+                > .headerBar {
+                    display: none;
+                }
+            }
+            @media screen and (min-width: $window-small) {
+                > #panel-one {
+                }
+            }
+            @media screen and (min-width: $window-medium) {
+                > #panel-one {
+                    border-top: .4em solid $color-accent;
+                    overflow-y: auto;
                     position: absolute;
-                        top: 0;
+                        top: $siteHeaderHeight;
                         bottom: 0;
                         left: 0;
-                    overflow: auto;
+                    width: $filters-width;
+                }
+                > .content-container {
+                    > #panel-two {
+                        position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                        overflow: auto;
+                    }
                 }
             }
-        }
 
-        @media screen and (min-width: $window-large) {
-            > .content-container {
-                $listWidth: 20.5rem;
+            @media screen and (min-width: $window-large) {
+                > #panel-one {
+                    top: $siteHeaderHeight;
+                    left: 0;
+                    right: auto;
+                }
+                > .content-container {
 
-                > .headerBar {
-                    display: block;
-                }
-                > #panel-two {
-                    width: $listWidth;
-                    @media screen and (min-width: 84rem) {
-                        width: ($listWidth + 5);
-                    }
-                }
-                > #content-panel {
-                    position: absolute;
-                        top: $headerBarHeight;
-                        left: $listWidth;
-                        bottom: 0;
-                        right: 0;
-                    @media screen and (min-width: 84rem) {
-                        left: ($listWidth + 5);
-                    }
-                    > .mapPanel {
+                    > .headerBar {
                         display: block;
                     }
+                    > #panel-two {
+                        width: $eventsListWidth;
+                        top: $headerBarHeight;
+                        @media screen and (min-width: 84rem) {
+                            width: ($eventsListWidth + 5);
+                        }
+                    }
+                    > #content-panel {
+                        position: absolute;
+                            top: $headerBarHeight;
+                            left: $eventsListWidth;
+                            bottom: 0;
+                            right: 0;
+                        @media screen and (min-width: 84rem) {
+                            left: ($eventsListWidth + 5);
+                        }
+                        > .mapPanel {
+                            display: block;
+                        }
+                    }
                 }
-            }
 
+            }
         }
     }
 }
