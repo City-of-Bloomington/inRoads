@@ -16,7 +16,7 @@ body > header {
             }
             &-breadCrumb {
                 border-left: (1rem/16) solid $cob-blue-darkest;
-                display: inline-block;
+                display: none; // Display on larger sizes instead
                 font-family: $font-family-heading;
                 margin: 0 0 0 1rem;
                 padding: 0 0 0 1rem;
@@ -76,7 +76,7 @@ body > header {
             box-sizing: border-box;
             padding-top: .5rem;
             .site {
-                &-utilityBar {
+                &-breadCrumb {
                     display: inline-block;
                 }
             }
@@ -85,6 +85,11 @@ body > header {
 
     @media screen and (min-width: $window-large) {
         > .container {
+            > .site {
+                &-utilityBar {
+                    display: inline-block;
+                }
+            }
         }
     }
 }

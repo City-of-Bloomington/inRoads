@@ -1,18 +1,24 @@
 .showFilterButton {
-    background: $cob-gray;
+    background: $cob-blue url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+    border-radius: .5rem;
     cursor: pointer;
+    height: 2rem;
+    overflow: hidden;
     position: absolute;
-        top: 0;
-        right: 0;
-    width: 4rem;
+        top: .5rem;
+        right: .5rem;
+    text-indent: -100rem;
+    width: 2rem;
 }
 .hideFilterButton {
     background: $cob-gray;
+    border-radius: .5rem;
     cursor: pointer;
     height: 2rem;
     margin: 0 0 0 auto;
     overflow: hidden;
     position: relative;
+        top: .4rem; // Corresponds to the Body top border
     width: 2rem;
     text-indent: -100rem;
 
@@ -20,23 +26,23 @@
         background: #fff;
         content: ' ';
         display: block;
-        height: (18rem/16);
+        height: (3rem/16);
         position: absolute;
-            top: (3rem/16);
-            left: (11rem/16);
+            top: (14.5rem/16);
+            left: (5rem/16);
         transform: rotate(45deg);
-        width: (2rem/16);
+        width: (20rem/16);
     }
     &:after {
         background: #fff;
         content: ' ';
         display: block;
-        height: (2rem/16);
+        height: (3rem/16);
         position: absolute;
-            top: (11rem/16);
-            left: (3rem/16);
-        transform: rotate(45deg);
-        width: (18rem/16);
+            top: (14.5rem/16);
+            left: (5rem/16);
+        transform: rotate(-45deg);
+        width: (20rem/16);
     }
 }
 @media screen and (min-width: $window-large) {
@@ -47,6 +53,25 @@
         display: none;
     }
 }
+
+
+.js {
+    > .eventsMap {
+        > main {
+            > .content-container {
+                #panel-two {
+                    position: absolute;
+                        top: $siteHeaderHeight;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                    overflow-y: auto;
+                }
+            }
+        }
+    }
+}
+
 
 // Responsive styles for the Filters panel
 
@@ -117,6 +142,9 @@
                     > #panel-two {
                         width: $eventsListWidth;
                         top: $headerBarHeight;
+                        @media screen and (min-width: 84rem) {
+                            width: ($eventsListWidth + 5);
+                        }
                     }
                     #content-panel {
                         position: absolute;
@@ -124,6 +152,9 @@
                             right: 0;
                             bottom: 0;
                             left: $eventsListWidth;
+                            @media screen and (min-width: 84rem) {
+                                left: ($eventsListWidth + 5);
+                            }
                         > .mapPanel {
                             display:block;
                         }
@@ -133,21 +164,6 @@
         }
         > .schedule {
 
-        }
-    }
-}
-
-.js {
-    > .eventsMap {
-        > main {
-            > .content-container {
-                #panel-two {
-                    position: absolute;
-                        top: $siteHeaderHeight;
-                        bottom: 0;
-                    overflow-y: auto;
-                }
-            }
         }
     }
 }
