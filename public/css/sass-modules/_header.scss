@@ -59,9 +59,6 @@ body > header {
     @media screen and (max-width: $window-small) {
         > .container {
             .site {
-                &-logo {
-                    display: none;
-                }
                 &-breadCrumb {
                     margin: .5rem 0 0 .5rem;
                 }

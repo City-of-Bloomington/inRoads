@@ -59,7 +59,8 @@
     > .eventsMap {
         > main {
             > .content-container {
-                #panel-two {
+                > #panel-two {
+                    border-top: .4rem solid $cob-blue;
                     position: absolute;
                         top: $siteHeaderHeight;
                         right: 0;
@@ -140,6 +141,7 @@
             > main {
                 > .content-container {
                     > #panel-two {
+                        border-top: 0;
                         width: $eventsListWidth;
                         top: $headerBarHeight;
                         @media screen and (min-width: 84rem) {
