@@ -186,7 +186,7 @@ msgid "application_title"
 msgstr "inRoads: Bloomington road, sidewalk and parking status information"
 
 msgid "searchPresets"
-msgstr "Show closures for:"
+msgstr "Dates"
 
 msgid "chooseDates"
 msgstr "Choose Dates"
