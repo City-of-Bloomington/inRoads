@@ -58,8 +58,61 @@
     padding: (6rem/16) 0 0 0;
     position: relative;
 
+    @mixin toolButton() {
+        background: $cob-blue;
+        border: 0;
+        border-radius: 0;
+        cursor: pointer;
+        display: inline-block;
+        height: (24rem/16);
+        overflow: hidden;
+        padding: 0;
+        position: relative;
+        text-indent: -1000rem;
+        transition: background-color .25s ease-in-out;
+        width: (24rem/16);
+
+        &:hover {
+            background: $cob-blue-light;
+        }
+        &:focus, &:active {
+            background: $cob-blue;
+            outline: 1px solid $cob-blue-light;
+        }
+    }
+
+    > .button.back {
+        @include toolButton();
+        &.back {
+            float: left;
+            margin: (2rem/16) .25rem 0 .25rem;
+
+            &:before {
+                background: #fff;
+                content: ' ';
+                display: block;
+                height: (12rem/16);
+                position: absolute;
+                    top: (3rem/16);
+                    left: (12rem/16);
+                transform: rotate(45deg);
+                width: (2rem/16);
+            }
+            &:after {
+                background: #fff;
+                content: ' ';
+                display: block;
+                height: (12rem/16);
+                position: absolute;
+                    top: (10rem/16);
+                    left: (12rem/16);
+                transform: rotate(-45deg);
+                width: (2rem/16);
+            }
+        }
+    }
+
     &-tools {
-        border-left: 1px solid $cob-blue-light;
         height: 1.5rem;
         padding: 0 .25rem 0 .25rem;
         position: absolute;
@@ -67,27 +120,7 @@
             right: 0;
 
         > .button {
-            background: $cob-blue;
-            border: 0;
-            border-radius: 0;
-            cursor: pointer;
-            display: inline-block;
-            height: (24rem/16);
-            overflow: hidden;
-            padding: 0;
-            position: relative;
-            text-indent: -1000rem;
-            transition: background-color .25s ease-in-out;
-            width: (24rem/16);
-
-            &:hover {
-                background: $cob-blue-light;
-            }
-            &:focus, &:active {
-                background: $cob-blue;
-                outline: 1px solid $cob-blue-light;
-            }
-
+            @include toolButton();
             &.add {
                 &:before {
                     background: #fff;
@@ -112,30 +145,6 @@
             }
             &.edit {
                 background: url('images/pencil-white.svg') no-repeat 50% 50% / 80% 80%;
-            }
-            &.back {
-                &:before {
-                    background: #fff;
-                    content: ' ';
-                    display: block;
-                    height: (12rem/16);
-                    position: absolute;
-                        top: (3rem/16);
-                        left: (10rem/16);
-                    transform: rotate(45deg);
-                    width: (2rem/16);
-                }
-                &:after {
-                    background: #fff;
-                    content: ' ';
-                    display: block;
-                    height: (12rem/16);
-                    position: absolute;
-                        top: (10rem/16);
-                        left: (10rem/16);
-                    transform: rotate(-45deg);
-                    width: (2rem/16);
-                }
             }
             &.cancel {
                 &:before {
