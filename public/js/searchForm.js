@@ -22,7 +22,7 @@
     selectorCurrent.addEventListener('click', toggleOptions);
     dropDownOptions.style.position = 'absolute';
 
-    chooseDates.innerHTML = 'Choose Dates';
+    chooseDates.textContent = 'Choose Dates';
     if (!selected) {
         chooseDates.setAttribute('class', 'current');
         dateFieldSet.style.display = 'block';
@@ -32,7 +32,7 @@
 
     selectorOptions.lastChild.addEventListener('click', function() {
         dateFieldSet.style.display = 'block';
-        selectorCurrent.innerHTML = chooseDates.innerHTML;
+        selectorCurrent.textContent = chooseDates.textContent;
         toggleOptions();
     });
 })();

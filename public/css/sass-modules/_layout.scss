@@ -2,42 +2,80 @@
 .admin #content-panel { }
 
 .content-container {
-    position: absolute;
-        top: $siteHeaderHeight;
-        right: 0;
-        bottom: 0;
-        left: $filters-width;
+    @media screen and (min-width: $window-medium) {
+        position: absolute;
+            top: $siteHeaderHeight;
+            right: 0;
+            bottom: 0;
+            left: $filters-width;
+    }
 }
 
 .viewSingle, .eventEdit {
-    > main {
-        > .headerBar {
-            width: 20rem;
-            @media screen and (min-width: 84rem) {
-                width: 25rem;
-            }
+    > header {
+        display: none;
+        @media screen and (min-width: $window-medium) {
+            display: block;
         }
-        > #panel-one {
+    }
+    > main {
+//        min-height: 100%;
+
+        > .headerBar {
             overflow-y: auto;
             position: absolute;
-                top: ($siteHeaderHeight + $headerBarHeight);
+                top: 0;
+            width: 100%;
+        }
+        $mobileMapHeight: 12rem;
+        > #content-panel {
+            height: $mobileMapHeight;
+            position: absolute;
+            top: $headerBarHeight;
+            width: 100%;
+        }
+        > #panel-one {
+            overflow: auto;
+            position: absolute;
+                top: ($mobileMapHeight + $headerBarHeight);
+                right: 0;
                 bottom: 0;
                 left: 0;
-            width: 20rem;
-            @media screen and (min-width: 84rem) {
-                width: 25rem;
-            }
+            width: 100%;
         }
+        @media screen and (min-width: $window-medium) {
+            min-height: inherit;
+            > .headerBar {
+                position: relative;
+                width: 20rem;
+                @media screen and (min-width: 84rem) {
+                    width: 25rem;
+                }
+            }
+            > #panel-one {
+                    top: ($siteHeaderHeight + $headerBarHeight);
+                    right: auto;
+                    bottom: 0;
+                    left: 0;
+                overflow-y: auto;
+                margin-top: 0;
+                min-height: inherit;
+                width: 20rem;
+                @media screen and (min-width: 84rem) {
+                    width: 25rem;
+                }
+            }
 
-        > #content-panel {
-            border-top: .4em solid $color-accent;
-            position: absolute;
-            top: $siteHeaderHeight;
-                left: 20rem;
-                bottom: 0;
-                right: 0;
-            @media screen and (min-width: 84rem) {
-                left: 25rem;
+            > #content-panel {
+                border-top: .4em solid $color-accent;
+                height: auto;
+                top: $siteHeaderHeight;
+                    left: 20rem;
+                    bottom: 0;
+                    right: 0;
+                @media screen and (min-width: 84rem) {
+                    left: 25rem;
+                }
             }
         }
     }
@@ -49,40 +87,78 @@
         }
     }
 }
-.eventsMap {
-    > main {
-        > #panel-one {
-            border-top: .4em solid $color-accent;
-            overflow-y: auto;
-            position: absolute;
-                top: $siteHeaderHeight;
-                bottom: 0;
-                left: 0;
-            width: $filters-width;
-        }
-        > .content-container {
-            $listWidth: 20.5rem;
-
-            > #panel-two {
-                position: absolute;
-                    top: $headerBarHeight;
-                    bottom: 0;
-                    left: 0;
-                overflow: auto;
-                width: $listWidth;
-                @media screen and (min-width: 84rem) {
-                    width: ($listWidth + 5);
+html {
+    > body.eventsMap {
+        > main {
+            > #panel-one {
+                position: relative;
+            }
+            .mapPanel {
+                display: none;
+            }
+            > .content-container {
+                > .headerBar {
+                    display: none;
                 }
             }
-            > #content-panel {
-                position: absolute;
-                    top: $headerBarHeight;
-                    left: $listWidth;
-                    bottom: 0;
-                    right: 0;
-                @media screen and (min-width: 84rem) {
-                    left: ($listWidth + 5);
+            @media screen and (min-width: $window-small) {
+                > #panel-one {
                 }
+            }
+            @media screen and (min-width: $window-medium) {
+                > #panel-one {
+                    border-top: .4em solid $color-accent;
+                    overflow-y: auto;
+                    position: absolute;
+                        top: $siteHeaderHeight;
+                        bottom: 0;
+                        left: 0;
+                    width: $filters-width;
+                }
+                > .content-container {
+                    > #panel-two {
+                        position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                        overflow: auto;
+                    }
+                }
+            }
+
+            @media screen and (min-width: $window-large) {
+                > #panel-one {
+                    top: $siteHeaderHeight;
+                    left: 0;
+                    right: auto;
+                }
+                > .content-container {
+
+                    > .headerBar {
+                        display: block;
+                    }
+                    > #panel-two {
+                        width: $eventsListWidth;
+                        top: $headerBarHeight;
+                        @media screen and (min-width: 84rem) {
+                            width: ($eventsListWidth + 5);
+                        }
+                    }
+                    > #content-panel {
+                        position: absolute;
+                            top: $headerBarHeight;
+                            left: $eventsListWidth;
+                            bottom: 0;
+                            right: 0;
+                        @media screen and (min-width: 84rem) {
+                            left: ($eventsListWidth + 5);
+                        }
+                        > .mapPanel {
+                            display: block;
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -90,24 +166,32 @@
 .schedule {
     > main {
         > #panel-one {
-            border-top: .4em solid $color-accent;
-            overflow-y: auto;
-            position: absolute;
-                top: $siteHeaderHeight;
-                bottom: 0;
-                left: 0;
-            width: $filters-width;
+            position: relative;
         }
-        > #content-panel {
-            overflow: auto;
-            position: absolute;
-                top: $siteHeaderHeight;
-                left: $filters-width;
-                bottom: 0;
-                right: 0;
+        @media screen and (min-width: $window-medium) {
+            > #panel-one {
+                border-top: .4em solid $color-accent;
+                overflow-y: auto;
+                position: absolute;
+                    top: $siteHeaderHeight;
+                    bottom: 0;
+                    left: 0;
+                width: $filters-width;
+            }
+            > .content-container {
+                > .contentPanel {
+                    overflow: auto;
+                    position: absolute;
+                        top: $headerBarHeight;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                }
+            }
         }
     }
 }
+
 .admin {
     > main {
         @media screen and (min-width: $window-medium) {

@@ -277,7 +277,13 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         // tagName case varies from browser to browser and from XHMTL to HTML
         if (events[i].parentElement.tagName === 'a' ||
             events[i].parentElement.tagName === 'A') {
+            // Register the event listener for older, desktop-centric browsers
             events[i].parentElement.addEventListener('click', MAPDISPLAY.handleListClick);
+            // For newer, mobile-centric browsers, remove the event listener on small devices
+            if (matchMedia("(max-width: 37.5rem)").matches) {
+                events[i].parentElement.removeEventListener('click', MAPDISPLAY.handleListClick);
+            }
+
         }
 
         geography = events[i].querySelector('.geography');

@@ -1,10 +1,11 @@
 body > header {
     border-top: .4em solid $color-accent;
     box-sizing: border-box;
-    height: $siteHeaderHeight;
+    height: ($siteHeaderHeight - .5);
 
     > .container {
         margin: 0 auto 0;
+        padding-top: .25rem;
         color: $color-header;
         position: relative;
         @include clearfix();
@@ -15,7 +16,7 @@ body > header {
             }
             &-breadCrumb {
                 border-left: (1rem/16) solid $cob-blue-darkest;
-                display: inline-block;
+                display: none; // Display on larger sizes instead
                 font-family: $font-family-heading;
                 margin: 0 0 0 1rem;
                 padding: 0 0 0 1rem;
@@ -38,7 +39,7 @@ body > header {
                 }
             }
             &-utilityBar {
-                display: inline-block;
+                display: none;
                 position: absolute;
                     right: .5rem;
                     top: .5rem;
@@ -55,15 +56,37 @@ body > header {
         }
     }
 
+    @media screen and (max-width: $window-small) {
+        > .container {
+            .site {
+                &-breadCrumb {
+                    margin: .5rem 0 0 .5rem;
+                }
+            }
+        }
+    }
+
     @media screen and (min-width: $window-medium) {
+        height: $siteHeaderHeight;
+
         > .container {
             box-sizing: border-box;
-            padding-top: .5em;
+            padding-top: .5rem;
+            .site {
+                &-breadCrumb {
+                    display: inline-block;
+                }
+            }
         }
     }
 
     @media screen and (min-width: $window-large) {
         > .container {
+            > .site {
+                &-utilityBar {
+                    display: inline-block;
+                }
+            }
         }
     }
 }

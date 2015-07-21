@@ -1,0 +1,196 @@
+.showFilterButton {
+    background: $cob-blue url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+    border-radius: .5rem;
+    cursor: pointer;
+    height: 2rem;
+    overflow: hidden;
+    position: absolute;
+        top: .5rem;
+        right: .5rem;
+    text-indent: -100rem;
+    width: 2rem;
+}
+.hideFilterButton {
+    background: $cob-gray;
+    border-radius: .5rem;
+    cursor: pointer;
+    height: 2rem;
+    margin: 0 0 0 auto;
+    overflow: hidden;
+    position: relative;
+        top: .4rem; // Corresponds to the Body top border
+    width: 2rem;
+    text-indent: -100rem;
+
+    &:before {
+        background: #fff;
+        content: ' ';
+        display: block;
+        height: (3rem/16);
+        position: absolute;
+            top: (14.5rem/16);
+            left: (5rem/16);
+        transform: rotate(45deg);
+        width: (20rem/16);
+    }
+    &:after {
+        background: #fff;
+        content: ' ';
+        display: block;
+        height: (3rem/16);
+        position: absolute;
+            top: (14.5rem/16);
+            left: (5rem/16);
+        transform: rotate(-45deg);
+        width: (20rem/16);
+    }
+}
+@media screen and (min-width: $window-large) {
+    .showFilterButton {
+        display: none;
+    }
+    .hideFilterButton {
+        display: none;
+    }
+}
+
+
+.js {
+    > .eventsMap {
+        > main {
+            > .content-container {
+                > #panel-two {
+                    border-top: .4rem solid $cob-blue;
+                    position: absolute;
+                        top: $siteHeaderHeight;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                    overflow-y: auto;
+                }
+            }
+        }
+    }
+}
+
+
+// Responsive styles for the Filters panel
+
+.js > .eventsMap, .js > .schedule {
+    > main {
+        &:before {
+            background: #000;
+            content: ' ';
+            display: block;
+            opacity: 0;
+            transition: opacity .25s ease-in-out;
+        }
+        > #panel-one {
+            border-top: 0;
+            position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 100%;
+                z-index: 99;
+            overflow-y: auto;
+            width: $filters-width;
+            transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &.filters-enabled {
+            &:before {
+                opacity: .7;
+                position: fixed;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    z-index: 97;
+            }
+            > #panel-one {
+                transform: translate((-$filters-width), 0);
+            }
+        }
+        &.midAnimation {
+            &:before {
+                position: fixed;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    z-index: 97;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: $window-medium) {
+    .js {
+        > .eventsMap, .schedule {
+            > main {
+                > .content-container {
+                    top: ($siteHeaderHeight);
+                    left: 0;
+                    > .headerBar {
+                        display: block;
+                    }
+                }
+            }
+        }
+        > .eventsMap{
+            > main {
+                > .content-container {
+                    > #panel-two {
+                        border-top: 0;
+                        width: $eventsListWidth;
+                        top: $headerBarHeight;
+                        @media screen and (min-width: 84rem) {
+                            width: ($eventsListWidth + 5);
+                        }
+                    }
+                    #content-panel {
+                        position: absolute;
+                            top: $headerBarHeight;
+                            right: 0;
+                            bottom: 0;
+                            left: $eventsListWidth;
+                            @media screen and (min-width: 84rem) {
+                                left: ($eventsListWidth + 5);
+                            }
+                        > .mapPanel {
+                            display:block;
+                        }
+                    }
+                }
+            }
+        }
+        > .schedule {
+
+        }
+    }
+}
+
+// Content rules for Map and Schedule views on Desktop devices
+
+@media screen and (min-width: $window-large) {
+    .js > .eventsMap, .js > .schedule {
+        > main {
+            #panel-one {
+                border-top: .4em solid $cob-blue;
+                top: $siteHeaderHeight;
+                right: auto;
+                left: 0;
+
+            }
+            > .content-container {
+                left: $filters-width;
+                > #panel-two {
+                    top: $headerBarHeight;
+                }
+            }
+        }
+    }
+}
+
+
+// Responsive styles for the Schedule layout
