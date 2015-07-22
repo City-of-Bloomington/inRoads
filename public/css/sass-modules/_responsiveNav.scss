@@ -8,12 +8,17 @@
         top: .8rem;
         right: .5rem;
     text-indent: -100rem;
+    transition: background-color .25s ease-in-out;
     width: 2rem;
+    &:hover {
+        background: $cob-blue-light url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+    }
 }
 .hideFilterButton {
-    background: $cob-gray;
+    background: $cob-gray-dark;
     border-radius: .5rem;
     cursor: pointer;
+    display: block;
     height: 2rem;
     margin: 0 0 0 auto;
     overflow: hidden;
@@ -21,6 +26,10 @@
         top: .6rem; // Corresponds to the Body top border
     width: 2rem;
     text-indent: -100rem;
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background: $cob-gray;
+    }
 
     &:before {
         background: #fff;
@@ -74,8 +83,6 @@
 }
 
 
-// Responsive styles for the Filters panel
-
 .js > .eventsMap, .js > .schedule {
     > main {
         &:before {
@@ -108,6 +115,7 @@
                     z-index: 97;
             }
             > #panel-one {
+                display: block;
                 transform: translate((-$filters-width), 0);
             }
         }
@@ -119,6 +127,9 @@
                     bottom: 0;
                     left: 0;
                     z-index: 97;
+            }
+            > #panel-one {
+                display: block;
             }
         }
     }

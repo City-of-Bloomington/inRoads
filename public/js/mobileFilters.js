@@ -2,43 +2,64 @@
     "use strict";
     var appHeader        = document.querySelector("body > header > .container"),
         htmlMain         = document.querySelector("main"),
+        panelOne         = document.getElementById("panel-one"),
         filterPanel      = document.getElementById("filterPanel"),
         listPanel        = document.getElementById("panel-two"),
-        initMobileUi     = function () {
-            var showFilterButton = document.createElement("div"),
-                hideFilterButton = document.createElement("div");
+        showFilterButton = document.createElement("button"),
+        hideFilterButton = document.createElement("button"),
 
-            showFilterButton.setAttribute("class", "showFilterButton");
-            showFilterButton.setAttribute("id", "showFilterButton");
-            showFilterButton.textContent = "Change filters";
-            showFilterButton.addEventListener("click", showFilters);
-            appHeader.insertBefore(showFilterButton, appHeader.lastChild);
-
-            hideFilterButton.setAttribute("class", "hideFilterButton");
-            hideFilterButton.setAttribute("id", "hideFilterButton");
-            hideFilterButton.textContent = "Close filters";
-            hideFilterButton.addEventListener("click", hideFilters);
-            filterPanel.insertBefore(hideFilterButton, filterPanel.firstChild);
-
+        suppressClick = function(e) {
+            e.stopPropagation();
         },
-        showFilters = function (e) {
-            var button = e.target;
-            htmlMain.setAttribute("class", "filters-enabled midAnimation");
+        showFilters = function () {
+            panelOne.style.display = "block";
+            showFilterButton.setAttribute("aria-expanded", "true");
+            window.setTimeout(function() {
+                htmlMain.setAttribute("class", "filters-enabled midAnimation");
+            }, 10)
 
             window.setTimeout(function () {
                 htmlMain.setAttribute("class", "filters-enabled");
+                document.addEventListener("click", hideFilters);
+                panelOne.addEventListener("click", suppressClick);
+                panelOne.focus();
             }, 250);
         },
-        hideFilters      = function (e) {
-            var button = e.target;
+        hideFilters = function () {
+            showFilterButton.setAttribute("aria-expanded", "false")
             htmlMain.setAttribute("class", "midAnimation");
 
             window.setTimeout(function () {
                 htmlMain.removeAttribute("class");
+                document.removeEventListener("click", hideFilters);
+                panelOne.removeEventListener("click", suppressClick);
+                showFilterButton.focus();
+                panelOne.style.display = "none";
             }, 250);
         };
 
     // Initialize the HTML element
-    initMobileUi();
     document.querySelector("html").setAttribute("class", "js");
+
+    // Initialize the rest of the mobile UI
+    showFilterButton.setAttribute("class", "showFilterButton");
+    showFilterButton.setAttribute("id", "showFilterButton");
+    showFilterButton.setAttribute("aria-controls", "panel-one");
+    showFilterButton.setAttribute("aria-expanded", "false");
+    showFilterButton.textContent = "Change filters";
+    showFilterButton.addEventListener("click", showFilters);
+    appHeader.insertBefore(showFilterButton, appHeader.lastChild);
+
+    hideFilterButton.setAttribute("class", "hideFilterButton");
+    hideFilterButton.setAttribute("id", "hideFilterButton");
+    hideFilterButton.textContent = "Close filters";
+    hideFilterButton.addEventListener("click", hideFilters);
+    filterPanel.insertBefore(hideFilterButton, filterPanel.firstChild);
+
+    if(matchMedia("(max-width: 59.375rem)").matches) {
+        panelOne.tabIndex = 0;
+        panelOne.style.display = "none";
+        panelOne.setAttribute("role", "dialog");
+    }
+
 })();
