@@ -27,21 +27,47 @@
                 top: 0;
             width: 100%;
         }
-        $mobileMapHeight: 12rem;
         > #content-panel {
-            height: $mobileMapHeight;
+            height: auto;
             position: absolute;
-            top: $headerBarHeight;
-            width: 100%;
+                top: $headerBarHeight;
+                bottom: 0;
+                left: 0;
+            width: 50%;
         }
         > #panel-one {
             overflow: auto;
             position: absolute;
-                top: ($mobileMapHeight + $headerBarHeight);
+                top: $headerBarHeight;
                 right: 0;
                 bottom: 0;
-                left: 0;
-            width: 100%;
+                left: 50%;
+            width: auto;
+            > .detailPanel {
+                padding-left: 1rem;
+            }
+        }
+        @media screen and (min-height: $window-small) {
+            $mobileMapHeight: 12rem;
+            > #content-panel {
+                height: $mobileMapHeight;
+                position: absolute;
+                top: $headerBarHeight;
+                width: 100%;
+            }
+            > #panel-one {
+                overflow: auto;
+                position: absolute;
+                    top: ($mobileMapHeight + $headerBarHeight);
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                width: 100%;
+
+                > .detailPanel {
+                    padding: inherit;
+                }
+            }
         }
         @media screen and (min-width: $window-medium) {
             min-height: inherit;
