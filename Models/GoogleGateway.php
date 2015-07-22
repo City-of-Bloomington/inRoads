@@ -87,6 +87,10 @@ class GoogleGateway
             }
             $events[] = $event;
         }
+        usort($events, function ($a, $b) {
+            if ($a->getStart() == $b->getStart()) { return 0; }
+            return ($a->getStart() < $b->getStart()) ? -1 : 1;
+        });
         return $events;
     }
 
