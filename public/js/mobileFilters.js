@@ -12,10 +12,10 @@
             e.stopPropagation();
         },
         showFilters = function () {
-            panelOne.style.display = "block";
             showFilterButton.setAttribute("aria-expanded", "true");
+            htmlMain.setAttribute("class", "filters-displayed")
             window.setTimeout(function() {
-                htmlMain.setAttribute("class", "filters-enabled midAnimation");
+                htmlMain.setAttribute("class", "filters-displayed filters-enabled midAnimation");
             }, 10)
 
             window.setTimeout(function () {
@@ -27,14 +27,13 @@
         },
         hideFilters = function () {
             showFilterButton.setAttribute("aria-expanded", "false")
-            htmlMain.setAttribute("class", "midAnimation");
+            htmlMain.setAttribute("class", "filters-displayed midAnimation");
 
             window.setTimeout(function () {
                 htmlMain.removeAttribute("class");
                 document.removeEventListener("click", hideFilters);
                 panelOne.removeEventListener("click", suppressClick);
                 showFilterButton.focus();
-                panelOne.style.display = "none";
             }, 250);
         };
 
@@ -57,8 +56,7 @@
     filterPanel.insertBefore(hideFilterButton, filterPanel.firstChild);
 
     if(matchMedia("(max-width: 59.375rem)").matches) {
-        panelOne.tabIndex = 0;
-        panelOne.style.display = "none";
+        panelOne.tabIndex = -1;
         panelOne.setAttribute("role", "dialog");
     }
 

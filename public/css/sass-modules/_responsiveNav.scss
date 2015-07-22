@@ -82,54 +82,61 @@
     }
 }
 
-
-.js > .eventsMap, .js > .schedule {
-    > main {
-        &:before {
-            background: #000;
-            content: ' ';
-            display: block;
-            opacity: 0;
-            transition: opacity .25s ease-in-out;
-        }
-        > #panel-one {
-            border-top: 0;
-            position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 100%;
-                z-index: 99;
-            overflow-y: auto;
-            width: $filters-width;
-            transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        &.filters-enabled {
+@media screen and (max-width: $window-large) {
+    .js > .eventsMap, .js > .schedule {
+        > main {
             &:before {
-                opacity: .7;
-                position: fixed;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    z-index: 97;
+                background: #000;
+                content: ' ';
+                display: block;
+                opacity: 0;
+                transition: opacity .25s ease-in-out;
             }
             > #panel-one {
-                display: block;
-                transform: translate((-$filters-width), 0);
-            }
-        }
-        &.midAnimation {
-            &:before {
-                position: fixed;
+                border-top: 0;
+                display: none;
+                position: absolute;
                     top: 0;
-                    right: 0;
                     bottom: 0;
-                    left: 0;
-                    z-index: 97;
+                    left: 100%;
+                    z-index: 99;
+                overflow-y: auto;
+                width: $filters-width;
+                transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
             }
-            > #panel-one {
-                display: block;
+            &.filters-displayed {
+                > #panel-one {
+                    display: block;
+                }
+            }
+
+            &.filters-enabled {
+                &:before {
+                    opacity: .7;
+                    position: fixed;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        z-index: 97;
+                }
+                > #panel-one {
+                    display: block;
+                    transform: translate((-$filters-width), 0);
+                }
+            }
+            &.midAnimation {
+                &:before {
+                    position: fixed;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        z-index: 97;
+                }
+                > #panel-one {
+                    display: block;
+                }
             }
         }
     }
@@ -188,6 +195,7 @@
         > main {
             #panel-one {
                 border-top: .4em solid $cob-blue;
+                display: block;
                 top: $siteHeaderHeight;
                 right: auto;
                 left: 0;
