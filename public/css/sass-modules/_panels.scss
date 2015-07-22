@@ -95,6 +95,7 @@
                 position: absolute;
                     top: (3rem/16);
                     left: (12rem/16);
+                -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
                 width: (2rem/16);
             }
@@ -106,6 +107,7 @@
                 position: absolute;
                     top: (10rem/16);
                     left: (12rem/16);
+                -webkit-transform: rotate(-45deg);
                 transform: rotate(-45deg);
                 width: (2rem/16);
             }
@@ -156,6 +158,7 @@
                         top: (3rem/16);
                         left: (11rem/16);
                     transform: rotate(45deg);
+                    -webkit-transform: rotate(45deg);
                     width: (2rem/16);
                 }
                 &:after {
@@ -167,6 +170,7 @@
                         top: (11rem/16);
                         left: (3rem/16);
                     transform: rotate(45deg);
+                    -webkit-transform: rotate(45deg);
                     width: (18rem/16);
                 }
             }

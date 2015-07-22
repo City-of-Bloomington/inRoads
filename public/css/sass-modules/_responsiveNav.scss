@@ -40,6 +40,7 @@
             top: (14.5rem/16);
             left: (5rem/16);
         transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
         width: (20rem/16);
     }
     &:after {
@@ -51,6 +52,7 @@
             top: (14.5rem/16);
             left: (5rem/16);
         transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
         width: (20rem/16);
     }
 }
@@ -102,6 +104,7 @@
                     z-index: 99;
                 overflow-y: auto;
                 width: $filters-width;
+                -webkit-transition: -webkit-transform .3s cubic-bezier(0.4, 0, 0.2, 1);
                 transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
             }
             &.filters-displayed {
@@ -122,6 +125,7 @@
                 }
                 > #panel-one {
                     display: block;
+                    -webkit-transform: translate((-$filters-width), 0);
                     transform: translate((-$filters-width), 0);
                 }
             }
