@@ -45,7 +45,11 @@
                 pointer-events: none;
                 position: absolute;
                     top: .75rem;
+                    right: 1rem;
+                @media screen and (min-width: $window-medium) {
+                    top: .75rem;
                     right: 2rem;
+                }
                 transition: opacity .25s ease-in-out;
                 width: 1rem;
             }
@@ -74,19 +78,21 @@
             left: .5rem;
     }
 
-    &:before {
-        border: (5rem/16) solid transparent;
-        border-top: (5rem/16) solid $cob-gray-darkest;
-        content: ' ';
-        display: block;
-        height: 0;
-        opacity: .5;
-        position: absolute;
-            right: 1rem;
-            top: 1rem;
-        -webkit-transition: -webkit-transform .2s linear;
-        transition: opacity .2s ease-in-out, transform .2s ease-in-out;
-        width: 0;
+    @media screen and (min-width: $window-medium) {
+        &:before {
+            border: (5rem/16) solid transparent;
+            border-top: (5rem/16) solid $cob-gray-darkest;
+            content: ' ';
+            display: block;
+            height: 0;
+            opacity: .5;
+            position: absolute;
+                right: 1rem;
+                top: 1rem;
+            -webkit-transition: -webkit-transform .2s linear;
+            transition: opacity .2s ease-in-out, transform .2s ease-in-out;
+            width: 0;
+        }
     }
     &:hover {
         background: #e7edf4;
