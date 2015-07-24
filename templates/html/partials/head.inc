@@ -39,4 +39,12 @@ use Application\Models\EventType;
 	<meta property="og:description" content="<?= APPLICATION_DESCRIPTION ?>" />
 	<meta property="og:image" content="<?= BASE_URL ?>/css/images/inroads-facebook-thumb.png" />
 
+<?php if(defined("APPLICATION_TWITTER_SITE") && !empty(APPLICATION_TWITTER_SITE)): ?>
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:site" content="<?= APPLICATION_TWITTER_SITE ?>" />
+	<meta property="twitter:title" content="<?= APPLICATION_NAME ?>" />
+	<meta property="twitter:description" content="<?= APPLICATION_DESCRIPTION ?>" />
+	<meta property="twitter:image" content="<?= BASE_URL ?>/css/images/inroads-facebook-thumb.png" />
+<?php endif ?>
+
 </head>

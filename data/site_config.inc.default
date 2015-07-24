@@ -2,6 +2,9 @@
 define('APPLICATION_NAME','application');
 define('APPLICATION_DESCRIPTION', 'description');
 
+// Replace this value with your city's Twitter handle
+define('APPLICATION_TWITTER_SITE', '@twitter_handle');
+
 /**
  * The URL to get to this site
  * Do NOT use a trailing slash
