@@ -1,5 +1,6 @@
 <?php
 define('APPLICATION_NAME','application');
+define('APPLICATION_DESCRIPTION', 'description');
 
 /**
  * The URL to get to this site

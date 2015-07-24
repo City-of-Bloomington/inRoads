@@ -34,4 +34,9 @@ use Application\Models\EventType;
         }
 	?>
 	</style>
+	<meta property="og:url" content="<?= BASE_URL ?>/events" />
+	<meta property="og:title" content="<?= APPLICATION_NAME ?>" />
+	<meta property="og:description" content="<?= APPLICATION_DESCRIPTION ?>" />
+	<meta property="og:image" content="<?= BASE_URL ?>/css/images/inroads-facebook-thumb.png" />
+
 </head>
