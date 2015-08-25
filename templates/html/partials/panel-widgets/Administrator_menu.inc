@@ -7,17 +7,16 @@
 use Application\Models\Person;
 
 $links = '';
-if (Person::isAllowed('users')) {
-    $routes = [
-        'departments'   => 'department',
-        'people'        => 'person',
-        'users'         => 'user'
-    ];
-    foreach ($routes as $plural=>$singular) {
-        $requiredAction = 'index';
-        if (Person::isAllowed($plural, $requiredAction)) {
-            $links.= "<a href=\"".BASE_URI."/$plural\">{$this->_([$singular, $plural, 2])}</a>";
-        }
+
+$routes = [
+    'departments'   => 'department',
+    'people'        => 'person',
+    'users'         => 'user'
+];
+foreach ($routes as $plural=>$singular) {
+    $requiredAction = 'index';
+    if (Person::isAllowed($plural, $requiredAction)) {
+        $links.= "<a href=\"".BASE_URI."/$plural\">{$this->_([$singular, $plural, 2])}</a>";
     }
 }
 
