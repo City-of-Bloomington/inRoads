@@ -32,12 +32,17 @@ if ($t) {
 
         $description = View::escape($this->event->getDescription());
         if ($description) {
-            echo "<div class=\"description\">$description</div>";
+            echo "\t<div class=\"description\">$description</div>\n";
         }
 
         $geography = $this->event->getGeography();
-        if ($geography) {
-            echo "<div class=\"geography\">$geography</div>";
+        // Don't draw the geography, if it's too long.
+        // Google has a 1024 character limit.  When you exceed that limit, the geography
+        // gets cut off.  When there's an invalid geography in the map,
+        // openlayers errors out, and does not display any geography for
+        // any of the other events.
+        if ($geography && strlen($geography) < 1000) {
+            echo "\t<div class=\"geography\">$geography</div>\n";
         }
     ?>
 </article>
