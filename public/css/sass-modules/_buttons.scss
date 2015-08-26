@@ -18,6 +18,7 @@ button, .button {
     vertical-align: middle;
     &:hover {
         background: linear-gradient(to bottom, #f8f8fd 21%, #d5dfe4 80%);
+        cursor:pointer;
     }
     &.feedback {
         background: #23ae4d;
@@ -31,12 +32,6 @@ button, .button {
     overflow: hidden;
     text-indent: -100rem;
     width: 1rem;
-}
-
-a.button:hover,
-a.icon.hover {
-    cursor: default;
-    text-decoration: none;
 }
 
 .edit { background: url('images/pencil.svg') no-repeat 0 0 / 100% 100%; }
