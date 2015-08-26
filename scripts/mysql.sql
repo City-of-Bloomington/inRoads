@@ -13,6 +13,7 @@ create table people (
 	firstname varchar(128) not null,
 	lastname  varchar(128) not null,
 	email     varchar(255) not null,
+	phone     varchar(16),
 	username  varchar(40) unique,
 	password  varchar(40),
 	authenticationMethod varchar(40),

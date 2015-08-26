@@ -7,7 +7,7 @@
  */
 use Blossom\Classes\View;
 
-$fields = array('firstname','lastname','email');
+$fields = array('firstname','lastname','email', 'phone');
 foreach ($fields as $field) {
 	$get = 'get'.ucfirst($field);
 	$$field = View::escape($this->person->$get());
@@ -15,25 +15,29 @@ foreach ($fields as $field) {
 $title = $this->person->getId() ? View::escape('Edit '.$this->person->getFirstname()) : 'Add Someone';
 ?>
 <section>
-	<h1><?php echo $title; ?></h1>
-	<form method="post" action="<?php echo BASE_URI; ?>/people/update">
-		<fieldset><legend><?php echo $this->_('person_info'); ?></legend>
-			<input name="person_id" type="hidden" value="<?php echo $this->person->getId(); ?>" />
+	<h1><?= $title; ?></h1>
+	<form method="post" action="<?= BASE_URI; ?>/people/update">
+		<fieldset><legend><?= $this->_('person_info'); ?></legend>
+			<input name="person_id" type="hidden" value="<?= $this->person->getId(); ?>" />
 
-			<dl><dt><label for="firstname"><?php echo $this->_('firstname'); ?></label></dt>
-                <dd><input name="firstname" id="firstname" value="<?php echo $firstname; ?>"
-                            required="required" inputmode="latin-name" />
-                </dd>
-            </dl>
-
-            <dl><dt><label for="lastname"><?php echo $this->_('lastname'); ?></label></dt>
-                <dd><input name="lastname" id="lastname" value="<?php echo $lastname; ?>"
+			<dl><dt><label  for="firstname"><?= $this->_('firstname'); ?></label></dt>
+                <dd><input name="firstname" id="firstname" value="<?= $firstname; ?>"
                         required="required" inputmode="latin-name" />
                 </dd>
             </dl>
 
-            <dl><dt><label for="email"><?php echo $this->_(['email', 'emails', 1]); ?></label></dt>
-                <dd><input name="email" id="email" type="email" value="<?php echo $email; ?>" /></dd>
+            <dl><dt><label  for="lastname"><?= $this->_('lastname'); ?></label></dt>
+                <dd><input name="lastname" id="lastname" value="<?= $lastname; ?>"
+                        required="required" inputmode="latin-name" />
+                </dd>
+            </dl>
+
+            <dl><dt><label  for="email"><?= $this->_(['email', 'emails', 1]); ?></label></dt>
+                <dd><input name="email" id="email" type="email" value="<?= $email; ?>" /></dd>
+            </dl>
+
+            <dl><dt><label  for="phone"><?= $this->_('phone'); ?></label>
+                <dd><input name="phone" id="phone" type="tel" value="<?= $phone; ?>" /></dd>
             </dl>
 			<?php
 				$h = $this->template->getHelper('saveAndCancelButtons');

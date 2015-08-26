@@ -6,9 +6,8 @@ data/templates/*
 data/blocks/*
 tests/configuration.inc
 build
-public/css/screen.css
-public/css/screen.css.map
-public/css/**/.sass-cache
+screen.css
+screen.css.map
 node_modules
 gulpfile.js
 *.mo

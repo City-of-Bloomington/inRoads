@@ -112,10 +112,12 @@ class Person extends ActiveRecord
 	public function getFirstname()     { return parent::get('firstname');    }
 	public function getLastname()      { return parent::get('lastname');     }
 	public function getEmail()         { return parent::get('email');        }
+	public function getPhone()         { return parent::get('phone');        }
 
 	public function setFirstname   ($s) { parent::set('firstname',    $s); }
 	public function setLastname    ($s) { parent::set('lastname',     $s); }
 	public function setEmail       ($s) { parent::set('email',        $s); }
+	public function setPhone       ($s) { parent::set('phone',        $s); }
 
 	public function getUsername()             { return parent::get('username'); }
 	public function getPassword()             { return parent::get('password'); } # Encrypted
@@ -142,7 +144,7 @@ class Person extends ActiveRecord
 	 */
 	public function handleUpdate($post)
 	{
-		$fields = array( 'firstname', 'middlename', 'lastname', 'email' );
+		$fields = array( 'firstname', 'middlename', 'lastname', 'email', 'phone' );
 		foreach ($fields as $field) {
 			if (isset($post[$field])) {
 				$set = 'set'.ucfirst($field);
@@ -157,7 +159,7 @@ class Person extends ActiveRecord
 	public function handleUpdateUserAccount($post)
 	{
 		$fields = array(
-			'firstname', 'lastname', 'email', 'department_id',
+			'firstname', 'lastname', 'email', 'phone', 'department_id',
 			'username', 'authenticationMethod', 'role'
 		);
 
@@ -270,6 +272,9 @@ class Person extends ActiveRecord
 		}
 		if (!$this->getEmail() && $identity->getEmail()) {
 			$this->setEmail($identity->getEmail());
+		}
+		if (!$this->getPhone() && $identity->getPhone()) {
+            $this->setPhone($identity->getPhone());
 		}
 	}
 }

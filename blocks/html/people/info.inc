@@ -29,8 +29,9 @@ if (Person::isAllowed('people', 'edit')) {
         'edit'
     );
 }
-$name = View::escape($this->person->getFullname());
-$dept = View::escape($this->person->getDepartment());
+$name  = View::escape($this->person->getFullname());
+$dept  = View::escape($this->person->getDepartment());
+$phone = View::escape($this->person->getPhone());
 echo "
 <section>
 	<h1>$name</h1>
@@ -42,6 +43,9 @@ echo "
 		<tr><th>{$this->_('email')}</th>
 			<td>{$this->person->getEmail()}</td>
 		</tr>
+		<tr><th>{$this->_('phone')}</th>
+            <td>$phone</td>
+        </tr>
 		<tr><th>{$this->_('username')}</th>
 			<td>$username</td>
 		</tr>
