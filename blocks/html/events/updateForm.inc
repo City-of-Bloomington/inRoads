@@ -23,17 +23,15 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dt><label   for="department_id"><?= $this->_('department'); ?></label></dt>
             <dd><select name="department_id">
                 <?php
-                    // Department should be a required field for People who
-                    // can only create events for their department
-                    $departments = Event::validDepartments($_SESSION['USER']);
-                    if (count($departments) > 1) {
-                        echo '<option value=""></option>';
-                    }
+                    $current = $this->event->getDepartment_id()
+                        ?      $this->event->getDepartment_id()
+                        : $_SESSION['USER']->getDepartment_id();
 
+                    $departments = Event::validDepartments($_SESSION['USER']);
                     foreach ($departments as $d) {
                         $name = View::escape($d->getName());
-                        $selected = $this->event->getDepartment_id()===$d->getId()
-                            ? 'selected="selected"'
+                        $selected = $current===$d->getId()
+                            ? 'selected="true"'
                             : '';
                         echo "<option value=\"{$d->getId()}\" $selected>$name</option>";
                     }
@@ -42,16 +40,15 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             </dd>
         </dl>
         <dl>
-            <dt><label   for="eventType"><?= $this->_('eventType'); ?></label></dt>
-            <dd><select name="eventType" id="eventType">
+            <dt><label   for="eventType_id"><?= $this->_('eventType'); ?></label></dt>
+            <dd><select name="eventType_id" id="eventType_id">
                 <?php
                     foreach (EventType::types() as $type) {
-                        $currentType = $this->event->getEventType();
-                        $selected = ($currentType && $currentType->getCode()===$type->getCode())
-                            ? 'selected="selected"'
+                        $selected = ($this->event->getEventType_id() === $type->getId())
+                            ? 'selected="true"'
                             : '';
                         $name = View::escape($type->getName());
-                        echo "<option $selected value=\"{$type->getCode()}\">$name</option>";
+                        echo "<option $selected value=\"{$type->getId()}\">$name</option>";
                     }
                 ?>
                 </select>

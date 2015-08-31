@@ -4,4 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
-dechex($color[0]).dechex($color[1]).dechex($color[2])
+$color = 'ff3300';
+
+$rgb = sscanf($color, '%02x%02x%02x');
+print_r($rgb);

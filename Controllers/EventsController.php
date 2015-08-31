@@ -114,14 +114,6 @@ class EventsController extends Controller
         $this->template->setFilename('viewSingle');
         $event = $this->loadEvent($_GET['id']);
 
-        $search = $this->getSearchParameters();
-        $events = GoogleGateway::getEvents(
-            GOOGLE_CALENDAR_ID,
-            $search['start'],
-            $search['end'],
-            $search['filters']
-        );
-
         $this->template->title = $event->getEventType();
         $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
         $this->template->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);

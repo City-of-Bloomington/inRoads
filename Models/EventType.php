@@ -121,7 +121,7 @@ class EventType extends ActiveRecord
 	 */
 	public function setColor($hex)
 	{
-        $hex = preg_replace('/[^0-9a-z]/', '', strtolower($hex));
+        $hex = preg_replace('/[^0-9a-f]/', '', strtolower($hex));
         if (strlen($hex) === 6) {
             parent::set('color', $hex);
         }

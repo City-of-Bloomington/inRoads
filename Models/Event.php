@@ -17,6 +17,7 @@ class Event extends ActiveRecord
 	protected $tablename = 'events';
 
 	protected $department;
+	protected $eventType;
 
 	/**
 	 * Populates the object with data
@@ -45,10 +46,10 @@ class Event extends ActiveRecord
 				$this->exchangeArray($id);
 			}
 			else {
-				$sql = "select  id, department_id, google_event_id, eventType,
+				$sql = "select  id, department_id, google_event_id, eventType_id,
                                 startDate, endDate, startTime, endTime, rrule,
                                 AsText(geography) geography, geography_description,
-                                created, updated
+                                description, created, updated
                         from events ";
                 $sql.= ActiveRecord::isId($id)
                     ? 'where id=?'
@@ -67,6 +68,7 @@ class Event extends ActiveRecord
 		else {
 			// This is where the code goes to generate a new, empty instance.
 			// Set any default values for properties that need it here
+			$this->setDateData('created', 'now');
 		}
     }
 
@@ -82,21 +84,22 @@ class Event extends ActiveRecord
     public function save()
     {
         parent::setDateData('updated', 'now');
-        parent::save();
         $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
+        parent::save();
     }
 
 	//----------------------------------------------------------------
 	// Generic Getters & Setters
 	//----------------------------------------------------------------
-	public function getId()                    { return parent::get('id');          }
-	public function getGoogle_event_id()       { return parent::get('google_event_id'); }
-    public function getEventType()             { return parent::get('eventType');   }
-    public function getDescription()           { return parent::get('description'); }
+	public function getId()                    { return parent::get('id');                    }
+	public function getDepartment_id()         { return parent::get('getDepartment_id');      }
+    public function getEventType_id()          { return parent::get('eventType_id');          }
+	public function getGoogle_event_id()       { return parent::get('google_event_id');       }
+    public function getDescription()           { return parent::get('description');           }
     public function getGeography_description() { return parent::get('geography_description'); }
-    public function getGeography()             { return parent::get('geography');   }
-	public function getDepartment_id()         { return parent::get('getDepartment_id'); }
+    public function getGeography()             { return parent::get('geography');             }
     public function getDepartment()            { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
+    public function getEventType()             { return parent::getForeignKeyObject(__namespace__.'\EventType',  'eventType_id' ); }
     public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
     public function getUpdated  ($f=null, $tz=null) { return parent::getDateData('updated',   $f, $tz); }
     public function getStartDate($f=null, $tz=null) { return parent::getDateData('startDate', $f, $tz); }
@@ -104,13 +107,14 @@ class Event extends ActiveRecord
     public function getStartTime($f=null, $tz=null) { return parent::getDateData('startTime', $f, $tz); }
     public function getEndTime  ($f=null, $tz=null) { return parent::getDateData('endTime',   $f, $tz); }
 
+    public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
+    public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
+    public function setEventType_id ($i) { parent::setForeignKeyField (__namespace__.'\EventType',  'eventType_id',  $i); }
+    public function setEventType    ($i) { parent::setForeignKeyObject(__namespace__.'\EventType',  'eventType_id',  $i); }
     public function setGoogle_event_id      ($s) { parent::set('google_event_id',       $s); }
-    public function setEventType            ($s) { parent::set('eventType',             $s); }
     public function setDescription          ($s) { parent::set('description',           $s); }
     public function setGeography_description($s) { parent::set('geography_description', $s); }
     public function setGeography            ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
-    public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
-    public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
     public function setCreated  ($d) { parent::setDateData('created',   $d); }
     public function setStartDate($d) { parent::setDateData('startDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
     public function setEndDate  ($d) { parent::setDateData('endDate',   $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
@@ -120,7 +124,7 @@ class Event extends ActiveRecord
     public function handleUpdate($post)
     {
         $fields = [
-            'department_id', 'eventType',
+            'department_id', 'eventType_id',
             'description', 'geography', 'geography_description',
         ];
         foreach ($fields as $f) {
@@ -200,6 +204,42 @@ class Event extends ActiveRecord
      * @return bool
      */
     public function isAllDay() { return $this->getStartTime() ? true : false; }
+
+    /**
+     * @param string $dateFormat
+     * @param string $timeFormat
+     * @return string
+     */
+    public function getHumanReadableDuration($dateFormat=DATE_FORMAT, $timeFormat=TIME_FORMAT)
+    {
+        $startDate = $this->getStartDate($dateFormat);
+          $endDate = $this->getEndDate  ($dateFormat);
+
+        if (!$this->isAllDay()) {
+            $startTime = $this->getStartTime($timeFormat);
+              $endTime = $this->getEndTime  ($timeFormat);
+        }
+        else {
+            $startTime = null;
+              $endTime = null;
+        }
+
+                                           $text = $startDate;
+        if ($startTime)                  { $text.= ' '.$startTime; }
+        if ($endDate !== $startDate
+            || $endTime) {
+                                           $text.= ' to ';
+            if ($endTime)                { $text.= ' '.$endTime; }
+            if ($endDate !== $startDate) { $text.= ' '.$endDate; }
+        }
+
+        $rule = $this->getRRule();
+        if ($rule) {
+            $t = new TextTransformer();
+            $text.= ' '.$t->transform($rule);
+        }
+        return $text;
+    }
 
     /**
      * @param Person $person

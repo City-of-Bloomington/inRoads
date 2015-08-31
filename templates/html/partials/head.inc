@@ -24,7 +24,8 @@ use Application\Models\EventType;
 	<?php
         foreach (EventType::types() as $type) {
             $class = $type->getCode();
-            $color = implode(', ', $type->getColor());
+            // Convert hex to rgb array
+            $color = implode(', ', sscanf($type->getColor(), '%02x%02x%02x'));
 
             echo "
             .$class      { border-color:rgba($color, 1); }
