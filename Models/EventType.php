@@ -6,22 +6,21 @@
  */
 namespace Application\Models;
 
-class EventType
+use Blossom\Classes\ActiveRecord;
+use Blossom\Classes\Database;
+
+class EventType extends ActiveRecord
 {
-    private $data;
+	protected $tablename = 'eventTypes';
 
     /**
      * @return array  An array of EventType objects
      */
     public static function types()
     {
-        $types = [];
-
-        global $EVENT_TYPES;
-        foreach ($EVENT_TYPES as $t) {
-            $types[] = new EventType($t);
-        }
-        return $types;
+        $table = new EventTypesTable();
+        $list = $table->find();
+        return $list;
     }
 
     /**
@@ -31,9 +30,12 @@ class EventType
     {
         $names = [];
 
-        global $EVENT_TYPES;
-        foreach ($EVENT_TYPES as $t) {
-            $names[] = $t['name'];
+        $sql = 'select name from eventTypes order by name';
+        $zend_db = Database::getConnection();
+        $result = $zend_db->createStatement($sql)->execute();
+
+        foreach ($result as $row) {
+            $names[] = $row['name'];
         }
         return $names;
     }
@@ -45,46 +47,103 @@ class EventType
     {
         $codes = [];
 
-        global $EVENT_TYPES;
-        foreach ($EVENT_TYPES as $t) {
-            $codes[] = $t['code'];
+        $sql = 'select code from eventTypes order by code';
+        $zend_db = Database::getConnection();
+        $result = $zend_db->createStatement($sql)->execute();
+
+        foreach ($result as $row) {
+            $codes[] = $row['code'];
         }
         return $codes;
     }
+	/**
+	 * Populates the object with data
+	 *
+	 * Passing in an associative array of data will populate this object without
+	 * hitting the database.
+	 *
+	 * Passing in a scalar will load the data from the database.
+	 * This will load all fields in the table as properties of this class.
+	 * You may want to replace this with, or add your own extra, custom loading
+	 *
+	 * @param int|string|array $id (ID, email, username)
+	 */
+	public function __construct($id=null)
+	{
+		if ($id) {
+			if (is_array($id)) {
+				$this->exchangeArray($id);
+			}
+			else {
+				$zend_db = Database::getConnection();
+                $sql = ActiveRecord::isId($id)
+					? 'select * from eventTypes where id=?'
+					: 'select * from eventTypes where code=?';
 
-    /**
-     * Loads type information
-     *
-     * If you pass in an array, it uses the data you provide.
-     * If you pass in a string, it looks for a type with that code or name
-     * @param array|string $data
-     */
-    public function __construct($data=null)
+				$result = $zend_db->createStatement($sql)->execute([$id]);
+				if (count($result)) {
+					$this->exchangeArray($result->current());
+				}
+				else {
+					throw new \Exception('eventTypes/unknown');
+				}
+			}
+		}
+		else {
+			// This is where the code goes to generate a new, empty instance.
+			// Set any default values for properties that need it here
+		}
+    }
+
+    public function validate()
     {
-        if ($data) {
-            if (is_array($data)) {
-                $this->data = $data;
-            }
-            else {
-                global $EVENT_TYPES;
-                foreach ($EVENT_TYPES as $t) {
-                    if ($t['code'] === $data || $t['name'] === $data) {
-                        $this->data = $t;
-                        break;
-                    }
-                }
-            }
-            if (!$this->data) {
-                throw new \Exception('eventType/unknown');
-            }
+    }
+
+    public function save() { parent::save(); }
+
+	//----------------------------------------------------------------
+	// Generic Getters & Setters
+	//----------------------------------------------------------------
+	public function getId   () { return parent::get('id'   ); }
+	public function getCode () { return parent::get('code' ); }
+	public function getName () { return parent::get('name' ); }
+	public function getColor() { return parent::get('color'); }
+	public function getDescription() { return parent::get('description'); }
+
+	public function setCode ($s) { parent::set('code',  $s); }
+	public function setName ($s) { parent::set('name',  $s); }
+	public function setDescription($s) { parent::set('description', $s); }
+
+	/**
+	 * Sets the user-entered hex value for the color
+	 *
+	 * @param string $hex
+	 */
+	public function setColor($hex)
+	{
+        $hex = preg_replace('/[^0-9a-z]/', '', strtolower($hex));
+        if (strlen($hex) === 6) {
+            parent::set('color', $hex);
         }
     }
 
-    public function getCode           () { return $this->data['code'];        }
-    public function getName           () { return $this->data['name'];        }
-    public function getColor          () { return $this->data['color'];       }
-    public function getDescription    () { return $this->data['description']; }
-    public function isDefaultForSearch() { return $this->data['default'];     }
+	public function getIsDefault()   { return parent::get('isDefault'); }
+	public function setIsDefault($b) { parent::set('isDefault', $b ? 1 : 0); }
 
-    public function __toString() { return $this->getName(); }
+	public function handleUpdate($post)
+	{
+        $fields = ['code', 'name', 'color', 'description', 'isDefault'];
+        foreach ($fields as $f) {
+            $set = 'set'.ucfirst($f);
+            $this->$set($post[$f]);
+        }
+	}
+
+	//----------------------------------------------------------------
+	// Custom Functions
+	//----------------------------------------------------------------
+	public function __toString() { return parent::get('name'); }
+
+	public function isDefault() { return parent::get('isDefault') ? true : false; }
+    public function isDefaultForSearch() { return $this->isDefault(); }
 }

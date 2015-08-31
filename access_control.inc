@@ -22,6 +22,7 @@ $ZEND_ACL->addResource(new Resource('people'));
 $ZEND_ACL->addResource(new Resource('users'));
 $ZEND_ACL->addResource(new Resource('login'));
 $ZEND_ACL->addResource(new Resource('departments'));
+$ZEND_ACL->addResource(new Resource('eventTypes'));
 
 $ZEND_ACL->addResource(new Resource('events'));
 
@@ -36,7 +37,7 @@ $ZEND_ACL->allow(null, ['index', 'events'], ['index', 'view']);
 $ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
 
 // Allow Staff to do stuff
-$ZEND_ACL->allow('Staff', ['people', 'departments'], ['index','view']);
+$ZEND_ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index','view']);
 $ZEND_ACL->allow('Staff', ['events']);
 
 // Administrator is allowed access to everything

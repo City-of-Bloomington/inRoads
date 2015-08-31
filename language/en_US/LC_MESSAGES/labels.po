@@ -170,6 +170,23 @@ msgstr "New Department"
 msgid "department_edit"
 msgstr "Edit Department"
 
+msgid "eventType"
+msgid_plural "eventTypes"
+msgstr[0] "Event Type"
+msgstr[1] "Event Types"
+
+msgid "eventType_add"
+msgstr "New Event Type"
+
+msgid "eventType_edit"
+msgstr "Edit Event Type"
+
+msgid "color"
+msgstr "Color"
+
+msgid "isDefault"
+msgstr "Default"
+
 msgid "type"
 msgstr "Type"
 

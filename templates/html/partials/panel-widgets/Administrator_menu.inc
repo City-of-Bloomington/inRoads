@@ -10,6 +10,7 @@ $links = '';
 
 $routes = [
     'departments'   => 'department',
+    'eventTypes'    => 'eventType',
     'people'        => 'person',
     'users'         => 'user'
 ];
