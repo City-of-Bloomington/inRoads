@@ -24,7 +24,7 @@ class DepartmentsController extends Controller
             return new Department($id);
         }
         catch (\Exception $e) {
-            $this->template->setFlashMessages($e, 'errorMessages');
+            $_SESSION['errorMessages'][] = $e;
             header('Location: '.BASE_URL.'/departments');
             exit();
         }
@@ -51,15 +51,15 @@ class DepartmentsController extends Controller
             : new Department();
 
 		if (isset($_POST['code'])) {
-			$department->handleUpdate($_POST);
-			$errors = $department->save();
-			if (!count($errors)) {
+            try {
+                $department->handleUpdate($_POST);
+                $department->save();
 				header('Location: '.BASE_URL.'/departments');
 				exit();
-			}
-			else {
-                $this->template->setFlashMessages($errors, 'errorMessages');
-			}
+            }
+            catch (\Exception $e) {
+                $_SESSION['errorMessages'][] = $e;
+            }
 		}
 
 		$this->template->blocks[] = new Block('departments/updateForm.inc', ['department'=>$department]);

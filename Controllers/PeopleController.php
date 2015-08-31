@@ -24,7 +24,7 @@ class PeopleController extends Controller
             return new Person($id);
         }
         catch (\Exception $e) {
-            $this->template->setFlashMessages($e, 'errorMessages');
+            $_SESSION['errorMessages'][] = $e;
             header('Location: '.BASE_URL.'/people');
             exit();
         }
@@ -59,16 +59,17 @@ class PeopleController extends Controller
             : null;
 
 		if (isset($_POST['firstname'])) {
-			$person->handleUpdate($_POST);
-			$errors = $person->save();
-			if (!count($errors)) {
-				if (!$return_url) { $return_url = BASE_URL."/people/view?person_id={$person->getId()}"; }
-				header("Location: $return_url");
-				exit();
-			}
-			else {
-                $this->template->setFlashMessages($errors, 'errorMessages');
-			}
+            try {
+                $person->handleUpdate($_POST);
+                $person->save();
+
+                if (!$return_url) { $return_url = BASE_URL."/people/view?person_id={$person->getId()}"; }
+                header("Location: $return_url");
+                exit();
+            }
+            catch (\Exception $e) {
+                $_SESSION['errorMessages'][] = $e;
+            }
 		}
 
 		$this->template->blocks[] = new Block('people/updateForm.inc', ['person'=>$person, 'return_url'=>$return_url]);

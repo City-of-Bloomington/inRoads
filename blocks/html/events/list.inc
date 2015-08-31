@@ -25,7 +25,7 @@ use Blossom\Classes\Block;
                     $classes = '';
                     if ($e->getGeography()) { $classes.= ' hasGeography'; }
 
-                    $t = $e->getType();
+                    $t = $e->getEventType();
                     if ($t) {
                         $t = lcfirst(str_replace(' ', '', ucwords($t)));
                         $classes.= " $t";
@@ -34,7 +34,7 @@ use Blossom\Classes\Block;
                     $editButton = '';
                     if (Person::isAllowed('events', 'update')
                         && $e->permitsEditingBy($_SESSION['USER'])) {
-                        
+
                         $editButton = $helper->buttonLink(
                             BASE_URI.'/events/update?id='.$e->getId(),
                             $this->_('event_edit'),

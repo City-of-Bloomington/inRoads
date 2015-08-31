@@ -12,7 +12,9 @@ abstract class ActiveRecord
 	protected $tablename;
 	protected $data = array();
 
-	const MYSQL_DATE_FORMAT = 'Y-m-d H:i:s';
+	const MYSQL_DATE_FORMAT     = 'Y-m-d';
+	const MYSQL_TIME_FORMAT     = 'H:i:s';
+	const MYSQL_DATETIME_FORMAT = 'Y-m-d H:i:s';
 
 	abstract public function validate();
 
@@ -116,13 +118,20 @@ abstract class ActiveRecord
 	 * @param string $dateField
 	 * @param string $date
 	 * @param string $format
+	 * @param string $databaseFormat
 	 */
-	protected function setDateData($dateField, $date, $format=DATETIME_FORMAT)
+	protected function setDateData($dateField, $date, $format=DATETIME_FORMAT, $databaseFormat=self::MYSQL_DATETIME_FORMAT)
 	{
 		$date = trim($date);
 		if ($date) {
-            $d = self::parseDate($date, $format);
-			$this->data[$dateField] = $d->format(self::MYSQL_DATE_FORMAT);
+            try {
+                $d = self::parseDate($date, $format);
+                $this->data[$dateField] = $d->format($databaseFormat);
+            }
+            catch (\Exception $e) {
+                $class = strtolower((new \ReflectionClass($this))->getShortName());
+                throw new \Exception("$class/$dateField/invalidDate");
+            }
 		}
 		else {
 			$this->data[$dateField] = null;
@@ -139,19 +148,14 @@ abstract class ActiveRecord
 	 *
 	 * @param string $date
 	 * @param string $format
+	 * @throws Exception
 	 * @return DateTime
 	 */
 	public static function parseDate($date, $format=DATETIME_FORMAT)
 	{
         $d = \DateTime::createFromFormat($format, $date);
         if (!$d) {
-            try {
-                $d = new \DateTime($date);
-            }
-            catch (\Exception $e) {
-                $class = strtolower((new \ReflectionClass($this))->getShortName());
-                throw new \Exception("$class/$dateField/invalidDate");
-            }
+            $d = new \DateTime($date);
         }
         return $d;
 	}

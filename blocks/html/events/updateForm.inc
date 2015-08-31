@@ -20,8 +20,8 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
         <legend><span><?php echo $this->_('event_info'); ?></span></legend>
         <dl>
-            <dt><label   for="department"><?= $this->_('department'); ?></label></dt>
-            <dd><select name="department">
+            <dt><label   for="department_id"><?= $this->_('department'); ?></label></dt>
+            <dd><select name="department_id">
                 <?php
                     // Department should be a required field for People who
                     // can only create events for their department
@@ -32,21 +32,21 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
                     foreach ($departments as $d) {
                         $name = View::escape($d->getName());
-                        $selected = $this->event->getDepartment()===$d->getCode()
+                        $selected = $this->event->getDepartment_id()===$d->getId()
                             ? 'selected="selected"'
                             : '';
-                        echo "<option value=\"{$d->getCode()}\" $selected>$name</option>";
+                        echo "<option value=\"{$d->getId()}\" $selected>$name</option>";
                     }
                 ?>
                 </select>
             </dd>
         </dl>
         <dl>
-            <dt><label   for="type"><?= $this->_('type'); ?></label></dt>
-            <dd><select name="type" id="type">
+            <dt><label   for="eventType"><?= $this->_('eventType'); ?></label></dt>
+            <dd><select name="eventType" id="eventType">
                 <?php
                     foreach (EventType::types() as $type) {
-                        $currentType = $this->event->getType();
+                        $currentType = $this->event->getEventType();
                         $selected = ($currentType && $currentType->getCode()===$type->getCode())
                             ? 'selected="selected"'
                             : '';
@@ -97,20 +97,20 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
             <dd><input name="start[date]" id="start"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
-                    value="<?= $this->event->getStart(DATE_FORMAT); ?>" />
+                    value="<?= $this->event->getStartDate(DATE_FORMAT); ?>" />
                 <input name="start[time]" id="startTime"
                     placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
-                    value="<?= $this->event->getStart(TIME_FORMAT); ?>" />
+                    value="<?= $this->event->getStartTime(TIME_FORMAT); ?>" />
             </dd>
         </dl>
         <dl class="dateRange">
             <dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
             <dd><input name="end[date]" id="end"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
-                    value="<?= $this->event->getEnd(DATE_FORMAT); ?>" />
+                    value="<?= $this->event->getEndDate(DATE_FORMAT); ?>" />
                 <input name="end[time]" id="endTime"
                     placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
-                    value="<?= $this->event->getEnd(TIME_FORMAT); ?>" />
+                    value="<?= $this->event->getEndTime(TIME_FORMAT); ?>" />
             </dd>
         </dl>
 

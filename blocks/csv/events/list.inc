@@ -18,7 +18,7 @@ foreach ($this->events as $e) {
 
     $event = [
         'id' => $e->getId(),
-        'type' => $e->getType(),
+        'type' => $e->getEventType(),
         'department' => $e->getDepartment(),
         'start' => $e->getStart($format),
         'end' => $e->getEnd($format),

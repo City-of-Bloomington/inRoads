@@ -24,19 +24,12 @@ class EventsController extends Controller
      */
     private function loadEvent($id)
     {
-        if ($id) {
-            $event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $id);
-            if ($event) {
-                return new Event($event);
-            }
-            else {
-                $this->template->setFlashMessages( ['event' => [0 => ['unknown']]], 'errorMessages' );
-                header('Location: '.BASE_URL.'/events');
-                exit();
-            }
+        #$event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $id);
+        try {
+            return new Event($id);
         }
-        else {
-            $this->template->setFlashMessages( ['event' => [0 => ['unknown']]], 'errorMessages' );
+        catch (\Exception $e) {
+            $_SESSION['errorMessages'][] = $e;
             header('Location: '.BASE_URL.'/events');
             exit();
         }
@@ -129,7 +122,7 @@ class EventsController extends Controller
             $search['filters']
         );
 
-        $this->template->title = $event->getType();
+        $this->template->title = $event->getEventType();
         $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
         $this->template->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);
         $this->template->blocks[]              = new Block('events/map.inc',                   ['event'=>$event]);
@@ -156,7 +149,9 @@ class EventsController extends Controller
                 exit();
             }
             catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
+                #$_SESSION['errorMessages'][] = $e;
+                print_r($e);
+                exit();
             }
         }
 

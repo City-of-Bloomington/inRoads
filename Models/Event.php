@@ -6,102 +6,121 @@
  */
 namespace Application\Models;
 
+use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Database;
+use Zend\Db\Sql\Expression;
 use Recurr\Rule;
 use Recurr\Transformer\TextTransformer;
 
-class Event
+class Event extends ActiveRecord
 {
-    public $event;
-    private $patch;
+	protected $tablename = 'events';
 
-    private $data = [];
+	protected $department;
 
-    public function __construct($event=null)
-    {
-        if ($event) {
-            if ($event instanceof \Google_Service_Calendar_Event) {
-                $this->event = $event;
-            }
-            elseif (is_string($event)) {
-                $this->event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $event);
-                if (!$this->event) {
-                    throw new \Exception('event/unknown');
-                }
+	/**
+	 * Populates the object with data
+	 *
+	 * Passing in an associative array of data will populate this object without
+	 * hitting the database.
+	 *
+	 * Passing in a scalar will load the data from the database.
+	 * This will load all fields in the table as properties of this class.
+	 * You may want to replace this with, or add your own extra, custom loading
+	 *
+	 * @param int|string|array|Google_Service_Calendar_Event $id
+	 */
+	public function __construct($id=null)
+	{
+		if ($id) {
+            // Use the eventID for any GoogleEvent passed in
+            if ($id instanceof \Google_Service_Calendar_Event) {
+                $google_event = clone($id);
+                $id = !empty($id->recurringEventId)
+                    ? $id->recurringEventId
+                    : $id->id;
             }
 
-            $this->parseSummary();
-        }
-        // Code to create a new Event with default values
-        else {
-            $this->event = new \Google_Service_Calendar_Event([
-                'start' => [
-                    'date' => date(GoogleGateway::DATE_FORMAT),
-                    'timeZone'=> ini_get('date.timezone')
-                ],
-                'end'   => [
-                    'date' => date(GoogleGateway::DATE_FORMAT),
-                    'timeZone'=> ini_get('date.timezone')
-                ]
-            ]);
-            if (isset($_SESSION['USER'])) {
-                $d =  $_SESSION['USER']->getDepartment();
-                if ($d) {
-                    $this->setDepartment($d->getCode());
-                }
-            }
-        }
+			if (is_array($id)) {
+				$this->exchangeArray($id);
+			}
+			else {
+				$sql = "select  id, department_id, google_event_id, eventType,
+                                startDate, endDate, startTime, endTime, rrule,
+                                AsText(geography) geography, geography_description,
+                                created, updated
+                        from events ";
+                $sql.= ActiveRecord::isId($id)
+                    ? 'where id=?'
+                    : 'where google_event_id=?';
+
+				$zend_db = Database::getConnection();
+				$result = $zend_db->createStatement($sql)->execute([$id]);
+				if (count($result)) {
+					$this->exchangeArray($result->current());
+				}
+				else {
+					throw new \Exception('events/unknown');
+				}
+			}
+		}
+		else {
+			// This is where the code goes to generate a new, empty instance.
+			// Set any default values for properties that need it here
+		}
     }
 
     public function validate()
     {
-        if (!$this->getStart() || !$this->getEnd()
+        if (!$this->getStartDate() || !$this->getEndDate()
             || !$this->getGeography_description()
             || !$this->getDescription()) {
             throw new \Exception('missingRequiredFields');
         }
     }
 
-    /**
-     * Saves this event back to a Google Calendar
-     *
-     * If there is an event_id, it creates a new event
-     * otherwise it checks to see if anything has been modified.
-     * If fields have been modified, it sends a patch request.
-     */
     public function save()
     {
-        $summary = $this->getGeography_description();
-        if ($this->getType())       { $summary = "{$this->getType()}-$summary"; }
-        if ($this->getDepartment()) { $summary = "{$this->getDepartment()}-$summary"; }
-        $this->setSummary($summary);
-
-        $this->validate();
-        if (!$this->getId()) {
-            $event = GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $this->event);
-        }
-        elseif ($this->patch instanceof \Google_Service_Calendar_Event) {
-            $event = GoogleGateway::patchEvent(GOOGLE_CALENDAR_ID, $this->event->id, $this->patch);
-        }
-
-        if ($event instanceof \Google_Service_Calendar_Event) {
-            $this->event = $event;
-            $this->patch = null;
-        }
-        else {
-            throw new \Exception('google/saveError');
-        }
+        parent::setDateData('updated', 'now');
+        parent::save();
+        $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
     }
 
-    /**
-     * Processes a form post from this web application.
-     *
-     * @param array $post
-     */
+	//----------------------------------------------------------------
+	// Generic Getters & Setters
+	//----------------------------------------------------------------
+	public function getId()                    { return parent::get('id');          }
+	public function getGoogle_event_id()       { return parent::get('google_event_id'); }
+    public function getEventType()             { return parent::get('eventType');   }
+    public function getDescription()           { return parent::get('description'); }
+    public function getGeography_description() { return parent::get('geography_description'); }
+    public function getGeography()             { return parent::get('geography');   }
+	public function getDepartment_id()         { return parent::get('getDepartment_id'); }
+    public function getDepartment()            { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
+    public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
+    public function getUpdated  ($f=null, $tz=null) { return parent::getDateData('updated',   $f, $tz); }
+    public function getStartDate($f=null, $tz=null) { return parent::getDateData('startDate', $f, $tz); }
+    public function getEndDate  ($f=null, $tz=null) { return parent::getDateData('endDate',   $f, $tz); }
+    public function getStartTime($f=null, $tz=null) { return parent::getDateData('startTime', $f, $tz); }
+    public function getEndTime  ($f=null, $tz=null) { return parent::getDateData('endTime',   $f, $tz); }
+
+    public function setGoogle_event_id      ($s) { parent::set('google_event_id',       $s); }
+    public function setEventType            ($s) { parent::set('eventType',             $s); }
+    public function setDescription          ($s) { parent::set('description',           $s); }
+    public function setGeography_description($s) { parent::set('geography_description', $s); }
+    public function setGeography            ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
+    public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
+    public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
+    public function setCreated  ($d) { parent::setDateData('created',   $d); }
+    public function setStartDate($d) { parent::setDateData('startDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
+    public function setEndDate  ($d) { parent::setDateData('endDate',   $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
+    public function setStartTime($t) { parent::setDateData('startTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT); }
+    public function setEndTime  ($t) { parent::setDateData('endTime',   $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT); }
+
     public function handleUpdate($post)
     {
         $fields = [
-            'department', 'type',
+            'department_id', 'eventType',
             'description', 'geography', 'geography_description',
         ];
         foreach ($fields as $f) {
@@ -109,44 +128,10 @@ class Event
             $this->$set($post[$f]);
         }
 
-        if (isset($post['allDay'])) {
-            $startDate = \DateTime::createFromFormat(DATE_FORMAT, $post['start']['date']);
-              $endDate = \DateTime::createFromFormat(DATE_FORMAT, $post['end'  ]['date']);
-            if (!$startDate || !$endDate) {
-                throw new \Exception('events/invalidDate');
-            }
-
-            $this->set('start', new \Google_Service_Calendar_EventDateTime([
-                'date'     => $startDate->format(GoogleGateway::DATE_FORMAT),
-                'dateTime' => \Google_Model::NULL_VALUE,
-                'timeZone' => $startDate->getTimezone()->getName()
-            ]));
-            $this->set('end', new \Google_Service_Calendar_EventDateTime([
-                'date'     => $endDate->format(GoogleGateway::DATE_FORMAT),
-                'dateTime' => \Google_Model::NULL_VALUE,
-                'timeZone' => $endDate->getTimezone()->getName()
-            ]));
-        }
-        else {
-            $startDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['start']['date']} {$post['start']['time']}");
-              $endDate = \DateTime::createFromFormat(DATETIME_FORMAT, "{$post['end']['date']} {$post['end']['time']}");
-            if (!$startDate || !$endDate) {
-                throw new \Exception('events/invalidDate');
-            }
-
-            $this->set('start', new \Google_Service_Calendar_EventDateTime([
-                'date'     => \Google_Model::NULL_VALUE,
-                'dateTime' => $startDate->format(GoogleGateway::DATETIME_FORMAT),
-                'timeZone' => $startDate->getTimezone()->getName()
-            ]));
-            $this->set('end', new \Google_Service_Calendar_EventDateTime([
-                'date'     => \Google_Model::NULL_VALUE,
-                'dateTime' => $endDate->format(GoogleGateway::DATETIME_FORMAT),
-                'timeZone' => $endDate->getTimezone()->getName()
-            ]));
-        }
-
-
+        $this->setStartDate($post['start']['date']);
+        $this->setStartTime($post['start']['time']);
+        $this->setEndDate($post['end']['date']);
+        $this->setEndTime($post['end']['time']);
 
         if (!empty($post['frequency'])) {
             $recur = new Rule();
@@ -188,324 +173,33 @@ class Event
         }
     }
 
-    /**
-     * Updates a value on the GoogleEvent object
-     *
-     * This function keeps track of which values have actually
-     * changed, so we can submit a patch when we save the event
-     * back to Google.
-     */
-    private function set($field, $value)
-    {
-        if ($this->event->$field && $this->event->$field == $value) {
-            // Value has not changed nothing to update
-            return;
-        }
-
-        if (!$this->patch) {
-            $this->patch = new \Google_Service_Calendar_Event();
-        }
-
-        $set = 'set'.ucfirst($field);
-        $this->event->$set($value);
-        $this->patch->$set($value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return !empty($this->event->recurringEventId)
-            ? $this->event->recurringEventId
-            : $this->event->id;
-    }
-    public function getSummary()     { return $this->event->summary;     }
-    public function getDescription() { return $this->event->description; }
-    public function setSummary    ($s) { $this->set('summary',     $s); }
-    public function setDescription($s) { $this->set('description', $s); }
-
-    /**
-     * @return bool
-     */
-    public function isAllDay()
-    {
-        return isset($this->event->start->dateTime) ? false : true;
-    }
-
-    /**
-     * @return DateTimeZone
-     */
-    public function getTimezone()
-    {
-        return $this->event->start->timeZone
-            ? new \DateTimeZone($this->event->start->timeZone)
-            : new \DateTimeZone(ini_get('date.timezone'));
-    }
-
-    /**
-     * @param string $format
-     * @return string
-     */
-    public function getStart($format=null)
-    {
-        if (!empty($this->event->start)) {
-            $date = $this->event->start->dateTime
-                ?   $this->event->start->dateTime
-                :   $this->event->start->date;
-
-            if ($format) {
-                if (!($this->event->start->date && $format==TIME_FORMAT)) {
-                    $d = new \DateTime($date, $this->getTimezone());
-                    return $d->format($format);
-                }
-            }
-            else {
-                return $date;
-            }
-        }
-    }
-
-    /**
-     * @param Google_Service_Calendar_EventDateTime $start
-     */
-    public function setStart(\Google_Service_Calendar_EventDateTime $start)
-    {
-        $this->set('start', $start);
-    }
-
-    /**
-     * @param string $format
-     * @return string
-     */
-    public function getEnd($format=null)
-    {
-        if (!$this->event->endTimeUnspecified && !empty($this->event->end)) {
-            $date = $this->event->end->dateTime
-                ?   $this->event->end->dateTime
-                :   $this->event->end->date;
-
-            if ($format) {
-                if (!($this->event->end->date && $format==TIME_FORMAT)) {
-                    $d = new \DateTime($date, $this->getTimezone());
-                    return $d->format($format);
-                }
-            }
-            else {
-                return $date;
-            }
-        }
-    }
-
-    /**
-     * @param Google_Service_Calendar_EventDateTime $end
-     */
-    public function setEnd(\Google_Service_Calendar_EventDateTime $end)
-    {
-        $this->set('end', $end);
-    }
-
-    /**
-     * @return Google_Service_Calendar_EventExtendedProperties
-     */
-    public function getExtendedProperties()
-    {
-        $properties = $this->event->getExtendedProperties();
-        if (!$properties instanceof \Google_Service_Calendar_EventExtendedProperties) {
-             $properties      = new \Google_Service_Calendar_EventExtendedProperties();
-        }
-        return $properties;
-    }
-
-    /**
-     * Setting extendedProperties MUST ALWAYS result in a patch
-     *
-     * Because extendedProperties is a special object, you cannot
-     * rely on our simple set() function to update the patch based
-     * on the new value.
-     *
-     * For the things you want to store in extendedProperties,
-     * make sure to check against your existing value before calling
-     * this function.
-     *
-     * @param Google_Service_Calendar_EventExtendedProperties $properties
-     */
-    public function setExtendedProperties(\Google_Service_Calendar_EventExtendedProperties $properties)
-    {
-        if (!$this->patch) {
-            $this->patch = new \Google_Service_Calendar_Event();
-        }
-
-        $this->event->setExtendedProperties($properties);
-        $this->patch->setExtendedProperties($properties);
-    }
-
-    /**
-     * @return string
-     */
-    public function getGeography()
-    {
-        $properties = $this->getExtendedProperties();
-
-        $shared = $properties->getShared();
-        if (!empty($shared['geography'])) {
-            return $shared['geography'];
-        }
-    }
-
-    /**
-     * @param string $wkt Geometry in Well-Known Text format
-     */
-    public function setGeography($wkt)
-    {
-        $new = preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $wkt);
-        if ($this->getGeography() != $new) {
-            $properties = $this->getExtendedProperties();
-            $properties->setShared(['geography'=>$new]);
-            $this->setExtendedProperties($properties);
-       }
-    }
-
-    /**
-     * Parses structured data out of the summary string
-     */
-    private function parseSummary()
-    {
-        $d = implode('|', Department::codes());
-        if (preg_match("/^($d)(\s+)?-/i", $this->getSummary(), $matches)) {
-            $this->data['department'] = strtoupper($matches[1]);
-        }
-
-        $d = implode('|', EventType::names());
-        if (preg_match("/$d/i", $this->getSummary(), $matches)) {
-            $this->data['type'] = ucwords(strtolower($matches[0]));
-        }
-
-        if (preg_match('/-([^-]+)$/', $this->getSummary(), $matches)) {
-            $this->data['geography_description'] = trim($matches[1]);
-        }
-        else {
-            $this->data['geography_description'] = $this->getSummary();
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getGeography_description()
-    {
-        return !empty($this->data['geography_description'])
-            ?         $this->data['geography_description']
-            : '';
-    }
-
-    /**
-     * Returns the department code
-     *
-     * The department code is prepended to the summary field in Google Calendar
-     *
-     * @return string The department code
-     */
-    public function getDepartment()
-    {
-        return !empty($this->data['department'])
-            ? $this->data['department']
-            : '';
-    }
-    /**
-     * @param string $code
-     */
-    public function setDepartment($code) {
-        if (in_array($code, Department::codes())) {
-            $this->data['department'] = strtoupper(trim($code));
-        }
-    }
-
-    /**
-     * @return EventType
-     */
-    public function getType()
-    {
-        return !empty($this->data['type'])
-            ? new EventType($this->data['type'])
-            : null;
-    }
-    /**
-     * @param string $s
-     */
-    public function setType($s) {
-        $type = new EventType($s);
-        $this->data['type'] = $type->getName();
-    }
-
-    /**
-     * @param string $s
-     */
-    public function setGeography_description($s) {
-        $this->data['geography_description'] = str_replace('-', ' ', trim($s));
-    }
-
+	//----------------------------------------------------------------
+	// Custom functions
+    //----------------------------------------------------------------
     /**
      * @return Recurr\Rule
      */
     public function getRRule()
     {
-        if ($this->event->recurrence) {
-            foreach ($this->event->recurrence as $r) {
-                if (strpos($r, 'RRULE:') !== false) {
-                    $rrule = substr($r, 6);
-                    return new Rule($rrule);
-                }
-            }
-        }
-    }
-    public function setRRule(Rule $rule)
-    {
-        $rrule = 'RRULE:'.$rule->getString(Rule::TZ_FIXED);
-        $this->set('recurrence', [$rrule]);
-
-        // Setting a recurrence requires us to send start and end dates
-        if ($this->patch) {
-            $this->patch->start = $this->event->start;
-            $this->patch->end   = $this->event->end;
+        $r = parent::get('rrule');
+        if ($r) {
+            $rrule = new Rule($r);
+            return $rrule;
         }
     }
 
     /**
-     * @param string $dateFormat
-     * @param string $timeFormat
-     * @return string
+     * @param Recurr\Rule $rule
      */
-    public function getHumanReadableDuration($dateFormat=DATE_FORMAT, $timeFormat=TIME_FORMAT)
+    public function setRRule(Rule $rule)
     {
-        $startDate = $this->getStart($dateFormat);
-          $endDate = $this->getEnd  ($dateFormat);
-
-        if (!$this->isAllDay()) {
-            $startTime = $this->getStart($timeFormat);
-              $endTime = $this->getEnd  ($timeFormat);
-        }
-        else {
-            $startTime = null;
-              $endTime = null;
-        }
-
-                                           $text = $startDate;
-        if ($startTime)                  { $text.= ' '.$startTime; }
-        if ($endDate !== $startDate
-            || $endTime) {
-                                           $text.= ' to ';
-            if ($endTime)                { $text.= ' '.$endTime; }
-            if ($endDate !== $startDate) { $text.= ' '.$endDate; }
-        }
-
-        $rule = $this->getRRule();
-        if ($rule) {
-            $t = new TextTransformer();
-            $text.= ' '.$t->transform($rule);
-        }
-        return $text;
+        parent::set('rrule', $rule->getString(Rule::TZ_FIXED));
     }
+
+    /**
+     * @return bool
+     */
+    public function isAllDay() { return $this->getStartTime() ? true : false; }
 
     /**
      * @param Person $person

@@ -19,7 +19,7 @@ class GoogleGateway
 
     private static $service;
 
-    private static function getService()
+    public static function getService()
     {
         if (!self::$service) {
             $json = json_decode(file_get_contents(GOOGLE_CREDENTIALS_FILE));
@@ -77,10 +77,14 @@ class GoogleGateway
         $events = [];
         $list = $service->events->listEvents($calendarId, $opts);
         foreach ($list as $e) {
-            $event = new Event($e);
+            $id = !empty($e->recurringEventId)
+                ? $e->recurringEventId
+                : $e->id;
+
+            $event = new Event($id);
 
             if (!empty($filters['eventTypes'])) {
-                $t = $event->getType();
+                $t = $event->getEventType();
                 if (!$t || !in_array($t->getCode(), $filters['eventTypes'])) {
                     continue;
                 }

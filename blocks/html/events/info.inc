@@ -17,7 +17,7 @@ if ($this->link && $this->link === 'title') {
 }
 
 $typeClass = '';
-$t = $this->event->getType();
+$t = $this->event->getEventType();
 if ($t) {
     $tn = View::escape($t->getName());
     $td = View::escape($t->getDescription());
