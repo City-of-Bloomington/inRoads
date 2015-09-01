@@ -77,11 +77,7 @@ class GoogleGateway
         $events = [];
         $list = $service->events->listEvents($calendarId, $opts);
         foreach ($list as $e) {
-            $id = !empty($e->recurringEventId)
-                ? $e->recurringEventId
-                : $e->id;
-
-            $event = new Event($id);
+            $event = new Event($e);
 
             if (!empty($filters['eventTypes'])) {
                 $t = $event->getEventType();
@@ -92,8 +88,8 @@ class GoogleGateway
             $events[] = $event;
         }
         usort($events, function ($a, $b) {
-            if ($a->getStart() == $b->getStart()) { return 0; }
-            return ($a->getStart() < $b->getStart()) ? -1 : 1;
+            if ($a->getStartDate() == $b->getStartDate()) { return 0; }
+            return ($a->getStartDate() < $b->getStartDate()) ? -1 : 1;
         });
         return $events;
     }

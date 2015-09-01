@@ -63,6 +63,9 @@ class Event extends ActiveRecord
 					$this->exchangeArray($result->current());
 				}
 				else {
+                    // We could not find an event in our local database
+                    // If we have a Google Event, create a new local event
+                    // from the Google Event data.
                     if (isset($google_event)) {
                         $this->data = $this->hydrateGoogleEvent($google_event);
                     }
@@ -70,6 +73,18 @@ class Event extends ActiveRecord
                         throw new \Exception('events/unknown');
                     }
 				}
+			}
+            // If there's not a Google entry for this local event,
+            // set all the Google fields to modified, so that when
+            // we save this event, we'll upload the event to Google.
+			if (!$this->getGoogle_event_id()) {
+                $this->modified = [
+                    'summary'     => true,
+                    'description' => true,
+                    'start'       => true,
+                    'end'         => true
+                ];
+                if ($this->getRRule()) { $this->modified['recurrence'] = true; }
 			}
 		}
 		else {
@@ -90,15 +105,39 @@ class Event extends ActiveRecord
         }
     }
 
+    /**
+     * Saves the event data to both the database and to Google.
+     *
+     * This function does the work of synchronizing the  data between
+     * our local database and Google.
+     * The data in our local database is the master copy.  We only use Google
+     * as a kind of search engine for the events.
+     */
     public function save()
     {
         parent::setDateData('updated', 'now');
         $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
-        parent::save();
 
+        // If we've modified any Google fields, upload the event to Google
         if (count($this->modified)) {
+            $patch = $this->createGooglePatch();
 
+            $event = $this->getGoogle_event_id()
+                ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $this->getGoogle_event_id(), $patch)
+                : GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $patch);
+
+            if ($event instanceof \Google_Service_Calendar_Event) {
+                $id = !empty($id->recurringEventId)
+                    ? $id->recurringEventId
+                    : $id->id;
+                parent::set('google_event_id', $id);
+            }
+            else {
+                throw new \Exception('google/saveError');
+            }
         }
+
+        parent::save();
     }
 
 	//----------------------------------------------------------------
@@ -119,19 +158,88 @@ class Event extends ActiveRecord
     public function getEndDate  ($f=null, $tz=null) { return parent::getDateData('endDate',   $f, $tz); }
     public function getStartTime($f=null, $tz=null) { return parent::getDateData('startTime', $f, $tz); }
     public function getEndTime  ($f=null, $tz=null) { return parent::getDateData('endTime',   $f, $tz); }
+    public function getRRule()
+    {
+        $r = parent::get('rrule');
+        if ($r) {
+            $rrule = new Rule($r);
+            return $rrule;
+        }
+    }
 
-    public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
-    public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
-    public function setEventType_id ($i) { parent::setForeignKeyField (__namespace__.'\EventType',  'eventType_id',  $i); }
-    public function setEventType    ($i) { parent::setForeignKeyObject(__namespace__.'\EventType',  'eventType_id',  $i); }
-    public function setGoogle_event_id      ($s) { parent::set('google_event_id',       $s); }
-    public function setDescription          ($s) { parent::set('description',           $s); }
-    public function setGeography_description($s) { parent::set('geography_description', $s); }
-    public function setGeography            ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
-    public function setStartDate($d) { parent::setDateData('startDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
-    public function setEndDate  ($d) { parent::setDateData('endDate',   $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
-    public function setStartTime($t) { parent::setDateData('startTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT); }
-    public function setEndTime  ($t) { parent::setDateData('endTime',   $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT); }
+    public function setGoogle_event_id($s) { parent::set('google_event_id', $s); }
+    public function setGeography      ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
+
+    public function setDepartment_id($id)
+    {
+        if ($id !== parent::get('department_id')) { $this->modified['summary'] = true; }
+        parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $id);
+    }
+
+    public function setDepartment(Department $d)
+    {
+        if ($d->getId() !== parent::get('department_id')) { $this->modified['summary'] = true; }
+        parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $d);
+    }
+
+    public function setEventType_id($id)
+    {
+        if ($id !== parent::get('eventType_id')) { $this->modified['summary'] = true; }
+        parent::setForeignKeyField (__namespace__.'\EventType',  'eventType_id',  $id);
+    }
+
+    public function setEventType(EventType $t)
+    {
+        if ($t->getId() !== parent::get('eventType_id')) { $this->modified['summary'] = true; }
+        parent::setForeignKeyObject(__namespace__.'\EventType',  'eventType_id',  $t);
+    }
+
+    public function setDescription($s)
+    {
+        if ($s !== parent::get('description')) { $this->modified['description']; }
+        parent::set('description', $s);
+    }
+
+    public function setGeography_description($s)
+    {
+        if ($s !== parent::get('summary')) { $this->modified['summary'] = true; }
+        parent::set('geography_description', $s);
+    }
+
+    public function setStartDate($d)
+    {
+        $prev = parent::get('startDate');
+        parent::setDateData('startDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT);
+        if (parent::get('startDate') !== $prev) { $this->modified['start'] = true; }
+    }
+
+    public function setEndDate($d)
+    {
+        $prev = parent::get('endDate');
+        parent::setDateData('endDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT);
+        if (parent::get('endDate') !== $prev) { $this->modified['end'] = true; }
+    }
+
+    public function setStartTime($t)
+    {
+        $prev = parent::get('startTime');
+        parent::setDateData('startTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT);
+        if (parent::get('startTime') !== $prev) { $this->modified['start'] = true; }
+    }
+
+    public function setEndTime($t)
+    {
+        $prev = parent::get('endTime');
+        parent::setDateData('endTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT);
+        if (parent::get('endTime') !== $prev) { $this->modified['end'] = true; }
+    }
+
+    public function setRRule(Rule $rule)
+    {
+        $r = $rule->getString(Rule::TZ_FIXED);
+        if ($r !== parent::get('rrule')) { $this->modified['recurrence'] = true; }
+        parent::set('rrule', $r);
+    }
 
     public function handleUpdate($post)
     {
@@ -192,26 +300,6 @@ class Event extends ActiveRecord
 	//----------------------------------------------------------------
 	// Custom functions
     //----------------------------------------------------------------
-    /**
-     * @return Recurr\Rule
-     */
-    public function getRRule()
-    {
-        $r = parent::get('rrule');
-        if ($r) {
-            $rrule = new Rule($r);
-            return $rrule;
-        }
-    }
-
-    /**
-     * @param Recurr\Rule $rule
-     */
-    public function setRRule(Rule $rule)
-    {
-        parent::set('rrule', $rule->getString(Rule::TZ_FIXED));
-    }
-
     /**
      * @return bool
      */
@@ -306,9 +394,11 @@ class Event extends ActiveRecord
         $this->parseDates  ($data, $e);
 
         $properties = $e->getExtendedProperties();
-        $shared = $properties->getShared();
-        if (!empty($shared['geography'])  && strlen($shared['geography'])<=1000) {
-            $data['geography'] = $shared['geography'];
+        if ($properties) {
+            $shared = $properties->getShared();
+            if (!empty($shared['geography'])  && strlen($shared['geography'])<=1000) {
+                $data['geography'] = $shared['geography'];
+            }
         }
 
         return $data;
@@ -355,6 +445,8 @@ class Event extends ActiveRecord
             $d = new \DateTime($e->start->dateTime);
             $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
             $data['startTime'] = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
+
+            $d = new \DateTime($e->end->dateTime);
             $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
             $data['endTime']   = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
         }
@@ -362,6 +454,8 @@ class Event extends ActiveRecord
             // All Day Event
             $d = new \DateTime($e->start->date);
             $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+
+            $d = new \DateTime($e->end->date);
             $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
         }
         if ($e->recurrence) {
@@ -373,5 +467,76 @@ class Event extends ActiveRecord
                 }
             }
         }
+    }
+
+    /**
+     * @return Google_Service_Calendar_Event
+     */
+    private function createGooglePatch()
+    {
+        $patch = new \Google_Service_Calendar_Event();
+
+        if (!empty($this->modified['summary'])) {
+            $summary = $this->getGeography_description();
+            if ($this->getEventType())  { $summary = "{$this->getEventType()}-$summary"; }
+            if ($this->getDepartment()) { $summary = "{$this->getDepartment()->getCode()}-$summary"; }
+            $patch->setSummary($summary);
+        }
+
+        if (!empty($this->modified['description'])) {
+            $patch->setDescription($this->getDescription());
+        }
+
+        if (!empty($this->modified['recurrence'])) {
+            // We have to send start and end if there's an RRULE
+            $this->modified['start'] = true;
+            $this->modified['end']   = true;
+
+            $rrule = 'RRULE:'.$this->getRRule()->getString(Rule::TZ_FIXED);
+            $patch->setRecurrence([$rrule]);
+        }
+
+        if (!empty($this->modified['start']) || !empty($this->modified['end'])) {
+            $timezone = ini_get('date.timezone');
+
+            if ($this->isAllDay()) {
+                $startDate = $this->getStartDate(GoogleGateway::DATE_FORMAT);
+                $endDate   = $this->getEndDate  (GoogleGateway::DATE_FORMAT);
+                if (!$startDate || !$endDate) {
+                    throw new \Exception('events/invalidDate');
+                }
+
+                $patch->setStart(new \Google_Service_Calendar_EventDateTime([
+                    'date'     => $startDate,
+                    'dateTime' => \Google_Model::NULL_VALUE,
+                    'timeZone' => $timezone
+                ]));
+                $patch->setEnd  (new \Google_Service_Calendar_EventDateTime([
+                    'date'     => $endDate,
+                    'dateTime' => \Google_Model::NULL_VALUE,
+                    'timeZone' => $timezone
+                ]));
+            }
+            else {
+                $startDate = \DateTime::createFromFormat(ActiveRecord::MYSQL_DATETIME_FORMAT, "{$this->getStartDate()} {$this->getStartTime()}");
+                $endDate   = \DateTime::createFromFormat(ActiveRecord::MYSQL_DATETIME_FORMAT, "{$this->getEndDate()} {$this->getEndTime()}");
+                if (!$startDate || !$endDate) {
+                    throw new \Exception('events/invalidDate');
+                }
+
+                $patch->setStart(new \Google_Service_Calendar_EventDateTime([
+                    'date'     => \Google_Model::NULL_VALUE,
+                    'dateTime' => $startDate->format(GoogleGateway::DATETIME_FORMAT),
+                    'timeZone' => $timezone
+                ]));
+                $patch->setEnd  (new \Google_Service_Calendar_EventDateTime([
+                    'date'     => \Google_Model::NULL_VALUE,
+                    'dateTime' => $endDate->format(GoogleGateway::DATETIME_FORMAT),
+                    'timeZone' => $timezone
+                ]));
+            }
+        }
+
+        return $patch;
     }
 }
