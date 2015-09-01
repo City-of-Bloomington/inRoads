@@ -19,6 +19,8 @@ class Event extends ActiveRecord
 	protected $department;
 	protected $eventType;
 
+	private $modified = [];
+
 	/**
 	 * Populates the object with data
 	 *
@@ -62,21 +64,25 @@ class Event extends ActiveRecord
 				}
 				else {
                     if (isset($google_event)) {
-                        $this->data = $this->hydrateGoogleEvent();
+                        $this->data = $this->hydrateGoogleEvent($google_event);
                     }
-					throw new \Exception('events/unknown');
+                    else {
+                        throw new \Exception('events/unknown');
+                    }
 				}
 			}
 		}
 		else {
 			// This is where the code goes to generate a new, empty instance.
 			// Set any default values for properties that need it here
-			$this->setDateData('created', 'now');
+			parent::setDateData('created', 'now');
 		}
     }
 
     public function validate()
     {
+        if (!$this->getCreated()) { parent::setDateData('created', 'now'); }
+
         if (!$this->getStartDate() || !$this->getEndDate()
             || !$this->getGeography_description()
             || !$this->getDescription()) {
@@ -89,6 +95,10 @@ class Event extends ActiveRecord
         parent::setDateData('updated', 'now');
         $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
         parent::save();
+
+        if (count($this->modified)) {
+
+        }
     }
 
 	//----------------------------------------------------------------
@@ -118,7 +128,6 @@ class Event extends ActiveRecord
     public function setDescription          ($s) { parent::set('description',           $s); }
     public function setGeography_description($s) { parent::set('geography_description', $s); }
     public function setGeography            ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
-    public function setCreated  ($d) { parent::setDateData('created',   $d); }
     public function setStartDate($d) { parent::setDateData('startDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
     public function setEndDate  ($d) { parent::setDateData('endDate',   $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT); }
     public function setStartTime($t) { parent::setDateData('startTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT); }
@@ -295,7 +304,7 @@ class Event extends ActiveRecord
 
         $this->parseSummary($data, $e);
         $this->parseDates  ($data, $e);
-        
+
         $properties = $e->getExtendedProperties();
         $shared = $properties->getShared();
         if (!empty($shared['geography'])  && strlen($shared['geography'])<=1000) {
@@ -313,12 +322,11 @@ class Event extends ActiveRecord
         $d = implode('|', Department::codes());
         if (preg_match("/^($d)(\s+)?-/i", $e->getSummary(), $matches)) {
             try {
-                $department = strtoupper($matches[1]);
+                $department = new Department(strtoupper($matches[1]));
                 $data['department_id'] = $department->getId();
             }
             catch (\Exception $e) {
             }
-
         }
 
         $d = implode('|', EventType::names());
@@ -353,15 +361,15 @@ class Event extends ActiveRecord
         else {
             // All Day Event
             $d = new \DateTime($e->start->date);
-            $date['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-            $date['endDate']   = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
+            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
         }
         if ($e->recurrence) {
             foreach ($e->recurrence as $r) {
                 if (strpos($r, 'RRULE:') !== false) {
                     $rrule = substr($r, 6);
                     $rule = new Rule($rrule);
-                    $data['rrule'] = $rule->getString(Rule::TZ_FIXED));
+                    $data['rrule'] = $rule->getString(Rule::TZ_FIXED);
                 }
             }
         }
