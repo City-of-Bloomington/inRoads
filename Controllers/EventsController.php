@@ -111,13 +111,20 @@ class EventsController extends Controller
 
     public function view()
     {
-        $this->template->setFilename('viewSingle');
         $event = $this->loadEvent($_GET['id']);
 
-        $this->template->title = $event->getEventType();
-        $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
-        $this->template->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);
-        $this->template->blocks[]              = new Block('events/map.inc',                   ['event'=>$event]);
+        if ($this->template->outputFormat === 'html') {
+        
+            $this->template->setFilename('viewSingle');
+            $this->template->title = $event->getEventType();
+
+            $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
+            $this->template->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);
+            $this->template->blocks[]              = new Block('events/map.inc',                   ['event'=>$event]);
+        }
+        else {
+            $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);
+        }
     }
 
     public function update()

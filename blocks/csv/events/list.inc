@@ -12,18 +12,16 @@ use Blossom\Classes\Block;
 $out = fopen('php://output', 'w');
 
 foreach ($this->events as $e) {
-    $url = BASE_URI."/events/view?id={$e->getId()}";
-
     $format = $e->isAllDay() ? 'Y-m-d' : 'c';
 
     $event = [
-        'id' => $e->getId(),
-        'type' => $e->getEventType(),
-        'department' => $e->getDepartment(),
-        'start' => $e->getStart($format),
-        'end' => $e->getEnd($format),
+        'id'                    => $e->getId(),
+        'type'                  => $e->getEventType(),
+        'department'            => $e->getDepartment(),
+        'start'                 => $e->getStart($format),
+        'end'                   => $e->getEnd  ($format),
         'geography_description' => $e->getGeography_description(),
-        'description' => $e->getDescription()
+        'description'           => $e->getDescription()
     ];
     $rrule = $e->getRRule();
     if ($rrule) { $event['rrule'] = $rrule->getString(); }
@@ -31,7 +29,6 @@ foreach ($this->events as $e) {
     $geography = $e->getGeography();
     if ($geography) { $event['geography'] = $geography; }
 
-    $events[] = $event;
     fputcsv($out, $event);
 }
 fclose($out);

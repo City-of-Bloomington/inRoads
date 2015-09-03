@@ -11,18 +11,16 @@ use Blossom\Classes\Block;
 
 $events = [];
 foreach ($this->events as $e) {
-    $url = BASE_URI."/events/view?id={$e->getId()}";
-
     $format = $e->isAllDay() ? 'Y-m-d' : 'c';
 
     $event = [
-        'id' => $e->getId(),
-        'type' => $e->getEventType()->__toString(),
-        'department' => $e->getDepartment(),
-        'start' => $e->getStart($format),
-        'end' => $e->getEnd($format),
+        'id'                    => $e->getId(),
+        'type'                  => $e->getEventType()->__toString(),
+        'department'            => $e->getDepartment(),
+        'start'                 => $e->getStart($format),
+        'end'                   => $e->getEnd  ($format),
         'geography_description' => $e->getGeography_description(),
-        'description' => $e->getDescription()
+        'description'           => $e->getDescription()
     ];
     $rrule = $e->getRRule();
     if ($rrule) { $event['rrule'] = $rrule->getString(); }
