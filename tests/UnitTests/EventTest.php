@@ -49,4 +49,22 @@ class EventTest extends PHPUnit_Framework_TestCase
         $event->setStartTime($timeString, TIME_FORMAT);
         $this->assertFalse($event->isAllDay(), 'Event with a start time should not be All Day');
     }
+
+    public function testGetFullDatetime()
+    {
+        $dateString = '2/4/2014';
+        $timeString = '2:00pm';
+
+        $event = new Event();
+        $event->setStartDate($dateString, DATE_FORMAT);
+        $event->setEndDate  ($dateString, DATE_FORMAT);
+
+        $this->assertEquals($event->getStart('c'), '2014-02-04T00:00:00-05:00');
+        $this->assertEquals($event->getEnd  ('c'), '2014-02-04T00:00:00-05:00');
+
+        $event->setStartTime($timeString, TIME_FORMAT);
+        $event->setEndTime  ($timeString, TIME_FORMAT);
+        $this->assertEquals($event->getStart('c'), '2014-02-04T14:00:00-05:00');
+        $this->assertEquals($event->getEnd  ('c'), '2014-02-04T14:00:00-05:00');
+    }
 }

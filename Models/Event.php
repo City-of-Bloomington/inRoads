@@ -316,6 +316,24 @@ class Event extends ActiveRecord
     public function isAllDay() { return $this->getStartTime() ? false : true; }
 
     /**
+     * Combines startDate and startTime into a single datetime output
+     *
+     * @param string $format
+     * @return string
+     */
+    public function getStart($format=DATETIME_FORMAT)
+    {
+        $d = new \DateTime("{$this->getStartDate()} {$this->getStartTime()}");
+        return $d->format($format);
+    }
+
+    public function getEnd($format=DATETIME_FORMAT)
+    {
+        $d = new \DateTime("{$this->getEndDate()} {$this->getEndTime()}");
+        return $d->format($format);
+    }
+
+    /**
      * @param string $dateFormat
      * @param string $timeFormat
      * @return string
