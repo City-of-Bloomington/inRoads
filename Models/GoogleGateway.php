@@ -11,6 +11,10 @@
  */
 namespace Application\Models;
 
+use Blossom\Classes\ActiveRecord;
+use Blossom\Classes\Database;
+use Recurr\Rule;
+
 class GoogleGateway
 {
     const DATE_FORMAT     = 'Y-m-d';
@@ -126,5 +130,98 @@ class GoogleGateway
     {
         $service = self::getService();
         return $service->events->patch($calendarId, $eventId, $patch);
+    }
+
+    /**
+     * Returns an internal data array for this event
+     *
+     * The return value is the data array to instantiate an
+     * Application\Models\Event
+     *
+     * @return array
+     */
+    public static function createLocalEventData(\Google_Service_Calendar_Event $e)
+    {
+        $data = [];
+        $data['google_event_id'] = !empty($e->recurringEventId) ? $e->recurringEventId : $e->id;
+        $data['description'] = $e->description;
+
+        self::parseSummary($data, $e);
+        self::parseDates  ($data, $e);
+
+        $properties = $e->getExtendedProperties();
+        if ($properties) {
+            $shared = $properties->getShared();
+            if (!empty($shared['geography'])  && strlen($shared['geography'])<=1000) {
+                $data['geography'] = $shared['geography'];
+            }
+        }
+
+        return $data;
+    }
+
+   /**
+    * Parses structured data out of the summary string
+    */
+    private static function parseSummary(array &$data, \Google_Service_Calendar_Event &$e)
+    {
+        $d = implode('|', Department::codes());
+        if (preg_match("/^($d)(\s+)?-/i", $e->getSummary(), $matches)) {
+            try {
+                $department = new Department(strtoupper($matches[1]));
+                $data['department_id'] = $department->getId();
+            }
+            catch (\Exception $e) {
+            }
+        }
+
+        $d = implode('|', EventType::names());
+        if (preg_match("/$d/i", $e->getSummary(), $matches)) {
+            $name = ucwords(strtolower($matches[0]));
+            $sql = 'select id from eventTypes where name=?';
+            $zend_db = Database::getConnection();
+            $result = $zend_db->query($sql, [$name]);
+            if (count($result)) {
+                $row = $result->current();
+                $data['eventType_id'] = $row['id'];
+            }
+        }
+
+        if (preg_match('/-([^-]+)$/', $e->getSummary(), $matches)) {
+            $data['geography_description'] = trim($matches[1]);
+        }
+        else {
+            $data['geography_description'] = $e->getSummary();
+        }
+    }
+
+    private static function parseDates(array &$data, \Google_Service_Calendar_Event &$e)
+    {
+        if ($e->start->dateTime) {
+            $d = new \DateTime($e->start->dateTime);
+            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+            $data['startTime'] = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
+
+            $d = new \DateTime($e->end->dateTime);
+            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+            $data['endTime']   = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
+        }
+        else {
+            // All Day Event
+            $d = new \DateTime($e->start->date);
+            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+
+            $d = new \DateTime($e->end->date);
+            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+        }
+        if ($e->recurrence) {
+            foreach ($e->recurrence as $r) {
+                if (strpos($r, 'RRULE:') !== false) {
+                    $rrule = substr($r, 6);
+                    $rule = new Rule($rrule);
+                    $data['rrule'] = $rule->getString(Rule::TZ_FIXED);
+                }
+            }
+        }
     }
 }

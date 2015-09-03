@@ -53,7 +53,8 @@ while ($pageToken) {
     foreach ($list as $e) {
         echo "{$e->id} {$e->recurringEventId}\n";
         try {
-            $event = new Event($e);
+            $data = GoogleGateway::createLocalEventData($e);
+            $event = new Event($data);
             $event->save();
         }
         catch (\Exception $ex) {

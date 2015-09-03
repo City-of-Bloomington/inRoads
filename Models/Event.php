@@ -64,10 +64,17 @@ class Event extends ActiveRecord
 				}
 				else {
                     // We could not find an event in our local database
+
+                    // If we have a google_event_id, we need to use the
+                    // GoogleGateway to look up that event, and hydrate it
+                    if (!ActiveRecord::isId($id)) {
+                        $google_event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $id);
+                    }
+
                     // If we have a Google Event, create a new local event
                     // from the Google Event data.
                     if (isset($google_event)) {
-                        $this->data = $this->hydrateGoogleEvent($google_event);
+                        $this->data = GoogleGateway::createLocalEventData($google_event);
                     }
                     else {
                         throw new \Exception('events/unknown');
@@ -121,16 +128,19 @@ class Event extends ActiveRecord
         // If we've modified any Google fields, upload the event to Google
         if (count($this->modified)) {
             $patch = $this->createGooglePatch();
+            $google_event_id = $this->getGoogle_event_id();
 
-            $event = $this->getGoogle_event_id()
-                ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $this->getGoogle_event_id(), $patch)
+            $event = $google_event_id
+                ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $google_event_id, $patch)
                 : GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $patch);
 
             if ($event instanceof \Google_Service_Calendar_Event) {
-                $id = !empty($id->recurringEventId)
-                    ? $id->recurringEventId
-                    : $id->id;
-                parent::set('google_event_id', $id);
+                if (!$google_event_id) {
+                     $google_event_id = !empty($event->recurringEventId)
+                        ? $event->recurringEventId
+                        : $event->id;
+                    parent::set('google_event_id', $google_event_id);
+                }
             }
             else {
                 throw new \Exception('google/saveError');
@@ -196,7 +206,7 @@ class Event extends ActiveRecord
 
     public function setDescription($s)
     {
-        if ($s !== parent::get('description')) { $this->modified['description']; }
+        if ($s !== parent::get('description')) { $this->modified['description'] = true; }
         parent::set('description', $s);
     }
 
@@ -244,7 +254,7 @@ class Event extends ActiveRecord
     public function handleUpdate($post)
     {
         $fields = [
-            'department_id', 'eventType_id',
+            'department_id', 'eventType_id', 'google_event_id',
             'description', 'geography', 'geography_description',
         ];
         foreach ($fields as $f) {
@@ -303,7 +313,7 @@ class Event extends ActiveRecord
     /**
      * @return bool
      */
-    public function isAllDay() { return $this->getStartTime() ? true : false; }
+    public function isAllDay() { return $this->getStartTime() ? false : true; }
 
     /**
      * @param string $dateFormat
@@ -377,96 +387,6 @@ class Event extends ActiveRecord
             return $table->find();
         }
         return [];
-    }
-
-    /**
-     * Returns an internal data array for this event
-     *
-     * @return array
-     */
-    private function hydrateGoogleEvent(\Google_Service_Calendar_Event $e)
-    {
-        $data = [];
-        $data['google_event_id'] = !empty($e->recurringEventId) ? $e->recurringEventId : $e->id;
-        $data['description'] = $e->description;
-
-        $this->parseSummary($data, $e);
-        $this->parseDates  ($data, $e);
-
-        $properties = $e->getExtendedProperties();
-        if ($properties) {
-            $shared = $properties->getShared();
-            if (!empty($shared['geography'])  && strlen($shared['geography'])<=1000) {
-                $data['geography'] = $shared['geography'];
-            }
-        }
-
-        return $data;
-    }
-
-   /**
-     * Parses structured data out of the summary string
-     */
-    private function parseSummary(array &$data, \Google_Service_Calendar_Event &$e)
-    {
-        $d = implode('|', Department::codes());
-        if (preg_match("/^($d)(\s+)?-/i", $e->getSummary(), $matches)) {
-            try {
-                $department = new Department(strtoupper($matches[1]));
-                $data['department_id'] = $department->getId();
-            }
-            catch (\Exception $e) {
-            }
-        }
-
-        $d = implode('|', EventType::names());
-        if (preg_match("/$d/i", $e->getSummary(), $matches)) {
-            $name = ucwords(strtolower($matches[0]));
-            $sql = 'select id from eventTypes where name=?';
-            $zend_db = Database::getConnection();
-            $result = $zend_db->query($sql, [$name]);
-            if (count($result)) {
-                $row = $result->current();
-                $data['eventType_id'] = $row['id'];
-            }
-        }
-
-        if (preg_match('/-([^-]+)$/', $e->getSummary(), $matches)) {
-            $data['geography_description'] = trim($matches[1]);
-        }
-        else {
-            $data['geography_description'] = $e->getSummary();
-        }
-    }
-
-    private function parseDates(array &$data, \Google_Service_Calendar_Event &$e)
-    {
-        if ($e->start->dateTime) {
-            $d = new \DateTime($e->start->dateTime);
-            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-            $data['startTime'] = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
-
-            $d = new \DateTime($e->end->dateTime);
-            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-            $data['endTime']   = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
-        }
-        else {
-            // All Day Event
-            $d = new \DateTime($e->start->date);
-            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-
-            $d = new \DateTime($e->end->date);
-            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-        }
-        if ($e->recurrence) {
-            foreach ($e->recurrence as $r) {
-                if (strpos($r, 'RRULE:') !== false) {
-                    $rrule = substr($r, 6);
-                    $rule = new Rule($rrule);
-                    $data['rrule'] = $rule->getString(Rule::TZ_FIXED);
-                }
-            }
-        }
     }
 
     /**

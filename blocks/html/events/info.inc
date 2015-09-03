@@ -11,8 +11,12 @@ use Application\Models\EventType;
 use Blossom\Classes\View;
 
 $title = View::escape($this->event->getGeography_description());
+$id = $this->event->getId()
+    ? $this->event->getId()
+    : $this->event->getGoogle_event_id();
+
 if ($this->link && $this->link === 'title') {
-    $url = BASE_URI."/events/view?id={$this->event->getId()}";
+    $url = BASE_URI."/events/view?id=$id";
     $title = "<a href=\"$url\">$title</a>";
 }
 
@@ -25,7 +29,7 @@ if ($t) {
     $typeClass = "class=\"{$t->getCode()}\"";
 }
 ?>
-<article id="e_<?= $this->event->getId(); ?>" <?= $typeClass; ?>>
+<article id="e_<?= $id; ?>" <?= $typeClass; ?>>
     <h2 class="title"><?= $title; ?></h2>
     <div class="dates"><?= $this->event->getHumanReadableDuration('F j, Y'); ?></div>
     <?php
@@ -36,13 +40,6 @@ if ($t) {
         }
 
         $geography = $this->event->getGeography();
-        // Don't draw the geography, if it's too long.
-        // Google has a 1024 character limit.  When you exceed that limit, the geography
-        // gets cut off.  When there's an invalid geography in the map,
-        // openlayers errors out, and does not display any geography for
-        // any of the other events.
-        if ($geography && strlen($geography) < 1000) {
-            echo "\t<div class=\"geography\">$geography</div>\n";
-        }
+        echo "\t<div class=\"geography\">$geography</div>\n";
     ?>
 </article>

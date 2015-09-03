@@ -14,13 +14,13 @@ use Recurr\WeekDay;
 $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 ?>
 <div class="editPanel">
-<form method="post" id="eventUpdateForm" action="<?php echo BASE_URI; ?>/events/update">
+<form method="post" id="eventUpdateForm" action="<?= BASE_URI; ?>/events/update">
     <fieldset>
-        <input name="id" type="hidden" value="<?php echo $this->event->getId(); ?>" />
+        <input name="id"              type="hidden" value="<?= $this->event->getId(); ?>" />
+        <input name="google_event_id" type="hidden" value="<?= $this->event->getGoogle_event_id(); ?>" />
 
         <legend><span><?php echo $this->_('event_info'); ?></span></legend>
-        <dl>
-            <dt><label   for="department_id"><?= $this->_('department'); ?></label></dt>
+        <dl><dt><label   for="department_id"><?= $this->_('department'); ?></label></dt>
             <dd><select name="department_id">
                 <?php
                     $current = $this->event->getDepartment_id()
@@ -39,8 +39,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </select>
             </dd>
         </dl>
-        <dl>
-            <dt><label   for="eventType_id"><?= $this->_('eventType'); ?></label></dt>
+        <dl><dt><label   for="eventType_id"><?= $this->_('eventType'); ?></label></dt>
             <dd><select name="eventType_id" id="eventType_id">
                 <?php
                     foreach (EventType::types() as $type) {
@@ -54,8 +53,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </select>
             </dd>
         </dl>
-        <dl>
-            <dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
+        <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
             <dd><input name="geography_description" id="geography_description"
                         value="<?= View::escape($this->event->getGeography_description()); ?>" />
                 <input name="geography" id="geography" type="hidden"
@@ -233,8 +231,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
                 $checked = 'checked="checked"';
             ?>
-            <dl>
-                <dt><?= $this->_('RRULE_END'); ?></dt>
+            <dl><dt><?= $this->_('RRULE_END'); ?></dt>
                 <dd><label>
                         <input name="RRULE_END[type]" type="radio" value="count" <?= $type=='count' ? $checked : ''; ?> />
                         <?= $this->_('RRULE_COUNT'); ?>
@@ -255,8 +252,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
 
     <fieldset>
-        <dl>
-            <dt><label     for="description"><?= $this->_('description'); ?></label></dt>
+        <dl><dt><label     for="description"><?= $this->_('description'); ?></label></dt>
             <dd><textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea></dd>
         </dl>
 

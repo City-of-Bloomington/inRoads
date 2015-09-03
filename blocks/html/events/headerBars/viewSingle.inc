@@ -20,8 +20,12 @@ use Application\Models\Person;
 <div class="headerBar-tools">
     <?php
         if (Person::isAllowed('events', 'update')) {
+            $id = $this->event->getId()
+                ? $this->event->getId()
+                : $this->event->getGoogle_event_id();
+
             echo $helper->buttonLink(
-                BASE_URI.'/events/update?id='.$this->event->getId(),
+                BASE_URI.'/events/update?id='.$id,
                 $this->template->_('event_edit'),
                 'edit'
             );

@@ -9,8 +9,12 @@
 <h1 class="headerBar-title"><?= $this->template->title; ?></h1>
 <div class="headerBar-tools">
 <?php
+    $id = $this->event->getId()
+        ? $this->event->getId()
+        : $this->event->getGoogle_event_id();
+
     $url = $this->event->getId()
-        ? BASE_URI.'/events/view?id='.$this->event->getId()
+        ? BASE_URI.'/events/view?id='.$id
         : BASE_URI.'/events';
     $helper = $this->template->getHelper('buttonLink');
     echo $helper->buttonLink($url, $this->template->_('cancel'), 'cancel');

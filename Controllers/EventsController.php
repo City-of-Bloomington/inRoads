@@ -141,9 +141,7 @@ class EventsController extends Controller
                 exit();
             }
             catch (\Exception $e) {
-                #$_SESSION['errorMessages'][] = $e;
-                print_r($e);
-                exit();
+                $_SESSION['errorMessages'][] = $e;
             }
         }
 

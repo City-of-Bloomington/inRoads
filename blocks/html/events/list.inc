@@ -16,10 +16,14 @@ use Blossom\Classes\Block;
         $block = new Block('events/info.inc');
         $helper = $this->template->getHelper('buttonLink');
 
-        if(count($this->events) > 0) {
+        if (count($this->events) > 0) {
             echo "<div id=\"events\">";
                 foreach ($this->events as $e) {
-                    $url = BASE_URI."/events/view?id={$e->getId()}";
+                    $event_id = $e->getId()
+                              ? $e->getId()
+                              : $e->getGoogle_event_id();
+
+                    $url = BASE_URI."/events/view?id=$event_id";
                     $block->event = $e;
 
                     $classes = '';
@@ -36,7 +40,7 @@ use Blossom\Classes\Block;
                         && $e->permitsEditingBy($_SESSION['USER'])) {
 
                         $editButton = $helper->buttonLink(
-                            BASE_URI.'/events/update?id='.$e->getId(),
+                            BASE_URI.'/events/update?id='.$event_id,
                             $this->_('event_edit'),
                             'edit',
                             ButtonLink::SIZE_ICON
@@ -57,11 +61,12 @@ use Blossom\Classes\Block;
                     ";
                 }
             echo "</div>";
-        } else {
+        }
+        else {
             ?>
                 <div class="emptyResult">
-                    <h2><?= $this->_('noEventsReturned.heading') ?></h2>
-                    <p><?= $this->_('noEventsReturned.message') ?></p>
+                    <h2><?= $this->_('noEventsReturned.heading'); ?></h2>
+                    <p><?=  $this->_('noEventsReturned.message'); ?></p>
                 </div>
             <?php
         }

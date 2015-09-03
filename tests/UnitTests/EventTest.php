@@ -36,4 +36,17 @@ class EventTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($mysqlTime, $event->getStartTime());
         $this->assertEquals($mysqlTime, $event->getEndTime());
     }
+
+    public function testIsAllDay()
+    {
+        $dateString = '2/4/2014';
+        $timeString = '2:00pm';
+
+        $event = new Event();
+        $event->setStartDate($dateString, DATE_FORMAT);
+        $this->assertTrue($event->isAllDay(), 'Event without a start time should be All Day');
+
+        $event->setStartTime($timeString, TIME_FORMAT);
+        $this->assertFalse($event->isAllDay(), 'Event with a start time should not be All Day');
+    }
 }
