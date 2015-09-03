@@ -4,10 +4,12 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
+use Application\Models\EventTypesTable;
+
 $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
 $this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
 
-global $MAPLAYERS, $EVENT_TYPES;
+global $MAPLAYERS;
 ?>
 <div id="map" class="mapPanel">
     <div id="pleaseEnableJavascript" style="padding: 2em; max-width: 30em;">
@@ -19,5 +21,19 @@ global $MAPLAYERS, $EVENT_TYPES;
 <div id="marker"></div>
 <script type="text/javascript">
     PHP.maplayers  = <?= json_encode($MAPLAYERS,   JSON_PRETTY_PRINT); ?>;
-    PHP.eventTypes = <?= json_encode($EVENT_TYPES, JSON_PRETTY_PRINT); ?>;
+    <?php
+        $types = [];
+        $table = new EventTypesTable();
+        $list  = $table->find();
+        foreach ($list as $t) {
+            $types[] = [
+                'code'        => $t->getCode(),
+                'name'        => $t->getName(),
+                'description' => $t->getDescription(),
+                'default'     => $t->isDefault(),
+                'color'       => sscanf($t->getColor(), '%02x%02x%02x')
+            ];
+        }
+    ?>
+    PHP.eventTypes = <?= json_encode($types, JSON_PRETTY_PRINT); ?>;
 </script>
