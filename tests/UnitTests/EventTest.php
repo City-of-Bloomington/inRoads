@@ -5,6 +5,8 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 use Application\Models\Event;
+use Application\Models\Department;
+use Application\Models\Person;
 
 $_SERVER['SITE_HOME'] = __DIR__;
 require_once '../../configuration.inc';
@@ -67,4 +69,31 @@ class EventTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($event->getStart('c'), '2014-02-04T14:00:00-05:00');
         $this->assertEquals($event->getEnd  ('c'), '2014-02-04T14:00:00-05:00');
     }
+
+    public function testEditPermissions()
+    {
+        $department = new Department(['id'=>2, 'name'=>'Stub Department']);
+        $otherDept  = new Department(['id'=>3, 'name'=>'Other Stub Department']);
+        $person     = new Person();
+        $event      = new Event();
+
+        $this->assertFalse($event->permitsEditingBy($person));
+
+        $person->setRole('Administrator');
+        $this->assertTrue($event->permitsEditingBy($person), 'Administrators cannot edit events');
+
+        $person->setRole('Staff');
+        $this->assertTrue($event->permitsEditingBy($person), 'Staff cannot edit events');
+
+        $person->setRole('Public');
+        $person->setDepartment($department);
+        $this->assertTrue($event->permitsEditingBy($person), 'Public users cannot create events');
+
+        $event->setDepartment($otherDept);
+        $this->assertFalse($event->permitsEditingBy($person), 'Public users can edit other department\'s events');
+
+        $event->setDepartment($department);
+        $this->assertTrue($event->permitsEditingBy($person), 'Public users cannot edit events for their own department');
+    }
+
 }

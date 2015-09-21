@@ -370,6 +370,16 @@ class Event extends ActiveRecord
     }
 
     /**
+     * Checks whether a person is allowed to edit this event.
+     *
+     * Staff and Administrators should be able to work with any
+     * event in the system.
+     *
+     * Public users should be able to create events;
+     * but only be able to edit events for their own department.
+     * Public users must have a department assigned, otherwise
+     * they will not be able to create events.
+     *
      * @param Person $person
      * @return bool
      */
@@ -381,9 +391,14 @@ class Event extends ActiveRecord
         }
 
         if (   $person->getRole() === 'Public') {
-            $d = $person->getDepartment();
-            if ($d && $this->getDepartment() === $d->getCode()) {
-                return true;
+            $personDepartment = $person->getDepartment();
+             $eventDepartment =   $this->getDepartment();
+
+            if ($personDepartment) {
+                if (!$eventDepartment) { return true; }
+                else {
+                    return $personDepartment->getId() === $eventDepartment->getId();
+                }
             }
         }
         return false;
