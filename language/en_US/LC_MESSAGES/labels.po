@@ -187,6 +187,9 @@ msgstr "Color"
 msgid "isDefault"
 msgstr "Default"
 
+msgid "sortingNumber"
+msgstr "Order"
+
 msgid "type"
 msgstr "Type"
 

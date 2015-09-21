@@ -6,7 +6,8 @@ create table eventTypes (
     name varchar(128) not null,
     description varchar(128),
     color       varchar(6),
-    isDefault   boolean
+    isDefault   boolean,
+    sortingNumber tinyint unsigned
 );
 
 create table events (

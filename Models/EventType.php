@@ -108,11 +108,14 @@ class EventType extends ActiveRecord
 	public function getCode () { return parent::get('code' ); }
 	public function getName () { return parent::get('name' ); }
 	public function getColor() { return parent::get('color'); }
-	public function getDescription() { return parent::get('description'); }
+	public function getDescription  () { return parent::get('description'  ); }
+	public function getSortingNumber() { return parent::get('sortingNumber'); }
+
 
 	public function setCode ($s) { parent::set('code',  $s); }
 	public function setName ($s) { parent::set('name',  $s); }
 	public function setDescription($s) { parent::set('description', $s); }
+	public function setSortingNumber($i) { parent::set('sortingNumber', (int)$i); }
 
 	/**
 	 * Sets the user-entered hex value for the color
@@ -136,6 +139,19 @@ class EventType extends ActiveRecord
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);
             $this->$set($post[$f]);
+        }
+	}
+
+	/**
+	 * @param array $post
+	 */
+	public static function handleOrderingUpdate($post)
+	{
+        $zend_db = Database::getConnection();
+        $query = $zend_db->createStatement('update eventTypes set sortingNumber=? where id=?');
+
+        foreach ($post['sortingNumber'] as $id=>$sortingNumber) {
+            $query->execute([$sortingNumber, $id]);
         }
 	}
 

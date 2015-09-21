@@ -64,4 +64,16 @@ class EventTypesController extends Controller
 
 		$this->template->blocks[] = new Block('eventTypes/updateForm.inc', ['eventType'=>$type]);
     }
+
+    /**
+     * Change the ordering of the eventTypes
+     */
+    public function order()
+    {
+        if (isset($_POST['sortingNumber'])) {
+            EventType::handleOrderingUpdate($_POST);
+        }
+        header('Location: '.BASE_URL.'/eventTypes');
+        exit();
+    }
 }

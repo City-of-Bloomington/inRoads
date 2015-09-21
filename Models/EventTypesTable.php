@@ -19,7 +19,7 @@ class EventTypesTable extends TableGateway
 	 * @param bool $paginated Whether to return a paginator or a raw resultSet
 	 * @param int $limit
 	 */
-	public function find($fields=null, $order='code', $paginated=false, $limit=null)
+	public function find($fields=null, $order='sortingNumber', $paginated=false, $limit=null)
 	{
 		$select = new Select('eventTypes');
 		if (count($fields)) {
