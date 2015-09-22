@@ -60,6 +60,17 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                         value="<?= $this->event->getGeography(); ?>" />
             </dd>
         </dl>
+        <?php
+            foreach (['street', 'street_from', 'street_to'] as $f) {
+                $get = 'get'.ucfirst($f);
+                $value = View::escape($this->event->$get());
+                echo "
+                <dl><dt><label  for=\"$f\">{$this->_($f)}</label></dt>
+                    <dd><input name=\"$f\" id=\"$f\" value=\"$value\" /></dd>
+                </dl>
+                ";
+            }
+        ?>
     </fieldset>
 
     <fieldset>

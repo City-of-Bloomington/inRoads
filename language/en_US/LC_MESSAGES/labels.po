@@ -199,6 +199,15 @@ msgstr "Geography"
 msgid "geography_description"
 msgstr "Location"
 
+msgid "street"
+msgstr "Street"
+
+msgid "street_from"
+msgstr "From street"
+
+msgid "street_to"
+msgstr "To street"
+
 msgid "upcoming_closures"
 msgstr "Upcoming Road Closures"
 

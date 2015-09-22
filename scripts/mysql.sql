@@ -28,7 +28,8 @@ create table eventTypes (
     name varchar(128) not null,
     description varchar(128),
     color       varchar(6),
-    isDefault   boolean
+    isDefault   boolean,
+    sortingNumber tinyint unsigned
 );
 
 create table events (
@@ -46,5 +47,8 @@ create table events (
     geography_description varchar(128),
     created datetime not null,
     updated datetime not null,
+    street      varchar(128),
+    street_from varchar(128),
+    street_to   varchar(128),
     foreign key (department_id) references departments(id)
 );

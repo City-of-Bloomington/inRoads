@@ -160,6 +160,9 @@ class Event extends ActiveRecord
     public function getDescription()           { return parent::get('description');           }
     public function getGeography_description() { return parent::get('geography_description'); }
     public function getGeography()             { return parent::get('geography');             }
+    public function getStreet()                { return parent::get('street');                }
+    public function getStreet_from()           { return parent::get('street_from');           }
+    public function getStreet_to()             { return parent::get('street_to');             }
     public function getDepartment()            { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
     public function getEventType()             { return parent::getForeignKeyObject(__namespace__.'\EventType',  'eventType_id' ); }
     public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
@@ -178,6 +181,9 @@ class Event extends ActiveRecord
     }
 
     public function setGoogle_event_id($s) { parent::set('google_event_id', $s); }
+    public function setStreet         ($s) { parent::set('street',          $s); }
+    public function setStreet_from    ($s) { parent::set('street_from',     $s); }
+    public function setStreet_to      ($s) { parent::set('street_to',       $s); }
     public function setGeography      ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
 
     public function setDepartment_id($id)
@@ -256,6 +262,7 @@ class Event extends ActiveRecord
         $fields = [
             'department_id', 'eventType_id', 'google_event_id',
             'description', 'geography', 'geography_description',
+            'street', 'street_from', 'street_to'
         ];
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);
