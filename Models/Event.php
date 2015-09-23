@@ -255,7 +255,7 @@ class Event extends ActiveRecord
     {
         $fields = [
             'department_id', 'eventType_id', 'google_event_id',
-            'description', 'geography', 'geography_description',
+            'description', 'geography', 'geography_description'
         ];
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);
