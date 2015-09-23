@@ -11,7 +11,7 @@ use Blossom\Classes\Url;
         <?php
             $url = new Url(Url::current_url());
             $url->format = 'json';
-            echo "<a href=\"$url\" class=\"footer-links\">JSON</a>,";
+            echo "<a href=\"$url\" class=\"footer-links\">JSON</a>, ";
 
             $url->format = 'csv';
             echo "<a href=\"$url\" class=\"footer-links\">CSV</a>,";
