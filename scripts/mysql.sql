@@ -47,8 +47,5 @@ create table events (
     geography_description varchar(128),
     created datetime not null,
     updated datetime not null,
-    street      varchar(128),
-    street_from varchar(128),
-    street_to   varchar(128),
     foreign key (department_id) references departments(id)
 );

@@ -8,19 +8,21 @@
 use Blossom\Classes\View;
 
 $WAZE_DATE_FORMAT = \DateTime::RFC3339;
-$textFields = ['description', 'street', 'street_from', 'street_to'];
+
 echo '<events>';
 foreach ($this->events as $e) {
-    foreach ($textFields as $f) {
-        $get = 'get'.ucfirst($f);
-        $$f = View::escape($e->$get());
-    }
     $geography = $e->getGeography();
     if (substr($geography, 0, 10) === 'LINESTRING') {
         $geo = explode(',', substr($geography, 11, -1));
         list($start_lat, $start_long) = explode(' ', $geo[0]);
         list($end_lat,   $end_long)   = explode(' ', end($geo));
 
+        preg_match('/^(.+) from (.+) to (.+)$/', $e->getGeography_description(), $matches);
+        $street      = !empty($matches[1]) ? View::escape($matches[1]) : '';
+        $street_from = !empty($matches[2]) ? View::escape($matches[2]) : '';
+        $street_to   = !empty($matches[3]) ? View::escape($matches[3]) : '';
+
+        $description = View::escape($e->getDescription());
         echo "
         <event id=\"{$e->getId()}\">
             <type>ROAD_CLOSED</type>
