@@ -24,15 +24,16 @@ class EventsController extends Controller
      */
     private function loadEvent($id)
     {
-        #$event = GoogleGateway::getEvent(GOOGLE_CALENDAR_ID, $id);
-        try {
-            return new Event($id);
-        }
-        catch (\Exception $e) {
-            $_SESSION['errorMessages'][] = $e;
-            header('Location: '.BASE_URL.'/events');
-            exit();
-        }
+		try {
+            if (!$id) { throw new \Exception('events/unknown'); }
+			$event = new Event($id);
+		}
+		catch (\Exception $e) {
+            header('HTTP/1.1 404 Not Found', true, 404);
+            $this->template->blocks[] = new Block('404.inc');
+			return null;
+		}
+		return $event;
     }
 
     /**
@@ -113,8 +114,10 @@ class EventsController extends Controller
     {
         $event = $this->loadEvent($_GET['id']);
 
-        if ($this->template->outputFormat === 'html') {
+        if (!$event) { return; }
         
+        if ($this->template->outputFormat === 'html') {
+
             $this->template->setFilename('viewSingle');
             $this->template->title = $event->getEventType();
 
@@ -133,6 +136,8 @@ class EventsController extends Controller
         $event =        !empty($_REQUEST['id'])
             ? $this->loadEvent($_REQUEST['id'])
             : new Event();
+
+        if (!$event) { return; }
 
         if (!$event->permitsEditingBy($_SESSION['USER'])) {
             $_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
