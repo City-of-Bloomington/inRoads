@@ -112,10 +112,16 @@ class EventsController extends Controller
 
     public function view()
     {
-        $event = $this->loadEvent($_GET['id']);
+        if (!empty($_GET['id'])) {
+            try { $event = new Event($_GET['id']); }
+            catch (\Exception $e) { }
+        }
+        if (!isset($event)) {
+            header('HTTP/1.1 404 Not Found', true, 404);
+            $this->template->blocks[] = new Block('404.inc');
+            return;
+        }
 
-        if (!$event) { return; }
-        
         if ($this->template->outputFormat === 'html') {
 
             $this->template->setFilename('viewSingle');
@@ -133,11 +139,17 @@ class EventsController extends Controller
     public function update()
     {
         $this->template->setFilename('eventEdit');
-        $event =        !empty($_REQUEST['id'])
-            ? $this->loadEvent($_REQUEST['id'])
-            : new Event();
+        if (!empty($_REQUEST['id'])) {
+            try { $event = new Event($_REQUEST['id']); }
+            catch (\Exception $e) { }
+        }
+        else { $event = new Event(); }
 
-        if (!$event) { return; }
+        if (!isset($event)) {
+            header('HTTP/1.1 404 Not Found', true, 404);
+            $this->template->blocks[] = new Block('404.inc');
+            return;
+        }
 
         if (!$event->permitsEditingBy($_SESSION['USER'])) {
             $_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
