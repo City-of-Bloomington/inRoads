@@ -9,3 +9,9 @@ inRoads is in live production use at https://bloomington.in.gov/inroads
 
 A demo instance is available at https://bloomington.in.gov/inroadsdemo
 To login, use username "demo" and password "demo".
+
+## Installation
+
+We use the same configuration for our PHP applications. To make sure the documentation stays up to date, we maintain it separately. It is available here:
+
+https://github.com/City-of-Bloomington/blossom/wiki
