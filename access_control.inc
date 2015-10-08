@@ -26,6 +26,7 @@ $ZEND_ACL->addResource(new Resource('eventTypes'));
 
 $ZEND_ACL->addResource(new Resource('events'));
 $ZEND_ACL->addResource(new Resource('waze'));
+$ZEND_ACL->addResource(new Resource('trafficcast'));
 
 /**
  * Assign permissions to the resources
@@ -33,7 +34,10 @@ $ZEND_ACL->addResource(new Resource('waze'));
 $ZEND_ACL->allow(null,'login');
 
 // Permissions for unauthenticated browsing
-$ZEND_ACL->allow(null, ['index', 'events', 'waze'], ['index', 'view']);
+$ZEND_ACL->allow(null,
+    ['index', 'events', 'waze', 'trafficcast'],
+    ['index', 'view']
+);
 
 $ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
 
