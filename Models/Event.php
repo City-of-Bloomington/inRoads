@@ -154,7 +154,7 @@ class Event extends ActiveRecord
 	// Generic Getters & Setters
 	//----------------------------------------------------------------
 	public function getId()                    { return parent::get('id');                    }
-	public function getDepartment_id()         { return parent::get('getDepartment_id');      }
+	public function getDepartment_id()         { return parent::get('department_id');         }
     public function getEventType_id()          { return parent::get('eventType_id');          }
 	public function getGoogle_event_id()       { return parent::get('google_event_id');       }
     public function getDescription()           { return parent::get('description');           }
