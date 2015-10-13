@@ -43,25 +43,23 @@ class EventsController extends Controller
      */
     private function getSearchParameters()
     {
+        $defaultRange = ($this->template->outputFormat === 'waze' || $this->template->outputFormat === 'trafficcast')
+            ? '+30 days'
+            : null;
+
         if (!empty($_GET['start'])) {
-            try {
-                $start = ActiveRecord::parseDate($_GET['start'], DATE_FORMAT);
-                $start->setTime(0, 0);
-            }
-            catch (\Exception $e) {
-            }
+            try { $start = ActiveRecord::parseDate($_GET['start'], DATE_FORMAT); }
+            catch (\Exception $e) { }
         }
         if (!empty($_GET['end'])) {
-            try {
-                $end = ActiveRecord::parseDate($_GET['end'], DATE_FORMAT);
-                $end->setTime(23, 59);
-            }
-            catch (\Exception $e) {
-            }
+            try { $end = ActiveRecord::parseDate($_GET['end'], DATE_FORMAT); }
+            catch (\Exception $e) { }
         }
+        if (!isset($start)) { $start = new \DateTime(); }
+        if (!isset($end  )) { $end   = new \DateTime($defaultRange); }
 
-        if (!isset($start)) { $start = new \DateTime(); $start->setTime(0,  0); }
-        if (!isset($end  )) { $end   = new \DateTime(); $end  ->setTime(23, 59); }
+        $start->setTime(0,  0);
+        $end  ->setTime(23, 59);
 
         $filters['eventTypes'] = [];
         if (!empty($_GET['eventTypes'])) {
@@ -86,12 +84,13 @@ class EventsController extends Controller
         );
 
         $this->template->title = $this->template->_('application_title');
-        $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
-        $searchFormBlock = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
-        $eventListBlock  = new Block('events/list.inc',       ['events'=>$events]);
-        $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
+        $eventListBlock = new Block('events/list.inc', ['events'=>$events]);
 
         if ($this->template->outputFormat === 'html') {
+            $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
+            $searchFormBlock = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
+            $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
+
             $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewToggle.inc');
             $this->template->blocks['panel-one'][] = $searchFormBlock;
 
