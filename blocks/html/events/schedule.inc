@@ -9,12 +9,10 @@ use Application\Models\Person;
 use Application\Models\Event;
 use Application\Templates\Helpers\ButtonLink;
 use Blossom\Classes\Block;
-?>
-<?php
-    $block = new Block('events/info.inc');
 
-    foreach ($this->events as $e) {
-        $block->event = $e;
-        echo $block->render('html', $this->template);
-    }
-?>
+$block = new Block('events/info.inc');
+
+foreach ($this->events as $e) {
+    $block->event = $e;
+    echo $block->render('html', $this->template);
+}

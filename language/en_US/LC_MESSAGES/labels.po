@@ -202,6 +202,9 @@ msgstr "Geography"
 msgid "geography_description"
 msgstr "Location"
 
+msgid "title"
+msgstr "Title"
+
 msgid "street"
 msgstr "Street"
 

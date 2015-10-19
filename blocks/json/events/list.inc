@@ -19,6 +19,7 @@ foreach ($this->events as $e) {
         'department'            => $e->getDepartment(),
         'start'                 => $e->getStart($format),
         'end'                   => $e->getEnd  ($format),
+        'title'                 => $e->getTitle(),
         'geography_description' => $e->getGeography_description(),
         'description'           => $e->getDescription()
     ];

@@ -159,7 +159,8 @@ class GoogleGateway
     {
         $data = [];
         $data['google_event_id'] = !empty($e->recurringEventId) ? $e->recurringEventId : $e->id;
-        $data['description'] = $e->description;
+        $data['location'       ] = $e->location;
+        $data['description'    ] = $e->description;
 
         self::parseSummary($data, $e);
         self::parseDates  ($data, $e);
@@ -203,10 +204,10 @@ class GoogleGateway
         }
 
         if (preg_match('/-([^-]+)$/', $e->getSummary(), $matches)) {
-            $data['geography_description'] = trim($matches[1]);
+            $data['title'] = trim($matches[1]);
         }
         else {
-            $data['geography_description'] = $e->getSummary();
+            $data['title'] = $e->getSummary();
         }
     }
 

@@ -10,7 +10,7 @@ use Application\Models\Event;
 use Application\Models\EventType;
 use Blossom\Classes\View;
 
-$title = View::escape($this->event->getGeography_description());
+$title = View::escape($this->event->getTitle());
 $id = $this->event->getId()
     ? $this->event->getId()
     : $this->event->getGoogle_event_id();

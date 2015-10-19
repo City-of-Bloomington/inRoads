@@ -54,7 +54,7 @@ class Event extends ActiveRecord
 				$sql = "select  id, department_id, google_event_id, eventType_id,
                                 startDate, endDate, startTime, endTime, rrule,
                                 AsText(geography) geography, geography_description,
-                                description, created, updated
+                                title, description, created, updated
                         from events ";
                 $sql.= ActiveRecord::isId($id)
                     ? 'where id=?'
@@ -166,6 +166,7 @@ class Event extends ActiveRecord
 	public function getDepartment_id()         { return parent::get('department_id');         }
     public function getEventType_id()          { return parent::get('eventType_id');          }
 	public function getGoogle_event_id()       { return parent::get('google_event_id');       }
+	public function getTitle()                 { return parent::get('title');                 }
     public function getDescription()           { return parent::get('description');           }
     public function getGeography_description() { return parent::get('geography_description'); }
     public function getGeography()             { return parent::get('geography');             }
@@ -213,6 +214,12 @@ class Event extends ActiveRecord
         parent::setForeignKeyObject(__namespace__.'\EventType',  'eventType_id',  $t);
     }
 
+    public function setTitle($s)
+    {
+        if ($s !== $this->getTitle()) { $this->modified['summary'] = true; }
+        parent::set('title', $s);
+    }
+
     public function setDescription($s)
     {
         if ($s !== parent::get('description')) { $this->modified['description'] = true; }
@@ -221,7 +228,7 @@ class Event extends ActiveRecord
 
     public function setGeography_description($s)
     {
-        if ($s !== parent::get('summary')) { $this->modified['summary'] = true; }
+        if ($s !== parent::get('geography_description')) { $this->modified['location'] = true; }
         parent::set('geography_description', $s);
     }
 
@@ -263,7 +270,7 @@ class Event extends ActiveRecord
     public function handleUpdate($post)
     {
         $fields = [
-            'department_id', 'eventType_id', 'google_event_id',
+            'department_id', 'eventType_id', 'google_event_id', 'title',
             'description', 'geography', 'geography_description'
         ];
         foreach ($fields as $f) {
@@ -440,10 +447,14 @@ class Event extends ActiveRecord
         $patch = new \Google_Service_Calendar_Event();
 
         if (!empty($this->modified['summary'])) {
-            $summary = $this->getGeography_description();
+            $summary = $this->getTitle();
             if ($this->getEventType())  { $summary = "{$this->getEventType()}-$summary"; }
             if ($this->getDepartment()) { $summary = "{$this->getDepartment()->getCode()}-$summary"; }
             $patch->setSummary($summary);
+        }
+
+        if (!empty($this->modified['location'])) {
+            $patch->setLocation($this->getGeography_description());
         }
 
         if (!empty($this->modified['description'])) {

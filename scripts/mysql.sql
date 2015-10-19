@@ -37,6 +37,7 @@ create table events (
     department_id int unsigned not null,
     eventType_id  int unsigned not null,
     google_event_id varchar(32) unique,
+    title           varchar(128),
     description     varchar(255),
     startDate date not null,
     endDate   date not null,
@@ -49,3 +50,19 @@ create table events (
     updated datetime not null,
     foreign key (department_id) references departments(id)
 );
+
+create table eventStreets (
+    id int unsigned not null primary key auto_increment,
+    event_id int unsigned not null,
+    street     varchar(128) not null,
+    streetFrom varchar(128) not null,
+    streetTo   varchar(128) not null,
+    startLatitude  float,
+    startLongitude float,
+    endLatitude    float,
+    endLongitude   float,
+    foreign key (event_id) references events(id)
+);
+
+
+-86.53481043649293
