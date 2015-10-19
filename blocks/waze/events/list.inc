@@ -14,8 +14,8 @@ foreach ($this->events as $e) {
     $geography = $e->getGeography();
     if (substr($geography, 0, 10) === 'LINESTRING') {
         $geo = explode(',', substr($geography, 11, -1));
-        list($start_lat, $start_long) = explode(' ', $geo[0]);
-        list($end_lat,   $end_long)   = explode(' ', end($geo));
+        list($start_long, $start_lat) = explode(' ', $geo[0]);
+        list($end_long,   $end_lat)   = explode(' ', end($geo));
 
         preg_match('/^(.+) from (.+) to (.+)$/', $e->getGeography_description(), $matches);
         $street      = !empty($matches[1]) ? View::escape($matches[1]) : '';
