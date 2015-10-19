@@ -80,7 +80,9 @@ class EventsController extends Controller
             GOOGLE_CALENDAR_ID,
             $search['start'],
             $search['end'],
-            $search['filters']
+            $search['filters'],
+            // Waze and Trafficcase need individual event recurrences
+            ($this->template->outputFormat==='waze' || $this->template->outputFormat === 'trafficcast')
         );
 
         $this->template->title = $this->template->_('application_title');

@@ -64,22 +64,25 @@ class GoogleGateway
      * @param DateTime $end
      * @return array An array of Application\Model\Events
      */
-    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null, array $filters=null)
+    public static function getEvents($calendarId, \DateTime $start=null, \DateTime $end=null, array $filters=null, $singleEvents=null)
     {
         $events = [];
 
         $service = self::getService();
 
         $opts = [
-            'fields'  => 'items('.self::FIELDS.')'
-            #'orderBy' => 'startTime',
-            #'singleEvents' => true
+            'fields'       => 'items('.self::FIELDS.')',
+            'singleEvents' => $singleEvents
         ];
+
         if ($start) { $opts['timeMin'] = $start->format(self::DATETIME_FORMAT); }
         if ($end  ) { $opts['timeMax'] = $end  ->format(self::DATETIME_FORMAT); }
 
         $events = [];
+        // Get all the events from Google Calendar for the date range
         $list = $service->events->listEvents($calendarId, $opts);
+
+        // Loop through and filter out the events that don't match the filters provided
         foreach ($list as $e) {
             $event = new Event($e);
 
@@ -91,6 +94,8 @@ class GoogleGateway
             }
             $events[] = $event;
         }
+
+        // Sort by datetime
         usort($events, function ($a, $b) {
             if ($a->getStartDate() == $b->getStartDate()) { return 0; }
             return ($a->getStartDate() < $b->getStartDate()) ? -1 : 1;
@@ -195,7 +200,16 @@ class GoogleGateway
         }
     }
 
-    private static function parseDates(array &$data, \Google_Service_Calendar_Event &$e)
+    /**
+     * Populates date time information
+     *
+     * Writes startDate, startTime, endDate, endTime and rrule
+     * into the provided data array from the Google Event.
+     *
+     * @param array $data
+     * @param Google_Service_Calendar_Event $e
+     */
+    public static function parseDates(array &$data, \Google_Service_Calendar_Event &$e)
     {
         if ($e->start->dateTime) {
             $d = new \DateTime($e->start->dateTime);

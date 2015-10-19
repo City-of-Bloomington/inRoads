@@ -20,6 +20,7 @@ class Event extends ActiveRecord
 	protected $eventType;
 
 	private $modified = [];
+	public $recurrence;
 
 	/**
 	 * Populates the object with data
@@ -39,9 +40,11 @@ class Event extends ActiveRecord
             // Use the eventID for any GoogleEvent passed in
             if ($id instanceof \Google_Service_Calendar_Event) {
                 $google_event = clone($id);
-                $id = !empty($id->recurringEventId)
-                    ? $id->recurringEventId
-                    : $id->id;
+                if (!empty($id->recurringEventId)) {
+                    $id =  $id->recurringEventId;
+                    $this->recurrence = $google_event;
+                }
+                else  { $id = $id->id; }
             }
 
 			if (is_array($id)) {
@@ -318,6 +321,8 @@ class Event extends ActiveRecord
     /**
      * Combines startDate and startTime into a single datetime output
      *
+     * This function reads from event data stored in the local database
+     *
      * @param string $format
      * @return string
      */
@@ -326,7 +331,6 @@ class Event extends ActiveRecord
         $d = new \DateTime("{$this->getStartDate()} {$this->getStartTime()}");
         return $d->format($format);
     }
-
     public function getEnd($format=DATETIME_FORMAT)
     {
         $d = new \DateTime("{$this->getEndDate()} {$this->getEndTime()}");

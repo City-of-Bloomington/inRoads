@@ -5,30 +5,43 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->events An array of Events
  */
+use Application\Models\GoogleGateway;
 use Blossom\Classes\View;
 
 $WAZE_DATE_FORMAT = \DateTime::RFC3339;
 
 echo '<events>';
-foreach ($this->events as $e) {
-    $geography = $e->getGeography();
+foreach ($this->events as $event) {
+    if (empty($event->recurrence)) {
+        $startDateTime = $event->getStart($WAZE_DATE_FORMAT);
+        $endDateTime   = $event->getEnd  ($WAZE_DATE_FORMAT);
+    }
+    else {
+        $data = [];
+        GoogleGateway::parseDates($data, $event->recurrence);
+        $tempS = empty($data['startTime']) ? new \DateTime($data['startDate']) : new \DateTime("$data[startDate] $data[startTime]");
+        $tempE = empty($data['endTime'  ]) ? new \DateTime($data['endDate'  ]) : new \DateTime("$data[endDate] $data[endTime]");
+        $startDateTime = $tempS->format($WAZE_DATE_FORMAT);
+        $endDateTime   = $tempE->format($WAZE_DATE_FORMAT);
+    }
+    $geography = $event->getGeography();
     if (substr($geography, 0, 10) === 'LINESTRING') {
         $geo = explode(',', substr($geography, 11, -1));
         list($start_long, $start_lat) = explode(' ', $geo[0]);
-        list($end_long,   $end_lat)   = explode(' ', end($geo));
+        list(  $end_long,   $end_lat) = explode(' ', end($geo));
 
-        preg_match('/^(.+) from (.+) to (.+)$/', $e->getGeography_description(), $matches);
+        preg_match('/^(.+) from (.+) to (.+)$/', $event->getGeography_description(), $matches);
         $street      = !empty($matches[1]) ? View::escape($matches[1]) : '';
         $street_from = !empty($matches[2]) ? View::escape($matches[2]) : '';
         $street_to   = !empty($matches[3]) ? View::escape($matches[3]) : '';
 
-        $description = View::escape($e->getDescription());
+        $description = View::escape($event->getDescription());
         echo "
-        <event id=\"{$e->getId()}\">
+        <event id=\"{$event->getId()}\">
             <type>ROAD_CLOSED</type>
-            <start_date>{$e->getStart($WAZE_DATE_FORMAT)}</start_date>
-            <update_date>{$e->getUpdated($WAZE_DATE_FORMAT)}</update_date>
-            <end_date>{$e->getEnd($WAZE_DATE_FORMAT)}</end_date>
+            <start_date>$startDateTime</start_date>
+            <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>
+            <end_date>$endDateTime</end_date>
             <description>$description</description>
             <location>
                 <street>$street</street>
@@ -44,6 +57,5 @@ foreach ($this->events as $e) {
         </event>
         ";
     }
-
 }
 echo '</events>';
