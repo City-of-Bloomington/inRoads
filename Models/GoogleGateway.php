@@ -138,6 +138,16 @@ class GoogleGateway
     }
 
     /**
+     * @param string $calendarId
+     * @param string $eventId
+     */
+    public static function deleteEvent($calendarId, $eventId)
+    {
+        $service = self::getService();
+        $service->events->delete($calendarId, $eventId);
+    }
+
+    /**
      * Returns an internal data array for this event
      *
      * The return value is the data array to instantiate an

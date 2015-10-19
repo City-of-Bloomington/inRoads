@@ -145,9 +145,8 @@
                     width: (18rem/16);
                 }
             }
-            &.edit {
-                background: url('images/pencil-white.svg') no-repeat 50% 50% / 80% 80%;
-            }
+            &.edit   { background: url('images/pencil-white.svg') no-repeat 50% 50% / 80% 80%; }
+            &.delete { background: url('images/remove.svg')       no-repeat 50% 50% / 80% 80%; }
             &.cancel {
                 &:before {
                     background: #fff;

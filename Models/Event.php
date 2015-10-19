@@ -153,6 +153,12 @@ class Event extends ActiveRecord
         parent::save();
     }
 
+    public function delete()
+    {
+        GoogleGateway::deleteEvent(GOOGLE_CALENDAR_ID, $this->getGoogle_event_id());
+        parent::delete();
+    }
+
 	//----------------------------------------------------------------
 	// Generic Getters & Setters
 	//----------------------------------------------------------------

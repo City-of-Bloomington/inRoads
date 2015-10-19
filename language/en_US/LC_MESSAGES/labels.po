@@ -141,6 +141,9 @@ msgstr "Add Event"
 msgid "event_edit"
 msgstr "Edit Event"
 
+msgid "event_delete"
+msgstr "Delete Event"
+
 msgid "event_info"
 msgstr "Event Info"
 

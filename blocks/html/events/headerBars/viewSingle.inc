@@ -19,15 +19,22 @@ use Application\Models\Person;
 <h1 class="headerBar-title"><?= $this->template->title; ?></h1>
 <div class="headerBar-tools">
     <?php
-        if (Person::isAllowed('events', 'update')) {
-            $id = $this->event->getId()
-                ? $this->event->getId()
-                : $this->event->getGoogle_event_id();
+        $id = $this->event->getId()
+            ? $this->event->getId()
+            : $this->event->getGoogle_event_id();
 
+        if (Person::isAllowed('events', 'update')) {
             echo $helper->buttonLink(
                 BASE_URI.'/events/update?id='.$id,
                 $this->template->_('event_edit'),
                 'edit'
+            );
+        }
+        if (Person::isAllowed('events', 'delete')) {
+            echo $helper->buttonLink(
+                BASE_URI.'/events/delete?id='.$id,
+                $this->template->_('event_delete'),
+                'delete'
             );
         }
     ?>

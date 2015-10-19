@@ -43,7 +43,7 @@ $ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
 
 // Allow Staff to do stuff
 $ZEND_ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index','view']);
-$ZEND_ACL->allow('Staff', ['events']);
+$ZEND_ACL->allow('Staff', ['events'], ['index', 'view', 'update']);
 
 // Administrator is allowed access to everything
 $ZEND_ACL->allow('Administrator');

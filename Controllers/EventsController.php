@@ -177,4 +177,19 @@ class EventsController extends Controller
         $this->template->blocks['panel-one'][] = new Block('events/updateForm.inc', ['event'=>$event]);
         $this->template->blocks[]              = new Block('events/mapEditor.inc',  ['event'=>$event]);
     }
+
+    public function delete()
+    {
+        if (!empty($_REQUEST['id'])) {
+            try {
+                $event = new Event($_REQUEST['id']);
+                $event->delete();
+            }
+            catch (\Exception $e) {
+                $_SESSION['errorMessages'][] = $e;
+            }
+        }
+        header('Location: '.BASE_URL.'/events');
+        exit();
+    }
 }
