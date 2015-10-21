@@ -51,18 +51,16 @@ create table events (
     foreign key (department_id) references departments(id)
 );
 
-create table eventStreets (
+create table segments (
     id int unsigned not null primary key auto_increment,
     event_id int unsigned not null,
     street     varchar(128) not null,
     streetFrom varchar(128) not null,
     streetTo   varchar(128) not null,
+    direction  varchar(8)   not null,
     startLatitude  float,
     startLongitude float,
     endLatitude    float,
     endLongitude   float,
     foreign key (event_id) references events(id)
 );
-
-
--86.53481043649293

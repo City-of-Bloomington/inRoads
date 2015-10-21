@@ -58,6 +58,8 @@ define('GOOGLE_CALENDAR_ID', '--some-calendar-id--@group.calendar.google.com');
 define('GOOGLE_USER_EMAIL', 'username@gmail.com');
 define('GOOGLE_GROUP', 'groupname@googlegroups.com');
 
+define('ADDRESS_SERVICE', 'http://apps.bloomington.in.gov/master_address');
+
 /**
  * Directory Configuration
  *

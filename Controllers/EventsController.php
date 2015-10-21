@@ -18,25 +18,6 @@ use Blossom\Classes\Controller;
 class EventsController extends Controller
 {
     /**
-     * Tries to load an event, and handles any errors
-     *
-     * @return Event
-     */
-    private function loadEvent($id)
-    {
-		try {
-            if (!$id) { throw new \Exception('events/unknown'); }
-			$event = new Event($id);
-		}
-		catch (\Exception $e) {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
-			return null;
-		}
-		return $event;
-    }
-
-    /**
      * Creates variables from the searchForm submission
      *
      * @return array
@@ -139,7 +120,6 @@ class EventsController extends Controller
 
     public function update()
     {
-        $this->template->setFilename('eventEdit');
         if (!empty($_REQUEST['id'])) {
             try { $event = new Event($_REQUEST['id']); }
             catch (\Exception $e) { }
@@ -170,6 +150,7 @@ class EventsController extends Controller
             }
         }
 
+        $this->template->setFilename('eventEdit');
         $this->template->title = $event->getId()
             ? $this->template->_('event_edit')
             : $this->template->_('event_add');

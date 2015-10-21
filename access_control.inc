@@ -25,6 +25,8 @@ $ZEND_ACL->addResource(new Resource('departments'));
 $ZEND_ACL->addResource(new Resource('eventTypes'));
 
 $ZEND_ACL->addResource(new Resource('events'));
+$ZEND_ACL->addResource(new Resource('segments'));
+$ZEND_ACL->addResource(new Resource('streets'));
 $ZEND_ACL->addResource(new Resource('waze'));
 $ZEND_ACL->addResource(new Resource('trafficcast'));
 
@@ -35,7 +37,7 @@ $ZEND_ACL->allow(null,'login');
 
 // Permissions for unauthenticated browsing
 $ZEND_ACL->allow(null,
-    ['index', 'events', 'waze', 'trafficcast'],
+    ['index', 'events', 'waze', 'trafficcast', 'segments'],
     ['index', 'view']
 );
 
@@ -43,7 +45,7 @@ $ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
 
 // Allow Staff to do stuff
 $ZEND_ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index','view']);
-$ZEND_ACL->allow('Staff', ['events'], ['index', 'view', 'update']);
+$ZEND_ACL->allow('Staff', ['events', 'segments', 'streets'], ['index', 'view', 'update', 'search']);
 
 // Administrator is allowed access to everything
 $ZEND_ACL->allow('Administrator');

@@ -513,4 +513,13 @@ class Event extends ActiveRecord
 
         return $patch;
     }
+
+    /**
+     * @return array Segments
+     */
+    public function getSegments()
+    {
+        $table = new SegmentsTable();
+        return $table->find(['event_id'=>$this->getId()]);
+    }
 }
