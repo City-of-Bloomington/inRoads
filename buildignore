@@ -6,6 +6,8 @@
 configuration.inc
 site_config.inc
 credentials.json
+package.json
+/node_modules
 /data/sessions/*
 /data/templates/
 /data/blocks/
