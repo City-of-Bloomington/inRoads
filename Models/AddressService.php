@@ -60,9 +60,11 @@ class AddressService
             $url->street = $streetName;
 
  			$json = self::jsonRequest($url);
-			foreach ($json->streets as $street) {
-                $results[$street->name] = $street->id;
-			}
+ 			if (count($json)) {
+                foreach ($json->streets as $street) {
+                    $results[$street->name] = $street->id;
+                }
+            }
        }
         return $results;
 	}

@@ -142,7 +142,7 @@ class EventsController extends Controller
             try {
                 $event->handleUpdate($_POST);
                 $event->save();
-                header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
+                header('Location: '.BASE_URL.'/segments?event_id='.$event->getId());
                 exit();
             }
             catch (\Exception $e) {

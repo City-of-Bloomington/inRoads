@@ -16,6 +16,14 @@ use Blossom\Classes\Block;
 
 class SegmentsController extends Controller
 {
+    /**
+     * This is the screen for working with Segments on events
+     *
+     * If you're allowed to edit segments, you will see a search form.
+     * This is the starting point.  You must search for a valid street.
+     * When you have chosen a valid street, you will be redirected to
+     * the actual Segment Update screen.
+     */
     public function index()
     {
         if (!empty($_GET['event_id'])) {
@@ -34,12 +42,8 @@ class SegmentsController extends Controller
         if (Person::isAllowed('segments', 'update')) {
             $segment = new Segment();
             $segment->setEvent($event);
-            if (!empty($_REQUEST['street'])) {
-                $segment->setStreet($_REQUEST['street']);
-            }
 
-            $b = $segment->getStreet() ? 'segments/updateForm.inc' : 'segments/searchForm.inc';
-            $this->template->blocks['panel-one'][] = new Block($b, ['segment'=>$segment]);
+            $this->template->blocks['panel-one'][] = new Block('segments/searchForm.inc', ['segment'=>$segment]);
         }
 
         $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'=>$event]);
@@ -51,6 +55,15 @@ class SegmentsController extends Controller
     {
     }
 
+    /**
+     * The screen for adding/editing segments
+     *
+     * By the time a user comes here, they should have already chosen
+     * a valid street and event_id for adding a new segment.
+     * OR
+     * If they're editing an existing segment, they must have a valid
+     * segment_id
+     */
     public function update()
     {
         if (isset($_REQUEST['segment_id'])) {
@@ -61,11 +74,12 @@ class SegmentsController extends Controller
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
 
-        if (!isset($event) && !empty($_REQUEST['event_id'])) {
+        if (!isset($event) && !empty($_REQUEST['event_id']) && !empty($_REQUEST['street'])) {
             try {
                 $event = new Event($_REQUEST['event_id']);
                 $segment = new Segment();
                 $segment->setEvent($event);
+                $segment->setStreet($_REQUEST['street']);
             }
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
@@ -85,6 +99,7 @@ class SegmentsController extends Controller
             }
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
+        $this->template->setFilename('eventEdit');
         $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'   => $event]);
         $this->template->blocks['panel-one'][] = new Block('segments/updateForm.inc',      ['segment' => $segment]);
         $this->template->blocks['panel-one'][] = new Block('segments/list.inc',            ['segments'=> $event->getSegments()]);
@@ -96,10 +111,15 @@ class SegmentsController extends Controller
         try {
             $segment = new Segment($_GET['id']);
             $event = $segment->getEvent();
+
             $segment->delete();
             header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
             exit();
         }
-        catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        catch (\Exception $e) {
+            $_SESSION['errorMessages'][] = $e;
+        }
+        header('HTTP/1.1 404 Not Found', true, 404);
+        $this->template->blocks[] = new Block('404.inc');
     }
 }

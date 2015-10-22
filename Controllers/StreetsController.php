@@ -18,6 +18,9 @@ class StreetsController extends Controller
 
     public function search()
     {
+        if (isset($_REQUEST['popup'])) {
+            $this->template->setFilename('popup');
+        }
         $results = AddressService::searchStreets($_GET['street']);
         $this->template->blocks[] = new Block('streets/results.inc', ['results'=>$results]);
     }

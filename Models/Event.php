@@ -155,6 +155,10 @@ class Event extends ActiveRecord
 
     public function delete()
     {
+        $sql = 'delete from segments where event_id=?';
+        $zend_db = Database::getConnection();
+        $zend_db->query($sql, [$this->getId()]);
+        
         GoogleGateway::deleteEvent(GOOGLE_CALENDAR_ID, $this->getGoogle_event_id());
         parent::delete();
     }

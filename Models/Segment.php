@@ -13,6 +13,8 @@ class Segment extends ActiveRecord
 {
 	protected $tablename = 'segments';
 
+	protected $event;
+
 	public static $directions = [
         'NB/SB', 'EB/WB', 'NB', 'SB', 'EB', 'WB'
 	];
@@ -37,7 +39,7 @@ class Segment extends ActiveRecord
 			}
 			else {
 				$zend_db = Database::getConnection();
-                $sql = 'select * from eventTypes where id=?';
+                $sql = 'select * from segments where id=?';
 
 				$result = $zend_db->createStatement($sql)->execute([$id]);
 				if (count($result)) {
