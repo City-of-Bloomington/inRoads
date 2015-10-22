@@ -53,6 +53,42 @@ class SegmentsController extends Controller
 
     public function update()
     {
+        if (isset($_REQUEST['segment_id'])) {
+            try {
+                $segment = new Segment($_REQUEST['segment_id']);
+                $event   = $segment->getEvent();
+            }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+
+        if (!isset($event) && !empty($_REQUEST['event_id'])) {
+            try {
+                $event = new Event($_REQUEST['event_id']);
+                $segment = new Segment();
+                $segment->setEvent($event);
+            }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+
+        if (!isset($segment)) {
+            header('HTTP/1.1 404 Not Found', true, 404);
+            $this->template->blocks[] = new Block('404.inc');
+            return;
+        }
+
+        if (isset($_POST['segment_id'])) {
+            try {
+                $segment->handleUpdate($_POST);
+                $segment->save();
+                header('Location: '.BASE_URL.'/segments?event_id='.$segment->getEvent_id());
+                exit();
+            }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+        $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'   => $event]);
+        $this->template->blocks['panel-one'][] = new Block('segments/updateForm.inc',      ['segment' => $segment]);
+        $this->template->blocks['panel-one'][] = new Block('segments/list.inc',            ['segments'=> $event->getSegments()]);
+        $this->template->blocks[]              = new Block('events/map.inc',               ['event'   => $event]);
     }
 
     public function delete()
@@ -61,7 +97,7 @@ class SegmentsController extends Controller
             $segment = new Segment($_GET['id']);
             $event = $segment->getEvent();
             $segment->delete();
-            header('Location: '.BASE_URI.'/events/view?id='.$event->getId());
+            header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
             exit();
         }
         catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }

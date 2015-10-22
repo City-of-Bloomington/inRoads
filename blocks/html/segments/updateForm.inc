@@ -6,6 +6,7 @@
  * @param Segment $this->segment
  */
 use Application\Models\AddressService;
+use Application\Models\Segment;
 
 $title = $this->segment->getId() ? $this->_('segment_edit') : $this->_('segment_add');
 
@@ -54,6 +55,18 @@ foreach ($fields as $f) {
                     ";
                 }
             ?>
+
+            <dl><dt><label   for="direction"><?= $this->_('direction'); ?></label></dt>
+                <dd><select name="direction" id="direction"><option value=""></option>
+                    <?php
+                        foreach (Segment::$directions as $dir) {
+                            $selected = $direction===$dir ? 'selected="true"' : '';
+                            echo "<option $selected>$dir</option>";
+                        }
+                    ?>
+                    </select>
+                </dd>
+            </dl>
 
             <button type="submit" class="save"><?= $this->_('save'); ?></button>
         </fieldset>

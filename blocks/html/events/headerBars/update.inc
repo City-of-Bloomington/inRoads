@@ -13,12 +13,13 @@ $id = $this->event->getId()
 ?>
 <div class="pillNav">
 <?php
-    $classCurrent = !empty($_GET['id']) ? ' class="current"' : '';
-    $linkUrl = BASE_URI.'/events/update?id='.$id;
-    echo "<a href=\"$linkUrl\"$classCurrent>Event</a>";
-    $classCurrent = !empty($_GET['event_id']) ? ' class="current"' : '';
+    $classCurrent = !empty($_GET['id']) ? 'class="current"' : '';
+    $linkUrl = BASE_URI."/events/update?id=$id";
+    echo "<a href=\"$linkUrl\" $classCurrent>{$this->_('event')}</a>";
+
+    $classCurrent = !empty($_GET['event_id']) ? 'class="current"' : '';
     $linkUrl = BASE_URI.'/segments?event_id='.$id;
-    echo "<a href=\"$linkUrl\"$classCurrent>Segments</a>";
+    echo "<a href=\"$linkUrl\" $classCurrent>{$this->_(['segment', 'segments', 2])}</a>";
 ?>
 </div>
 <div class="headerBar-tools">

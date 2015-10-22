@@ -9,6 +9,14 @@ use Blossom\Classes\Url;
 
 class AddressService
 {
+    private static function jsonRequest($url)
+    {
+        $response = Url::get($url);
+        if ($response) {
+            $json = json_decode($response);
+            return $json;
+        }
+    }
 	/**
 	 * Return an array of street information
 	 *
@@ -26,10 +34,10 @@ class AddressService
 			$url->format = 'json';
 			$url->streetName = $query;
 
-			$json = json_decode(Url::get($url));
-			foreach ($json->streets as $street) {
+			$json = self::jsonRequest($url);
+            foreach ($json->streets as $street) {
                 $results[$street->name] = $street->id;
-			}
+            }
 		}
 		return $results;
 	}
@@ -47,16 +55,31 @@ class AddressService
 	{
         $results = [];
         if (defined('ADDRESS_SERVICE')) {
-            $url = new Url(ADDRESS_SERVICE.'/intersections');
+            $url = new Url(ADDRESS_SERVICE.'/intersections/streets.php');
             $url->format = 'json';
             $url->street = $streetName;
-            
- 			$json = json_decode(Url::get($url));
+
+ 			$json = self::jsonRequest($url);
 			foreach ($json->streets as $street) {
                 $results[$street->name] = $street->id;
 			}
        }
         return $results;
+	}
 
+	public static function intersection($streetName, $otherStreet)
+	{
+        $results = [];
+        if (defined('ADDRESS_SERVICE')) {
+            $url = new Url(ADDRESS_SERVICE.'/intersections');
+            $url->format = 'json';
+            $url->street = $streetName;
+            $url->intersectingStreet = $otherStreet;
+
+            $json = self::jsonRequest($url);
+            if (count($json)) {
+                return $json[0];
+            }
+        }
 	}
 }

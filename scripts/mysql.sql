@@ -58,9 +58,9 @@ create table segments (
     streetFrom varchar(128) not null,
     streetTo   varchar(128) not null,
     direction  varchar(8)   not null,
-    startLatitude  float,
-    startLongitude float,
-    endLatitude    float,
-    endLongitude   float,
+    startLatitude  float(11, 8),
+    startLongitude float(11, 8),
+    endLatitude    float(11, 8),
+    endLongitude   float(11, 8),
     foreign key (event_id) references events(id)
 );

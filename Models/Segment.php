@@ -13,6 +13,10 @@ class Segment extends ActiveRecord
 {
 	protected $tablename = 'segments';
 
+	public static $directions = [
+        'NB/SB', 'EB/WB', 'NB', 'SB', 'EB', 'WB'
+	];
+
 	/**
 	 * Populates the object with data
 	 *
@@ -53,12 +57,26 @@ class Segment extends ActiveRecord
     public function validate()
     {
         $requiredFields = [
-            'event_id', 'street', 'streetFrom', 'streetTo','direction',
-            'startLatitude', 'startLongitude', 'endLatitude', 'endLongitude'
+            'event_id', 'street', 'streetFrom', 'streetTo','direction'
         ];
         foreach ($requiredFields as $f) {
             $get = 'get'.ucfirst($f);
             if (!$this->$get()) { throw new \Exception("missingRequiredField/$f"); }
+        }
+
+        if (   !$this->getStartLatitude() || !$this->getStartLongitude()
+            || !$this->getEndLatitude()   || !$this->getEndLongitude()) {
+
+            $start = AddressService::intersection($this->getStreet(), $this->getStreetFrom());
+            $end   = AddressService::intersection($this->getStreet(), $this->getStreetTo());
+            if ($start) {
+                $this->setStartLatitude ($start->latitude);
+                $this->setStartLongitude($start->longitude);
+            }
+            if ($end) {
+                $this->setEndLatitude ($end->latitude);
+                $this->setEndLongitude($end->longitude);
+            }
         }
     }
 
@@ -91,4 +109,17 @@ class Segment extends ActiveRecord
     public function setEndLongitude  ($s) { parent::set('endLongitude',   (float)$s); }
     public function setEvent_id($i) { parent::setForeignKeyField (__namespace__.'\Event', 'event_id', $i); }
     public function setEvent   ($i) { parent::setForeignKeyObject(__namespace__.'\Event', 'event_id', $i); }
+
+    public function handleUpdate(array $post)
+    {
+        $fields = ['street', 'streetFrom', 'streetTo', 'direction'];
+        foreach ($fields as $f) {
+            $set = 'set'.ucfirst($f);
+            $this->$set($post[$f]);
+        }
+    }
+
+	//----------------------------------------------------------------
+	// Custom Functions
+	//----------------------------------------------------------------
 }
