@@ -113,7 +113,7 @@ class SegmentsController extends Controller
             $event = $segment->getEvent();
 
             $segment->delete();
-            header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
+            header('Location: '.BASE_URL.'/segments?event_id='.$event->getId());
             exit();
         }
         catch (\Exception $e) {
