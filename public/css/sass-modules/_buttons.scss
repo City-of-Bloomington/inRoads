@@ -6,6 +6,17 @@
 /**
  * Base styles for buttons and button links
  */
+
+%buttonWithIcon {
+    &:before {
+        content: '';
+        display: block;
+        float: left;
+        height: 1em;
+        margin: .125em .5em 0 0;
+        width: 1em;
+    }
+}
 button, .button {
     border:1px solid $color-border-input;
     border-radius:.4em;
@@ -19,19 +30,17 @@ button, .button {
     &:hover {
         cursor:pointer;
     }
-    &:before {
-        content: '';
-        display: block;
-        float: left;
-        height: 1em;
-        margin: .125em .5em 0 0;
-        width: 1em;
+    &.edit{
+        @extend %buttonWithIcon;
+        &:before   {
+            background: url('images/pencil.svg') no-repeat 0 50% / 100% 100%;
+        }
     }
-    &.edit:before   {
-        background: url('images/pencil.svg') no-repeat 0 50% / 100% 100%;
-    }
-    &.delete:before {
-        background: url('images/remove.svg') no-repeat 0 50% / 100% 100%;
+    &.delete{
+        @extend %buttonWithIcon;
+        &:before {
+            background: url('images/remove.svg') no-repeat 0 50% / 100% 100%;
+        }
     }
     &.feedback {
         background: #23ae4d;
