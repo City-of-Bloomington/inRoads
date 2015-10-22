@@ -64,6 +64,7 @@ class Segment extends ActiveRecord
             if (!$this->$get()) { throw new \Exception("missingRequiredField/$f"); }
         }
 
+        // latitude and longitude are required.  But they can be looked up from the AddressService
         if (   !$this->getStartLatitude() || !$this->getStartLongitude()
             || !$this->getEndLatitude()   || !$this->getEndLongitude()) {
 
@@ -78,6 +79,8 @@ class Segment extends ActiveRecord
                 $this->setEndLongitude($end->longitude);
             }
         }
+
+        $this->validateDirection();
     }
 
     public function save() { parent::save(); }
@@ -122,4 +125,40 @@ class Segment extends ActiveRecord
 	//----------------------------------------------------------------
 	// Custom Functions
 	//----------------------------------------------------------------
+	public function validateDirection()
+	{
+        // Make sure lat-long start and end match intersections of streets from and to
+        $dir      = $this->getDirection();
+        $startLat = $this->getStartLatitude();
+        $startLon = $this->getStartLongitude();
+        $endLat   = $this->getEndLatitude();
+        $endLon   = $this->getEndLongitude();
+
+        if (    (($dir === 'NB' || $dir === 'NB/SB') && $startLat > $endLat)
+            ||  (($dir === 'SB')                     && $startLat < $endLat)
+            ||  (($dir === 'EB' || $dir === 'EB/WB') && $startLon > $endLon)
+            ||  (($dir === 'WB')                     && $startLon < $endLon)) {
+
+            $this->flipFromAndTo();
+        }
+	}
+
+	public function flipFromAndTo()
+	{
+        $startLat = $this->getStartLatitude();
+        $startLon = $this->getStartLongitude();
+        $endLat   = $this->getEndLatitude();
+        $endLon   = $this->getEndLongitude();
+
+        $from = $this->getStreetFrom();
+        $to   = $this->getStreetTo();
+
+        $this->setStreetFrom($to);
+        $this->setStreetTo($from);
+
+        $this->setStartLatitude($endLat);
+        $this->setStartLongitude($endLon);
+        $this->setEndLatitude($startLat);
+        $this->setEndLongitude($startLon);
+	}
 }

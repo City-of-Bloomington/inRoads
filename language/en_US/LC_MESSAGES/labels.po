@@ -205,14 +205,31 @@ msgstr "Location"
 msgid "title"
 msgstr "Title"
 
+msgid "segment"
+msgid_plural "segments"
+msgstr[0] "Segment"
+msgstr[1] "Segments"
+
+msgid "segment_add"
+msgstr "New Segment"
+
+msgid "segment_edit"
+msgstr "Edit Segment"
+
+msgid "segment_delete"
+msgstr "Delete Segment"
+
 msgid "street"
 msgstr "Street"
 
-msgid "street_from"
+msgid "streetFrom"
 msgstr "From street"
 
-msgid "street_to"
+msgid "streetTo"
 msgstr "To street"
+
+msgid "direction"
+msgstr "Direction"
 
 msgid "upcoming_closures"
 msgstr "Upcoming Road Closures"
