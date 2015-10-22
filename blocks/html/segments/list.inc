@@ -13,13 +13,28 @@
         $from      = self::escape($segment->getStreetFrom());
         $to        = self::escape($segment->getStreetTo());
         $direction = self::escape($segment->getDirection());
+
+        $helper = $this->template->getHelper('buttonLink');
+        $editButton = $helper->buttonLink(
+            BASE_URI.'/segments/update?segment_id='.$segment->getId(),
+            $this->_('segment_edit'),
+            'edit'
+        );
+        $deleteButton = $helper->buttonLink(
+            BASE_URI.'/segments/delete?id='.$segment->getId(),
+            $this->_('segment_delete'),
+            'delete'
+        );
         echo "
-        <dl class=\"inRoads-eventSegment\">
-            <dt>{$this->_('street')}</dt>     <dd>$street</dd>
-            <dt>{$this->_('direction')}</dt>  <dd>$direction</dd>
-            <dt>{$this->_('streetFrom')}</dt> <dd>$from</dd>
-            <dt>{$this->_('streetTo')}</dt>   <dd>$to</dd>
-        </dl>
+        <div>
+            $editButton $deleteButton
+            <dl class=\"inRoads-eventSegment\">
+                <dt>{$this->_('street')}</dt>     <dd>$street</dd>
+                <dt>{$this->_('direction')}</dt>  <dd>$direction</dd>
+                <dt>{$this->_('streetFrom')}</dt> <dd>$from</dd>
+                <dt>{$this->_('streetTo')}</dt>   <dd>$to</dd>
+            </dl>
+        </div>
         ";
     }
 ?>
