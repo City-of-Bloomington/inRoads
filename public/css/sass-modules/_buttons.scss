@@ -17,8 +17,21 @@ button, .button {
     background: linear-gradient(to bottom, #f2f2f9 21%,#CDD1D9 80%);
     vertical-align: middle;
     &:hover {
-        background: linear-gradient(to bottom, #f8f8fd 21%, #d5dfe4 80%);
         cursor:pointer;
+    }
+    &:before {
+        content: '';
+        display: block;
+        float: left;
+        height: 1em;
+        margin: .125em .5em 0 0;
+        width: 1em;
+    }
+    &.edit:before   {
+        background: url('images/pencil.svg') no-repeat 0 50% / 100% 100%;
+    }
+    &.delete:before {
+        background: url('images/remove.svg') no-repeat 0 50% / 100% 100%;
     }
     &.feedback {
         background: #23ae4d;
@@ -33,7 +46,3 @@ button, .button {
     text-indent: -100rem;
     width: 1rem;
 }
-
-.edit   { background: url('images/pencil.svg') no-repeat 0 0 / 100% 100%; }
-.delete { background: url('images/remove.svg') no-repeat 0 0 / 100% 100%; }
-.feedback { }

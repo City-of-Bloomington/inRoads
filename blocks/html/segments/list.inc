@@ -27,13 +27,13 @@
         );
         echo "
         <div>
-            $editButton $deleteButton
             <dl class=\"inRoads-eventSegment\">
                 <dt>{$this->_('street')}</dt>     <dd>$street</dd>
                 <dt>{$this->_('direction')}</dt>  <dd>$direction</dd>
                 <dt>{$this->_('streetFrom')}</dt> <dd>$from</dd>
                 <dt>{$this->_('streetTo')}</dt>   <dd>$to</dd>
             </dl>
+            $editButton $deleteButton
         </div>
         ";
     }
