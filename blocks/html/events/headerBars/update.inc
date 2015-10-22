@@ -5,17 +5,28 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
+
+$id = $this->event->getId()
+    ? $this->event->getId()
+    : $this->event->getGoogle_event_id();
+
 ?>
-<h1 class="headerBar-title"><?= $this->template->title; ?></h1>
+<div class="pillNav">
+<?php
+    $classCurrent = !empty($_GET['id']) ? ' class="current"' : '';
+    $linkUrl = BASE_URI.'/events/update?id='.$id;
+    echo "<a href=\"$linkUrl\"$classCurrent>Event</a>";
+    $classCurrent = !empty($_GET['event_id']) ? ' class="current"' : '';
+    $linkUrl = BASE_URI.'/segments?event_id='.$id;
+    echo "<a href=\"$linkUrl\"$classCurrent>Segments</a>";
+?>
+</div>
 <div class="headerBar-tools">
 <?php
-    $id = $this->event->getId()
-        ? $this->event->getId()
-        : $this->event->getGoogle_event_id();
-
     $url = $this->event->getId()
         ? BASE_URI.'/events/view?id='.$id
         : BASE_URI.'/events';
+
     $helper = $this->template->getHelper('buttonLink');
     echo $helper->buttonLink($url, $this->template->_('cancel'), 'cancel');
 ?>
