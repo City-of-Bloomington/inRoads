@@ -223,10 +223,10 @@ msgid "street"
 msgstr "Street"
 
 msgid "streetFrom"
-msgstr "From street"
+msgstr "From"
 
 msgid "streetTo"
-msgstr "To street"
+msgstr "To"
 
 msgid "direction"
 msgstr "Direction"

@@ -14,12 +14,12 @@
         $to        = self::escape($segment->getStreetTo());
         $direction = self::escape($segment->getDirection());
         echo "
-        <table>
-            <tr><th>{$this->_('street')}</th>     <td>$street</td></tr>
-            <tr><th>{$this->_('streetFrom')}</th> <td>$from</td></tr>
-            <tr><th>{$this->_('streetTo')}</th>   <td>$to</td></tr>
-            <tr><th>{$this->_('direction')}</th>  <td>$direction</td></tr>
-        </table>
+        <dl class=\"inRoads-eventSegment\">
+            <dt>{$this->_('street')}</dt>     <dd>$street</dd>
+            <dt>{$this->_('direction')}</dt>  <dd>$direction</dd>
+            <dt>{$this->_('streetFrom')}</dt> <dd>$from</dd>
+            <dt>{$this->_('streetTo')}</dt>   <dd>$to</dd>
+        </dl>
         ";
     }
 ?>

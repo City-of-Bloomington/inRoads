@@ -1,0 +1,41 @@
+.inRoads-eventSegment {
+    @include clearfix();
+    margin: 0;
+    padding: .5rem;
+    > dt:first-child {
+        @include visuallyHidden();
+        &+dd {
+            display: block;
+            float: left;
+            font-family: $font-family-heading;
+            font-weight: normal;
+            font-size: (18rem/16);
+            margin: 0 .5em .125em 0;
+        }
+    }
+    > dt:nth-of-type(0n+2) {
+        display: none;
+    }
+    > dd:nth-of-type(0n+2) {
+        color: $cob-gray-dark;
+        float: none;
+        margin: .1025em 0 0 0;
+    }
+    > dt {
+        clear: left;
+        display: block;
+        float: left;
+        font-weight: bold;
+        margin: 0;
+        width: 3em;
+    }
+    > dd {
+        display: block;
+        float: left;
+        margin: 0;
+        &:after {
+            content: '';
+            display: block;
+        }
+    }
+}
