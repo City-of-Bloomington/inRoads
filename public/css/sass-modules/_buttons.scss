@@ -54,4 +54,8 @@ button, .button {
     overflow: hidden;
     text-indent: -100rem;
     width: 1rem;
+
+    &.edit{
+        background: url('images/pencil.svg') no-repeat 50% 50% / 100% 100%;
+    }
 }
