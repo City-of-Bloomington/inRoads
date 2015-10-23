@@ -5,6 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->errorMessages
  */
+$this->template->addToAsset('scripts', BASE_URI.'/js/errorMessages.js');
 ?>
 <div id="errorMessages" class="errorPanel">
 	<h2>Sorry</h2>
@@ -20,6 +21,6 @@
 		}
 	?>
 	<div class="errorPanel-buttons">
-		<button onclick="document.getElementById('errorMessages').style='display:none;'">Okay</button>
+		<button id="dismissButton">Okay</button>
 	</div>
 </div>
