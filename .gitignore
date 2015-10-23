@@ -12,6 +12,6 @@ node_modules
 gulpfile.js
 *.mo
 .sass-cache
-.build
+.gulp-build
 .ftppass
 package.json

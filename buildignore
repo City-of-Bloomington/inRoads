@@ -18,3 +18,4 @@ package.json
 /libraries/zf2/documentation/
 /libraries/zf2/resources/
 /libraries/zf2/tests/
+/.gulp-build
