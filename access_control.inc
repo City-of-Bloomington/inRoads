@@ -42,10 +42,12 @@ $ZEND_ACL->allow(null,
 );
 
 $ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
+$ZEND_ACL->allow('Public', ['segments'], ['index', 'view', 'update', 'search', 'delete']);
+
 
 // Allow Staff to do stuff
 $ZEND_ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index','view']);
-$ZEND_ACL->allow('Staff', ['events', 'segments', 'streets'], ['index', 'view', 'update', 'search']);
+$ZEND_ACL->allow('Staff', ['events', 'segments', 'streets'], ['index', 'view', 'update', 'delete', 'search']);
 
 // Administrator is allowed access to everything
 $ZEND_ACL->allow('Administrator');
