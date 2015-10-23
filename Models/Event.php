@@ -186,7 +186,7 @@ class Event extends ActiveRecord
             // In the future, we should look into making validate always return an array of
             // errors, instead of just throwing an exception on the first error it comes to.
             $zend_db = Database::getConnection();
-            $sql = new Sql($zend_db, $this->tablename);
+            $sql = new \Zend\Db\Sql\Sql($zend_db, $this->tablename);
             if ($this->getId()) {
                 $update = $sql->update()
                     ->set($this->data)
