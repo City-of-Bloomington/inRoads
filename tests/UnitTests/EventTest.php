@@ -96,4 +96,24 @@ class EventTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($event->permitsEditingBy($person), 'Public users cannot edit events for their own department');
     }
 
+    public function testRequiredFields()
+    {
+        $start = '10/20/2015';
+        $end   = '10/30/2015';
+        $title = 'Title';
+        $desc  = 'Description';
+        $geo   = 'Geography Description';
+
+
+        $event = new Event();
+        $event->setStartDate($start);
+        $event->setEndDate($end);
+        $event->setDescription($desc);
+        $error = $event->validate();
+        $this->assertNotNull($error);
+
+        $event->setTitle($title);
+        $error = $event->validate();
+        $this->assertNull($error);
+    }
 }

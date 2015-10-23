@@ -118,7 +118,7 @@ class Event extends ActiveRecord
         if (!$this->getCreated()) { parent::setDateData('created', 'now'); }
 
         if (!$this->getStartDate() || !$this->getEndDate()
-            || !$this->getGeography_description()
+            || !($this->getTitle() ||  $this->getGeography_description())
             || !$this->getDescription()) {
             return new \Exception('missingRequiredFields');
         }
