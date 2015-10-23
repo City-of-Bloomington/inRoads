@@ -23,37 +23,36 @@ foreach ($this->events as $event) {
         $startDateTime = $tempS->format($WAZE_DATE_FORMAT);
         $endDateTime   = $tempE->format($WAZE_DATE_FORMAT);
     }
-    
+
     $description = self::escape($event->getDescription());
     $locations   = '';
     foreach ($event->getSegments() as $segment) {
         $street = self::escape($segment->getStreet());
         $from   = self::escape($segment->getStreetFrom());
         $to     = self::escape($segment->getStreetTo());
+        $dir    = self::escape($segment->getDirection());
 
-        $locations.= "
-        <location>
-            <street>$street</street>
-            <latitude>{$segment->getStartLatitude()}</latitude>
-            <longitude>{$segment->getStartLongitude()}</longitude>
-            <specify_end>
-                <from_cross_street>$from</from_cross_street>
-                <end_cross_street>$to</end_cross_street>
-                <end_latitude>{$segment->getEndLatitude()}</end_latitude>
-                <end_longitude>{$segment->getEndLongitude()}</end_longitude>
-            </specify_end>
-        </location>
+        echo "
+        <event id=\"{$event->getId()}\">
+            <type>ROAD_CLOSED</type>
+            <start_date>$startDateTime</start_date>
+            <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>
+            <end_date>$endDateTime</end_date>
+            <description>$description</description>
+            <location>
+                <street>$street</street>
+                <Direction>$dir</Direction>
+                <latitude>{$segment->getStartLatitude()}</latitude>
+                <longitude>{$segment->getStartLongitude()}</longitude>
+                <specify_end>
+                    <from_cross_street>$from</from_cross_street>
+                    <end_cross_street>$to</end_cross_street>
+                    <end_latitude>{$segment->getEndLatitude()}</end_latitude>
+                    <end_longitude>{$segment->getEndLongitude()}</end_longitude>
+                </specify_end>
+            </location>
+        </event>
         ";
     }
-    echo "
-    <event id=\"{$event->getId()}\">
-        <type>ROAD_CLOSED</type>
-        <start_date>$startDateTime</start_date>
-        <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>
-        <end_date>$endDateTime</end_date>
-        <description>$description</description>
-        $locations
-    </event>
-    ";
 }
 echo '</events>';
