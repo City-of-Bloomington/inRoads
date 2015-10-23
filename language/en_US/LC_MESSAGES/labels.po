@@ -61,6 +61,9 @@ msgstr "Help"
 msgid "description"
 msgstr "Description"
 
+msgid "requiredField"
+msgstr "This field is required"
+
 msgid "name"
 msgstr "Name"
 

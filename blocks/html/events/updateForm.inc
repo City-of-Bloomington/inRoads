@@ -53,10 +53,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </select>
             </dd>
         </dl>
-        <dl><dt><label for="title"><?= $this->_('title'); ?></label></dt>
-            <dd><input name="title" id="title" value="<?= View::escape($this->event->getTitle()); ?>" /></dd>
-        </dl>
-        <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?></label></dt>
+        <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
             <dd><input name="geography_description" id="geography_description"
                         value="<?= View::escape($this->event->getGeography_description()); ?>" />
                 <input name="geography" id="geography" type="hidden"
@@ -92,7 +89,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
         </dl>
 
         <dl class="dateRange">
-            <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
+            <dt><label  for="start"><?= $this->_('startDate'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
             <dd><input name="start[date]" id="start"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
                     value="<?= $this->event->getStartDate(DATE_FORMAT); ?>" />
@@ -102,7 +99,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             </dd>
         </dl>
         <dl class="dateRange">
-            <dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
+            <dt><label  for="end"><?= $this->_('endDate'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
             <dd><input name="end[date]" id="end"
                     placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
                     value="<?= $this->event->getEndDate(DATE_FORMAT); ?>" />
@@ -255,7 +252,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
 
     <fieldset>
-        <dl><dt><label     for="description"><?= $this->_('description'); ?></label></dt>
+        <dl><dt><label     for="description"><?= $this->_('description'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
             <dd><textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea></dd>
         </dl>
 

@@ -1,3 +1,11 @@
+abbr.required {
+    color: $cob-red;
+    border-bottom-style: none;
+    font-size: 2em;
+    line-height: 0;
+    position: relative;
+        top: .25em;
+}
 fieldset {
     margin: 1rem 0;
 
