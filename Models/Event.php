@@ -104,6 +104,15 @@ class Event extends ActiveRecord
 		}
     }
 
+    /**
+     * WARNING:
+     * This is a non-standard validate function.  It returns an Exception,
+     * rather than throwing it.
+     *
+     * ActiveRecord::save() cannot be called with this function defined as it is.
+     *
+     * @return \Exception
+     */
     public function validate()
     {
         if (!$this->getCreated()) { parent::setDateData('created', 'now'); }
@@ -111,7 +120,7 @@ class Event extends ActiveRecord
         if (!$this->getStartDate() || !$this->getEndDate()
             || !$this->getGeography_description()
             || !$this->getDescription()) {
-            throw new \Exception('missingRequiredFields');
+            return new \Exception('missingRequiredFields');
         }
     }
 
@@ -122,35 +131,77 @@ class Event extends ActiveRecord
      * our local database and Google.
      * The data in our local database is the master copy.  We only use Google
      * as a kind of search engine for the events.
+     *
+     * WARNING:
+     * This is a very non-standard save function.  ActiveRecord::save() cannot
+     * be called with the validation being done this way.
+     *
+     * We should consider changing the way validation happens in future Blossom
      */
     public function save()
     {
         parent::setDateData('updated', 'now');
-        $this->data['geography'] = new Expression("GeomFromText('{$this->getGeography()}')");
 
-        // If we've modified any Google fields, upload the event to Google
-        if (count($this->modified)) {
-            $patch = $this->createGooglePatch();
-            $google_event_id = $this->getGoogle_event_id();
+        // Save the geography text version
+        // We'll need to switch the data back, if there's a problem
+        $geography = $this->getGeography();
+        $this->data['geography'] = new Expression("GeomFromText('$geography')");
 
-            $event = $google_event_id
-                ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $google_event_id, $patch)
-                : GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $patch);
+		$exception = $this->validate();
+		if (!$exception) {
+            // If we've modified any Google fields, upload the event to Google
+            if (count($this->modified)) {
+                $patch = $this->createGooglePatch();
+                $google_event_id = $this->getGoogle_event_id();
 
-            if ($event instanceof \Google_Service_Calendar_Event) {
-                if (!$google_event_id) {
-                     $google_event_id = !empty($event->recurringEventId)
-                        ? $event->recurringEventId
-                        : $event->id;
-                    parent::set('google_event_id', $google_event_id);
+                $event = $google_event_id
+                    ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $google_event_id, $patch)
+                    : GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $patch);
+
+                if ($event instanceof \Google_Service_Calendar_Event) {
+                    if (!$google_event_id) {
+                        $google_event_id = !empty($event->recurringEventId)
+                            ? $event->recurringEventId
+                            : $event->id;
+                        parent::set('google_event_id', $google_event_id);
+                    }
                 }
-            }
-            else {
-                throw new \Exception('google/saveError');
+                else {
+                    $exception = new \Exception('google/saveError');
+                }
             }
         }
 
-        parent::save();
+        if (!$exception) {
+            // This is code from ActiveRecord::save()
+            // We are overriding it here, because we are doing something special
+            // with the validation.
+            //
+            // We have a geography field that has to be converted into an Expression for saving,
+            // but has to be converted back to raw text before we try to do anything else.
+            //
+            // The implementation of this, for now, is that our $this->validate() functions
+            // differently from the default ActiveRecord::save() expects
+            //
+            // In the future, we should look into making validate always return an array of
+            // errors, instead of just throwing an exception on the first error it comes to.
+            $zend_db = Database::getConnection();
+            $sql = new Sql($zend_db, $this->tablename);
+            if ($this->getId()) {
+                $update = $sql->update()
+                    ->set($this->data)
+                    ->where(['id'=>$this->getId()]);
+                $sql->prepareStatementForSqlObject($update)->execute();
+            }
+            else {
+                $insert = $sql->insert()->values($this->data);
+                $sql->prepareStatementForSqlObject($insert)->execute();
+                $this->data['id'] = $zend_db->getDriver()->getLastGeneratedValue();
+            }
+		}
+
+        $this->data['geography'] = $geography;
+        if ($exception) { throw $exception; }
     }
 
     public function delete()
@@ -158,7 +209,7 @@ class Event extends ActiveRecord
         $sql = 'delete from segments where event_id=?';
         $zend_db = Database::getConnection();
         $zend_db->query($sql, [$this->getId()]);
-        
+
         GoogleGateway::deleteEvent(GOOGLE_CALENDAR_ID, $this->getGoogle_event_id());
         parent::delete();
     }

@@ -19,4 +19,5 @@
 			}
 		}
 	?>
+	<button onclick="document.getElementById('errorMessages').style='display:none;'">Okay</button>
 </div>
