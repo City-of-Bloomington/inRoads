@@ -19,5 +19,7 @@
 			}
 		}
 	?>
-	<button onclick="document.getElementById('errorMessages').style='display:none;'">Okay</button>
+	<div class="errorPanel-buttons">
+		<button onclick="document.getElementById('errorMessages').style='display:none;'">Okay</button>
+	</div>
 </div>

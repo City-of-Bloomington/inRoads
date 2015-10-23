@@ -240,4 +240,7 @@ body:not(.admin) .errorPanel {
         left: 50%;
         z-index: 5;
     width: 30rem;
+    &-buttons {
+        margin: 1rem 0;
+    }
 }
