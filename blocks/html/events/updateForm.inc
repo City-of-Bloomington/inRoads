@@ -53,6 +53,12 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </select>
             </dd>
         </dl>
+        <dl><dt><label  for="title">
+                    <?= $this->_('title'); ?>
+                    <abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr>
+                </label></dt>
+            <dd><input name="title" id="title" value="<?= self::escape($this->event->getTitle()); ?>" /></dd>
+        </dl>
         <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
             <dd><input name="geography_description" id="geography_description"
                         value="<?= View::escape($this->event->getGeography_description()); ?>" />
