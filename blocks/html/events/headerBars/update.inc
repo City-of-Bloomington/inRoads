@@ -11,6 +11,14 @@ $id = $this->event->getId()
     : $this->event->getGoogle_event_id();
 
 ?>
+<?php
+    $url = $this->event->getId()
+        ? BASE_URI.'/events/view?id='.$id
+        : BASE_URI.'/events';
+
+    $helper = $this->template->getHelper('buttonLink');
+    echo $helper->buttonLink($url, $this->template->_('back'), 'back');
+?>
 <div class="pillNav">
 <?php
     $classCurrent = !empty($_GET['id']) ? 'class="current"' : '';
@@ -26,12 +34,4 @@ $id = $this->event->getId()
 ?>
 </div>
 <div class="headerBar-tools">
-<?php
-    $url = $this->event->getId()
-        ? BASE_URI.'/events/view?id='.$id
-        : BASE_URI.'/events';
-
-    $helper = $this->template->getHelper('buttonLink');
-    echo $helper->buttonLink($url, $this->template->_('cancel'), 'cancel');
-?>
 </div>
