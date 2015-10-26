@@ -236,8 +236,8 @@ class GoogleGateway
             $d = new \DateTime($e->start->date);
             $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
 
-            $d = new \DateTime($e->end->date);
-            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+            $d = new \DateTime($e->end->date.' 23:59:59');
+            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATETIME_FORMAT);
         }
         if ($e->recurrence) {
             foreach ($e->recurrence as $r) {

@@ -401,7 +401,11 @@ class Event extends ActiveRecord
     }
     public function getEnd($format=DATETIME_FORMAT)
     {
-        $d = new \DateTime("{$this->getEndDate()} {$this->getEndTime()}");
+        $endTime = $this->isAllDay()
+            ? '23:59:59'
+            : $this->getEndTime();
+
+        $d = new \DateTime("{$this->getEndDate()} $endTime");
         return $d->format($format);
     }
 
