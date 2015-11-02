@@ -26,6 +26,10 @@
             else {
                 document.getElementById('RRULE_END').style.display = 'none';
             }
+        },
+        description = document.getElementById('description'),
+        checkDescriptionLength = function () {
+            document.getElementById('description_length').innerHTML = description.value.length;
         };
 
     // The Event model will ignore the time component when allDay is checked
@@ -35,4 +39,6 @@
     frequency.addEventListener('change', activateFieldsets);
     toggleTimes();
     activateFieldsets();
+
+    description.addEventListener('keypress', checkDescriptionLength);
 }());

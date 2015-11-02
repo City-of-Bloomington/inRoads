@@ -61,8 +61,11 @@ class EventTest extends PHPUnit_Framework_TestCase
         $event->setStartDate($dateString, DATE_FORMAT);
         $event->setEndDate  ($dateString, DATE_FORMAT);
 
-        $this->assertEquals($event->getStart('c'), '2014-02-04T00:00:00-05:00');
-        $this->assertEquals($event->getEnd  ('c'), '2014-02-04T00:00:00-05:00');
+        $targetStart = new \DateTime('2014-02-04');
+        $targetEnd   = new \DateTime('2014-02-04 23:59:59');
+
+        $this->assertEquals($event->getStart('c'), $targetStart->format('c'));
+        $this->assertEquals($event->getEnd  ('c'), $targetEnd  ->format('c'));
 
         $event->setStartTime($timeString, TIME_FORMAT);
         $event->setEndTime  ($timeString, TIME_FORMAT);
@@ -115,5 +118,28 @@ class EventTest extends PHPUnit_Framework_TestCase
         $event->setTitle($title);
         $error = $event->validate();
         $this->assertNull($error);
+    }
+
+    public function testDescriptionLengthValidation()
+    {
+        $start = '10/20/2015';
+        $end   = '10/30/2015';
+        $title = 'Title';
+        $geo   = 'Geography Description';
+        $desc  = 'Description';
+
+        $desc = '';
+        $length = Event::MAX_DESCRIPTION_LENGTH + 1;
+        for ($i=0; $i<=$length; $i++) { $desc.='x'; }
+
+        $event = new Event();
+        $event->setStartDate($start);
+        $event->setEndDate($end);
+        $event->setTitle($title);
+        $event->setDescription($desc);
+        $error = $event->validate();
+
+        $this->assertNotNull($error);
+        $this->assertEquals('description_length', $error->getMessage());
     }
 }

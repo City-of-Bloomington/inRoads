@@ -38,7 +38,7 @@ create table events (
     eventType_id  int unsigned not null,
     google_event_id varchar(32) unique,
     title           varchar(128),
-    description     varchar(255),
+    description     text,
     startDate date not null,
     endDate   date not null,
     startTime time,

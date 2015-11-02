@@ -256,10 +256,13 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
     </fieldset>
 
-
     <fieldset>
         <dl><dt><label     for="description"><?= $this->_('description'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
-            <dd><textarea name="description" id="description"><?= View::escape($this->event->getDescription()); ?></textarea></dd>
+            <dd><textarea name="description"
+                            id="description"
+                            maxlength="<?= Event::MAX_DESCRIPTION_LENGTH; ?>"><?= View::escape($this->event->getDescription()); ?></textarea>
+                <div><span id="description_length">0</span> / <?= Event::MAX_DESCRIPTION_LENGTH; ?></div>
+            </dd>
         </dl>
 
         <button type="submit" class="save"><?= $this->template->_('save'); ?></button>

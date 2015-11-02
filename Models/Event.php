@@ -14,6 +14,8 @@ use Recurr\Transformer\TextTransformer;
 
 class Event extends ActiveRecord
 {
+    const MAX_DESCRIPTION_LENGTH = 1000;
+
 	protected $tablename = 'events';
 
 	protected $department;
@@ -121,6 +123,10 @@ class Event extends ActiveRecord
             || !($this->getTitle() ||  $this->getGeography_description())
             || !$this->getDescription()) {
             return new \Exception('missingRequiredFields');
+        }
+
+        if (strlen($this->getDescription()) > self::MAX_DESCRIPTION_LENGTH) {
+            return new \Exception('description_length');
         }
     }
 
