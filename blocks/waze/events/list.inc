@@ -33,7 +33,7 @@ foreach ($this->events as $event) {
         $dir    = self::escape($segment->getDirection());
 
         echo "
-        <event id=\"{$event->getId()}\">
+        <event id=\"{$event->getId()}-{$segment->getId()}\">
             <type>ROAD_CLOSED</type>
             <start_date>$startDateTime</start_date>
             <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>
