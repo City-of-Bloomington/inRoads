@@ -32,8 +32,12 @@ foreach ($this->events as $event) {
         $to     = self::escape($segment->getStreetTo());
         $dir    = self::escape($segment->getDirection());
 
+        $id = $event->getId();
+        if (isset($event->recurrence->id)) { $id .= '-'.$event->recurrence->id; }
+        $id.= '-'.$segment->getId();
+
         echo "
-        <event id=\"{$event->getId()}-{$segment->getId()}\">
+        <event id=\"$id\">
             <type>ROAD_CLOSED</type>
             <start_date>$startDateTime</start_date>
             <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>
