@@ -100,7 +100,9 @@ class EventsController extends Controller
         }
         if (!isset($event)) {
             header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
+            if ($this->template->outputFormat === 'html') {
+                $this->template->blocks[] = new Block('404.inc');
+            }
             return;
         }
 
