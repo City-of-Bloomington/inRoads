@@ -269,7 +269,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
             <dd><textarea name="description"
                             id="description"
                             maxlength="<?= Event::MAX_DESCRIPTION_LENGTH; ?>"><?= View::escape($this->event->getDescription()); ?></textarea>
-                <div><span id="description_length">0</span> / <?= Event::MAX_DESCRIPTION_LENGTH; ?></div>
+                <div><span id="description_length"><?= strlen($this->event->getDescription()); ?></span> / <?= Event::MAX_DESCRIPTION_LENGTH; ?></div>
             </dd>
         </dl>
 
