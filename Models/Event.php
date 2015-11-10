@@ -56,7 +56,7 @@ class Event extends ActiveRecord
 				$sql = "select  id, department_id, google_event_id, eventType_id,
                                 startDate, endDate, startTime, endTime, rrule,
                                 AsText(geography) geography, geography_description,
-                                title, description, created, updated
+                                title, description, created, updated, constructionFlag
                         from events ";
                 $sql.= ActiveRecord::isId($id)
                     ? 'where id=?'
@@ -103,6 +103,7 @@ class Event extends ActiveRecord
 			// This is where the code goes to generate a new, empty instance.
 			// Set any default values for properties that need it here
 			parent::setDateData('created', 'now');
+			$this->setConstructionFlag(true);
 		}
     }
 
@@ -231,6 +232,7 @@ class Event extends ActiveRecord
     public function getDescription()           { return parent::get('description');           }
     public function getGeography_description() { return parent::get('geography_description'); }
     public function getGeography()             { return parent::get('geography');             }
+    public function getConstructionFlag()      { return parent::get('constructionFlag');      }
     public function getDepartment()            { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
     public function getEventType()             { return parent::getForeignKeyObject(__namespace__.'\EventType',  'eventType_id' ); }
     public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
@@ -248,8 +250,9 @@ class Event extends ActiveRecord
         }
     }
 
-    public function setGoogle_event_id($s) { parent::set('google_event_id', $s); }
-    public function setGeography      ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
+    public function setGoogle_event_id ($s) { parent::set('google_event_id', $s); }
+    public function setGeography       ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
+    public function setConstructionFlag($b) { parent::set('constructionFlag', $b ? 1 : 0); }
 
     public function setDepartment_id($id)
     {
@@ -338,6 +341,7 @@ class Event extends ActiveRecord
             $set = 'set'.ucfirst($f);
             $this->$set($post[$f]);
         }
+        $this->setConstructionFlag(isset($post['constructionFlag']) && $post['constructionFlag']);
 
         $this->setStartDate($post['start']['date']);
         $this->setStartTime($post['start']['time']);
@@ -390,7 +394,8 @@ class Event extends ActiveRecord
     /**
      * @return bool
      */
-    public function isAllDay() { return $this->getStartTime() ? false : true; }
+    public function isAllDay()       { return $this->getStartTime()        ? false : true;  }
+    public function isConstruction() { return $this->getConstructionFlag() ? true  : false; }
 
     /**
      * Combines startDate and startTime into a single datetime output

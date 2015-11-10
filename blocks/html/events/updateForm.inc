@@ -53,6 +53,14 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </select>
             </dd>
         </dl>
+        <dl>
+            <dd><label>
+                    <input name="constructionFlag" type="checkbox"
+                        <?= $this->event->isConstruction() ? 'checked="true"' : ''; ?> />
+                    <?= $this->_('constructionFlag'); ?>
+                </label>
+            </dd>
+        </dl>
         <dl><dt><label  for="title">
                     <?= $this->_('title'); ?>
                     <abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr>

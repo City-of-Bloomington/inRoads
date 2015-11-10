@@ -24,6 +24,7 @@ foreach ($this->events as $event) {
         $endDateTime   = $tempE->format($WAZE_DATE_FORMAT);
     }
 
+    $constructionFlag = $event->isConstruction() ? 'CONSTRUCTION' : 'INCIDENT';
     $description = self::escape($event->getDescription());
     $locations   = '';
     foreach ($event->getSegments() as $segment) {
@@ -35,6 +36,7 @@ foreach ($this->events as $event) {
         echo "
         <event id=\"{$event->getId()}\">
             <type>ROAD_CLOSED</type>
+            <flag>$constructionFlag</flag>
             <start_date>$startDateTime</start_date>
             <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>
             <end_date>$endDateTime</end_date>

@@ -39,6 +39,7 @@ create table events (
     google_event_id varchar(32) unique,
     title           varchar(128),
     description     text,
+    constructionFlag boolean not null default 1,
     startDate date not null,
     endDate   date not null,
     startTime time,

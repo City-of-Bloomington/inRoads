@@ -187,6 +187,9 @@ msgstr "New Event Type"
 msgid "eventType_edit"
 msgstr "Edit Event Type"
 
+msgid "constructionFlag"
+msgstr "Construction"
+
 msgid "color"
 msgstr "Color"
 
