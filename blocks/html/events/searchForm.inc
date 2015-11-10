@@ -96,7 +96,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
                         <dd class=\"{$type->getCode()}\">
                             <label>
                                 <input type=\"checkbox\" name=\"eventTypes[]\" value=\"{$type->getCode()}\" $checked />
-                                <span>$name<span>
+                                <span>$name</span>
                             </label>
                         </dd>
                         ";
