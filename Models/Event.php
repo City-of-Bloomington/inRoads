@@ -324,9 +324,9 @@ class Event extends ActiveRecord
         if (parent::get('endTime') !== $prev) { $this->modified['end'] = true; }
     }
 
-    public function setRRule(Rule $rule)
+    public function setRRule(Rule $rule=null)
     {
-        $r = $rule->getString(Rule::TZ_FIXED);
+        $r = $rule ? $rule->getString(Rule::TZ_FIXED) : null;
         if ($r !== parent::get('rrule')) { $this->modified['recurrence'] = true; }
         parent::set('rrule', $r);
     }
@@ -348,6 +348,7 @@ class Event extends ActiveRecord
         $this->setEndDate($post['end']['date']);
         $this->setEndTime($post['end']['time']);
 
+        $recur = null;
         if (!empty($post['frequency'])) {
             $recur = new Rule();
             $recur->setFreq($post['frequency']);
@@ -384,8 +385,8 @@ class Event extends ActiveRecord
                     $recur->setUntil($until);
                     break;
             }
-            $this->setRRule($recur);
         }
+        $this->setRRule($recur);
     }
 
 	//----------------------------------------------------------------
@@ -532,12 +533,18 @@ class Event extends ActiveRecord
         }
 
         if (!empty($this->modified['recurrence'])) {
-            // We have to send start and end if there's an RRULE
-            $this->modified['start'] = true;
-            $this->modified['end']   = true;
+            $recur = $this->getRRule();
+            if ($recur) {
+                // We have to send start and end if there's an RRULE
+                $this->modified['start'] = true;
+                $this->modified['end']   = true;
 
-            $rrule = 'RRULE:'.$this->getRRule()->getString(Rule::TZ_FIXED);
-            $patch->setRecurrence([$rrule]);
+                $rrule = ['RRULE:'.$this->getRRule()->getString(Rule::TZ_FIXED)];
+            }
+            else {
+                $rrule = \Google_Model::NULL_VALUE;
+            }
+            $patch->setRecurrence($rrule);
         }
 
         if (!empty($this->modified['start']) || !empty($this->modified['end'])) {
