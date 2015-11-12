@@ -43,6 +43,7 @@ $ZEND_ACL->allow(null,
 
 $ZEND_ACL->allow('Public', ['events'], ['index', 'view', 'update']);
 $ZEND_ACL->allow('Public', ['segments'], ['index', 'view', 'update', 'search', 'delete']);
+$ZEND_ACL->allow('Public', ['streets'], ['index', 'search']);
 
 
 // Allow Staff to do stuff
