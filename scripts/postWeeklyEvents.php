@@ -23,18 +23,13 @@ foreach (EventType::types() as $type) {
     }
 }
 $list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
-$block = new Block('events/list.inc', ['events'=>$list]);
+$block = new Block('events/summary.inc', [
+    'start'     => $start,
+    'end'       => $end,
+    'eventList' => $list
+]);
 
-$group = substr(GOOGLE_GROUP, 0, strpos(GOOGLE_GROUP, '@'));
-
-$message = "Here are the upcoming road related events for next week, ";
-$message.= $start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT).":\n\n";
-$message.= $block->render('txt');
-$message.= "
-To update your subscription status, please visit:
-https://groups.google.com/forum/#!forum/$group
-";
-
+$message = $block->render('txt');
 $subject = 'Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT);
 $from    = 'From: '.ADMINISTRATOR_EMAIL;
 mail(GOOGLE_GROUP, $subject, $message, $from);
