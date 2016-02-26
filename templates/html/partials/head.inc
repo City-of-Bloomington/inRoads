@@ -17,7 +17,10 @@ use Application\Models\EventType;
         var PHP = {
             BASE_URI: '<?= BASE_URI; ?>',
             DEFAULT_LATITUDE:  <?= ini_get('date.default_latitude' ); ?>,
-            DEFAULT_LONGITUDE: <?= ini_get('date.default_longitude'); ?>
+            DEFAULT_LONGITUDE: <?= ini_get('date.default_longitude'); ?>,
+            deleteConfirmation: function () {
+                return confirm("Are you really sure you want to delete this?\n\nOnce deleted it will be gone forever.");
+            }
         };
 	</script>
 	<style type="text/css">

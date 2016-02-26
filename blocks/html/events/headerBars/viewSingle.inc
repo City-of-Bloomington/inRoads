@@ -31,11 +31,12 @@ use Application\Models\Person;
             );
         }
         if (Person::isAllowed('events', 'delete')) {
-            echo $helper->buttonLink(
-                BASE_URI.'/events/delete?id='.$id,
-                $this->template->_('event_delete'),
-                'delete'
-            );
+            $uri = BASE_URI.'/events/delete?id='.$id;
+            echo "
+            <a href=\"$uri\" class=\"delete button\"
+                onclick=\"return PHP.deleteConfirmation();\">
+                {$this->_('event_delete')}
+            </a>";
         }
     ?>
 </div>
