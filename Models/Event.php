@@ -252,7 +252,7 @@ class Event extends ActiveRecord
 
     public function setGoogle_event_id ($s) { parent::set('google_event_id', $s); }
     public function setGeography       ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
-    public function setConstructionFlag($b) { parent::set('constructionFlag', $b ? 1 : 0); }
+    public function setConstructionFlag($b) { $this->data['constructionFlag'] = $b ? 1 : 0; }
 
     public function setDepartment_id($id)
     {
