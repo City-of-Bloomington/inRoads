@@ -126,6 +126,10 @@ class Event extends ActiveRecord
             return new \Exception('missingRequiredFields');
         }
 
+        if (($this->getStartDate('U') < 0) || ($this->getEndDate('U') < 0)) {
+            return new \Exception('invalidDate');
+        }
+
         if (strlen($this->getDescription()) > self::MAX_DESCRIPTION_LENGTH) {
             return new \Exception('description_length');
         }
