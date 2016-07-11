@@ -1,15 +1,13 @@
 # Translation
-# Copyright (C) 2013-2015 City of Bloomington
+# Copyright (C) 2013-2016 City of Bloomington
 # This file is distributed under the same license as the Blossom package.
-#
-# Cliff Ingham, 2013-2015.
 domain "labels"
 
 msgid ""
 msgstr ""
 "Project-Id-Version: Road Closings\n"
 "Report-Msgid-Bugs-To: dev@bloomington.in.gov\n"
-"PO-Revision-Date: 2015-05-18 11:59-04:00\n"
+"PO-Revision-Date: \n"
 "Last-Translator: Cliff Ingham <inghamn@bloomington.in.gov>\n"
 "Language-Team: City of Bloomington <dev@bloomington.in.gov>\n"
 "MIME-Version: 1.0\n"
@@ -196,11 +194,20 @@ msgstr "Color"
 msgid "isDefault"
 msgstr "Default"
 
+msgid "yes"
+msgstr "Yes"
+
+msgid "no"
+msgstr "No"
+
 msgid "sortingNumber"
 msgstr "Order"
 
 msgid "type"
 msgstr "Type"
+
+msgid "cifsType"
+msgstr "CIFS Type"
 
 msgid "geography"
 msgstr "Geography"

@@ -1,6 +1,5 @@
--- @copyright 2014-2015 City of Bloomington, Indiana
+-- @copyright 2014-2016 City of Bloomington, Indiana
 -- @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
--- @author Cliff Ingham <inghamn@bloomington.in.gov>
 create table departments (
     id int unsigned    not null primary key auto_increment,
     code  varchar(8)   not null unique,
@@ -29,7 +28,8 @@ create table eventTypes (
     description varchar(128),
     color       varchar(6),
     isDefault   boolean,
-    sortingNumber tinyint unsigned
+    sortingNumber tinyint unsigned,
+    cifsType varchar(128)
 );
 
 create table events (

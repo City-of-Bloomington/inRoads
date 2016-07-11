@@ -1,29 +1,29 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2016 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
- * @param array $this->eventType
+ * @param array $this->eventTypes
  */
 use Application\Models\Person;
-use Blossom\Classes\View;
 
 $userCanEdit = Person::isAllowed('eventTypes', 'update');
 ?>
 <section>
-    <h1><?= $this->_(['eventType', 'eventTypes', 2]); ?></h1>
-    <div>
-    <?php
-        if ($userCanEdit) {
-            $helper = $this->template->getHelper('buttonLink');
-            echo $helper->buttonLink(
-                BASE_URI."/eventTypes/update",
-                $this->translate('eventType_add'),
-                'add'
-            );
-        }
-    ?>
-    </div>
+    <header>
+        <h1><?= $this->_(['eventType', 'eventTypes', count($this->eventTypes)]); ?></h1>
+        <div class="tools">
+        <?php
+            if ($userCanEdit) {
+                $helper = $this->template->getHelper('buttonLink');
+                echo $helper->buttonLink(
+                    BASE_URI."/eventTypes/update",
+                    $this->_('eventType_add'),
+                    'add'
+                );
+            }
+        ?>
+        </div>
+    </header>
 
     <form method="post" action="<?= BASE_URI; ?>/eventTypes/order">
     <table>
@@ -31,6 +31,7 @@ $userCanEdit = Person::isAllowed('eventTypes', 'update');
             <tr><th><?= $this->_('code'); ?></th>
                 <th><?= $this->_('name'); ?></th>
                 <th><?= $this->_('color'); ?></th>
+                <th><?= $this->_('cifsType'); ?></th>
                 <th><?= $this->_('description'); ?></th>
                 <th><?= $this->_('isDefault'); ?></th>
                 <?php
@@ -43,9 +44,10 @@ $userCanEdit = Person::isAllowed('eventTypes', 'update');
         <tbody>
         <?php
             foreach ($this->eventTypes as $t) {
-                $code    = View::escape($t->getCode ());
-                $name    = View::escape($t->getName ());
-                $desc    = View::escape($t->getDescription());
+                $code    = self::escape($t->getCode ());
+                $name    = self::escape($t->getName ());
+                $desc    = self::escape($t->getDescription());
+                $cifs    = self::escape($t->getCifsType());
                 $color   = $t->getColor();
                 $checked = $t->isDefault() ? 'checked="true"' : '';
 
@@ -60,6 +62,7 @@ $userCanEdit = Person::isAllowed('eventTypes', 'update');
                     <td><a href=\"$url\">$code</a></td>
                     <td>$name</td>
                     <td>#$color</td>
+                    <td>$cifs</td>
                     <td>$desc</td>
                     <td><input type=\"checkbox\" disabled=\"true\" $checked /></td>
                     $sortingNumber
@@ -68,9 +71,9 @@ $userCanEdit = Person::isAllowed('eventTypes', 'update');
             }
             if ($userCanEdit) {
                 echo "
-                <tr><td colspan=\"5\"></td>
+                <tr><td colspan=\"6\"></td>
                     <td><button type=\"submit\" class=\"save\">
-                            {$this->template->_('save')}
+                            {$this->_('save')}
                         </button>
                     </td>
                 </tr>

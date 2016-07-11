@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2014-2016 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->events An array of Events
  */
 use Application\Models\GoogleGateway;
@@ -24,6 +23,7 @@ foreach ($this->events as $event) {
         $endDateTime   = $tempE->format($WAZE_DATE_FORMAT);
     }
 
+    $cifsType    = self::escape($event->getEventType()->getCifsType());
     $constructionFlag = $event->isConstruction() ? 'CONSTRUCTION' : 'INCIDENT';
     $description = self::escape($event->getDescription());
     $locations   = '';
@@ -35,7 +35,7 @@ foreach ($this->events as $event) {
 
         echo "
         <event id=\"{$event->getId()}\">
-            <type>ROAD_CLOSED</type>
+            <type>$cifsType</type>
             <flag>$constructionFlag</flag>
             <start_date>$startDateTime</start_date>
             <update_date>{$event->getUpdated($WAZE_DATE_FORMAT)}</update_date>

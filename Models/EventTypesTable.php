@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2016 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -24,7 +23,15 @@ class EventTypesTable extends TableGateway
 		$select = new Select('eventTypes');
 		if (count($fields)) {
 			foreach ($fields as $key=>$value) {
-                $select->where([$key=>$value]);
+                switch ($key) {
+                    case 'cifs':
+                        $v = $value ? 'is not null' : 'is null';
+                        $select->where("cifsType $v");
+                    break;
+
+                    default:
+                        $select->where([$key=>$value]);
+                }
 			}
 		}
 		return parent::performSelect($select, $order, $paginated, $limit);

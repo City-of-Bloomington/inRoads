@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2016 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -110,12 +109,14 @@ class EventType extends ActiveRecord
 	public function getColor() { return parent::get('color'); }
 	public function getDescription  () { return parent::get('description'  ); }
 	public function getSortingNumber() { return parent::get('sortingNumber'); }
+	public function getCifsType()      { return parent::get('cifsType'     ); }
 
 
 	public function setCode ($s) { parent::set('code',  $s); }
 	public function setName ($s) { parent::set('name',  $s); }
-	public function setDescription($s) { parent::set('description', $s); }
+	public function setDescription  ($s) { parent::set('description', $s); }
 	public function setSortingNumber($i) { parent::set('sortingNumber', (int)$i); }
+	public function setCifsType     ($s) { parent::set('cifsType',    $s); }
 
 	/**
 	 * Sets the user-entered hex value for the color
@@ -135,7 +136,7 @@ class EventType extends ActiveRecord
 
 	public function handleUpdate($post)
 	{
-        $fields = ['code', 'name', 'color', 'description', 'isDefault'];
+        $fields = ['code', 'name', 'color', 'description', 'isDefault', 'cifsType'];
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);
             $this->$set($post[$f]);
