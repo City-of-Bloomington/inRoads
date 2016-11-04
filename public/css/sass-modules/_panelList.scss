@@ -64,7 +64,7 @@
     border-left-width: 0;
     display: block;
     margin: 0;
-    padding: .5rem .5rem (6rem/16) .5rem;
+    padding: .5rem (6rem/16) .125rem .5rem;
     transition: border-width .15s ease-in-out, padding .15s ease-in-out;
 
     &:after {
