@@ -113,8 +113,9 @@
         }
 
         &:before {
-            -webkit-transform: scaleY(-1) translateY((5rem/16));
-            transform: scaleY(-1) translateY((5rem/16));
+            $translateDistance: (5rem/16);
+            -webkit-transform: scaleY(-1) translateY($translateDistance);
+            transform: scaleY(-1) translateY($translateDistance);
         }
     }
     .title {
