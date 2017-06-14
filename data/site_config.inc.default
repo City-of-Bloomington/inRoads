@@ -1,5 +1,6 @@
 <?php
 define('APPLICATION_NAME','application');
+define('APPLICATION_HOST', $_SERVER['SERVER_NAME']);
 define('APPLICATION_DESCRIPTION', 'description');
 
 // Replace this value with your city's Twitter handle

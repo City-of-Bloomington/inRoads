@@ -9,7 +9,7 @@ use Blossom\Classes\Url;
         <a class="footer-links" href="https://www.google.com/calendar/embed?src=<?= GOOGLE_CALENDAR_ID ?>&amp;ctz=America/New_York">Google Calendar</a>,
         <a class="footer-links" href="https://www.google.com/calendar/ical/<?= GOOGLE_CALENDAR_ID ?>/public/basic.ics">iCal</a>,
         <?php
-            $url = new Url(Url::current_url());
+            $url = new Url(Url::current_url(APPLICATION_HOST));
             $url->format = 'json';
             echo "<a href=\"$url\" class=\"footer-links\">JSON</a>, ";
 

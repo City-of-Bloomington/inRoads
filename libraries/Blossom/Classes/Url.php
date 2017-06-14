@@ -7,66 +7,83 @@
  * $url->somevar = $somevar;
  * echo $url->getURL();
  *
- * @copyright 2006-2013 City of Bloomington, Indiana.
+ * @copyright 2006-2017 City of Bloomington, Indiana.
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Blossom\Classes;
 
 class Url
 {
-	private $scheme;
-	private $host;
-	private $path;
-	private $anchor;
+	public $scheme;
+	public $host;
+	public $port;
+	public $path;
+	public $anchor;
 
-	public $parameters = array();
+	public $parameters = [];
 
 	/**
 	 * Performs an HTTP GET and returns response string
 	 *
-	 * @param string $url
+	 * This is really just a convenience wrapper around CURL.
+	 * The full set of options are documented in the PHP manual.
+	 * @see http://php.net/manual/en/function.curl-setopt.php
+	 *
+	 * @param  string $url
+	 * @param  array  $curl_options Additional options to set for the curl request
 	 * @return string
 	 */
-	public static function get($url)
+	public static function get($url, array $curl_options=null)
 	{
 		$request = curl_init($url);
+		if ($curl_options) {
+            if (!curl_setopt_array($request, $curl_options)) {
+                throw new \Exception('url/invalidOption');
+            }
+		}
 		curl_setopt($request, CURLOPT_RETURNTRANSFER,true);
 		curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
 
 		if (substr($url, 0, 5) == 'https://') {
 			curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($request, CURLOPT_SSLVERSION, 3);
 		}
+
 		return curl_exec($request);
 	}
 
 	/**
+	 * If you are behind a proxy, you can pass in the hostname to use.
+	 * Otherwise it will just use $_SERVER[SERVER_NAME] of the localhost
+	 *
+	 * @param  string $hostname Optional hostname to use
 	 * @return string
 	 */
-	public static function current_url()
+	public static function current_url($hostname=null)
 	{
-        return "$_SERVER[REQUEST_SCHEME]://$_SERVER[SERVER_NAME]$_SERVER[REQUEST_URI]";
+        if (!$hostname) { $hostname = $_SERVER['SERVER_NAME']; }
+
+        return "$_SERVER[REQUEST_SCHEME]://$hostname$_SERVER[REQUEST_URI]";
 	}
 
-	public function __construct($script)
+	public function __construct($url)
 	{
-		$script = urldecode($script);
+		$script = urldecode($url);
 
 		// If scheme wasn't provided add one to the start of the string
 		if (!strpos(substr($script,0,20),'://')) {
 			$scheme = (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT']==443)
-				? 'https://'
-				: 'http://';
-			$script = $scheme.$script;
+				? 'https'
+				: 'http';
+			$script = "$scheme://$script";
 		}
 
-		$url = parse_url($script);
-		$this->scheme = $url['scheme'];
-		if (isset($url['host']))     { $this->host = $url['host'];       }
-		if (isset($url['path']))     { $this->path = $url['path'];       }
-		if (isset($url['fragment'])) { $this->anchor = $url['fragment']; }
-		if (isset($url['query'])) { parse_str($url['query'],$this->parameters); }
+		$u = parse_url($script);
+		$this->scheme = $u['scheme'];
+		if (isset($u['host']))     { $this->host   = $u['host'];     }
+		if (isset($u['path']))     { $this->path   = $u['path'];     }
+		if (isset($u['port']))     { $this->port   = $u['port'];     }
+		if (isset($u['fragment'])) { $this->anchor = $u['fragment']; }
+		if (isset($u['query'])) { parse_str($u['query'],$this->parameters); }
 	}
 
 	/**
@@ -74,7 +91,10 @@ class Url
 	 * @return string
 	 */
 	public function getScript() {
-		return $this->scheme.'://'.$this->host.$this->path;
+        $url = "{$this->getScheme()}://{$this->host}";
+        if ($this->port) { $url.= ":{$this->port}"; }
+        $url.= $this->path;
+        return $url;
 	}
 
 	/**
@@ -82,7 +102,7 @@ class Url
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->getURL();
+		return $this->getUrl();
 	}
 
 	/**
@@ -90,7 +110,7 @@ class Url
 	 *
 	 * @return string
 	 */
-	public function getURL()
+	public function getUrl()
 	{
 		$url = $this->getScript();
 

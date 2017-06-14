@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2017 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Segment $this->segment
  */
 use Blossom\Classes\Url;
@@ -17,7 +16,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/segments/chooseStreet.js');
     </ol>
     <form method="get" action="<?= BASE_URI; ?>/streets/search">
         <fieldset>
-            <input name="return_url" type="hidden" value="<?= Url::current_url(); ?>" />
+            <input name="return_url" type="hidden" value="<?= Url::current_url(APPLICATION_HOST); ?>" />
 
             <dl><dt><label  for="street"><?= $this->_('street'); ?></label></dt>
                 <dd><input name="street" id="street" /></dd>
