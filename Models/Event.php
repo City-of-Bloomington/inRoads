@@ -156,7 +156,10 @@ class Event extends ActiveRecord
         // Save the geography text version
         // We'll need to switch the data back, if there's a problem
         $geography = $this->getGeography();
-        $this->data['geography'] = new Expression("GeomFromText('$geography')");
+        if ($geography) {
+            $this->data['geography'] = new Expression("GeomFromText('$geography')");
+        }
+        else { $this->data['geography'] = null; }
 
 		$exception = $this->validate();
 		if (!$exception) {
