@@ -1,5 +1,5 @@
 #!/bin/bash
-APPNAME=road_closings
+APPNAME=inroads
 DIR=`pwd`
 BUILD=$DIR/build
 

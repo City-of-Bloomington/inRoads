@@ -1,5 +1,5 @@
 <?php
-define('APPLICATION_NAME','application');
+define('APPLICATION_NAME','inroads');
 define('APPLICATION_HOST', $_SERVER['SERVER_NAME']);
 define('APPLICATION_DESCRIPTION', 'description');
 
@@ -7,11 +7,18 @@ define('APPLICATION_DESCRIPTION', 'description');
 define('APPLICATION_TWITTER_SITE', '@twitter_handle');
 
 /**
- * The URL to get to this site
- * Do NOT use a trailing slash
+ * URL Generation settings
+ *
+ * Do NOT use trailing slashes
+ *
+ * If your site is being proxied, change BASE_HOST to the hostname
+ * used for the outside world.
  */
-define('BASE_URL','http://localhost/application');
-define('BASE_URI','/application');
+define('BASE_URI' , '/inroads');
+define('BASE_HOST', isset($_SERVER['HTTP_X_FORWARDED_HOST'])
+                        ? $_SERVER['HTTP_X_FORWARDED_HOST']
+                        : $_SERVER['SERVER_NAME']);
+define('BASE_URL' , "https://".BASE_HOST.BASE_URI);
 
 /**
  * Specify the theme directory

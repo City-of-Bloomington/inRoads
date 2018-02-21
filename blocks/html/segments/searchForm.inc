@@ -16,7 +16,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/segments/chooseStreet.js');
     </ol>
     <form method="get" action="<?= BASE_URI; ?>/streets/search">
         <fieldset>
-            <input name="return_url" type="hidden" value="<?= Url::current_url(APPLICATION_HOST); ?>" />
+            <input name="return_url" type="hidden" value="<?= Url::current_url(BASE_HOST); ?>" />
 
             <dl><dt><label  for="street"><?= $this->_('street'); ?></label></dt>
                 <dd><input name="street" id="street" /></dd>

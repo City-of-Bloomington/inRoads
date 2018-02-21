@@ -12,7 +12,7 @@ use Blossom\Classes\Url;
 	<h1><?= $this->translate(['person','people',2]); ?></h1>
 	<div>
 	<?php
-        $return_url = Url::current_url(APPLICATION_HOST);
+        $return_url = Url::current_url(BASE_HOST);
         $helper = $this->template->getHelper('buttonLink');
 
         if (Person::isAllowed('people')) {

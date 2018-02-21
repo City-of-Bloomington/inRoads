@@ -8,7 +8,7 @@ use Application\Models\Person;
 use Blossom\Classes\View;
 use Blossom\Classes\Url;
 
-$return_url = Url::current_url(APPLICATION_HOST);
+$return_url = Url::current_url(BASE_HOST);
 $h = $this->template->getHelper('buttonLink');
 
 $username = $this->person->getUsername();
