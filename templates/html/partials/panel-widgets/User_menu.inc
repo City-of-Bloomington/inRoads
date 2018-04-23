@@ -19,7 +19,7 @@ if (isset($_SESSION['USER'])) {
 }
 else {
     $return_url = View::escape($_SERVER['REQUEST_URI']);
-    echo "<a href=\"".BASE_URI."/login?return_url=$return_url\">{$this->_('login')}</a>";
+    echo "<a href=\"".BASE_URI."/login/cas?return_url=$return_url\">{$this->_('login')}</a>";
 }
 ?>
 </nav>

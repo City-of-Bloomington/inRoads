@@ -24,42 +24,39 @@ class LoginController extends Controller
 	/**
 	 * Attempts to authenticate users via CAS
 	 */
-	public function index()
+	public function cas()
 	{
 		// If they don't have CAS configured, send them onto the application's
 		// internal authentication system
-		if (!defined('CAS')) {
-			header('Location: '.BASE_URL.'/login/login?return_url='.$this->return_url);
-			exit();
-		}
+		if (defined('CAS')) {
+            require_once CAS.'/CAS.php';
+            \phpCAS::client(CAS_VERSION_2_0, CAS_SERVER, 443, CAS_URI, false);
+            \phpCAS::setNoCasServerValidation();
+            \phpCAS::forceAuthentication();
+            // at this step, the user has been authenticated by the CAS server
+            // and the user's login name can be read with phpCAS::getUser().
 
-		require_once CAS.'/CAS.php';
-		\phpCAS::client(CAS_VERSION_2_0, CAS_SERVER, 443, CAS_URI, false);
-		\phpCAS::setNoCasServerValidation();
-		\phpCAS::forceAuthentication();
-		// at this step, the user has been authenticated by the CAS server
-		// and the user's login name can be read with phpCAS::getUser().
-
-		// They may be authenticated according to CAS,
-		// but that doesn't mean they have person record
-		// and even if they have a person record, they may not
-		// have a user account for that person record.
-		try {
-			$_SESSION['USER'] = new Person(\phpCAS::getUser());
-			header("Location: {$this->return_url}");
-			exit();
-		}
-		catch (\Exception $e) {
-            $_SESSION['errorMessages'][] = new \Exception('unknownUser');
-		}
-
-		$this->template->blocks[] = new Block('loginForm.inc', ['return_url'=>$this->return_url]);
+            // They may be authenticated according to CAS,
+            // but that doesn't mean they have person record
+            // and even if they have a person record, they may not
+            // have a user account for that person record.
+            try {
+                $_SESSION['USER'] = new Person(\phpCAS::getUser());
+                header("Location: {$this->return_url}");
+                exit();
+            }
+            catch (\Exception $e) {
+                $_SESSION['errorMessages'][] = new \Exception('unknownUser');
+            }
+        }
+		header('Location: '.BASE_URL.'/login?return_url='.$this->return_url);
+		exit();
 	}
 
 	/**
 	 * Attempts to authenticate users based on AuthenticationMethod
 	 */
-	public function login()
+	public function index()
 	{
 		if (isset($_POST['username'])) {
 			try {
