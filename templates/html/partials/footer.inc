@@ -21,7 +21,7 @@ use Blossom\Classes\Url;
         <h2>Open Source</h2>
         <a class="footer-links" href="https://github.com/City-of-Bloomington/inRoads">See the source code on Github</a>
     </div>
-    <a class="footer-links disclaimer" title="Terms and Conditions" href="http://bloomington.in.gov/documents/viewDocument.php?document_id=709">Terms &amp; Conditions</a>
+    <a class="footer-links disclaimer" title="Terms and Conditions" href="https://bloomington.in.gov/web">Terms &amp; Conditions</a>
     <div class="copyright">&copy;<?= date('Y') ?> The City of Bloomington</div>
 
 </footer>
