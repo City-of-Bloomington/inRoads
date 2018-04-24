@@ -2,7 +2,7 @@
 use Blossom\Classes\Url;
 ?>
 <footer>
-    <a href="https://bloomington.in.gov/webmaster" class="button feedback">Feedback</a>
+    <a href="https://bloomington.in.gov/ureport" class="button feedback">Feedback</a>
     <div class="open-data">
         <h2>Open Data</h2>
         <a class="footer-links" href="https://groups.google.com/forum/#!forum/cob_road_closings">Email subscription</a>,
