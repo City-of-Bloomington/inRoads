@@ -116,6 +116,15 @@ $DIRECTORY_CONFIG = [
 //define('CAS_SERVER','cas.somewhere.org');
 //define('CAS_URI','cas');
 
+/**
+ * Auth0 authentication https://auth0.com
+ */
+//$AUTH0 = [
+//    'domain'        => 'somewhere.auth0.com',
+//    'client_id'     => 'HASH CODE',
+//    'client_secret' => 'SECRET API KEY'
+//];
+
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'H:i a');
 define('DATETIME_FORMAT', 'n/j/Y H:i a');

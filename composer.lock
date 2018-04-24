@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "77f4b10bd38ecdb1f7f6721b7a216c30",
+    "content-hash": "393ba0dcbe192ef7c1e8d05659f8712f",
     "packages": [
         {
             "name": "City-of-Bloomington/blossom-lib",
@@ -92,6 +92,50 @@
                 "routing"
             ],
             "time": "2016-10-03T20:00:15+00:00"
+        },
+        {
+            "name": "auth0/auth0-php",
+            "version": "5.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/auth0/auth0-PHP.git",
+                "reference": "143ba77247442f12455ab2c7ef210b18a09625aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/auth0/auth0-PHP/zipball/143ba77247442f12455ab2c7ef210b18a09625aa",
+                "reference": "143ba77247442f12455ab2c7ef210b18a09625aa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "firebase/php-jwt": "^5.0",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": "^5.5 || ^7.0"
+            },
+            "require-dev": {
+                "josegonzalez/dotenv": "^2.0",
+                "phpunit/phpunit": "^4.8 || ^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Auth0\\SDK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Auth0",
+                    "email": "support@auth0.com",
+                    "homepage": "http://www.auth0.com/"
+                }
+            ],
+            "description": "Auth0 PHP SDK.",
+            "time": "2018-04-10T14:29:30+00:00"
         },
         {
             "name": "container-interop/container-interop",

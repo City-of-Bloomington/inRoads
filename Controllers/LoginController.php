@@ -1,14 +1,15 @@
 <?php
 /**
- * @copyright 2012-2015 City of Bloomington, Indiana
+ * @copyright 2012-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
+
+use Application\Models\Person;
+use Auth0\SDK\Auth0;
 use Blossom\Classes\Controller;
 use Blossom\Classes\Template;
 use Blossom\Classes\Block;
-use Application\Models\Person;
 
 class LoginController extends Controller
 {
@@ -19,6 +20,34 @@ class LoginController extends Controller
 		parent::__construct($template);
 		$this->template->setFilename('admin');
 		$this->return_url = !empty($_REQUEST['return_url']) ? $_REQUEST['return_url'] : BASE_URL;
+	}
+
+	/**
+	 * Authenticate users against Auth0.com
+	 */
+	public function auth0()
+	{
+        global $AUTH0;
+
+        if (isset($AUTH0)) {
+            $auth0 = new Auth0([
+                'domain'        => $AUTH0['domain'       ],
+                'client_id'     => $AUTH0['client_id'    ],
+                'client_secret' => $AUTH0['client_secret'],
+                'redirect_uri'  => BASE_URL.'/login/auth0',
+                'audience'      => "https://$AUTH0[domain]/userinfo",
+                'scope'         => 'openid profile'
+            ]);
+            $user = $auth0->getUser();
+            if ($user) {
+                $this->registerUser($user['name']);
+            }
+            else {
+                $auth0->login();
+            }
+        }
+		header('Location: '.BASE_URL.'/login?return_url='.$this->return_url);
+		exit();
 	}
 
 	/**
@@ -36,18 +65,7 @@ class LoginController extends Controller
             // at this step, the user has been authenticated by the CAS server
             // and the user's login name can be read with phpCAS::getUser().
 
-            // They may be authenticated according to CAS,
-            // but that doesn't mean they have person record
-            // and even if they have a person record, they may not
-            // have a user account for that person record.
-            try {
-                $_SESSION['USER'] = new Person(\phpCAS::getUser());
-                header("Location: {$this->return_url}");
-                exit();
-            }
-            catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = new \Exception('unknownUser');
-            }
+            $this->registerUser(\phpCAS::getUser());
         }
 		header('Location: '.BASE_URL.'/login?return_url='.$this->return_url);
 		exit();
@@ -82,5 +100,22 @@ class LoginController extends Controller
 		session_destroy();
 		header('Location: '.$this->return_url);
 		exit();
+	}
+
+	/**
+	 * Checks for a user account with the given username.
+	 * If they exist it will register the user into the session and redirect.
+	 * Writes to $_SESSION[errorMessages] if there's a problem.
+	 */
+	private function registerUser(string $username)
+	{
+        try {
+            $_SESSION['USER'] = new Person($username);
+            header("Location: {$this->return_url}");
+            exit();
+        }
+        catch (\Exception $e) {
+            $_SESSION['errorMessages'][] = $e;
+        }
 	}
 }
