@@ -13,9 +13,4 @@ package.json
 /data/templates/
 /data/blocks/
 /scripts/backup.cnf
-/libraries/zf2/bin/
-/libraries/zf2/demos/
-/libraries/zf2/documentation/
-/libraries/zf2/resources/
-/libraries/zf2/tests/
 /.gulp-build
