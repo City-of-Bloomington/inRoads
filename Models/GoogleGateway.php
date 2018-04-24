@@ -5,9 +5,8 @@
  * @see https://developers.google.com/google-apps/calendar/
  * @see https://github.com/google/google-api-php-client
  * @see https://developers.google.com/api-client-library/php/auth/service-accounts
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2017 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -21,30 +20,27 @@ class GoogleGateway
     const DATETIME_FORMAT = \DateTime::RFC3339;
     const FIELDS = 'description,end,endTimeUnspecified,iCalUID,id,kind,location,locked,originalStartTime,privateCopy,recurrence,recurringEventId,sequence,source,start,status,summary,transparency,updated,visibility,extendedProperties';
 
-    private static $service;
+    private static function getClient()
+    {
+        static $client = null;
+
+        if (!$client) {
+            $client = new \Google_Client();
+            $client->setAuthConfig(GOOGLE_CREDENTIALS_FILE);
+            $client->setScopes([\Google_Service_Calendar::CALENDAR]);
+            $client->setSubject(GOOGLE_USER_EMAIL);
+        }
+        return $client;
+    }
 
     public static function getService()
     {
-        if (!self::$service) {
-            $json = json_decode(file_get_contents(GOOGLE_CREDENTIALS_FILE));
-            $credentials = new \Google_Auth_AssertionCredentials(
-                $json->client_email,
-                ['https://www.googleapis.com/auth/calendar'],
-                $json->private_key
-            );
-            $credentials->sub = GOOGLE_USER_EMAIL;
+        static $service;
 
-            $client = new \Google_Client();
-            $client->setAssertionCredentials($credentials);
-            if ($client->getAuth()->isAccessTokenExpired()) {
-                $client->getAuth()->refreshTokenWithAssertion();
-            }
-
-            self::$service = new \Google_Service_Calendar($client);
-
-            //$calendar = new \Google_Service_Calendar($client);
+        if (!$service) {
+            $service = new \Google_Service_Calendar(self::getClient());
         }
-        return self::$service;
+        return $service;
     }
 
     /**

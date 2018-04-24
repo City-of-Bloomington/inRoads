@@ -1,0 +1,20 @@
+{
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/City-of-Bloomington/blossom-lib"
+    }],
+    "require": {
+        "php": ">=7",
+        "City-of-Bloomington/blossom-lib": "dev-master",
+        "google/apiclient": "~2.0",
+        "jasig/phpcas": "~1",
+        "simshaun/recurr": "~3",
+        "zendframework/zend-db": "~2.5",
+        "zendframework/zend-log": "~2.5",
+        "zendframework/zend-paginator": "~2.5",
+        "zendframework/zend-permissions-acl": "~2.5"
+    },
+    "autoload": {
+        "psr-4": {"Application\\": ""}
+    }
+}
