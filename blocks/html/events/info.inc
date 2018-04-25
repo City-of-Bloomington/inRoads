@@ -10,9 +10,8 @@ use Application\Models\Event;
 use Application\Models\EventType;
 use Blossom\Classes\View;
 
-$title = $this->event->getTitle()
-    ? self::escape($this->event->getTitle())
-    : self::escape($this->event->getGeography_description());
+$title                 = parent::escape($this->event->getTitle());
+$geography_description = parent::escape($this->event->getGeography_description());
 
 $id = $this->event->getId()
     ? $this->event->getId()
@@ -34,6 +33,7 @@ if ($t) {
 ?>
 <article id="e_<?= $id; ?>" <?= $typeClass; ?>>
     <h2 class="title"><?= $title; ?></h2>
+    <h2><?= $geography_description; ?></h2>
     <div class="dates"><?= $this->event->getHumanReadableDuration('F j, Y'); ?></div>
     <?php
 
