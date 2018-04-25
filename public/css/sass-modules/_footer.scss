@@ -13,9 +13,21 @@
             text-transform: uppercase;
 
         }
-        > .button.feedback {
+        .button {
             font-size: 1rem;
+            background: #23ae4d;
+            border: 0 none;
+            border-bottom: .25em solid #70bf88;
+            color: #fff;
         }
+        a {
+            color: $color-footer-links;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+
         > .open-data {
             margin: 1em 0;
 
@@ -33,12 +45,5 @@
                 padding: 0 0 0 1.5em;
             }
         }
-    }
-}
-
-.footer-links {
-    color: $color-footer-links;
-    &:hover {
-        text-decoration: underline;
     }
 }
