@@ -1,5 +1,5 @@
--- @copyright 2014-2016 City of Bloomington, Indiana
--- @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+-- @copyright 2014-2018 City of Bloomington, Indiana
+-- @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
 create table departments (
     id int unsigned    not null primary key auto_increment,
     code  varchar(8)   not null unique,
@@ -49,7 +49,8 @@ create table events (
     geography_description varchar(128),
     created datetime not null,
     updated datetime not null,
-    foreign key (department_id) references departments(id)
+    foreign key (department_id) references departments(id),
+    foreign key ( eventType_id) references  eventTypes(id)
 );
 
 create table segments (
