@@ -17,8 +17,10 @@
 			<header class="headerBar">
 				<?= $this->includeBlocks('headerBar'); ?>
 			</header>
-	        <?php $this->_include('partials/panel-two.inc'); ?>
-            <?php include BLOSSOM.'/errorMessages.php'; ?>
+	        <?php
+                $this->_include('partials/panel-two.inc');
+                $this->_include('partials/errorMessages.inc');
+            ?>
 	        <div class="contentPanel" id="content-panel">
 	            <?= $this->includeBlocks(); ?>
 	        </div>

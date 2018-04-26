@@ -1,17 +1,15 @@
 # Translation
-# Copyright (C) 2013-2015 City of Bloomington
-# This file is distributed under the same license as the Blossom package.
-#
-# Cliff Ingham, 2013-2015.
+# Copyright (C) 2013-2018 City of Bloomington
+# This file is distributed under the same license as the inRoads application
 domain "messages"
 
 msgid ""
 msgstr ""
-"Project-Id-Version: Road Closings\n"
+"Project-Id-Version: inRoads\n"
 "Report-Msgid-Bugs-To: dev@bloomington.in.gov\n"
 "Last-Translator: Cliff Ingham <inghamn@bloomington.in.gov>\n"
 "Language-Team: City of Bloomington <dev@bloomington.in.gov>\n"
-"PO-Revision-Date: 2015-05-18 11:59-04:00\n"
+"PO-Revision-Date: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,3 +27,9 @@ msgstr "Enter the title for the event"
 
 msgid "geography_description_help"
 msgstr "Enter the location for the event"
+
+msgid "noEventsReturned.heading"
+msgstr "Smooth driving ahead!"
+
+msgid "noEventsReturned.message"
+msgstr "Either you've found the perfect day to travel, or your query returned no results (it's probably more the second thing)."

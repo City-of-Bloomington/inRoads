@@ -9,8 +9,10 @@
             <?= $this->includeBlocks('headerBar'); ?>
         </header>
 
-        <?php $this->_include('partials/panel-one.inc'); ?>
-        <?php include BLOSSOM.'/errorMessages.php'; ?>
+        <?php
+            $this->_include('partials/panel-one.inc');
+            $this->_include('partials/errorMessages.inc');
+        ?>
         <div id="content-panel">
             <?= $this->includeBlocks(); ?>
         </div>

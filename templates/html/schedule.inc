@@ -9,8 +9,10 @@
 <body class="schedule">
     <?php $this->_include('partials/header.inc'); ?>
     <main>
-        <?php $this->_include('partials/panel-one.inc'); ?>
-        <?php include BLOSSOM.'/errorMessages.php'; ?>
+        <?php
+            $this->_include('partials/panel-one.inc');
+            $this->_include('partials/errorMessages.inc');
+        ?>
         <div class="content-container">
             <header class="headerBar">
                 <?= $this->includeBlocks('headerBar'); ?>
