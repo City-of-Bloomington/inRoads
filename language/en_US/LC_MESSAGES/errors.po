@@ -46,3 +46,6 @@ msgstr "You can only create user accounts for people who are already in the syst
 
 msgid "events/missingGeography"
 msgstr "You must draw the event's location on the map"
+
+msgid "description_length"
+msgstr "The event description is too long."

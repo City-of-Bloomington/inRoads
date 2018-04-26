@@ -14,7 +14,8 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
 $department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->getDepartment_id();
 $eventType_id  = $this->event->getEventType_id();
-$title = parent::escape($this->event->getTitle());
+$title                 = parent::escape($this->event->getTitle());
+$description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
 ?>
 <div class="editPanel">
@@ -275,13 +276,23 @@ $geography_description = parent::escape($this->event->getGeography_description()
     </fieldset>
 
     <fieldset>
-        <dl><dt><label     for="description"><?= $this->_('description'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
-            <dd><textarea name="description"
-                            id="description"
-                            maxlength="<?= Event::MAX_DESCRIPTION_LENGTH; ?>"><?= View::escape($this->event->getDescription()); ?></textarea>
-                <div><span id="description_length"><?= strlen($this->event->getDescription()); ?></span> / <?= Event::MAX_DESCRIPTION_LENGTH; ?></div>
-            </dd>
-        </dl>
+        <?php
+            $cur_length = strlen($description);
+            $max_length = Event::MAX_DESCRIPTION_LENGTH;
+
+            echo $h->field([
+                'name'     => 'description',
+                'id'       => 'description',
+                'label'    => $this->_('description'),
+                'value'    => $description,
+                'required' => true,
+                'type'     => 'textarea',
+                'help'     => "<div><span id=\"description_length\">$cur_length</span> / $max_length</div>",
+                'attr'     => [
+                    'maxlength' => $max_length
+                ]
+            ]);
+        ?>
 
         <button type="submit" class="save"><?= $this->template->_('save'); ?></button>
     </fieldset>
