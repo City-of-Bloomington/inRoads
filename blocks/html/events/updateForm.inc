@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
 use Application\Models\Event;
@@ -12,47 +11,53 @@ use Recurr\Rule;
 use Recurr\WeekDay;
 
 $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
+
+$department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->getDepartment_id();
+$eventType_id  = $this->event->getEventType_id();
+$title = parent::escape($this->event->getTitle());
+$geography_description = parent::escape($this->event->getGeography_description());
 ?>
 <div class="editPanel">
 <form method="post" id="eventUpdateForm" action="<?= BASE_URI; ?>/events/update">
     <fieldset>
+        <legend><?= $this->_('event_info'); ?></legend>
+
         <input name="id"              type="hidden" value="<?= $this->event->getId(); ?>" />
         <input name="google_event_id" type="hidden" value="<?= $this->event->getGoogle_event_id(); ?>" />
+        <input name="geography"       type="hidden" value="<?= $this->event->getGeography(); ?>" id="geography" />
+        <?php
+            $h = $this->template->getHelper('field');
 
-        <legend><span><?php echo $this->_('event_info'); ?></span></legend>
-        <dl><dt><label   for="department_id"><?= $this->_('department'); ?></label></dt>
-            <dd><select name="department_id">
-                <?php
-                    $current = $this->event->getDepartment_id()
-                        ?      $this->event->getDepartment_id()
-                        : $_SESSION['USER']->getDepartment_id();
 
-                    $departments = Event::validDepartments($_SESSION['USER']);
-                    foreach ($departments as $d) {
-                        $name = View::escape($d->getName());
-                        $selected = $current===$d->getId()
-                            ? 'selected="true"'
-                            : '';
-                        echo "<option value=\"{$d->getId()}\" $selected>$name</option>";
-                    }
-                ?>
-                </select>
-            </dd>
-        </dl>
-        <dl><dt><label   for="eventType_id"><?= $this->_('eventType'); ?></label></dt>
-            <dd><select name="eventType_id" id="eventType_id">
-                <?php
-                    foreach (EventType::types() as $type) {
-                        $selected = ($this->event->getEventType_id() === $type->getId())
-                            ? 'selected="true"'
-                            : '';
-                        $name = View::escape($type->getName());
-                        echo "<option $selected value=\"{$type->getId()}\">$name</option>";
-                    }
-                ?>
-                </select>
-            </dd>
-        </dl>
+            $options = [];
+            foreach (Event::validDepartments($_SESSION['USER']) as $d) {
+                $options[] = ['value'=>$d->getId(), 'label'=>parent::escape($d->getName())];
+            }
+            echo $h->field([
+                'name'     => 'department_id',
+                'id'       => 'department_id',
+                'label'    => $this->_('department'),
+                'value'    => $department_id,
+                'type'     => 'select',
+                'options'  => $options,
+                'required' => true
+            ]);
+
+            $options = [];
+            foreach (EventType::types() as $t) {
+                $options[] = ['value'=>$t->getId(), 'label'=>parent::escape($t->getName())];
+            }
+            echo $h->field([
+                'name'     => 'eventType_id',
+                'id'       => 'eventType_id',
+                'label'    => $this->_('eventType'),
+                'value'    => $eventType_id,
+                'type'     => 'select',
+                'options'  => $options,
+                'required' => true
+            ]);
+
+        ?>
         <dl>
             <dd><label>
                     <input name="constructionFlag" type="checkbox"
@@ -61,19 +66,22 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
                 </label>
             </dd>
         </dl>
-        <dl><dt><label  for="title">
-                    <?= $this->_('title'); ?>
-                    <abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr>
-                </label></dt>
-            <dd><input name="title" id="title" value="<?= self::escape($this->event->getTitle()); ?>" /></dd>
-        </dl>
-        <dl><dt><label  for="geography_description"><?= $this->_('geography_description'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
-            <dd><input name="geography_description" id="geography_description"
-                        value="<?= View::escape($this->event->getGeography_description()); ?>" />
-                <input name="geography" id="geography" type="hidden"
-                        value="<?= $this->event->getGeography(); ?>" />
-            </dd>
-        </dl>
+        <?php
+            echo $h->field([
+                'name'     => 'title',
+                'id'       => 'title',
+                'label'    => $this->_('title'),
+                'value'    => $title,
+                'required' => true
+            ]);
+            echo $h->field([
+                'name'     => 'geography_description',
+                'id'       => 'geography_description',
+                'label'    => $this->_('geography_description'),
+                'value'    => $geography_description,
+                'required' => true
+            ]);
+        ?>
     </fieldset>
 
     <fieldset>

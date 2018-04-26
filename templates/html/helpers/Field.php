@@ -13,13 +13,14 @@ class Field extends Helper
     /**
      * Parameters:
      *
-     * label string
-     * name  string
-     * id    string
-     * value mixed
-     * type  string   HTML5 input tag type (text, email, date, etc.)
-     * required     Boolean
-     * attr         Additional attributes to include inside the input tag
+     * label    string
+     * name     string
+     * id       string
+     * value    mixed
+     * help     string   Help text for field input
+     * type     string   HTML5 input tag type (text, email, date, etc.)
+     * required boolean
+     * attr     array    Additional attributes to include inside the input tag
      *
      * @param array $params
      */
@@ -35,6 +36,10 @@ class Field extends Helper
         if (isset(  $params['type'])) {
             switch ($params['type']) {
                 case 'date':
+                    // Until all browsers implement a date picker,
+                    // we must continute to use plain text inputs for dates.
+                    unset($params['type']);
+
                     $params['value'] = !empty($params['value']) ? date(DATE_FORMAT, $params['value']) : '';
                     $params['attr']['placeholder'] = View::translateDateString(DATE_FORMAT);
                     $renderInput = 'input';
@@ -45,6 +50,7 @@ class Field extends Helper
                 case 'radio':
                 case 'checkbox':
                 case 'person':
+                case 'file':
                     $class[]     = $params['type'];
                     $renderInput = $params['type'];
                 break;
@@ -67,11 +73,12 @@ class Field extends Helper
         $input = $this->$renderInput($params, $required, $attr);
         $for   = !empty($params['id'   ]) ? " for=\"$params[id]\""                       : '';
         $label = !empty($params['label']) ? "<dt><label$for>$params[label]</label></dt>" : '';
+        $help  = !empty($params['help' ]) ? "<div class=\"help\">$params[help]</div>"    : '';
 
         return "
         <dl$classes>
             $label
-            <dd>$input</dd>
+            <dd>$input$help</dd>
         </dl>
         ";
     }
@@ -93,13 +100,12 @@ class Field extends Helper
     {
         $value = !empty($params['value']) ? $params['value'] : '';
 
+        $id   = '';
         $type = '';
-        if (!empty($params['type'])) {
-            $type = "type=\"$params[type]\"";
+        if (!empty($params['id'  ])) { $id   =   "id=\"$params[id]\""; }
+        if (!empty($params['type'])) { $type = "type=\"$params[type]\""; }
 
-        }
-
-        return "<input name=\"$params[name]\" id=\"$params[id]\" $type value=\"$value\" $required  $attr />";
+        return "<input name=\"$params[name]\" $id $type value=\"$value\" $required  $attr />";
     }
 
     /**
@@ -124,10 +130,9 @@ class Field extends Helper
         $select = "<select name=\"$params[name]\" id=\"$params[id]\" $required $attr>";
         if (!empty(  $params['options'])) {
             foreach ($params['options'] as $o) {
-                $selected =     $value == $o['value']
-                    ? 'selected="true"'
-                    : '';
-                $select.= "<option value=\"$o[value]\" $selected>$o[label]</option>";
+                $label    = !empty($o['label'])   ? $o['label']       : $o['value'];
+                $selected = $value == $o['value'] ? 'selected="true"' : '';
+                $select.= "<option value=\"$o[value]\" $selected>$label</option>";
             }
         }
         $select.= "</select>";
@@ -156,11 +161,10 @@ class Field extends Helper
         $radioButtons = '';
         if (!empty(  $params['options'])) {
             foreach ($params['options'] as $o) {
-                $checked = $value == $o['value']
-                    ? 'checked="true"'
-                    : '';
+                $label   = !empty($o['label'])   ? $o['label']      : $o['value'];
+                $checked = $value == $o['value'] ? 'checked="true"' : '';
 
-                $radioButtons.= "<label><input name=\"$params[name]\" type=\"radio\" value=\"$o[value]\" $checked/> $o[label]</label>";
+                $radioButtons.= "<label><input name=\"$params[name]\" type=\"radio\" value=\"$o[value]\" $checked/> $label</label>";
             }
         }
         return $radioButtons;
@@ -188,12 +192,11 @@ class Field extends Helper
         $inputs = '';
         if (!empty(  $params['options'])) {
             foreach ($params['options'] as $o) {
-                $checked = in_array($o['value'], $values)
-                    ? 'checked="true"'
-                    : '';
+                $label   = !empty($o['label'])            ? $o['label']      : $o['value'];
+                $checked = in_array($o['value'], $values) ? 'checked="true"' : '';
 
                 $name   = $params['name'].'['.$o['value'].']';
-                $inputs.= "<label><input name=\"$name\" type=\"checkbox\" value=\"$o[value]\" $checked/> $o[label]</label>";
+                $inputs.= "<label><input name=\"$name\" type=\"checkbox\" value=\"$o[value]\" $checked/> $label</label>";
             }
         }
         return $inputs;
@@ -234,9 +237,30 @@ class Field extends Helper
      * @param string $required  The string for the attribute 'required="true"'
      * @param string $attr      The string for any and all additional attributes
      */
+    public function file(array $params, $required=null, $attr=null)
+    {
+        $current = !empty($params['value'])
+                 ? "<div>$params[value]</div>"
+                 : '';
+        return "$current<input type=\"file\" name=\"$params[name]\" id=\"$params[id]\" $required $attr />";
+    }
+
+    /**
+     * Parameters:
+     *
+     * label string
+     * name  string
+     * id    string
+     * value Person   Value must be a Person object
+     * type  string   HTML5 input tag type (text, email, date, etc.)
+     *
+     * @param array  $params
+     * @param string $required  The string for the attribute 'required="true"'
+     * @param string $attr      The string for any and all additional attributes
+     */
     public function person(array $params, $required=null, $attr=null)
     {
         $h = $this->template->getHelper('personChooser');
-        return $h->personChooser($params['name'], $params['value']);
+        return $h->personChooser($params['name'], $params['id'], $params['value']);
     }
 }
