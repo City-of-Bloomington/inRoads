@@ -23,3 +23,9 @@ msgstr "Signed in as %s"
 
 msgid "departmentContactInfo"
 msgstr "If you have any problems with this project, please contact %s %s"
+
+msgid "title_help"
+msgstr "Enter the title for the event"
+
+msgid "geography_description_help"
+msgstr "Enter the location for the event"
