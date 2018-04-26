@@ -120,8 +120,12 @@ class Event extends ActiveRecord
     {
         if (!$this->getCreated()) { parent::setDateData('created', 'now'); }
 
+        if (!$this->getGeography()) {
+            return new \Exception('events/missingGeography');
+        }
+
         if (!$this->getStartDate() || !$this->getEndDate()
-            || !($this->getTitle() ||  $this->getGeography_description())
+            || !$this->getTitle()  || !$this->getGeography_description()
             || !$this->getDescription()) {
             return new \Exception('missingRequiredFields');
         }

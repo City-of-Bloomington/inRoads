@@ -63,12 +63,12 @@ use Blossom\Classes\Block;
             echo "</div>";
         }
         else {
-            ?>
-                <div class="emptyResult">
-                    <h2><?= $this->_('noEventsReturned.heading'); ?></h2>
-                    <p><?=  $this->_('noEventsReturned.message'); ?></p>
+            echo "
+                <div class=\"emptyResult\">
+                    <h2>{$this->_('noEventsReturned.heading', 'messages')}</h2>
+                    <p> {$this->_('noEventsReturned.message', 'messages')}</p>
                 </div>
-            <?php
+            ";
         }
     ?>
 </div>

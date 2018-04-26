@@ -229,7 +229,7 @@
     .geography { display:none; }
 }
 
-body:not(.admin) .errorPanel {
+#errorMessages {
     background: #fff;
     border-radius: 1em;
     box-shadow: 0 0 3rem 0 rgba(0, 0, 0, .75);
@@ -240,7 +240,6 @@ body:not(.admin) .errorPanel {
         left: 50%;
         z-index: 5;
     width: 30rem;
-    &-buttons {
-        margin: 1rem 0;
-    }
+
+    button { margin:1rem; }
 }
