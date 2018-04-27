@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2013 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -32,6 +31,11 @@ class PeopleTable extends TableGateway
 						else {
 							$select->where('username is null');
 						}
+					break;
+
+					case 'notifications':
+                        if ($value) { $select->where('notifications =  1'); }
+                        else        { $select->where('notifications != 1'); }
 					break;
 
 					default:

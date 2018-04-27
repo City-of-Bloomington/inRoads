@@ -12,6 +12,7 @@ foreach ($fields as $f) {
     $get = 'get'.ucfirst($f);
     $$f  = parent::escape($this->person->$get());
 }
+$notifications = $this->person->getNotifications() ? $this->_('yes') : $this->_('no');
 ?>
 <section>
     <header>
@@ -32,12 +33,14 @@ foreach ($fields as $f) {
 
 
     <table>
-        <tr><th><?= $this->_('firstname' ); ?></th><td><?= $firstname;  ?></th></tr>
-        <tr><th><?= $this->_('lastname'  ); ?></th><td><?= $lastname;   ?></th></tr>
-        <tr><th><?= $this->_('department'); ?></th><td><?= $department; ?></th></tr>
-        <tr><th><?= $this->_('email'     ); ?></th><td><?= $email;      ?></th></tr>
-        <tr><th><?= $this->_('phone'     ); ?></th><td><?= $phone;      ?></th></tr>
-        <tr><th><?= $this->_('username'  ); ?></th><td><?= $username;   ?></th></tr>
+        <tr><th><?= $this->_('firstname'    ); ?></th><td><?= $firstname;     ?></th></tr>
+        <tr><th><?= $this->_('lastname'     ); ?></th><td><?= $lastname;      ?></th></tr>
+        <tr><th><?= $this->_('department'   ); ?></th><td><?= $department;    ?></th></tr>
+        <tr><th><?= $this->_('email'        ); ?></th><td><?= $email;         ?></th></tr>
+        <tr><th><?= $this->_('phone'        ); ?></th><td><?= $phone;         ?></th></tr>
+        <tr><th><?= $this->_('username'     ); ?></th><td><?= $username;      ?></th></tr>
+        <tr><th><?= $this->_('notifications'); ?></th><td><?= $notifications; ?></th></tr>
+    </table>
     </table>
 
 </section>

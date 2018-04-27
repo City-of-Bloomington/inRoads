@@ -12,6 +12,7 @@ foreach ($fields as $f) {
     $get = 'get'.ucfirst($f);
     $$f  = $this->person->$get();
 }
+$notifications = $this->person->getNotifications() ? $this->_('yes') : $this->_('no');
 
 $return_url = Url::current_url(BASE_HOST);
 $h = $this->template->getHelper('buttonLink');
@@ -39,9 +40,10 @@ if (Person::isAllowed('people', 'update')) {
         <div class="tools"><?= $editButton; ?></div>
     </header>
     <table>
-        <tr><th><?= $this->_('department'); ?></th><td><?= $department; ?></th></tr>
-        <tr><th><?= $this->_('email'     ); ?></th><td><?= $email;      ?></th></tr>
-        <tr><th><?= $this->_('phone'     ); ?></th><td><?= $phone;      ?></th></tr>
-        <tr><th><?= $this->_('username'  ); ?></th><td><?= $username;   ?></th></tr>
+        <tr><th><?= $this->_('department'   ); ?></th><td><?= $department;    ?></th></tr>
+        <tr><th><?= $this->_('email'        ); ?></th><td><?= $email;         ?></th></tr>
+        <tr><th><?= $this->_('phone'        ); ?></th><td><?= $phone;         ?></th></tr>
+        <tr><th><?= $this->_('username'     ); ?></th><td><?= $username;      ?></th></tr>
+        <tr><th><?= $this->_('notifications'); ?></th><td><?= $notifications; ?></th></tr>
     </table>
 </section>

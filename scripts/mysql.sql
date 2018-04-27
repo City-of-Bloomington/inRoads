@@ -8,16 +8,17 @@ create table departments (
 );
 
 create table people (
-	id int unsigned not null primary key auto_increment,
-	firstname varchar(128) not null,
-	lastname  varchar(128) not null,
-	email     varchar(255) not null,
-	phone     varchar(16),
-	username  varchar(40) unique,
-	password  varchar(40),
+	id                   int unsigned not null primary key auto_increment,
+	department_id        int unsigned,
+	firstname            varchar(128) not null,
+	lastname             varchar(128) not null,
+	email                varchar(255) not null,
+	phone                varchar(16),
+	username             varchar(40) unique,
+	password             varchar(40),
 	authenticationMethod varchar(40),
-	role varchar(30),
-	department_id int unsigned,
+	role                 varchar(30),
+	notifications        boolean
 	foreign key (department_id) references departments(id)
 );
 

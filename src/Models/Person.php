@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2009-2015 City of Bloomington, Indiana
+ * @copyright 2009-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 use Blossom\Classes\ActiveRecord;
@@ -96,9 +95,7 @@ class Person extends ActiveRecord
 	 */
 	public function deleteUserAccount()
 	{
-		$userAccountFields = array(
-			'username', 'password', 'authenticationMethod', 'role'
-		);
+		$userAccountFields = ['username', 'password', 'authenticationMethod', 'role'];
 		foreach ($userAccountFields as $f) {
 			$this->data[$f] = null;
 		}
@@ -123,12 +120,14 @@ class Person extends ActiveRecord
 	public function getPassword()             { return parent::get('password'); } # Encrypted
 	public function getRole()                 { return parent::get('role');     }
 	public function getAuthenticationMethod() { return parent::get('authenticationMethod'); }
+    public function getNotifications(): int   { return parent::get('notifications') ? 1 : 0; }
 	public function getDepartment_id()        { return parent::get('getDepartment_id'); }
     public function getDepartment() { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
 
 	public function setUsername            ($s) { parent::set('username',             $s); }
 	public function setRole                ($s) { parent::set('role',                 $s); }
 	public function setAuthenticationMethod($s) { parent::set('authenticationMethod', $s); }
+	public function setNotifications       ($b) { parent::set('notifications', $b ? 1 : 0); }
     public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
     public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
 
@@ -144,7 +143,7 @@ class Person extends ActiveRecord
 	 */
 	public function handleUpdate($post)
 	{
-		$fields = array( 'firstname', 'middlename', 'lastname', 'email', 'phone' );
+		$fields = ['firstname', 'middlename', 'lastname', 'email', 'phone', 'notifications'];
 		foreach ($fields as $field) {
 			if (isset($post[$field])) {
 				$set = 'set'.ucfirst($field);
@@ -158,10 +157,10 @@ class Person extends ActiveRecord
 	 */
 	public function handleUpdateUserAccount($post)
 	{
-		$fields = array(
+		$fields = [
 			'firstname', 'lastname', 'email', 'phone', 'department_id',
 			'username', 'authenticationMethod', 'role'
-		);
+		];
 
 		foreach ($fields as $f) {
 			if (isset($post[$f])) {
@@ -277,4 +276,5 @@ class Person extends ActiveRecord
             $this->setPhone($identity->getPhone());
 		}
 	}
+
 }

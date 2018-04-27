@@ -6,7 +6,7 @@
  */
 declare (strict_types=1);
 
-$fields = ['firstname', 'lastname', 'email', 'phone'];
+$fields = ['firstname', 'lastname', 'email', 'phone', 'notifications'];
 foreach ($fields as $f) {
 	$get = 'get'.ucfirst($f);
 	$$f = parent::escape($this->person->$get());
@@ -47,4 +47,17 @@ echo $h->field([
     'value'    => $phone,
     'type'     => 'tel',
     'attr'     => ['inputmode'=>'tel']
+]);
+
+$options = [
+    ['value'=>1, 'label'=>$this->_('yes')],
+    ['value'=>0, 'label'=>$this->_('no' )]
+];
+echo $h->field([
+    'name'     => 'notifications',
+    'id'       => 'notifications',
+    'label'    => $this->_('notifications'),
+    'value'    => $notifications,
+    'type'     => 'select',
+    'options'  => $options
 ]);
