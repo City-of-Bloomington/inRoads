@@ -6,7 +6,6 @@
  */
 use Application\Models\Event;
 use Application\Models\EventType;
-use Blossom\Classes\View;
 use Recurr\Rule;
 use Recurr\WeekDay;
 
@@ -17,6 +16,8 @@ $eventType_id  = $this->event->getEventType_id();
 $title                 = parent::escape($this->event->getTitle());
 $description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
+
+
 ?>
 <div class="editPanel">
 <form method="post" id="eventUpdateForm" action="<?= BASE_URI; ?>/events/update">
@@ -90,15 +91,21 @@ $geography_description = parent::escape($this->event->getGeography_description()
     <fieldset>
         <legend><span><?= $this->_('dateTimeInfo') ?></span></legend>
         <?php
-            $dateHelp = View::translateDateString(DATE_FORMAT);
-            $timeHelp = View::translateDateString(TIME_FORMAT);
-            $dateSize = strlen($dateHelp);
-            $timeSize = strlen($timeHelp);
+            $date = $this->event->getStartDate();
+            $start_date = $date ? $date->format('Y-m-d') : '';
+
+            $date = $this->event->getEndDate();
+            $end_date = $date ? $date->format('Y-m-d') : '';
+
+            $time = $this->event->getStartTime();
+            $start_time = $time ? $time->format('H:i') : '';
+
+            $time = $this->event->getEndTime();
+            $end_time = $time ? $time->format('H:i') : '';
 
             $recur = $this->event->getRRule();
             if (!$recur) { $recur = new Rule(); }
         ?>
-
         <dl>
             <dt class="visuallyHidden">Details</dt>
             <dd><label>
@@ -113,24 +120,16 @@ $geography_description = parent::escape($this->event->getGeography_description()
             </dd>
         </dl>
 
-        <dl class="dateRange">
-            <dt><label  for="start"><?= $this->_('startDate'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
-            <dd><input name="start[date]" id="start"
-                    placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
-                    value="<?= $this->event->getStartDate(DATE_FORMAT); ?>" />
-                <input name="start[time]" id="startTime"
-                    placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
-                    value="<?= $this->event->getStartTime(TIME_FORMAT); ?>" />
+        <dl class="dateRange required">
+            <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
+            <dd><input name="start[date]" id="start"     type="date" value="<?= $start_date ?>" required="true" />
+                <input name="start[time]" id="startTime" type="time" value="<?= $start_time; ?>" />
             </dd>
         </dl>
-        <dl class="dateRange">
-            <dt><label  for="end"><?= $this->_('endDate'); ?><abbr class="required" title="<?= $this->_('requiredField') ?>">*</abbr></label></dt>
-            <dd><input name="end[date]" id="end"
-                    placeholder="<?= $dateHelp; ?>" size="<?= $dateSize; ?>" maxlength="<?= $dateSize; ?>"
-                    value="<?= $this->event->getEndDate(DATE_FORMAT); ?>" />
-                <input name="end[time]" id="endTime"
-                    placeholder="<?= $timeHelp; ?>" size="<?= $timeSize; ?>" maxlength="<?= $timeSize; ?>"
-                    value="<?= $this->event->getEndTime(TIME_FORMAT); ?>" />
+        <dl class="dateRange required">
+            <dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
+            <dd><input name="end[date]" id="end"     type="date" value="<?= $end_date ?>" required="true" />
+                <input name="end[time]" id="endTime" type="time" value="<?= $end_time; ?>" />
             </dd>
         </dl>
 

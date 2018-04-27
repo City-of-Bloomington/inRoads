@@ -1,76 +1,85 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 use Application\Models\Event;
 use Application\Models\Department;
 use Application\Models\Person;
 
-$_SERVER['SITE_HOME'] = __DIR__;
-require_once '../../configuration.inc';
+use PHPUnit\Framework\TestCase;
 
-class EventTest extends PHPUnit_Framework_TestCase
+class EventTest extends TestCase
 {
-    public function testSetDateOnly()
+    /**
+     * Make sure dates are set and returned as \DateTime objects
+     */
+    public function testSetDates()
     {
-        $dateString = '2/4/2014';
-        $mysqlDate  = '2014-02-04';
+        $event    = new Event();
+        $testDate = new \DateTime('2014-02-02');
+        $testTime = \DateTime::createFromFormat('H:i', '13:42');
 
-        $event = new Event();
-        $event->setStartDate($dateString, DATE_FORMAT);
-        $event->setEndDate  ($dateString, DATE_FORMAT);
+        $event->setStartDate(null);
+        $this->assertEquals (null, $event->getStartDate());
 
-        $this->assertEquals($mysqlDate, $event->getStartDate());
-        $this->assertEquals($mysqlDate, $event->getEndDate());
-    }
+        $event->setStartDate($testDate);
+        $this->assertEquals ($testDate, $event->getStartDate());
 
-    public function testSetTimeOnly()
-    {
-        $timeString = '2:00pm';
-        $mysqlTime  = '14:00:00';
+        $event->setEndDate (null);
+        $this->assertEquals(null, $event->getEndDate());
 
-        $event = new Event();
-        $event->setStartTime($timeString, TIME_FORMAT);
-        $event->setEndTime  ($timeString, TIME_FORMAT);
+        $event->setEndDate ($testDate);
+        $this->assertEquals($testDate, $event->getEndDate());
 
-        $this->assertEquals($mysqlTime, $event->getStartTime());
-        $this->assertEquals($mysqlTime, $event->getEndTime());
+        $event->setStartTime(null);
+        $this->assertEquals (null, $event->getStartTime());
+
+        $event->setStartTime($testTime);
+        $this->assertEquals ($testTime, $event->getStartTime());
+
+        $event->setEndTime (null);
+        $this->assertEquals(null, $event->getEndTime());
+
+        $event->setEndTime ($testTime);
+        $this->assertEquals($testTime, $event->getEndTime());
     }
 
     public function testIsAllDay()
     {
-        $dateString = '2/4/2014';
-        $timeString = '2:00pm';
+        $testDate = new \DateTime('2014-02-04');
+        $testTime = \DateTime::createFromFormat('H:i', '14:00');
+
 
         $event = new Event();
-        $event->setStartDate($dateString, DATE_FORMAT);
+        $event->setStartDate($testDate);
         $this->assertTrue($event->isAllDay(), 'Event without a start time should be All Day');
 
-        $event->setStartTime($timeString, TIME_FORMAT);
+        $event->setStartTime($testTime);
         $this->assertFalse($event->isAllDay(), 'Event with a start time should not be All Day');
     }
 
     public function testGetFullDatetime()
     {
-        $dateString = '2/4/2014';
-        $timeString = '2:00pm';
+        $testDate = new \DateTime('2014-02-04');
+        $testTime = \DateTime::createFromFormat('H:i', '14:00');
 
         $event = new Event();
-        $event->setStartDate($dateString, DATE_FORMAT);
-        $event->setEndDate  ($dateString, DATE_FORMAT);
+        $event->setStartDate($testDate);
+        $event->setEndDate  ($testDate);
 
         $targetStart = new \DateTime('2014-02-04');
         $targetEnd   = new \DateTime('2014-02-04 23:59:59');
 
-        $this->assertEquals($event->getStart('c'), $targetStart->format('c'));
-        $this->assertEquals($event->getEnd  ('c'), $targetEnd  ->format('c'));
+        $this->assertEquals($targetStart, $event->getStart());
+        $this->assertEquals($targetEnd,   $event->getEnd());
 
-        $event->setStartTime($timeString, TIME_FORMAT);
-        $event->setEndTime  ($timeString, TIME_FORMAT);
-        $this->assertEquals($event->getStart('c'), '2014-02-04T14:00:00-05:00');
-        $this->assertEquals($event->getEnd  ('c'), '2014-02-04T14:00:00-05:00');
+        $event->setStartTime($testTime);
+        $event->setEndTime  ($testTime);
+
+        $target = new \DateTime('2014-02-04 14:00:00');
+        $this->assertEquals($target, $event->getStart());
+        $this->assertEquals($target, $event->getEnd());
     }
 
     public function testEditPermissions()
@@ -97,49 +106,5 @@ class EventTest extends PHPUnit_Framework_TestCase
 
         $event->setDepartment($department);
         $this->assertTrue($event->permitsEditingBy($person), 'Public users cannot edit events for their own department');
-    }
-
-    public function testRequiredFields()
-    {
-        $start = '10/20/2015';
-        $end   = '10/30/2015';
-        $title = 'Title';
-        $desc  = 'Description';
-        $geo   = 'Geography Description';
-
-
-        $event = new Event();
-        $event->setStartDate($start);
-        $event->setEndDate($end);
-        $event->setDescription($desc);
-        $error = $event->validate();
-        $this->assertNotNull($error);
-
-        $event->setTitle($title);
-        $error = $event->validate();
-        $this->assertNull($error);
-    }
-
-    public function testDescriptionLengthValidation()
-    {
-        $start = '10/20/2015';
-        $end   = '10/30/2015';
-        $title = 'Title';
-        $geo   = 'Geography Description';
-        $desc  = 'Description';
-
-        $desc = '';
-        $length = Event::MAX_DESCRIPTION_LENGTH + 1;
-        for ($i=0; $i<=$length; $i++) { $desc.='x'; }
-
-        $event = new Event();
-        $event->setStartDate($start);
-        $event->setEndDate($end);
-        $event->setTitle($title);
-        $event->setDescription($desc);
-        $error = $event->validate();
-
-        $this->assertNotNull($error);
-        $this->assertEquals('description_length', $error->getMessage());
     }
 }

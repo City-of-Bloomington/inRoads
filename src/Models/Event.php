@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -23,6 +22,14 @@ class Event extends ActiveRecord
 
 	private $modified = [];
 	public $recurrence;
+
+	// DateTime fields and the database formats expected
+	private static $DATETIME_FIELDS = [
+        'startDate' => 'Y-m-d',
+          'endDate' => 'Y-m-d',
+        'startTime' => 'H:i:s',
+          'endTime' => 'H:i:s'
+	];
 
 	/**
 	 * Populates the object with data
@@ -108,6 +115,23 @@ class Event extends ActiveRecord
     }
 
     /**
+     * Populate object data from a raw row of data from the database
+     */
+    public function exchangeArray($row)
+    {
+        // Convert dates and times to PHP DateTime objects
+        foreach (self::$DATETIME_FIELDS as $f => $format) {
+            if (!empty($row[$f])) {
+                $date    = \DateTime::createFromFormat($format, $row[$f]);
+                $row[$f] = $date ? $date : null;
+            }
+        }
+
+        $this->data = $row;
+    }
+
+
+    /**
      * WARNING:
      * This is a non-standard validate function.  It returns an Exception,
      * rather than throwing it.
@@ -130,7 +154,9 @@ class Event extends ActiveRecord
             return new \Exception('missingRequiredFields');
         }
 
-        if (($this->getStartDate('U') < 0) || ($this->getEndDate('U') < 0)) {
+        $start = (int)$this->getStartDate()->format('U');
+        $end   = (int)$this->getEndDate  ()->format('U');
+        if (($start < 0) || ($end < 0)) {
             return new \Exception('invalidDate');
         }
 
@@ -203,6 +229,14 @@ class Event extends ActiveRecord
             //
             // In the future, we should look into making validate always return an array of
             // errors, instead of just throwing an exception on the first error it comes to.
+
+            // Convert the DateTime objects back to strings
+            foreach (self::$DATETIME_FIELDS as $f => $format) {
+                if (!empty($this->data[$f])) {
+                    $this->data[$f] = $this->data[$f]->format($format);
+                }
+            }
+
             $zend_db = Database::getConnection();
             $sql = new \Zend\Db\Sql\Sql($zend_db, $this->tablename);
             if ($this->getId()) {
@@ -248,10 +282,10 @@ class Event extends ActiveRecord
     public function getEventType()             { return parent::getForeignKeyObject(__namespace__.'\EventType',  'eventType_id' ); }
     public function getCreated  ($f=null, $tz=null) { return parent::getDateData('created',   $f, $tz); }
     public function getUpdated  ($f=null, $tz=null) { return parent::getDateData('updated',   $f, $tz); }
-    public function getStartDate($f=null, $tz=null) { return parent::getDateData('startDate', $f, $tz); }
-    public function getEndDate  ($f=null, $tz=null) { return parent::getDateData('endDate',   $f, $tz); }
-    public function getStartTime($f=null, $tz=null) { return parent::getDateData('startTime', $f, $tz); }
-    public function getEndTime  ($f=null, $tz=null) { return parent::getDateData('endTime',   $f, $tz); }
+    public function getStartDate()             { return parent::get('startDate'); }
+    public function getEndDate  ()             { return parent::get(  'endDate'); }
+    public function getStartTime()             { return parent::get('startTime'); }
+    public function getEndTime  ()             { return parent::get(  'endTime'); }
     public function getRRule()
     {
         $r = parent::get('rrule');
@@ -307,32 +341,36 @@ class Event extends ActiveRecord
         parent::set('geography_description', $s);
     }
 
-    public function setStartDate($d)
+    public function setStartDate(\DateTime $d=null)
     {
-        $prev = parent::get('startDate');
-        parent::setDateData('startDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT);
-        if (parent::get('startDate') !== $prev) { $this->modified['start'] = true; }
+        if ($this->get ('startDate') !== $d) {
+            $this->data['startDate'] =   $d;
+            $this->modified['start'] = true;
+        }
     }
 
-    public function setEndDate($d)
+    public function setEndDate(\DateTime $d=null)
     {
-        $prev = parent::get('endDate');
-        parent::setDateData('endDate', $d, DATE_FORMAT, ActiveRecord::MYSQL_DATE_FORMAT);
-        if (parent::get('endDate') !== $prev) { $this->modified['end'] = true; }
+        if ($this->get ('endDate') !== $d) {
+            $this->data['endDate'] =   $d;
+            $this->modified['end'] = true;
+        }
     }
 
-    public function setStartTime($t)
+    public function setStartTime(\DateTime $t=null)
     {
-        $prev = parent::get('startTime');
-        parent::setDateData('startTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT);
-        if (parent::get('startTime') !== $prev) { $this->modified['start'] = true; }
+        if ($this->get ('startTime') !== $t) {
+            $this->data['startTime'] =   $t;
+            $this->modified['start'] = true;
+        }
     }
 
-    public function setEndTime($t)
+    public function setEndTime(\DateTime $t=null)
     {
-        $prev = parent::get('endTime');
-        parent::setDateData('endTime', $t, TIME_FORMAT, ActiveRecord::MYSQL_TIME_FORMAT);
-        if (parent::get('endTime') !== $prev) { $this->modified['end'] = true; }
+        if ($this->get ('endTime') !== $t) {
+            $this->data['endTime'] =   $t;
+            $this->modified['end'] = true;
+        }
     }
 
     public function setRRule(Rule $rule=null)
@@ -354,11 +392,35 @@ class Event extends ActiveRecord
         }
         $this->setConstructionFlag(isset($post['constructionFlag']) && $post['constructionFlag']);
 
-        $this->setStartDate($post['start']['date']);
-        $this->setStartTime($post['start']['time']);
-        $this->setEndDate($post['end']['date']);
-        $this->setEndTime($post['end']['time']);
+        // Convert browser date and time strings to DateTime objects
+        if (!empty($post['start']['date'])) {
+            $d = \DateTime::createFromFormat('Y-m-d', $post['start']['date']);
+            $this->setStartDate($d ? $d : null);
+        }
+        if (!empty($post['start']['time'])) {
+            $d = \DateTime::createFromFormat('H:i', $post['start']['time']);
+            $this->setStartTime($d ? $d : null);
+        }
+        if (!empty($post['end']['date'])) {
+            $d = \DateTime::createFromFormat('Y-m-d', $post['end']['date']);
+            $this->setEndDate($d ? $d : null);
+        }
+        if (!empty($post['end']['time'])) {
+            $d = \DateTime::createFromFormat('H:i', $post['end']['time']);
+            $this->setEndTime($d ? $d : null);
+        }
 
+        $this->setRRule($this->createRRule($post));
+    }
+
+    /**
+     * Extracts information from POST and creates an RRULE
+     *
+     * @param  array $post  The $_POST array
+     * @return Rule
+     */
+    private function createRRule(array $post)
+    {
         $recur = null;
         if (!empty($post['frequency'])) {
             $recur = new Rule();
@@ -397,7 +459,7 @@ class Event extends ActiveRecord
                     break;
             }
         }
-        $this->setRRule($recur);
+        return $recur;
     }
 
 	//----------------------------------------------------------------
@@ -412,24 +474,37 @@ class Event extends ActiveRecord
     /**
      * Combines startDate and startTime into a single datetime output
      *
-     * This function reads from event data stored in the local database
-     *
-     * @param string $format
-     * @return string
+     * @return \DateTime
      */
-    public function getStart($format=DATETIME_FORMAT)
+    public function getStart()
     {
-        $d = new \DateTime("{$this->getStartDate()} {$this->getStartTime()}");
-        return $d->format($format);
+        $startDate = $this->getStartDate();
+        $startTime = $this->getStartTime();
+        if ($startDate) {
+            $dateString = $startDate->format('Y-m-d');
+            if ($startTime) {
+                $dateString.= ' '.$startTime->format('H:i:s');
+            }
+            return new \DateTime($dateString);
+        }
     }
-    public function getEnd($format=DATETIME_FORMAT)
-    {
-        $endTime = $this->isAllDay()
-            ? '23:59:59'
-            : $this->getEndTime();
 
-        $d = new \DateTime("{$this->getEndDate()} $endTime");
-        return $d->format($format);
+    /**
+     * Combines endDate and endTime into a single datetime output
+     *
+     * @return \DateTime
+     */
+    public function getEnd()
+    {
+        $endDate = $this->getEndDate();
+        if ($endDate) {
+            $endTime = $this->isAllDay()
+                ? '23:59:59'
+                : $this->getEndTime()->format('H:i:s');
+
+            $dateString = $endDate->format('Y-m-d').' '.$endTime;
+            return new \DateTime($dateString);
+        }
     }
 
     /**
@@ -439,12 +514,12 @@ class Event extends ActiveRecord
      */
     public function getHumanReadableDuration($dateFormat=DATE_FORMAT, $timeFormat=TIME_FORMAT)
     {
-        $startDate = $this->getStartDate($dateFormat);
-          $endDate = $this->getEndDate  ($dateFormat);
+        $startDate = $this->getStartDate()->format($dateFormat);
+          $endDate = $this->getEndDate  ()->format($dateFormat);
 
         if (!$this->isAllDay()) {
-            $startTime = $this->getStartTime($timeFormat);
-              $endTime = $this->getEndTime  ($timeFormat);
+            $startTime = $this->getStartTime()->format($timeFormat);
+              $endTime = $this->getEndTime  ()->format($timeFormat);
         }
         else {
             $startTime = null;
@@ -562,26 +637,24 @@ class Event extends ActiveRecord
             $timezone = ini_get('date.timezone');
 
             if ($this->isAllDay()) {
-                $startDate = $this->getStartDate(GoogleGateway::DATE_FORMAT);
-                $endDate   = $this->getEndDate  (GoogleGateway::DATE_FORMAT);
-                if (!$startDate || !$endDate) {
+                if (!$this->getStartDate() || !$this->getEndDate()) {
                     throw new \Exception('events/invalidDate');
                 }
 
                 $patch->setStart(new \Google_Service_Calendar_EventDateTime([
-                    'date'     => $startDate,
+                    'date'     => $this->getStartDate()->format(GoogleGateway::DATE_FORMAT),
                     'dateTime' => \Google_Model::NULL_VALUE,
                     'timeZone' => $timezone
                 ]));
                 $patch->setEnd  (new \Google_Service_Calendar_EventDateTime([
-                    'date'     => $endDate,
+                    'date'     => $this->getEndDate()->format(GoogleGateway::DATE_FORMAT),
                     'dateTime' => \Google_Model::NULL_VALUE,
                     'timeZone' => $timezone
                 ]));
             }
             else {
-                $startDate = \DateTime::createFromFormat(ActiveRecord::MYSQL_DATETIME_FORMAT, "{$this->getStartDate()} {$this->getStartTime()}");
-                $endDate   = \DateTime::createFromFormat(ActiveRecord::MYSQL_DATETIME_FORMAT, "{$this->getEndDate()} {$this->getEndTime()}");
+                $startDate = $this->getStart();
+                $endDate   = $this->getEnd();
                 if (!$startDate || !$endDate) {
                     throw new \Exception('events/invalidDate');
                 }
