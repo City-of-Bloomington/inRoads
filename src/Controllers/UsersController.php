@@ -44,6 +44,9 @@ class UsersController extends Controller
 			try {
 				$person->handleUpdateUserAccount($_POST);
 				$person->save();
+				if ($_SESSION['USER']->getId() == $person->getId()) {
+                    $_SESSION['USER'] = $person;
+				}
 				header('Location: '.BASE_URL.'/users');
 				exit();
 			}

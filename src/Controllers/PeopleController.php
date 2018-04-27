@@ -61,6 +61,9 @@ class PeopleController extends Controller
             try {
                 $person->handleUpdate($_POST);
                 $person->save();
+                if ($_SESSION['USER']->getId() == $person->getId()) {
+                    $_SESSION['USER'] = $person;
+                }
 
                 header("Location: $return_url");
                 exit();

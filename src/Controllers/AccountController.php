@@ -32,6 +32,7 @@ class AccountController extends Controller
             try {
                 $person->handleUpdate($_POST);
                 $person->save();
+                $_SESSION['USER'] = $person;
 
                 header('Location: '.BASE_URI.'/account');
                 exit();
