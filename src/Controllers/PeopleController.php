@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2012-2015 City of Bloomington, Indiana
+ * @copyright 2012-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
 use Application\Models\Person;
@@ -51,19 +50,18 @@ class PeopleController extends Controller
 	public function update()
 	{
         $person = !empty($_REQUEST['person_id'])
-            ? $this->loadPerson($_REQUEST['person_id'])
-            : new Person();
+                ? $this->loadPerson($_REQUEST['person_id'])
+                : new Person();
 
         $return_url = !empty($_REQUEST['return_url'])
-            ? $_REQUEST['return_url']
-            : null;
+                    ? $_REQUEST['return_url']
+                    : BASE_URL."/people/view?person_id={$person->getId()}";
 
 		if (isset($_POST['firstname'])) {
             try {
                 $person->handleUpdate($_POST);
                 $person->save();
 
-                if (!$return_url) { $return_url = BASE_URL."/people/view?person_id={$person->getId()}"; }
                 header("Location: $return_url");
                 exit();
             }

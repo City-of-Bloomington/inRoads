@@ -131,6 +131,9 @@ msgstr "Delete Account"
 msgid "user_info"
 msgstr "Account Info"
 
+msgid "account"
+msgstr "My Account"
+
 msgid "event"
 msgid_plural "events"
 msgstr[0] "Event"
