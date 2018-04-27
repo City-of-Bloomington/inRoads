@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Event $this->event
  */
 use Application\Models\Event;
@@ -16,12 +15,15 @@ $segments = [];
 foreach ($this->event->getSegments() as $segment) {
     $segments[] = "{$segment->getStreet()} from {$segment->getStreetFrom()} to {$segment->getStreetTo()}";
 }
-$location = $segments ? implode("\n", $segments) : $this->event->getGeography_description();
+$segments = $segments ? implode("\n", $segments) : '';
 
 echo "
 -------------------------------------------------
 ## {$this->event->getTitle()} ##
-$location
+{$this->event->getGeography_description()}
+
+$segments
+
 {$this->event->getHumanReadableDuration('F j, Y')}
 $type
 {$this->event->getDescription()}
