@@ -6,10 +6,11 @@
  */
 use Application\Models\Event;
 
-$t = $this->event->getEventType();
+$t    = $this->event->getEventType();
 $type = $t ? "{$t->getName()}; {$t->getDescription()}" : '';
 
-$url = BASE_URL.'/events/view?id='.$this->event->getId();
+$base_url = defined('PROXY_URL') ? PROXY_URL : BASE_URL;
+$url      = "$base_url/events/view?id={$this->event->getId()}";
 
 $segments = [];
 foreach ($this->event->getSegments() as $segment) {

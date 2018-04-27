@@ -11,13 +11,18 @@ define('APPLICATION_TWITTER_SITE', '@twitter_handle');
  *
  * Do NOT use trailing slashes
  *
- * If your site is being proxied, change BASE_HOST to the hostname
- * used for the outside world.
+ * If your site is being proxied, set the PROXY_HOST to the DNS name
+ * of the proxy server.  PROXY_URL will be used instead of BASE_URL
+ * in non-web contexts, such as email notifications.
  */
 define('BASE_URI' , '/inroads');
-define('BASE_HOST', isset($_SERVER['HTTP_X_FORWARDED_HOST'])
-                        ? $_SERVER['HTTP_X_FORWARDED_HOST']
-                        : $_SERVER['SERVER_NAME']);
+#define('PROXY_HOST', 'some.host.org');
+#define('PROXY_URL', 'https://'.PROXY_HOST.BASE_URI);
+define('BASE_HOST', (defined('PROXY_HOST')
+                        && isset($_SERVER['HTTP_X_FORWARDED_HOST'])
+                        &&       $_SERVER['HTTP_X_FORWARDED_HOST'] == PROXY_HOST)
+                    ? PROXY_HOST
+                    : $_SERVER['SERVER_NAME']);
 define('BASE_URL' , "https://".BASE_HOST.BASE_URI);
 
 /**
