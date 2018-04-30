@@ -5,32 +5,34 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 global $AUTH0;
+$helper      = $this->getHelper('dropdown');
+$dropdown_id = 'user_menu';
 
 if (isset($_SESSION['USER'])) {
-    $name = parent::escape($_SESSION['USER']->getFullname());
-
-    echo "
-    <div class=\"menuLauncher\">$name</div>
-    <div class=\"menuLinks closed\">
-        <a href=\"".BASE_URI."/account\">{$this->_('account')}</a>
-        <a href=\"".BASE_URI."/login/logout\">{$this->_('logout')}</a>
-    </div>
-    ";
+    $name  = parent::escape($_SESSION['USER']->getFullname());
+    $links = [
+        ['url'=> BASE_URI.'/account',      'label'=>$this->_('account')],
+        ['url'=> BASE_URI.'/login/logout', 'label'=>$this->_('logout' )]
+    ];
+    echo $helper->dropdown($links, $name, $dropdown_id);
 }
 else {
+    $links      = [];
     $return_url = parent::escape($_SERVER['REQUEST_URI']);
+
     if (defined('CAS') || isset($AUTH0)) {
         if (defined('CAS')) {
-            echo "<a href=\"".BASE_URI."/login/cas?return_url=$return_url\">CAS Login</a>";
+            $links[] = ['url'=>BASE_URI."/login/cas?return_url=$return_url", 'label'=>$this->_('login_cas')];
         }
         if (isset($AUTH0)) {
-            echo "<a href=\"".BASE_URI."/login/auth0?return_url=$return_url\">Auth0 Login</a>";
+            $links[] = ['url'=>BASE_URI."/login/auth0?return_url=$return_url", 'label'=>$this->_('login_auth0')];
         }
 
     }
     else {
-        echo "<a href=\"".BASE_URI."/login?return_url=$return_url\">{$this->_('login')}</a>";
+        $links[] = ['url'=>BASE_URI."/login?return_url=$return_url", 'label'=>$this->_('login')];
     }
+    echo $helper->dropdown($links, $this->_('login'), $dropdown_id);
 }
 ?>
 </nav>

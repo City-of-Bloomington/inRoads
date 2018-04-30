@@ -1,41 +1,54 @@
-/**
- * @copyright 2015 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
- */
-.menuLauncher {
-    cursor: pointer; display: inline-table;
-}
-.menuLinks {
-    position:absolute;
-    display:inline-table;
-    opacity: 0;
-    white-space:nowrap;
-    transition: opacity .2s;
-    z-index:7;
+.dropdown {
+    display: inline-block;
+    margin: 0 $size-gutter;
+    position: relative;
 
-    &.open   { opacity: 1; }
-    &.closed { top: -10000px; left: -10000px; }
+    .launcher {
+        border:1px solid $color-border-input;
+        border-radius: $size-gutter;
+        outline: none;
+        background-repeat: no-repeat;
+        background-position: $size-gutter center;
+        background-size: ($size-gutter*2) ($size-gutter*2);
+        background-image:url('images/chevron-down.svg'); padding-left:1.7em;
 
-    a { display: block; }
-}
+        &[aria-expanded="true"] + .links {
+            display:block;
+        }
+        &[aria-expanded="false"] + .links {
+            display:none;
+        }
+    }
 
-.site-utilityBar {
-    .menuLinks {
+    .links {
         background: $color-content-background;
-        border: 1px solid $color-border-modal;
-        box-shadow: 0 0 1em 0 $color-shadow;
-        padding: .5em 0;
-
-        a {
-            padding: .5em 1em;
-            transition: background .25s, color .25s;
-
-            &:hover {
-                background: $color-header;
-                color: $color-content-background;
-                text-decoration: none;
-            }
+        box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.5);
+        min-width: 12rem;
+        padding: $size-gutter 0;
+        position: absolute;
+            top: 100%;
+            left: 0;
+        text-align: left; // In case a menu gets embedded in a parent that is right-aligned
+        transition: opacity .125s ease-in-out;
+        z-index: 20;
+    }
+    .subgroup {
+        &:not(:first-of-type):before {
+            background-color: $color-link;
+            color: $color-content-background;
+            content: '';
+            display: block;
+            height: 1px;
+            margin: $size-gutter;
+        }
+    }
+    a {
+        font-family: $font-headings;
+        display: block;
+        padding: ($size-gutter/2) $size-gutter;
+        &:hover {
+            background-color: $color-link;
+            color: $color-content-background;
         }
     }
 }

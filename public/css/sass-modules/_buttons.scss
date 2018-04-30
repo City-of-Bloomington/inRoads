@@ -53,3 +53,11 @@ button, .button {
         background: url('images/pencil.svg') no-repeat 50% 50% / 100% 100%;
     }
 }
+
+footer .button, .dropdown button {
+    font-size: 1rem;
+    background: $cob-green;
+    border: 0 none;
+    border-bottom: .25em solid $cob-green-light;
+    color: $color-content-background;
+}
