@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2014-2016 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param array $this->events An array of Events
  */
@@ -11,16 +11,14 @@ $WAZE_DATE_FORMAT = \DateTime::RFC3339;
 echo '<events>';
 foreach ($this->events as $event) {
     if (empty($event->recurrence)) {
-        $startDateTime = $event->getStart($WAZE_DATE_FORMAT);
-        $endDateTime   = $event->getEnd  ($WAZE_DATE_FORMAT);
+        $startDateTime = $event->getStart()->format($WAZE_DATE_FORMAT);
+        $endDateTime   = $event->getEnd  ()->format($WAZE_DATE_FORMAT);
     }
     else {
         $data = [];
         GoogleGateway::parseDates($data, $event->recurrence);
-        $tempS = empty($data['startTime']) ? new \DateTime($data['startDate']) : new \DateTime("$data[startDate] $data[startTime]");
-        $tempE = empty($data['endTime'  ]) ? new \DateTime($data['endDate'  ]) : new \DateTime("$data[endDate] $data[endTime]");
-        $startDateTime = $tempS->format($WAZE_DATE_FORMAT);
-        $endDateTime   = $tempE->format($WAZE_DATE_FORMAT);
+        $startDateTime = $data['startDate']->format($WAZE_DATE_FORMAT);
+        $endDateTime   = $data[  'endDate']->format($WAZE_DATE_FORMAT);
     }
 
     $cifsType    = self::escape($event->getEventType()->getCifsType());

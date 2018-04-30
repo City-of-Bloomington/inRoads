@@ -213,6 +213,8 @@ class GoogleGateway
      * Writes startDate, startTime, endDate, endTime and rrule
      * into the provided data array from the Google Event.
      *
+     * Dates and times are converted to PHP DateTime objects.
+     *
      * @param array $data
      * @param Google_Service_Calendar_Event $e
      */
@@ -220,20 +222,20 @@ class GoogleGateway
     {
         if ($e->start->dateTime) {
             $d = new \DateTime($e->start->dateTime);
-            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-            $data['startTime'] = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
+            $data['startDate'] = $d;
+            $data['startTime'] = $d;
 
             $d = new \DateTime($e->end->dateTime);
-            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
-            $data['endTime']   = $d->format(ActiveRecord::MYSQL_TIME_FORMAT);
+            $data['endDate']   = $d;
+            $data['endTime']   = $d;
         }
         else {
             // All Day Event
             $d = new \DateTime($e->start->date);
-            $data['startDate'] = $d->format(ActiveRecord::MYSQL_DATE_FORMAT);
+            $data['startDate'] = $d;
 
             $d = new \DateTime($e->end->date.' 23:59:59');
-            $data['endDate']   = $d->format(ActiveRecord::MYSQL_DATETIME_FORMAT);
+            $data['endDate']   = $d;
         }
         if ($e->recurrence) {
             foreach ($e->recurrence as $r) {
