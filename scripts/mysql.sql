@@ -12,7 +12,7 @@ create table people (
 	department_id        int unsigned,
 	firstname            varchar(128) not null,
 	lastname             varchar(128) not null,
-	email                varchar(255) not null,
+	email                varchar(255) unique,
 	phone                varchar(16),
 	username             varchar(40) unique,
 	password             varchar(40),

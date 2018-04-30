@@ -78,9 +78,11 @@ class LoginController extends Controller
 	{
 		if (isset($_POST['username'])) {
 			try {
-				$person = new Person($_POST['username']);
-				if ($person->authenticate($_POST['password'])) {
-					$_SESSION['USER'] = $person;
+				$user = Person::findByUsername($_POST['username']);
+				if (!$user) { throw new \Exception(Person::ERROR_UNKNOWN_PERSON); }
+
+				if ($user->authenticate($_POST['password'])) {
+					$_SESSION['USER'] = $user;
 					header('Location: '.$this->return_url);
 					exit();
 				}
@@ -110,9 +112,13 @@ class LoginController extends Controller
 	private function registerUser(string $username)
 	{
         try {
-            $_SESSION['USER'] = new Person($username);
-            header("Location: {$this->return_url}");
-            exit();
+            $user = Person::findByUsername($username);
+            if ($user) {
+                $_SESSION['USER'] = $user;
+                header("Location: {$this->return_url}");
+                exit();
+            }
+            throw new \Exception(Person::ERROR_UNKNOWN_PERSON);
         }
         catch (\Exception $e) {
             $_SESSION['errorMessages'][] = $e;

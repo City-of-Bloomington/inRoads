@@ -14,6 +14,24 @@ class Person extends ActiveRecord
 
 	protected $department;
 
+	const ERROR_UNKNOWN_PERSON = 'person/unknown';
+
+	/**
+	 * Returns the matching Person object or null if not found
+	 *
+	 * @return Person
+	 */
+	public static function findByUsername(string $username)
+	{
+        $zend_db = Database::getConnection();
+        $sql = 'select * from people where username=?';
+
+        $result = $zend_db->createStatement($sql)->execute([$username]);
+        if (count($result)) {
+            return new Person($result->current());
+        }
+	}
+
 	/**
 	 * Populates the object with data
 	 *
@@ -48,7 +66,7 @@ class Person extends ActiveRecord
 					$this->exchangeArray($result->current());
 				}
 				else {
-					throw new \Exception('person/unknown');
+					throw new \Exception(self::ERROR_UNKNOWN_PERSON);
 				}
 			}
 		}
