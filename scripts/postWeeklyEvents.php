@@ -1,9 +1,8 @@
 #!/usr/local/bin/php
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 use Application\Models\EventType;
 use Application\Models\GoogleGateway;
@@ -22,14 +21,14 @@ foreach (EventType::types() as $type) {
         $filters['eventTypes'][] = $type->getCode();
     }
 }
-$list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
-$block = new Block('events/summary.inc', [
+$list     = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
+$block    = new Block('events/summary.inc', [
     'start'     => $start,
     'end'       => $end,
     'eventList' => $list
 ]);
-
-$message = $block->render('txt');
-$subject = 'Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT);
-$from    = 'From: '.ADMINISTRATOR_EMAIL;
+$template = new Template('default', 'txt');
+$message  = $block->render('txt', $template);
+$subject  = 'Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT);
+$from     = 'From: '.ADMINISTRATOR_EMAIL;
 mail(GOOGLE_GROUP, $subject, $message, $from);

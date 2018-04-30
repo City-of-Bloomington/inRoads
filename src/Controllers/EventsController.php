@@ -14,6 +14,7 @@ use Application\Template\Helpers\ButtonLink;
 use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Block;
 use Blossom\Classes\Controller;
+use Blossom\Classes\Template;
 
 class EventsController extends Controller
 {
@@ -89,7 +90,6 @@ class EventsController extends Controller
         else {
             $this->template->blocks[] = $eventListBlock;
         }
-
     }
 
     public function view()
@@ -147,6 +147,12 @@ class EventsController extends Controller
                 $event->handleUpdate($_POST);
                 $event->save();
 
+                $table = new PeopleTable();
+                $list  = $table->find(['notifications'=>true]);
+                if (count($list)) {
+                    self::sendNotifications($event, $list);
+                }
+
                 $url = $existingEventId
                     ? BASE_URL.'/events/view?id='   .$event->getId()
                     : BASE_URL.'/segments?event_id='.$event->getId();
@@ -181,4 +187,24 @@ class EventsController extends Controller
         header('Location: '.BASE_URL.'/events');
         exit();
     }
+
+	public static function sendNotifications(Event $event, array $people)
+	{
+        $template     = new Template('default', 'txt');
+        $block        = new Block('events/notification.inc', ['event'=>$event]);
+
+        $message      = $block->render('txt', $template);
+        $subject      = sprintf($template->_('notification_subject', 'messages'), APPLICATION_NAME);
+        $name         = preg_replace('/[^a-zA-Z0-9]+/','_',APPLICATION_NAME);
+        $fromEmail    = "$name@". BASE_HOST;
+        $fromFullname = APPLICATION_NAME;
+
+        foreach ($people as $p) {
+            $to = $p->getEmail();
+            if ($to) {
+                $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
+                mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
+            }
+        }
+	}
 }

@@ -16,12 +16,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-msgid "signed_in_as"
-msgstr "Signed in as %s"
-
-msgid "departmentContactInfo"
-msgstr "If you have any problems with this project, please contact %s %s"
-
 msgid "title_help"
 msgstr "Enter the title for the event"
 
@@ -33,3 +27,6 @@ msgstr "Smooth driving ahead!"
 
 msgid "noEventsReturned.message"
 msgstr "Either you've found the perfect day to travel, or your query returned no results (it's probably more the second thing)."
+
+msgid "notification_subject"
+msgstr "%s Notification"
