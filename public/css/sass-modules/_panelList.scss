@@ -118,11 +118,12 @@
             transform: scaleY(-1) translateY($translateDistance);
         }
     }
-    .title {
-        color: $color-link;
-        display: block;
+    h2 {
         font-family: $font-family-default;
         font-size: (14rem/16);
+    }
+    .title {
+        color: $color-link;
         margin: 0 3rem (2rem/16) 0;
     }
     .dates {
