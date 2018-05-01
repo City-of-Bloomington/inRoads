@@ -10,18 +10,13 @@ inRoads is in live production use at https://bloomington.in.gov/inroads
 ## Requirements
 * Linux
 * Apache
-* MySQL
-* PHP
+* MySQL  >= 5.7
+* PHP    >= 7.0
+* postfix
 
 ### Dev Requirements
 If you want to build this project you'll need
-* Linux   - the Makefile is written assuming bash
-* gettext - for compiling language files
-* pysassc - Python libsass for compiling SASS files
-
-## Installation
-
-
-We use the same configuration for our PHP applications. To make sure the documentation stays up to date, we maintain it separately. It is available here:
-
-https://github.com/City-of-Bloomington/blossom/wiki
+* Linux    - the Makefile is written assuming bash
+* composer - PHP dependency manager
+* gettext  - for compiling language files
+* pysassc  - Python libsass for compiling SASS files
