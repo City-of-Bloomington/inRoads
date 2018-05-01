@@ -320,3 +320,6 @@ msgstr "Date and time information"
 
 msgid "ok"
 msgstr "Okay"
+
+msgid "primaryContact"
+msgstr "Primary Contact"

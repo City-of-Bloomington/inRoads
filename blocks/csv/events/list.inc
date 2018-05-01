@@ -23,7 +23,7 @@ foreach ($this->events as $e) {
         'title'                 => $e->getTitle(),
         'geography_description' => $e->getGeography_description(),
         'description'           => $e->getDescription(),
-        'contactInfo'           => $e->getContactInfo()
+        'primaryContact'        => $e->getPrimaryContact()
     ];
     $rrule = $e->getRRule();
     if ($rrule) { $event['rrule'] = $rrule->getString(); }

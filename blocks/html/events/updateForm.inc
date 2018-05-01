@@ -14,7 +14,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 $department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->getDepartment_id();
 $eventType_id  = $this->event->getEventType_id();
 $title                 = parent::escape($this->event->getTitle());
-$contactInfo           = parent::escape($this->event->getContactInfo());
+$primaryContact        = parent::escape($this->event->getPrimaryContact());
 $description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
 ?>
@@ -291,10 +291,10 @@ $geography_description = parent::escape($this->event->getGeography_description()
                 ]
             ]);
             echo $h->field([
-                'name'     => 'contactInfo',
-                'id'       => 'contactInfo',
-                'label'    => $this->_('contactInfo'),
-                'value'    => $contactInfo,
+                'name'     => 'primaryContact',
+                'id'       => 'primaryContact',
+                'label'    => $this->_('primaryContact'),
+                'value'    => $primaryContact,
                 'type'     => 'textarea'
             ]);
         ?>

@@ -9,7 +9,7 @@ use Application\Models\Event;
 use Application\Models\EventType;
 
 $title                 = parent::escape($this->event->getTitle());
-$contactInfo           = parent::escape($this->event->getContactInfo());
+$primaryContact        = parent::escape($this->event->getPrimaryContact());
 $description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
 
@@ -40,8 +40,8 @@ if ($t) {
         if ($description) {
             echo "\t<div class=\"description\">$description</div>\n";
         }
-        if ($contactInfo) {
-            echo "\t<div class=\"contactInfo\">$contactInfo</div>\n";
+        if ($primaryContact) {
+            echo "\t<div class=\"primaryContact\">$primaryContact</div>\n";
         }
 
         $geography = $this->event->getGeography();

@@ -39,7 +39,7 @@ create table events (
     eventType_id  int unsigned not null,
     google_event_id varchar(32) unique,
     title           varchar(128),
-    contactInfo     varchar(128),
+    primaryContact  varchar(128),
     description     text,
     constructionFlag boolean not null default 1,
     startDate date not null,
