@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
 
@@ -10,6 +9,7 @@ use Application\Models\Event;
 use Application\Models\EventType;
 use Application\Models\GoogleGateway;
 use Application\Models\Person;
+use Application\Models\PeopleTable;
 use Application\Template\Helpers\ButtonLink;
 use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Block;

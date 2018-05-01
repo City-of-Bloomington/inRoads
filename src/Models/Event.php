@@ -63,7 +63,8 @@ class Event extends ActiveRecord
 				$sql = "select  id, department_id, google_event_id, eventType_id,
                                 startDate, endDate, startTime, endTime, rrule,
                                 AsText(geography) geography, geography_description,
-                                title, description, created, updated, constructionFlag
+                                title, contactInfo, description,
+                                created, updated, constructionFlag
                         from events ";
                 $sql.= ActiveRecord::isId($id)
                     ? 'where id=?'
@@ -274,6 +275,7 @@ class Event extends ActiveRecord
     public function getEventType_id()          { return parent::get('eventType_id');          }
 	public function getGoogle_event_id()       { return parent::get('google_event_id');       }
 	public function getTitle()                 { return parent::get('title');                 }
+	public function getContactInfo()           { return parent::get('contactInfo');           }
     public function getDescription()           { return parent::get('description');           }
     public function getGeography_description() { return parent::get('geography_description'); }
     public function getGeography()             { return parent::get('geography');             }
@@ -295,6 +297,7 @@ class Event extends ActiveRecord
         }
     }
 
+    public function setContactInfo     ($s) { parent::set('contactInfo',     $s); }
     public function setGoogle_event_id ($s) { parent::set('google_event_id', $s); }
     public function setGeography       ($s) { parent::set('geography', preg_replace('/[^A-Z0-9\s\(\)\,\-\.]/', '', $s)); }
     public function setConstructionFlag($b) { $this->data['constructionFlag'] = $b ? 1 : 0; }
@@ -383,8 +386,9 @@ class Event extends ActiveRecord
     public function handleUpdate($post)
     {
         $fields = [
-            'department_id', 'eventType_id', 'google_event_id', 'title',
-            'description', 'geography', 'geography_description'
+            'department_id', 'eventType_id', 'google_event_id',
+            'title', 'contactInfo', 'description',
+            'geography', 'geography_description'
         ];
         foreach ($fields as $f) {
             $set = 'set'.ucfirst($f);

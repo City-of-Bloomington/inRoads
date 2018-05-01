@@ -1,16 +1,16 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
- * @param Event $this->event
- * @param string $this->link Specifies what to draw a link around.
+ * @param Event  $this->event
+ * @param string $this->link  Specifies what to draw a link around.
  */
 use Application\Models\Event;
 use Application\Models\EventType;
-use Blossom\Classes\View;
 
 $title                 = parent::escape($this->event->getTitle());
+$contactInfo           = parent::escape($this->event->getContactInfo());
+$description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
 
 $id = $this->event->getId()
@@ -25,8 +25,8 @@ if ($this->link && $this->link === 'title') {
 $typeClass = '';
 $t = $this->event->getEventType();
 if ($t) {
-    $tn = View::escape($t->getName());
-    $td = View::escape($t->getDescription());
+    $tn = parent::escape($t->getName());
+    $td = parent::escape($t->getDescription());
     $typeDiv   = "<div class=\"type\">$tn; $td</div>";
     $typeClass = "class=\"{$t->getCode()}\"";
 }
@@ -37,9 +37,11 @@ if ($t) {
     <div class="dates"><?= $this->event->getHumanReadableDuration('F j, Y'); ?></div>
     <?php
 
-        $description = View::escape($this->event->getDescription());
         if ($description) {
             echo "\t<div class=\"description\">$description</div>\n";
+        }
+        if ($contactInfo) {
+            echo "\t<div class=\"contactInfo\">$contactInfo</div>\n";
         }
 
         $geography = $this->event->getGeography();

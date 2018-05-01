@@ -14,10 +14,9 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 $department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->getDepartment_id();
 $eventType_id  = $this->event->getEventType_id();
 $title                 = parent::escape($this->event->getTitle());
+$contactInfo           = parent::escape($this->event->getContactInfo());
 $description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
-
-
 ?>
 <div class="editPanel">
 <form method="post" id="eventUpdateForm" action="<?= BASE_URI; ?>/events/update">
@@ -290,6 +289,13 @@ $geography_description = parent::escape($this->event->getGeography_description()
                 'attr'     => [
                     'maxlength' => $max_length
                 ]
+            ]);
+            echo $h->field([
+                'name'     => 'contactInfo',
+                'id'       => 'contactInfo',
+                'label'    => $this->_('contactInfo'),
+                'value'    => $contactInfo,
+                'type'     => 'textarea'
             ]);
         ?>
 
