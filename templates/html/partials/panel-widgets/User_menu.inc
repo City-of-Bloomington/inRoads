@@ -20,8 +20,8 @@ else {
     $links      = [];
     $return_url = parent::escape($_SERVER['REQUEST_URI']);
 
-    if (defined('CAS') || isset($AUTH0)) {
-        if (defined('CAS')) {
+    if (defined('CAS_SERVER') || isset($AUTH0)) {
+        if (defined('CAS_SERVER')) {
             $links[] = ['url'=>BASE_URI."/login/cas?return_url=$return_url", 'label'=>$this->_('login_cas')];
         }
         if (isset($AUTH0)) {

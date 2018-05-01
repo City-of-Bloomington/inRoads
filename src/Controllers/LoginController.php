@@ -57,8 +57,7 @@ class LoginController extends Controller
 	{
 		// If they don't have CAS configured, send them onto the application's
 		// internal authentication system
-		if (defined('CAS')) {
-            require_once CAS.'/CAS.php';
+		if (defined('CAS_SERVER')) {
             \phpCAS::client(CAS_VERSION_2_0, CAS_SERVER, 443, CAS_URI, false);
             \phpCAS::setNoCasServerValidation();
             \phpCAS::forceAuthentication();
