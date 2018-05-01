@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->events An array of Events
  */
 use Application\Models\Person;
@@ -18,8 +17,8 @@ foreach ($this->events as $e) {
         'id'                    => $e->getId(),
         'type'                  => $e->getEventType(),
         'department'            => $e->getDepartment(),
-        'start'                 => $e->getStart($format),
-        'end'                   => $e->getEnd  ($format),
+        'start'                 => $e->getStart()->format($format),
+        'end'                   => $e->getEnd  ()->format($format),
         'title'                 => $e->getTitle(),
         'geography_description' => $e->getGeography_description(),
         'description'           => $e->getDescription()

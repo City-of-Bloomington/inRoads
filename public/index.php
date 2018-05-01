@@ -47,6 +47,8 @@ else {
 echo $template->render();
 
 # Calculate the process time
-$endTime = microtime(1);
-$processTime = $endTime - $startTime;
-echo "<!-- Process Time: $processTime -->";
+if ($template->outputFormat == 'html') {
+    $endTime = microtime(1);
+    $processTime = $endTime - $startTime;
+    echo "<!-- Process Time: $processTime -->";
+}
