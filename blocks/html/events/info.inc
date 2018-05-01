@@ -13,6 +13,8 @@ $title                 = parent::escape($this->event->getTitle());
 $primaryContact        = parent::escape($this->event->getPrimaryContact());
 $description           = parent::escape($this->event->getDescription());
 $geography_description = parent::escape($this->event->getGeography_description());
+$department            = parent::escape($this->event->getDepartment());
+$geography             = $this->event->getGeography();
 
 $id = $this->event->getId()
     ? $this->event->getId()
@@ -45,7 +47,7 @@ if ($t) {
             echo "\t<div class=\"primaryContact\">$primaryContact</div>\n";
         }
 
-        $geography = $this->event->getGeography();
-        echo "\t<div class=\"geography\">$geography</div>\n";
+        if ($department) { echo "\t<div class=\"department\">$department</div>\n"; }
+        if ($geography ) { echo "\t<div class=\"geography\" >$geography</div>\n";  }
     ?>
 </article>
