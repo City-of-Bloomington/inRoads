@@ -41,7 +41,7 @@ $ZEND_ACL->allow(null,
     ['index', 'view']
 );
 
-$ZEND_ACL->allow('Public', 'events'  , ['index', 'view', 'update']);
+$ZEND_ACL->allow('Public', 'events'  , ['index', 'view', 'update', 'viewPrimaryContact']);
 $ZEND_ACL->allow('Public', 'segments', ['index', 'view', 'update', 'search', 'delete']);
 $ZEND_ACL->allow('Public', 'streets' , ['index',                   'search']);
 $ZEND_ACL->allow('Public', 'account');

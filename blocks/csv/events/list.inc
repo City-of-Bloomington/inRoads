@@ -22,9 +22,11 @@ foreach ($this->events as $e) {
         'end'                   => $e->getEnd  ()->format($format),
         'title'                 => $e->getTitle(),
         'geography_description' => $e->getGeography_description(),
-        'description'           => $e->getDescription(),
-        'primaryContact'        => $e->getPrimaryContact()
+        'description'           => $e->getDescription()
     ];
+    if (Person::isAllowed('events', 'viewPrimaryContact')) {
+        $event['primaryContact'] = $e->getPrimaryContact();
+    }
     $rrule = $e->getRRule();
     if ($rrule) { $event['rrule'] = $rrule->getString(); }
 

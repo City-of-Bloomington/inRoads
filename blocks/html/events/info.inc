@@ -7,6 +7,7 @@
  */
 use Application\Models\Event;
 use Application\Models\EventType;
+use Application\Models\Person;
 
 $title                 = parent::escape($this->event->getTitle());
 $primaryContact        = parent::escape($this->event->getPrimaryContact());
@@ -40,7 +41,7 @@ if ($t) {
         if ($description) {
             echo "\t<div class=\"description\">$description</div>\n";
         }
-        if ($primaryContact) {
+        if ($primaryContact  && Person::isAllowed('events', 'viewPrimaryContact')) {
             echo "\t<div class=\"primaryContact\">$primaryContact</div>\n";
         }
 
