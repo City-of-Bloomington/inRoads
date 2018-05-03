@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -22,7 +21,7 @@ class SegmentsTable extends TableGateway
 	public function find($fields=null, $order=null, $paginated=false, $limit=null)
 	{
 		$select = new Select('segments');
-		if (count($fields)) {
+		if ($fields) {
 			foreach ($fields as $key=>$value) {
                 $select->where([$key=>$value]);
 			}

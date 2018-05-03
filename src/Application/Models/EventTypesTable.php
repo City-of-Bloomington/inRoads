@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2015-2016 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 namespace Application\Models;
@@ -21,7 +21,7 @@ class EventTypesTable extends TableGateway
 	public function find($fields=null, $order='sortingNumber', $paginated=false, $limit=null)
 	{
 		$select = new Select('eventTypes');
-		if (count($fields)) {
+		if ($fields) {
 			foreach ($fields as $key=>$value) {
                 switch ($key) {
                     case 'cifs':

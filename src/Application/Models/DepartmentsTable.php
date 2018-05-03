@@ -22,7 +22,7 @@ class DepartmentsTable extends TableGateway
 	public function find($fields=null, $order='code', $paginated=false, $limit=null)
 	{
 		$select = new Select('departments');
-		if (count($fields)) {
+		if ($fields) {
 			foreach ($fields as $key=>$value) {
                 $select->where([$key=>$value]);
 			}

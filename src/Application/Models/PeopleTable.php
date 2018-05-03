@@ -21,7 +21,7 @@ class PeopleTable extends TableGateway
 	public function find($fields=null, $order='lastname', $paginated=false, $limit=null)
 	{
 		$select = new Select('people');
-		if (count($fields)) {
+		if ($fields) {
 			foreach ($fields as $key=>$value) {
 				switch ($key) {
 					case 'user_account':
