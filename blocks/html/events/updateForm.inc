@@ -22,6 +22,7 @@ $geography_description = parent::escape($this->event->getGeography_description()
 <form method="post" id="eventUpdateForm" action="<?= BASE_URI; ?>/events/update">
     <fieldset>
         <legend><?= $this->_('event_info'); ?></legend>
+        <p><?= $this->_('event_disclaimer', 'messages'); ?></p>
 
         <input name="id"              type="hidden" value="<?= $this->event->getId(); ?>" />
         <input name="google_event_id" type="hidden" value="<?= $this->event->getGoogle_event_id(); ?>" />

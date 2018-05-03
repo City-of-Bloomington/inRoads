@@ -193,7 +193,7 @@ class EventsController extends Controller
         $block        = new Block('events/notification.inc', ['event'=>$event]);
 
         $message      = $block->render('txt', $template);
-        $subject      = sprintf($template->_('notification_subject', 'messages'), APPLICATION_NAME);
+        $subject      = sprintf($template->_('notification_subject %s', 'messages'), APPLICATION_NAME);
         $name         = preg_replace('/[^a-zA-Z0-9]+/','_',APPLICATION_NAME);
         $fromEmail    = "$name@". BASE_HOST;
         $fromFullname = APPLICATION_NAME;

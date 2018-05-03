@@ -28,5 +28,9 @@ msgstr "Smooth driving ahead!"
 msgid "noEventsReturned.message"
 msgstr "Either you've found the perfect day to travel, or your query returned no results (it's probably more the second thing)."
 
-msgid "notification_subject"
+#, php-format
+msgid "notification_subject %s"
 msgstr "%s Notification"
+
+msgid "event_disclaimer"
+msgstr "Entering in a closure does not waive any requirements for seeking appropriate approvals and permits."
