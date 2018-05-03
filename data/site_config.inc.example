@@ -135,6 +135,12 @@ $DIRECTORY_CONFIG = [
 //    'client_secret' => 'SECRET API KEY'
 //];
 
+/**
+ * Controls whether the system sends email notifications to people
+ */
+//define('NOTIFICATIONS_ENABLED', true);
+//$NOTIFICATIONS_ADDITIONAL_ADDRESSES = [];
+
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'H:i a');
 define('DATETIME_FORMAT', 'n/j/Y H:i a');

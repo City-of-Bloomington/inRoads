@@ -1,5 +1,5 @@
-configuration.inc
 site_config.inc
+notifications.json
 credentials.json
 data/sessions/*
 data/templates/*

@@ -6,7 +6,7 @@
  */
 declare (strict_types=1);
 
-$fields = ['firstname', 'lastname', 'email', 'phone', 'notifications'];
+$fields = ['firstname', 'lastname', 'email', 'phone', 'notify_updates', 'notify_emergency'];
 foreach ($fields as $f) {
 	$get = 'get'.ucfirst($f);
 	$$f = parent::escape($this->person->$get());
@@ -54,10 +54,18 @@ $options = [
     ['value'=>0, 'label'=>$this->_('no' )]
 ];
 echo $h->field([
-    'name'     => 'notifications',
-    'id'       => 'notifications',
-    'label'    => $this->_('notifications'),
-    'value'    => $notifications,
+    'name'     => 'notify_updates',
+    'id'       => 'notify_updates',
+    'label'    => $this->_('notify_updates'),
+    'value'    => $notify_updates,
+    'type'     => 'select',
+    'options'  => $options
+]);
+echo $h->field([
+    'name'     => 'notify_emergency',
+    'id'       => 'notify_emergency',
+    'label'    => $this->_('notify_emergency'),
+    'value'    => $notify_emergency,
     'type'     => 'select',
     'options'  => $options
 ]);

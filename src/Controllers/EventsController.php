@@ -147,10 +147,8 @@ class EventsController extends Controller
                 $event->handleUpdate($_POST);
                 $event->save();
 
-                $table = new PeopleTable();
-                $list  = $table->find(['notifications'=>true]);
-                if (count($list)) {
-                    self::sendNotifications($event, $list);
+                if (defined('NOTIFICATIONS_ENABLED') && NOTIFICATIONS_ENABLED) {
+                    self::sendNotifications($event, self::getNotificationEmailAddresses());
                 }
 
                 $url = $existingEventId
@@ -188,7 +186,28 @@ class EventsController extends Controller
         exit();
     }
 
-	public static function sendNotifications(Event $event, array $people)
+    /**
+     * Returns an array of email address strings
+     *
+     * @return array
+     */
+    public static function getNotificationEmailAddresses(): array
+    {
+        global $NOTIFICATIONS_ADDITIONAL_ADDRESSES;
+
+        $emailAddresses = isset($NOTIFICATIONS_ADDITIONAL_ADDRESSES)
+                        ? $NOTIFICATIONS_ADDITIONAL_ADDRESSES
+                        : [];
+
+        $table = new PeopleTable();
+        $list  = $table->find(['notifications'=>true]);
+        foreach ($list as $p) {
+            $email = $p->getEmail();
+            if ($email) { $emailAddresses[] = $email; }
+        }
+    }
+
+	public static function sendNotifications(Event $event, array $emailAddresses)
 	{
         $template     = new Template('default', 'txt');
         $block        = new Block('events/notification.inc', ['event'=>$event]);
@@ -199,12 +218,9 @@ class EventsController extends Controller
         $fromEmail    = "$name@". BASE_HOST;
         $fromFullname = APPLICATION_NAME;
 
-        foreach ($people as $p) {
-            $to = $p->getEmail();
-            if ($to) {
-                $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
-                mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
-            }
+        foreach ($emailAddresses as $to) {
+            $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
+            mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
         }
 	}
 }

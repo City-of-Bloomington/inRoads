@@ -33,9 +33,10 @@ class PeopleTable extends TableGateway
 						}
 					break;
 
-					case 'notifications':
-                        if ($value) { $select->where('notifications =  1'); }
-                        else        { $select->where('notifications != 1'); }
+					case 'notify_updates':
+					case 'notify_emergency':
+                        if ($value) { $select->where("$key =  1"); }
+                        else        { $select->where("$key != 1"); }
 					break;
 
 					default:

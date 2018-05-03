@@ -134,18 +134,20 @@ class Person extends ActiveRecord
 	public function setEmail       ($s) { parent::set('email',        $s); }
 	public function setPhone       ($s) { parent::set('phone',        $s); }
 
-	public function getUsername()             { return parent::get('username'); }
-	public function getPassword()             { return parent::get('password'); } # Encrypted
-	public function getRole()                 { return parent::get('role');     }
-	public function getAuthenticationMethod() { return parent::get('authenticationMethod'); }
-    public function getNotifications(): int   { return parent::get('notifications') ? 1 : 0; }
-	public function getDepartment_id()        { return parent::get('getDepartment_id'); }
+	public function getUsername()              { return parent::get('username'); }
+	public function getPassword()              { return parent::get('password'); } # Encrypted
+	public function getRole()                  { return parent::get('role');     }
+	public function getAuthenticationMethod()  { return parent::get('authenticationMethod'); }
+    public function getNotify_updates  (): int { return parent::get('notify_updates'  ) ? 1 : 0; }
+    public function getNotify_emergency(): int { return parent::get('notify_emergency') ? 1 : 0; }
+	public function getDepartment_id()         { return parent::get('getDepartment_id'); }
     public function getDepartment() { return parent::getForeignKeyObject(__namespace__.'\Department', 'department_id'); }
 
 	public function setUsername            ($s) { parent::set('username',             $s); }
 	public function setRole                ($s) { parent::set('role',                 $s); }
 	public function setAuthenticationMethod($s) { parent::set('authenticationMethod', $s); }
-	public function setNotifications       ($b) { parent::set('notifications', $b ? 1 : 0); }
+	public function setNotify_updates      ($b) { parent::set('notify_updates',   $b ? 1 : 0); }
+	public function setNotify_emergency    ($b) { parent::set('notify_emergency', $b ? 1 : 0); }
     public function setDepartment_id($i) { parent::setForeignKeyField (__namespace__.'\Department', 'department_id', $i); }
     public function setDepartment   ($i) { parent::setForeignKeyObject(__namespace__.'\Department', 'department_id', $i); }
 
@@ -161,7 +163,10 @@ class Person extends ActiveRecord
 	 */
 	public function handleUpdate($post)
 	{
-		$fields = ['firstname', 'middlename', 'lastname', 'email', 'phone', 'notifications'];
+		$fields = [
+            'firstname', 'middlename', 'lastname', 'email', 'phone',
+            'notify_updates', 'notify_emergency'
+        ];
 		foreach ($fields as $field) {
 			if (isset($post[$field])) {
 				$set = 'set'.ucfirst($field);

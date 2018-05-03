@@ -18,7 +18,8 @@ create table people (
 	password             varchar(40),
 	authenticationMethod varchar(40),
 	role                 varchar(30),
-	notifications        boolean
+	notify_updates       boolean,
+	notify_emergency     boolean,
 	foreign key (department_id) references departments(id)
 );
 
