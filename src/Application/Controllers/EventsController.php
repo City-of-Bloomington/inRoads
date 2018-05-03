@@ -8,6 +8,7 @@ namespace Application\Controllers;
 use Application\Models\Event;
 use Application\Models\EventType;
 use Application\Models\GoogleGateway;
+use Application\Models\Notifications;
 use Application\Models\Person;
 use Application\Models\PeopleTable;
 use Application\Template\Helpers\ButtonLink;
@@ -148,7 +149,7 @@ class EventsController extends Controller
                 $event->save();
 
                 if (defined('NOTIFICATIONS_ENABLED') && NOTIFICATIONS_ENABLED) {
-                    self::sendNotifications($event, self::getNotificationEmailAddresses());
+                    self::sendNotifications($event, Notifications::emailAddresses(Notifications::TYPE_UPDATES));
                 }
 
                 $url = $existingEventId
@@ -184,27 +185,6 @@ class EventsController extends Controller
         }
         header('Location: '.BASE_URL.'/events');
         exit();
-    }
-
-    /**
-     * Returns an array of email address strings
-     *
-     * @return array
-     */
-    public static function getNotificationEmailAddresses(): array
-    {
-        global $NOTIFICATIONS_ADDITIONAL_ADDRESSES;
-
-        $emailAddresses = isset($NOTIFICATIONS_ADDITIONAL_ADDRESSES)
-                        ? $NOTIFICATIONS_ADDITIONAL_ADDRESSES
-                        : [];
-
-        $table = new PeopleTable();
-        $list  = $table->find(['notifications'=>true]);
-        foreach ($list as $p) {
-            $email = $p->getEmail();
-            if ($email) { $emailAddresses[] = $email; }
-        }
     }
 
 	public static function sendNotifications(Event $event, array $emailAddresses)
