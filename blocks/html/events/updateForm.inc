@@ -6,6 +6,8 @@
  */
 use Application\Models\Event;
 use Application\Models\EventType;
+use Application\Templates\Helpers\Field;
+
 use Recurr\Rule;
 use Recurr\WeekDay;
 
@@ -122,13 +124,13 @@ $geography_description = parent::escape($this->event->getGeography_description()
 
         <dl class="dateRange required">
             <dt><label  for="start"><?= $this->_('startDate'); ?></label></dt>
-            <dd><input name="start[date]" id="start"     type="date" value="<?= $start_date ?>" required="true" />
+            <dd><input name="start[date]" id="start"     type="date" value="<?= $start_date; ?>" required="true" pattern="<?= Field::DATE_REGEX; ?>" placeholder="<?= Field::DATE_PLACEHOLDER; ?>" />
                 <input name="start[time]" id="startTime" type="time" value="<?= $start_time; ?>" />
             </dd>
         </dl>
         <dl class="dateRange required">
             <dt><label  for="end"><?= $this->_('endDate'); ?></label></dt>
-            <dd><input name="end[date]" id="end"     type="date" value="<?= $end_date ?>" required="true" />
+            <dd><input name="end[date]" id="end"     type="date" value="<?= $end_date; ?>" required="true" pattern="<?= Field::DATE_REGEX; ?>" placeholder="<?= Field::DATE_PLACEHOLDER; ?>" />
                 <input name="end[time]" id="endTime" type="time" value="<?= $end_time; ?>" />
             </dd>
         </dl>

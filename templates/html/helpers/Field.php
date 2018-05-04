@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2016 City of Bloomington, Indiana
+ * @copyright 2016-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 namespace Application\Templates\Helpers;
@@ -10,6 +10,10 @@ use Blossom\Classes\View;
 
 class Field extends Helper
 {
+    const DATE_FORMAT      = 'Y-m-d';
+    const DATE_PLACEHOLDER = 'YYYY-MM-DD';
+    const DATE_REGEX       = '[0-9]{4}-[0-9]{2}-[0-9]{2}';
+
     /**
      * Parameters:
      *
@@ -39,7 +43,17 @@ class Field extends Helper
                     // Date values must be passed in as timestamps
                     // HTML5 expects the value in Y-m-d.
                     // The browser will handle formatting it for the locale and drawing a placeholder.
-                    $params['value'] = !empty($params['value']) ? date('Y-m-d', $params['value']) : '';
+                    //
+                    // Placeholder and Regex pattern are added for browsers that
+                    // do not, yet, support HTML 5 date input.  They should be
+                    // ignored in browsers that have a date picker.
+                    $params['value'] = !empty($params['value']) ? date(self::DATE_FORMAT, $params['value']) : '';
+                    if (empty($params['attr']['placeholder'])) {
+                              $params['attr']['placeholder'] = self::DATE_PLACEHOLDER;
+                    }
+                    if (empty($params['attr']['pattern'])) {
+                              $params['attr']['pattern'] = self::DATE_REGEX;
+                    }
                     $renderInput = 'input';
                 break;
 
