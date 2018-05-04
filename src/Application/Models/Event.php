@@ -15,6 +15,8 @@ class Event extends ActiveRecord
 {
     const MAX_DESCRIPTION_LENGTH = 1000;
 
+    const ERROR_INVALID_DATE = 'invalidDate';
+
 	protected $tablename = 'events';
 
 	protected $department;
@@ -399,19 +401,23 @@ class Event extends ActiveRecord
         // Convert browser date and time strings to DateTime objects
         if (!empty($post['start']['date'])) {
             $d = \DateTime::createFromFormat('Y-m-d', $post['start']['date']);
-            $this->setStartDate($d ? $d : null);
+            if ($d) { $this->setStartDate($d); }
+            else { throw new \Exception(self::ERROR_INVALID_DATE); }
         }
         if (!empty($post['start']['time'])) {
             $d = \DateTime::createFromFormat('H:i', $post['start']['time']);
-            $this->setStartTime($d ? $d : null);
+            if ($d) { $this->setStartTime($d); }
+            else { throw new \Exception(self::ERROR_INVALID_DATE); }
         }
         if (!empty($post['end']['date'])) {
             $d = \DateTime::createFromFormat('Y-m-d', $post['end']['date']);
-            $this->setEndDate($d ? $d : null);
+            if ($d) { $this->setEndDate($d); }
+            else { throw new \Exception(self::ERROR_INVALID_DATE); }
         }
         if (!empty($post['end']['time'])) {
             $d = \DateTime::createFromFormat('H:i', $post['end']['time']);
-            $this->setEndTime($d ? $d : null);
+            if ($d) { $this->setEndTime($d); }
+            else { throw new \Exception(self::ERROR_INVALID_DATE); }
         }
 
         $this->setRRule($this->createRRule($post));
