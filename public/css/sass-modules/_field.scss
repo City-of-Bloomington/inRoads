@@ -162,8 +162,7 @@ fieldset {
                     font-size: (14em/16);
                     width: 20em;
 
-                    &.datePicker { width:inherit; }
-                    &.timePicker { width:inherit; }
+                    &[type="date"] { width:inherit; }
                 }
             }
         }
@@ -173,15 +172,6 @@ fieldset {
 .editPanel fieldset,
 .filterPanel fieldset {
     border: none;
-    &:not(:first-child) {
-        > legend {
-        }
-    }
-    > fieldset {
-        > legend {
-            display: none;
-        }
-    }
     > dl {
         background: transparent;
         padding: 0;
@@ -207,16 +197,6 @@ fieldset {
             }
         }
 
-        &.dateRange {
-            display: inline-block;
-            margin-left: 0;
-
-            > dd {
-                > input {
-                    width: inherit;
-                }
-            }
-        }
         &.filters-legend {
             > dd {
                 border-left-width: (10rem/16);
@@ -230,7 +210,7 @@ fieldset {
             }
         }
     }
-    > button[type="submit"] {
-        margin: .5rem 0 .5rem 0;
+    &#dateFieldSet {
+        dl { display: inline-block; margin-left:0; }
     }
 }

@@ -19,30 +19,33 @@ use Blossom\Classes\Template;
 
 class EventsController extends Controller
 {
+    const DATE_FORMAT = 'Y-m-d';
+
+    const RANGE_TODAY    = 'today';
+    const RANGE_TOMORROW = 'tomorrow';
+    const RANGE_WEEK     = 'nextWeek';
+    const RANGE_MONTH    = 'nextMonth';
+
     /**
      * Creates variables from the searchForm submission
      *
+     * @param  array Default date ranges to use
      * @return array
      */
-    private function getSearchParameters()
+    private function getSearchParameters(array $timePeriods)
     {
-        $defaultRange = ($this->template->outputFormat === 'waze' || $this->template->outputFormat === 'trafficcast')
-            ? '+30 days'
-            : null;
+        $default = ($this->template->outputFormat === 'waze' || $this->template->outputFormat === 'trafficcast')
+            ? self::RANGE_MONTH
+            : self::RANGE_TODAY;
 
         if (!empty($_GET['start'])) {
-            try { $start = ActiveRecord::parseDate($_GET['start'], DATE_FORMAT); }
-            catch (\Exception $e) { }
+            $start = \DateTime::createFromFormat('!'.self::DATE_FORMAT, $_GET['start']);
         }
         if (!empty($_GET['end'])) {
-            try { $end = ActiveRecord::parseDate($_GET['end'], DATE_FORMAT); }
-            catch (\Exception $e) { }
+            $end = \DateTime::createFromFormat('!'.self::DATE_FORMAT, $_GET['end']);
         }
-        if (!isset($start)) { $start = new \DateTime(); }
-        if (!isset($end  )) { $end   = new \DateTime($defaultRange); }
-
-        $start->setTime(0,  0);
-        $end  ->setTime(23, 59);
+        if (!isset($start) || !$start) { $start = $timePeriods[$default]['start']; }
+        if (!isset($end  ) || !$end  ) { $end   = $timePeriods[$default]['end'  ]; }
 
         $filters['eventTypes'] = [];
         if (!empty($_GET['eventTypes'])) {
@@ -56,13 +59,50 @@ class EventsController extends Controller
         return ['start'=>$start, 'end'=>$end, 'filters'=>$filters];
     }
 
+    /**
+     * Returns an array of start/end DateTime objects
+     *
+     * @return array
+     */
+    public static function timePeriods(): array
+    {
+        $oneDay   = new \DateInterval('P1D' );
+        $oneWeek  = new \DateInterval('P7D' );
+        $oneMonth = new \DateInterval('P30D');
+
+        $today_start = new \DateTime(date(self::DATE_FORMAT));
+        $today_end   = clone($today_start);
+        $today_end->add($oneDay);
+
+        $tomorrow_start = clone($today_start);
+        $tomorrow_end   = clone($today_end);
+        $tomorrow_start->add($oneDay);
+        $tomorrow_end  ->add($oneDay);
+
+        $week_start = clone($today_start);
+        $week_end   = clone($today_end);
+        $week_end->add($oneWeek);
+
+        $month_start = clone($today_start);
+        $month_end   = clone($today_end);
+        $month_end->add($oneMonth);
+
+        return [
+            self::RANGE_TODAY     => ['start'=>   $today_start, 'end'=>   $today_end],
+            self::RANGE_TOMORROW  => ['start'=>$tomorrow_start, 'end'=>$tomorrow_end],
+            self::RANGE_WEEK      => ['start'=>    $week_start, 'end'=>    $week_end],
+            self::RANGE_MONTH     => ['start'=>   $month_start, 'end'=>   $month_end]
+        ];
+    }
+
     public function index()
     {
-        $search = $this->getSearchParameters();
+        $timePeriods = self::timePeriods();
+        $search      = $this->getSearchParameters($timePeriods);
         $events = GoogleGateway::getEvents(
             GOOGLE_CALENDAR_ID,
-            $search['start'],
-            $search['end'],
+            $search['start'  ],
+            $search['end'    ],
             $search['filters'],
             // Waze and Trafficcase need individual event recurrences
             ($this->template->outputFormat==='waze' || $this->template->outputFormat === 'trafficcast')
@@ -72,9 +112,14 @@ class EventsController extends Controller
         $eventListBlock = new Block('events/list.inc', ['events'=>$events]);
 
         if ($this->template->outputFormat === 'html') {
-            $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
-            $searchFormBlock = new Block('events/searchForm.inc', ['start'=>$search['start'], 'end'=>$search['end'], 'filters'=>$search['filters']]);
             $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
+            $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
+            $searchFormBlock = new Block('events/searchForm.inc', [
+                'start'   => $search['start'  ],
+                'end'     => $search['end'    ],
+                'filters' => $search['filters'],
+                'presets' => $timePeriods
+            ]);
 
             $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewToggle.inc');
             $this->template->blocks['panel-one'][] = $searchFormBlock;

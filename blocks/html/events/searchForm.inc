@@ -1,87 +1,73 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param DateTime $this->start
  * @param DateTime $this->end
- * @param array $this->filters
+ * @param array    $this->filters
+ * @param array    $this->presets  An array of \DateTime ranges
  */
+use Application\Controllers\EventsController;
 use Application\Models\Event;
 use Application\Models\EventType;
 use Blossom\Classes\View;
 use Blossom\Classes\Url;
 
-$periods = [
-    'today'     => new \DateTime(),
-    'tomorrow'  => new \DateTime('+1 day'),
-    'nextWeek'  => new \DateTime('+1 week'),
-    'nextMonth' => new \DateTime('+1 month')
-];
-
-$today = $periods['today']->format(DATE_FORMAT);
-
-$start = $this->start ? $this->start->format(DATE_FORMAT) : '';
-$end   = $this->end   ? $this->end  ->format(DATE_FORMAT) : '';
-
-$help = $this->translateDateString(DATE_FORMAT);
-$size = strlen($help);
-
 $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
 ?>
 <div class="filterPanel expanded" id="filterPanel">
     <?php
-        $c = (!empty($_GET['view']) && $_GET['view'] === 'schedule')
-            ? 'schedule'
-            : 'map';
+        $view = (!empty($_GET['view']) && $_GET['view'] === 'schedule')
+              ? 'schedule'
+              : 'map';
 
-        $url = new Url(BASE_URL.'/events');
-        $url->start      = !empty($_GET['start'])      ? $_GET['start']      : null;
-        $url->end        = !empty($_GET['end'])        ? $_GET['end']        : null;
+        $url             = new Url(BASE_URL.'/events');
         $url->eventTypes = !empty($_GET['eventTypes']) ? $_GET['eventTypes'] : null;
+        $url->view       = $view;
 
         $options = '';
-        $url->start = $today;
-        $url->view = $c;
-        foreach ($periods as $period => $datetime) {
-            $date = $datetime->format(DATE_FORMAT);
-
-            if ($start === $today && $end === $date) {
+        $current = null;
+        foreach ($this->presets as $label=>$range) {
+            if ($this->start == $range['start'] && $this->end == $range['end']) {
                 $selected = 'class="current"';
-                $currentPeriod = $period;
+                $current  = $label;
             }
-            else {
-                $selected = '';
-            }
-            $url->end = $date;
-            $options.= "<a href=\"$url\" $selected role=\"option\" tabindex=\"-1\">{$this->_($period)}</a>";
+            else { $selected = ''; }
+            $url->start = $range['start']->format(EventsController::DATE_FORMAT);
+            $url->end   = $range['end'  ]->format(EventsController::DATE_FORMAT);
+            $options.= "<a href=\"$url\" $selected role=\"option\" tabindex=\"-1\">{$this->_($label)}</a>";
         }
-        if (!isset($currentPeriod)) { $currentPeriod = $this->_('chooseDates'); }
+        if (!$current) { $current = 'chooseDates'; }
     ?>
     <dl class="nav-dropdown">
         <dt id="dropdown-label1"><?= $this->_('searchPresets'); ?></dt>
         <dd>
-            <div class="nav-dropdown-current" role="button" aria-haspopup="true" tabindex="0"><?= $this->_($currentPeriod); ?></div>
+            <div class="nav-dropdown-current" role="button" aria-haspopup="true" tabindex="0"><?= $this->_($current); ?></div>
             <div class="nav-dropdown-options" role="listbox" aria-labeledby="dropdown-label1">
                 <?= $options; ?>
             </div>
         </dd>
     </dl>
 
-    <form method="get" action="<?php echo BASE_URI.'/events'; ?>">
+    <form method="get">
         <fieldset id="dateFieldSet">
-            <dl class="dateRange">
-                <dt><label for="inputStartDate"><?= $this->_('startDate'); ?></label></dt>
-                <dd><input id= "inputStartDate" name="start" value="<?= $start; ?>"
-                        size="<?= $size; ?>" placeholder="<?= $help; ?>" />
-                </dd>
-            </dl>
-            <dl class="dateRange">
-                <dt><label for="inputEndDate"><?= $this->_('endDate'); ?></label></dt>
-                <dd><input id= "inputEndDate" name="end" value="<?= $end; ?>"
-                        size="<?= $size; ?>" placeholder="<?= $help; ?>" />
-                </dd>
-            </dl>
+            <?php
+                $h = $this->template->getHelper('field');
+                echo $h->field([
+                    'name'  => 'start',
+                    'id'    => 'start',
+                    'label' => $this->_('startDate'),
+                    'type'  => 'date',
+                    'value' => $this->start ? $this->start->format('U') : null
+                ]);
+                echo $h->field([
+                    'name'  => 'end',
+                    'id'    => 'end',
+                    'label' => $this->_('endDate'),
+                    'type'  => 'date',
+                    'value' => $this->end ? $this->end->format('U') : null
+                ]);
+            ?>
         </fieldset>
         <fieldset>
             <dl class="mod-checkbox filters-legend">
