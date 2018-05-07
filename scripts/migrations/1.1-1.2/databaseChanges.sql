@@ -6,3 +6,14 @@ alter table eventTypes add cifsType         varchar(128);
 alter table people     add notify_updates   boolean;
 alter table people     add notify_emergency boolean;
 alter table people  modify email            varchar(255) unique;
+
+create table eventHistory (
+    id          int unsigned not null primary key auto_increment,
+    event_id    int unsigned not null,
+    person_id   int unsigned not null,
+    action_date timestamp    not null default CURRENT_TIMESTAMP,
+    action      varchar(32)  not null,
+    changes     text         not null,
+    foreign key (event_id ) references events(id),
+    foreign key (person_id) references people(id)
+);

@@ -56,6 +56,17 @@ create table events (
     foreign key ( eventType_id) references  eventTypes(id)
 );
 
+create table eventHistory (
+    id          int unsigned not null primary key auto_increment,
+    event_id    int unsigned not null,
+    person_id   int unsigned not null,
+    action_date timestamp    not null default CURRENT_TIMESTAMP,
+    action      varchar(32)  not null,
+    changes     text         not null,
+    foreign key (event_id ) references events(id),
+    foreign key (person_id) references people(id)
+);
+
 create table segments (
     id int unsigned not null primary key auto_increment,
     event_id int unsigned not null,

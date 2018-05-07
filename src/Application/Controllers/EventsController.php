@@ -190,8 +190,8 @@ class EventsController extends Controller
             try {
                 $existingEventId = $event->getId();
 
+                // Calls save() automatically
                 $event->handleUpdate($_POST);
-                $event->save();
 
                 if (defined('NOTIFICATIONS_ENABLED') && NOTIFICATIONS_ENABLED) {
                     self::sendNotifications($event, Notifications::emailAddresses(Notifications::TYPE_UPDATES));

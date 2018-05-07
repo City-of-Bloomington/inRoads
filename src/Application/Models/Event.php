@@ -387,6 +387,15 @@ class Event extends ActiveRecord
 
     public function handleUpdate($post)
     {
+        if (empty($post['id'])) {
+            $action  =  EventHistory::ACTION_UPDATED;
+            $changes = [EventHistory::STATE_ORIGINAL => $this->data];
+        }
+        else {
+            $action  = EventHistory::ACTION_CREATED;
+            $changes = [];
+        }
+
         $fields = [
             'department_id', 'eventType_id', 'google_event_id',
             'title', 'primaryContact', 'description',
@@ -421,6 +430,10 @@ class Event extends ActiveRecord
         }
 
         $this->setRRule($this->createRRule($post));
+        $this->save();
+
+        $changes[EventHistory::STATE_UPDATED] = $this->data;
+        EventHistory::saveNewEntry($this->getId(), $action, $changes);
     }
 
     /**
@@ -692,5 +705,20 @@ class Event extends ActiveRecord
     {
         $table = new SegmentsTable();
         return $table->find(['event_id'=>$this->getId()]);
+    }
+
+    /**
+     * @return array  An array of EventHistory objects
+     */
+    public function getHistory(): array
+    {
+        $history = [];
+        $zend_db = Database::getConnection();
+        $sql     = 'select * from eventHistory where event_id=? order by date desc';
+        $result  = $zend_db->query($sql)->execute([$this->getId()]);
+        foreach ($result as $row) {
+            $history[] = new EventHistory($row);
+        }
+        return $history;
     }
 }

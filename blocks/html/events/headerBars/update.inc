@@ -33,5 +33,3 @@ $id = $this->event->getId()
     }
 ?>
 </div>
-<div class="headerBar-tools">
-</div>
