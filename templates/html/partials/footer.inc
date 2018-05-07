@@ -1,5 +1,6 @@
 <?php
 use Blossom\Classes\Url;
+global $AUTH0;
 ?>
 <footer>
     <a href="https://bloomington.in.gov/ureport"       class="button">Feedback</a>
@@ -24,4 +25,15 @@ use Blossom\Classes\Url;
     </div>
     <a href="https://bloomington.in.gov/web">Terms &amp; Conditions</a>
     <div class="copyright">&copy;<?= date('Y') ?> The City of Bloomington</div>
+    <?php
+        if (isset($AUTH0)) {
+            echo "
+            <div>
+                <a width=\"150\" height=\"50\" href=\"https://auth0.com/?utm_source=oss&utm_medium=gp&utm_campaign=oss\" alt=\"Single Sign On & Token Based Authentication - Auth0\">
+                    <img width=\"150\" height=\"50\" alt=\"JWT Auth for open source projects\" src=\"//cdn.auth0.com/oss/badges/a0-badge-dark.png\"/>
+                </a>
+            </div>
+            ";
+        }
+    ?>
 </footer>
