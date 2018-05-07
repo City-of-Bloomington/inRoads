@@ -215,21 +215,10 @@ class Event extends ActiveRecord
             // errors, instead of just throwing an exception on the first error it comes to.
 
             // Do data conversions on a copy of the data
-            $data = $this->data;
-
-            if (!empty($data['geography'])) {
-                $data['geography'] = new Expression("GeomFromText('$data[geography]')");
-            }
-            else {
-                $data['geography'] = null;
-            }
-
-            // Convert the DateTime objects back to strings
-            foreach (self::$DATETIME_FIELDS as $f => $format) {
-                if (!empty($data[$f])) {
-                    $data[$f] = $data[$f]->format($format);
-                }
-            }
+            $data = $this->toArray();
+            $data['geography'] = !empty($data['geography'])
+                               ? new Expression("GeomFromText('$data[geography]')")
+                               : null;
 
             $zend_db = Database::getConnection();
             $sql = new \Zend\Db\Sql\Sql($zend_db, $this->tablename);
@@ -378,12 +367,12 @@ class Event extends ActiveRecord
     public function handleUpdate($post)
     {
         if (empty($post['id'])) {
-            $action  =  EventHistory::ACTION_UPDATED;
-            $changes = [EventHistory::STATE_ORIGINAL => $this->data];
-        }
-        else {
             $action  = EventHistory::ACTION_CREATED;
             $changes = [];
+        }
+        else {
+            $action  =  EventHistory::ACTION_UPDATED;
+            $changes = [EventHistory::STATE_ORIGINAL => $this->toArray()];
         }
 
         $fields = [
@@ -422,7 +411,7 @@ class Event extends ActiveRecord
         $this->setRRule($this->createRRule($post));
         $this->save();
 
-        $changes[EventHistory::STATE_UPDATED] = $this->data;
+        $changes[EventHistory::STATE_UPDATED] = $this->toArray();
         EventHistory::saveNewEntry($this->getId(), $action, $changes);
     }
 
@@ -483,6 +472,19 @@ class Event extends ActiveRecord
      */
     public function isAllDay()       { return $this->getStartTime()        ? false : true;  }
     public function isConstruction() { return $this->getConstructionFlag() ? true  : false; }
+
+    public function toArray(): array
+    {
+        $data = $this->data;
+
+        // Convert the DateTime objects back to strings
+        foreach (self::$DATETIME_FIELDS as $f => $format) {
+            if (!empty($data[$f])) {
+                $data[$f] = $data[$f]->format($format);
+            }
+        }
+        return $data;
+    }
 
     /**
      * Combines startDate and startTime into a single datetime output
@@ -726,7 +728,7 @@ class Event extends ActiveRecord
     {
         $history = [];
         $zend_db = Database::getConnection();
-        $sql     = 'select * from eventHistory where event_id=? order by date desc';
+        $sql     = 'select * from eventHistory where event_id=? order by action_date desc';
         $result  = $zend_db->query($sql)->execute([$this->getId()]);
         foreach ($result as $row) {
             $history[] = new EventHistory($row);

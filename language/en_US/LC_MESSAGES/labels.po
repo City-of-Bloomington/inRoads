@@ -169,6 +169,12 @@ msgstr "Start Date"
 msgid "endDate"
 msgstr "End Date"
 
+msgid "startTime"
+msgstr "Start Time"
+
+msgid "endTime"
+msgstr "End Time"
+
 msgid "allDay"
 msgstr "All Day Event"
 

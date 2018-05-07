@@ -2,7 +2,7 @@
 /**
  * @copyright 2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @param Event $this->event
+ * @param array $this->history  An array of EventHistory objects
  */
 declare (strict_types=1);
 use Application\Models\EventHistory;
@@ -17,8 +17,8 @@ $fields = [
 <section>
     <header><h3><?= $this->_('eventHistory'); ?></h3></header>
     <?php
-        foreach ($this->event->getHistory() as $i=>$h) {
-            $date    = $h->getDate(DATE_FORMAT);
+        foreach ($this->history as $i=>$h) {
+            $date    = $h->getAction_date()->format(DATE_FORMAT);
             $person  = parent::escape($h->getPerson()->getFullname());
             $action  = parent::escape($h->getAction());
             $changes = $h->getChanges();

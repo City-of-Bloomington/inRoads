@@ -232,6 +232,24 @@ class EventsController extends Controller
         exit();
     }
 
+    public function history()
+    {
+        if (!empty($_GET['id'])) {
+            try { $event = new Event($_GET['id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+
+        if (isset($event)) {
+            $this->template->setFilename('admin');
+            $this->template->blocks[] = new Block('events/history.inc', ['history' => $event->getHistory()]);
+        }
+        else {
+            header('HTTP/1.1 404 Not Found', true, 404);
+            $this->template->blocks[] = new Block('404.inc');
+            return;
+        }
+    }
+
 	public static function sendNotifications(Event $event, array $emailAddresses)
 	{
         $template     = new Template('default', 'txt');
