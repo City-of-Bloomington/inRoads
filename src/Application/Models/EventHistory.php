@@ -51,7 +51,10 @@ class EventHistory extends ActiveRecord
 		}
 	}
 
-	public function exchangeArray(array $row)
+	/**
+	 * @param array $row  Row of data from the database
+	 */
+	public function exchangeArray($row)
 	{
         $row['action_date'] = new \DateTime($row['action_date']);
         $this->data = $row;

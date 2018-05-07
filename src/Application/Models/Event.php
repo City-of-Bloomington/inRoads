@@ -186,32 +186,13 @@ class Event extends ActiveRecord
     {
         parent::setDateData('updated', 'now');
 
-        // Save the geography text version
-        // We'll need to switch the data back, if there's a problem
-        $geography = $this->getGeography();
-        if ($geography) {
-            $this->data['geography'] = new Expression("GeomFromText('$geography')");
-        }
-        else { $this->data['geography'] = null; }
-
 		$exception = $this->validate();
 		if (!$exception) {
             // If we've modified any Google fields, upload the event to Google
             if (count($this->modified)) {
-                $patch = $this->createGooglePatch();
-                $google_event_id = $this->getGoogle_event_id();
-
-                $event = $google_event_id
-                    ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $google_event_id, $patch)
-                    : GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $patch);
-
-                if ($event instanceof \Google_Service_Calendar_Event) {
-                    if (!$google_event_id) {
-                        $google_event_id = !empty($event->recurringEventId)
-                            ? $event->recurringEventId
-                            : $event->id;
-                        parent::set('google_event_id', $google_event_id);
-                    }
+                $google_event_id = self::saveToGoogle($this);
+                if ($google_event_id) {
+                    $this->setGoogle_event_id($google_event_id);
                 }
                 else {
                     $exception = new \Exception('google/saveError');
@@ -233,10 +214,20 @@ class Event extends ActiveRecord
             // In the future, we should look into making validate always return an array of
             // errors, instead of just throwing an exception on the first error it comes to.
 
+            // Do data conversions on a copy of the data
+            $data = $this->data;
+
+            if (!empty($data['geography'])) {
+                $data['geography'] = new Expression("GeomFromText('$data[geography]')");
+            }
+            else {
+                $data['geography'] = null;
+            }
+
             // Convert the DateTime objects back to strings
             foreach (self::$DATETIME_FIELDS as $f => $format) {
-                if (!empty($this->data[$f])) {
-                    $this->data[$f] = $this->data[$f]->format($format);
+                if (!empty($data[$f])) {
+                    $data[$f] = $data[$f]->format($format);
                 }
             }
 
@@ -244,18 +235,17 @@ class Event extends ActiveRecord
             $sql = new \Zend\Db\Sql\Sql($zend_db, $this->tablename);
             if ($this->getId()) {
                 $update = $sql->update()
-                    ->set($this->data)
+                    ->set($data)
                     ->where(['id'=>$this->getId()]);
                 $sql->prepareStatementForSqlObject($update)->execute();
             }
             else {
-                $insert = $sql->insert()->values($this->data);
+                $insert = $sql->insert()->values($data);
                 $sql->prepareStatementForSqlObject($insert)->execute();
                 $this->data['id'] = $zend_db->getDriver()->getLastGeneratedValue();
             }
 		}
 
-        $this->data['geography'] = $geography;
         if ($exception) { throw $exception; }
     }
 
@@ -617,6 +607,28 @@ class Event extends ActiveRecord
             return $table->find();
         }
         return [];
+    }
+
+    /**
+     * @return string  The ID for the Google Event that was saved
+     */
+    private static function saveToGoogle(Event $event)
+    {
+        $patch           = $event->createGooglePatch();
+        $google_event_id = $event->getGoogle_event_id();
+
+        $event = $google_event_id
+            ? GoogleGateway:: patchEvent(GOOGLE_CALENDAR_ID, $google_event_id, $patch)
+            : GoogleGateway::insertEvent(GOOGLE_CALENDAR_ID, $patch);
+
+        if ($event instanceof \Google_Service_Calendar_Event) {
+            if (!$google_event_id) {
+                 $google_event_id = !empty($event->recurringEventId)
+                                  ? $event->recurringEventId
+                                  : $event->id;
+            }
+            return $google_event_id;
+        }
     }
 
     /**
