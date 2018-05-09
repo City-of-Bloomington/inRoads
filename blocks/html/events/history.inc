@@ -23,17 +23,8 @@ $fields = [
             $action  = parent::escape($h->getAction());
             $changes = $h->getChanges();
             echo "
-            <article class=\"changeLogEntry\">
-                <header>
-                    <h4>$date: $person $action</h4>
-                    <div class=\"tools\">
-                        <button        id=\"changeLogEntry-control-$i\"
-                            aria-controls=\"changeLogEntry-content-$i\" aria-expanded=\"true\">
-                            {$this->_('expand')}
-                        </button>
-                    </div>
-                </header>
-                <div id=\"changeLogEntry-content-$i\" aria-hidden=\"false\">
+            <details>
+                <summary>$date: $person $action</summary>
             ";
                 foreach (EventHistory::$states as $state) {
                     if (    isset($changes[$state]) && count($changes[$state])) {
@@ -68,9 +59,7 @@ $fields = [
             echo "
                     </tbody>
                 </table>
-
-                </div>
-            </article>
+            </details>
             ";
         }
     ?>
