@@ -1,0 +1,80 @@
+---
+- hosts: "inroads"
+  become: "yes"
+  roles:
+    - "City-of-Bloomington.mysql"
+    - "City-of-Bloomington.php"
+    
+  tasks:
+    - name: "Install distro packages for inRoads"
+      apt:
+        name: "{{ item }}"
+        state: "present"
+      with_items:
+        - "php-mysql"
+        - "postfix"
+        
+    - name: "Create database user"
+      mysql_user:
+        name:     "{{ inroads_db.user }}"
+        password: "{{ inroads_db.pass }}"
+        priv:     "{{ inroads_db.name }}.*:ALL"
+        state: "present"
+        config_file: "/etc/mysql/debian.cnf"
+      no_log: True
+
+    - name: "Create database"
+      mysql_db:
+        name: "{{ inroads_db.name }}"
+        state: "present"
+        config_file: "/etc/mysql/debian.cnf"
+      register: db
+      no_log: True
+      
+    - name: "Extract release"
+      unarchive:
+        src: "{{ inroads_archive.path }}"
+        dest: "/usr/local/src"
+      register: release
+
+    - name: "Remove old release"
+      file:
+        path: "{{ inroads_path }}"
+        state: "absent"
+      when: release.changed
+
+    - name: "Create InRoads directories"
+      file:
+        path: "{{ item }}"
+        state: "directory"
+        owner: "www-data"
+        group: "staff"
+        mode: u=rwx,g=rwxs,o=rx
+      with_items:
+        - "{{ inroads_path }}"
+        - "{{ inroads_data }}"
+        - "/srv/backups/inroads"
+        - "/var/log/cron/inroads"
+        
+    - name: "Install release"
+      command: "rsync -rlv /usr/local/src/{{ inroads_archive.name }}/ {{ inroads_path }}/"
+      when: release.changed
+      
+    - name: "Apache site configuration"
+      template:
+        src: "inroads.conf"
+        dest: "/etc/apache2/sites-enabled/conf.d/inroads.conf"
+      notify: "apache_restart"
+        
+    - name: "Install CRON"
+      template:
+        src: "cron.sh"
+        dest: "/etc/cron.daily/inroads"
+        mode: "0755"
+
+    - name: "Configure backup credentials"
+      template:
+        src: "backup.cnf"
+        dest: "/etc/cron.daily/backup.d/inroads.cnf"
+        mode: "0600"
+...

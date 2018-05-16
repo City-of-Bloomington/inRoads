@@ -1,0 +1,6 @@
+---
+# This file should be encrypted with Ansible Vault.
+# It is unencrypted here only as an example
+vault_inroads_db:
+  pass: "secret password"
+... 

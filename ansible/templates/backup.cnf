@@ -1,0 +1,3 @@
+[mysqldump]
+user={{ inroads_db.user }}
+password={{ inroads_db.pass }}

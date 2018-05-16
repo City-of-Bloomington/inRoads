@@ -1,6 +1,7 @@
 site_config.inc
 notifications.json
 credentials.json
+ansible/roles
 data/sessions/*
 data/templates/*
 data/blocks/*
