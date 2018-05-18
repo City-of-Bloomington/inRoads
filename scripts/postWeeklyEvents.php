@@ -7,6 +7,7 @@
 use Application\Models\EventType;
 use Application\Models\GoogleGateway;
 use Blossom\Classes\Block;
+use Blossom\Classes\Template;
 
 // You'll need to edit the path to the configuration file in your
 // road_closings installation.
