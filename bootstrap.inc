@@ -16,28 +16,12 @@ define('APPLICATION_HOME', __DIR__);
  * directory would be sufficient for an easy full restore.
  */
 define('SITE_HOME', !empty($_SERVER['SITE_HOME']) ? $_SERVER['SITE_HOME'] : __DIR__.'/data');
-include SITE_HOME.'/site_config.inc';
 
-//-------------------------------------------------------------------
-// Bootstrap code
-// No editing is usually needed after this point
-//-------------------------------------------------------------------
 /**
  * Enable autoloading for the PHP libraries
  */
 $loader = require APPLICATION_HOME.'/vendor/autoload.php';
 $loader->addPsr4('Site\\', SITE_HOME);
 
+include SITE_HOME.'/site_config.inc';
 include APPLICATION_HOME.'/access_control.inc';
-
-/**
- * Skidder is a web service for error loggin.  This application supports
- * logging errors to a Skidder server.  You must register for an application_id
- * on the skidder server you want to post errors to.
- */
-//$writer = new Blossom\Classes\Log\SkidderWriter('http://localhost/skidder/index', 100 );
-//$logger = new Zend\Log\Logger();
-//$logger->addWriter($writer);
-//Zend\Log\Logger::registerErrorHandler($logger);
-//Zend\Log\Logger::registerExceptionHandler($logger);
-//Zend\Log\Logger::registerFatalErrorShutdownFunction($logger);
