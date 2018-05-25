@@ -34,9 +34,13 @@ class EventsController extends Controller
      */
     private function getSearchParameters(array $timePeriods)
     {
-        $default = ($this->template->outputFormat === 'waze' || $this->template->outputFormat === 'trafficcast')
-            ? self::RANGE_MONTH
-            : self::RANGE_TODAY;
+
+        if ($this->template->outputFormat === 'waze' || $this->template->outputFormat === 'trafficcast') {
+            $default = self::RANGE_MONTH;
+        }
+        elseif (isset($_GET['week'])) { $default = self::RANGE_WEEK; }
+        elseif (isset($_GET['month'])) { $default = self::RANGE_MONTH; }
+        else { $default = self::RANGE_TODAY; }
 
         if (!empty($_GET['start'])) {
             $start = \DateTime::createFromFormat('!'.self::DATE_FORMAT, $_GET['start']);
