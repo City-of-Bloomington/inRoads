@@ -190,7 +190,7 @@ $geography_description = parent::escape($this->event->getGeography_description()
                 <dt>Monthly recursion</dt>
                 <dd><?php
                         $bymonthday = $recur->getByMonthDay();
-                        $checked = (count($bymonthday) || !count($byday))
+                        $checked = ($bymonthday || !$byday)
                             ? 'checked="checked"'
                             : '';
                     ?>
@@ -199,15 +199,15 @@ $geography_description = parent::escape($this->event->getGeography_description()
                     <label>of every <input name="MONTHLY[bymonthday][interval]" size="1" value="<?= $recur->getInterval(); ?>" /> month</label>
                 </dd>
                 <dd><?php
-                        $checked = count($byday) ? 'checked="checked"' : '';
+                        $checked = $byday ? 'checked="checked"' : '';
                     ?>
                     <input name="MONTHLY[type]" type="radio" value="BYDAY" <?php $checked; ?> />
         			<label>The
         				<select name="MONTHLY['byday'][offset]">
                         <?php
                             $weekdays = $recur->getByDayTransformedToWeekdays();
-                            $offset = count($weekdays) ? $weekdays[0]->num : null;
-                            $offsets = [
+                            $offset   = $weekdays ? $weekdays[0]->num : null;
+                            $offsets  = [
                                 1  => 'First',
                                 2  => 'Second',
                                 3  => 'Third',
