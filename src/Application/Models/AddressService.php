@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 use Blossom\Classes\Url;
@@ -13,8 +12,7 @@ class AddressService
     {
         $response = Url::get($url);
         if ($response) {
-            $json = json_decode($response);
-            return $json;
+            return json_decode($response);
         }
     }
 	/**
@@ -35,8 +33,10 @@ class AddressService
 			$url->streetName = $query;
 
 			$json = self::jsonRequest($url);
-            foreach ($json->streets as $street) {
-                $results[$street->name] = $street->id;
+			if ($json) {
+                foreach ($json->streets as $street) {
+                    $results[$street->name] = $street->id;
+                }
             }
 		}
 		return $results;
@@ -60,7 +60,7 @@ class AddressService
             $url->street = $streetName;
 
  			$json = self::jsonRequest($url);
- 			if (count($json)) {
+ 			if ($json) {
                 foreach ($json->streets as $street) {
                     $results[$street->name] = $street->id;
                 }
@@ -79,7 +79,7 @@ class AddressService
             $url->intersectingStreet = $otherStreet;
 
             $json = self::jsonRequest($url);
-            if (count($json)) {
+            if ($json) {
                 return $json[0];
             }
         }
