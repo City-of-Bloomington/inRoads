@@ -197,7 +197,7 @@ class Person extends ActiveRecord
 
 		$method = $this->getAuthenticationMethod();
 		if ($this->getUsername() && $method && $method != 'local') {
-			$class = "Blossom\\Classes\\$method";
+			$class = "Site\\Classes\\$method";
 			$identity = new $class($this->getUsername());
 			$this->populateFromExternalIdentity($identity);
 		}
