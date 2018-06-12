@@ -84,19 +84,18 @@ class Person extends ActiveRecord
 	 */
 	public function validate()
 	{
-        $errors = [];
-
-		if (!$this->getFirstname()) { $errors['firstname'][] = 'missingRequiredField'; }
-		if (!$this->getEmail())     { $errors['email'][]     = 'missingRequiredField'; }
+        if (!$this->getFirstname() || !$this->getEmail()) {
+            throw new \Exception('missingRequiredFields');
+        }
 
 		if ($this->getUsername()) {
             if (!$this->getAuthenticationMethod()) { $this->setAuthenticationMethod('local'); }
             if (!$this->getRole())                 { $this->setRole('Public'); }
-            // Members of the public with user accounts should assigned to a department
 		}
 
-		if (count($errors)) {
-            return ['people' => $errors];
+        // Members of the public with user accounts should assigned to a department
+		if ($this->getRole() == 'Public' && !$this->getDepartment_id()) {
+            throw new \Exception('missingRequiredFieldss');
 		}
 	}
 

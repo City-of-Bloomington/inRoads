@@ -38,27 +38,37 @@ class UsersController extends Controller
 
 	public function update()
 	{
-		$person = isset($_REQUEST['user_id']) ? new Person($_REQUEST['user_id']) : new Person();
+        if (!empty($_REQUEST['user_id'])) {
+            try { $person = new Person($_REQUEST['user_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+        else {
+            $person = new Person();
+        }
 
-		if (isset($_POST['username'])) {
-			try {
-				$person->handleUpdateUserAccount($_POST);
-				$person->save();
-				if ($_SESSION['USER']->getId() == $person->getId()) {
-                    $_SESSION['USER'] = $person;
-				}
-				header('Location: '.BASE_URL.'/users');
-				exit();
-			}
-			catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
-			}
-		}
+        if (isset($person)) {
+            if (isset($_POST['username'])) {
+                try {
+                    $person->handleUpdateUserAccount($_POST);
+                    $person->save();
+                    if ($_SESSION['USER']->getId() == $person->getId()) {
+                        $_SESSION['USER'] = $person;
+                    }
+                    header('Location: '.BASE_URL.'/users');
+                    exit();
+                }
+                catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+            }
 
-		if ($person->getId()) {
-			$this->template->blocks[] = new Block('people/info.inc',array('person'=>$person));
-		}
-		$this->template->blocks[] = new Block('users/updateForm.inc',array('user'=>$person));
+            if ($person->getId()) {
+                $this->template->blocks[] = new Block('people/info.inc',array('person'=>$person));
+            }
+            $this->template->blocks[] = new Block('users/updateForm.inc',array('user'=>$person));
+        }
+        else {
+            header('HTTP/1.1 404 Not Found', true, 404);
+            $this->template->blocks[] = new Block('404.inc');
+        }
 	}
 
 	public function delete()

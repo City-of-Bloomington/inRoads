@@ -96,6 +96,9 @@ class EventType extends ActiveRecord
 
     public function validate()
     {
+        if (!$this->getCode() || !$this->getName()) {
+            throw new \Exception('missingRequiredFields');
+        }
     }
 
     public function save() { parent::save(); }

@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Models;
 
@@ -56,14 +55,9 @@ class Department extends ActiveRecord
 
     public function validate()
     {
-        $errors = [];
-
-		if (!$this->getCode()) { $errors['code'][] = 'missingRequiredField'; }
-		if (!$this->getName()) { $errors['name'][] = 'missingRequiredField'; }
-
-		if (count($errors)) {
-            return ['departments' => $errors];
-		}
+        if (!$this->getCode() || !$this->getName()) {
+            throw new \Exception('missingRequiredFields');
+        }
     }
 
     public function save() { parent::save(); }
@@ -91,7 +85,7 @@ class Department extends ActiveRecord
 	// Custom functions
     //----------------------------------------------------------------
     public function __toString() { return $this->getName(); }
-    
+
     /**
      * @return array
      */
