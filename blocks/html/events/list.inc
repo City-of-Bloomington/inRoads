@@ -1,10 +1,9 @@
 <?php
 /**
- * @copyright 2014-2015 City of Bloomington, Indiana
+ * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->events An array of Events
- * @param Event $this->event Optional: currently selected event
+ * @param Event $this->event  Optional: currently selected event
  */
 use Application\Models\Person;
 use Application\Models\Event;
@@ -16,7 +15,7 @@ use Blossom\Classes\Block;
         $block = new Block('events/info.inc');
         $helper = $this->template->getHelper('buttonLink');
 
-        if (count($this->events) > 0) {
+        if ($this->events) {
             echo "<div id=\"events\">";
                 foreach ($this->events as $e) {
                     $event_id = $e->getId()

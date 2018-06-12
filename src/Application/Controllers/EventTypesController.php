@@ -51,14 +51,14 @@ class EventTypesController extends Controller
             : new EventType();
 
 		if (isset($_POST['code'])) {
-			$type->handleUpdate($_POST);
-			$errors = $type->save();
-			if (!count($errors)) {
+            try {
+                $type->handleUpdate($_POST);
+                $errors = $type->save();
 				header('Location: '.BASE_URL.'/eventTypes');
 				exit();
-			}
-			else {
-                $this->template->setFlashMessages($errors, 'errorMessages');
+            }
+			catch (\Exception $e) {
+                $_SESSION['errorMessages'][] = $e;
 			}
 		}
 
