@@ -34,3 +34,9 @@ msgstr "%s Notification"
 
 msgid "event_disclaimer"
 msgstr "Entering in a closure does not waive any requirements for seeking appropriate approvals and permits."
+
+msgid "employee_authentication_help"
+msgstr ""
+"If you are using Employee authentication, the rest of this information will "
+"be filled in automatically from the directory. "
+"Otherwise, these fields are required."
