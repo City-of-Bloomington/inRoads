@@ -94,6 +94,7 @@ class LoginController extends Controller
 			}
 		}
 		$this->template->blocks[] = new Block('loginForm.inc', ['return_url'=>$this->return_url]);
+		return $this->template;
 	}
 
 	public function logout()

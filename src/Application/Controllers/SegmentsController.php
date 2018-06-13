@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
 
@@ -31,9 +30,7 @@ class SegmentsController extends Controller
             catch (\Exception $e) { }
         }
         if (!isset($event)) {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
-            return;
+            return new \Application\Views\NotFoundView();
         }
 
         $this->template->setFilename('eventEdit');
@@ -49,10 +46,12 @@ class SegmentsController extends Controller
         $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'=>$event]);
         $this->template->blocks['panel-one'][] = new Block('segments/list.inc', ['segments'=>$event->getSegments()]);
         $this->template->blocks[]              = new Block('events/map.inc',               ['event'=>$event]);
+		return $this->template;
     }
 
     public function view()
     {
+		return $this->template;
     }
 
     /**
@@ -85,9 +84,7 @@ class SegmentsController extends Controller
         }
 
         if (!isset($segment)) {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
-            return;
+            return new \Application\Views\NotFoundView();
         }
 
         if (isset($_POST['segment_id'])) {
@@ -104,6 +101,7 @@ class SegmentsController extends Controller
         $this->template->blocks['panel-one'][] = new Block('segments/updateForm.inc',      ['segment' => $segment]);
         $this->template->blocks['panel-one'][] = new Block('segments/list.inc',            ['segments'=> $event->getSegments()]);
         $this->template->blocks[]              = new Block('events/map.inc',               ['event'   => $event]);
+		return $this->template;
     }
 
     public function delete()
@@ -119,7 +117,6 @@ class SegmentsController extends Controller
         catch (\Exception $e) {
             $_SESSION['errorMessages'][] = $e;
         }
-        header('HTTP/1.1 404 Not Found', true, 404);
-        $this->template->blocks[] = new Block('404.inc');
+        return new \Application\Views\NotFoundView();
     }
 }

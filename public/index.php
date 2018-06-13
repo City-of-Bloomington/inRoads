@@ -30,18 +30,14 @@ if (isset($resource) && isset($action) && $ZEND_ACL->hasResource($resource)) {
 	if ($ZEND_ACL->isAllowed($USER_ROLE, $resource, $action)) {
 		$controller = 'Application\Controllers\\'.ucfirst($resource).'Controller';
 		$c = new $controller($template);
-		$c->$action();
+		$template = $c->$action();
 	}
 	else {
-		header('HTTP/1.1 403 Forbidden', true, 403);
-		$_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
-		$template->setFilename('admin');
+        $template = new \Application\Views\ForbiddenView();
 	}
 }
 else {
-	header('HTTP/1.1 404 Not Found', true, 404);
-	$template->blocks[] = new Block('404.inc');
-	$template->setFilename('admin');
+    $template = new \Application\Views\NotFoundView();
 }
 
 echo $template->render();

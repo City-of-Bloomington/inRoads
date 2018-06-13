@@ -34,6 +34,7 @@ class UsersController extends Controller
 
 		$this->template->blocks[] = new Block('users/list.inc',array('users'=>$users));
 		$this->template->blocks[] = new Block('pageNavigation.inc', ['paginator'=>$users]);
+		return $this->template;
 	}
 
 	public function update()
@@ -64,10 +65,10 @@ class UsersController extends Controller
                 $this->template->blocks[] = new Block('people/info.inc',array('person'=>$person));
             }
             $this->template->blocks[] = new Block('users/updateForm.inc',array('user'=>$person));
+            return $this->template;
         }
         else {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
+            return new \Application\Views\NotFoundView();
         }
 	}
 

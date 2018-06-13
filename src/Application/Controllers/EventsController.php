@@ -68,7 +68,7 @@ class EventsController extends Controller
      *
      * @return array
      */
-    public static function timePeriods(): array
+    private static function timePeriods(): array
     {
         $oneDay   = new \DateInterval('P1D' );
         $oneWeek  = new \DateInterval('P7D' );
@@ -140,6 +140,7 @@ class EventsController extends Controller
         else {
             $this->template->blocks[] = $eventListBlock;
         }
+        return $this->template;
     }
 
     public function view()
@@ -149,11 +150,7 @@ class EventsController extends Controller
             catch (\Exception $e) { }
         }
         if (!isset($event)) {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            if ($this->template->outputFormat === 'html') {
-                $this->template->blocks[] = new Block('404.inc');
-            }
-            return;
+            return new \Application\Views\NotFoundView();
         }
 
         if ($this->template->outputFormat === 'html') {
@@ -168,6 +165,7 @@ class EventsController extends Controller
         else {
             $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);
         }
+        return $this->template;
     }
 
     public function update()
@@ -179,15 +177,11 @@ class EventsController extends Controller
         else { $event = new Event(); }
 
         if (!isset($event)) {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
-            return;
+            return new \Application\Views\NotFoundView();
         }
 
-        if (!$event->permitsEditingBy($_SESSION['USER'])) {
-            $_SESSION['errorMessages'][] = new \Exception('noAccessAllowed');
-            header('Location: '.BASE_URL.'/events');
-            exit();
+        if (empty($_SESSION['USER']) || !$event->permitsEditingBy($_SESSION['USER'])) {
+            return new \Application\Views\ForbiddenView();
         }
 
         if (isset($_POST['id'])) {
@@ -219,6 +213,7 @@ class EventsController extends Controller
         $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'=>$event]);
         $this->template->blocks['panel-one'][] = new Block('events/updateForm.inc', ['event'=>$event]);
         $this->template->blocks[]              = new Block('events/mapEditor.inc',  ['event'=>$event]);
+        return $this->template;
     }
 
     public function delete()
@@ -246,11 +241,10 @@ class EventsController extends Controller
         if (isset($event)) {
             $this->template->setFilename('admin');
             $this->template->blocks[] = new Block('events/history.inc', ['history' => $event->getHistory()]);
+            return $this->template;
         }
         else {
-            header('HTTP/1.1 404 Not Found', true, 404);
-            $this->template->blocks[] = new Block('404.inc');
-            return;
+            return new \Application\Views\NotFoundView();
         }
     }
 

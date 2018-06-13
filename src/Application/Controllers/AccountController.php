@@ -21,26 +21,35 @@ class AccountController extends Controller
     // View my account info
     public function index()
     {
-        $this->template->blocks[] = new Block('account/info.inc', ['person' => $_SESSION['USER']]);
+        if (isset($_SESSION['USER'])) {
+            $this->template->blocks[] = new Block('account/info.inc', ['person' => $_SESSION['USER']]);
+        }
+        return $this->template;
     }
 
     public function update()
     {
-        $person = new Person($_SESSION['USER']->getId());
+        if (isset($_SESSION['USER'])) {
+            $person = new Person($_SESSION['USER']->getId());
 
-        if (isset($_POST['firstname'])) {
-            try {
-                $person->handleUpdate($_POST);
-                $person->save();
-                $_SESSION['USER'] = $person;
+            if (isset($_POST['firstname'])) {
+                try {
+                    $person->handleUpdate($_POST);
+                    $person->save();
+                    $_SESSION['USER'] = $person;
 
-                header('Location: '.BASE_URI.'/account');
-                exit();
+                    header('Location: '.BASE_URI.'/account');
+                    exit();
+                }
+                catch (\Exception $e) {
+                    $_SESSION['errorMessages'][] = $e;
+                }
             }
-            catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
-            }
+            $this->template->blocks[] = new Block('account/updateForm.inc', ['person' => $person]);
+            return $this->template;
         }
-        $this->template->blocks[] = new Block('account/updateForm.inc', ['person' => $person]);
+        else {
+            return new \Application\Views\ForbiddenView();
+        }
     }
 }

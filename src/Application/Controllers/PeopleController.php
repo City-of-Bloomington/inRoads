@@ -39,40 +39,61 @@ class PeopleController extends Controller
 
 		$this->template->blocks[] = new Block('people/list.inc',    ['people'   =>$people]);
 		$this->template->blocks[] = new Block('pageNavigation.inc', ['paginator'=>$people]);
+		return $this->template;
 	}
 
 	public function view()
 	{
-        $person = $this->loadPerson($_REQUEST['person_id']);
-        $this->template->blocks[] = new Block('people/info.inc',array('person'=>$person));
+        if (!empty($_REQUEST['person_id'])) {
+            try { $person = new Person($_REQUEST['person_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+
+        if (isset($person)) {
+            $this->template->blocks[] = new Block('people/info.inc',array('person'=>$person));
+            return $this->template;
+        }
+        else {
+            return new \Application\Views\NotFoundView();
+        }
 	}
 
 	public function update()
 	{
-        $person = !empty($_REQUEST['person_id'])
-                ? $this->loadPerson($_REQUEST['person_id'])
-                : new Person();
+        if (!empty($_REQUEST['person_id'])) {
+            try { $person = new Person($_REQUEST['person_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+        else {
+            $person = new Person();
+        }
 
-        $return_url = !empty($_REQUEST['return_url'])
-                    ? $_REQUEST['return_url']
-                    : BASE_URL."/people/view?person_id={$person->getId()}";
+        if (isset($person)) {
+            $return_url = !empty($_REQUEST['return_url'])
+                        ? $_REQUEST['return_url']
+                        : BASE_URL."/people/view?person_id={$person->getId()}";
 
-		if (isset($_POST['firstname'])) {
-            try {
-                $person->handleUpdate($_POST);
-                $person->save();
-                if ($_SESSION['USER']->getId() == $person->getId()) {
-                    $_SESSION['USER'] = $person;
+            if (isset($_POST['firstname'])) {
+                try {
+                    $person->handleUpdate($_POST);
+                    $person->save();
+                    if ($_SESSION['USER']->getId() == $person->getId()) {
+                        $_SESSION['USER'] = $person;
+                    }
+
+                    header("Location: $return_url");
+                    exit();
                 }
-
-                header("Location: $return_url");
-                exit();
+                catch (\Exception $e) {
+                    $_SESSION['errorMessages'][] = $e;
+                }
             }
-            catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
-            }
-		}
 
-		$this->template->blocks[] = new Block('people/updateForm.inc', ['person'=>$person, 'return_url'=>$return_url]);
+            $this->template->blocks[] = new Block('people/updateForm.inc', ['person'=>$person, 'return_url'=>$return_url]);
+            return $this->template;
+        }
+        else {
+            return new \Application\Views\NotFoundView();
+        }
 	}
 }

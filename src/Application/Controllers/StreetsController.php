@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
 
@@ -14,6 +13,7 @@ class StreetsController extends Controller
 {
     public function index()
     {
+		return $this->template;
     }
 
     public function search()
@@ -21,11 +21,16 @@ class StreetsController extends Controller
         if (isset($_REQUEST['popup'])) {
             $this->template->setFilename('popup');
         }
-        $results = AddressService::searchStreets($_GET['street']);
+        $results = !empty($_GET['street'])
+            ? AddressService::searchStreets($_GET['street'])
+            : [];
+
         $this->template->blocks[] = new Block('streets/results.inc', ['results'=>$results]);
+		return $this->template;
     }
 
     public function view()
     {
+		return $this->template;
     }
 }

@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
 use Application\Models\EventType;
@@ -18,51 +17,60 @@ class EventTypesController extends Controller
         parent::__construct($template);
     }
 
-    private function loadEventType($id)
-    {
-        try {
-            return new EventType($id);
-        }
-        catch (\Exception $e) {
-            $this->template->setFlashMessages($e, 'errorMessages');
-            header('Location: '.BASE_URL.'/eventTypes');
-            exit();
-        }
-    }
-
     public function index()
     {
         $table = new EventTypesTable();
         $list = $table->find();
 
         $this->template->blocks[] = new Block('eventTypes/list.inc', ['eventTypes'=>$list]);
+        return $this->template;
     }
 
     public function view()
     {
-        $type = $this->loadEventType($_REQUEST['eventType_id']);
-        $this->template->blocks[] = new Block('eventTypes/info.inc', ['eventType'=>$type]);
+        if (isset($_REQUEST['eventType_id'])) {
+            try { $type = new EventType($_REQUEST['eventType_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+
+        if (isset($type)) {
+            $this->template->blocks[] = new Block('eventTypes/info.inc', ['eventType'=>$type]);
+            return $this->template;
+        }
+        else {
+            return new \Application\Views\NotFoundView();
+        }
     }
 
     public function update()
     {
-        $type =             !empty($_REQUEST['eventType_id'])
-            ? $this->loadEventType($_REQUEST['eventType_id'])
-            : new EventType();
+        if (!empty($_REQUEST['eventType_id'])) {
+            try { $type = new EventType($_REQUEST['eventType_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+        else {
+            $type = new EventType();
+        }
 
-		if (isset($_POST['code'])) {
-            try {
-                $type->handleUpdate($_POST);
-                $errors = $type->save();
-				header('Location: '.BASE_URL.'/eventTypes');
-				exit();
+        if (isset($type)) {
+            if (isset($_POST['code'])) {
+                try {
+                    $type->handleUpdate($_POST);
+                    $errors = $type->save();
+                    header('Location: '.BASE_URL.'/eventTypes');
+                    exit();
+                }
+                catch (\Exception $e) {
+                    $_SESSION['errorMessages'][] = $e;
+                }
             }
-			catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
-			}
-		}
 
-		$this->template->blocks[] = new Block('eventTypes/updateForm.inc', ['eventType'=>$type]);
+            $this->template->blocks[] = new Block('eventTypes/updateForm.inc', ['eventType'=>$type]);
+            return $this->template;
+        }
+        else {
+            return new \Application\Views\NotFoundView();
+        }
     }
 
     /**

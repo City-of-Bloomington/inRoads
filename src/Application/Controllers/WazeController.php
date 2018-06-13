@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2015-2016 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 namespace Application\Controllers;
@@ -56,5 +56,6 @@ class WazeController extends Controller
 
         $this->template->setOutputFormat('waze');
         $this->template->blocks[] = new Block('events/list.inc', ['events'=>$events]);
+        return $this->template;
     }
 }

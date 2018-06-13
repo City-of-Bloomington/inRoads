@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 namespace Application\Controllers;
 use Application\Models\Department;
@@ -18,50 +17,58 @@ class DepartmentsController extends Controller
         parent::__construct($template);
     }
 
-    private function loadDepartment($id)
-    {
-        try {
-            return new Department($id);
-        }
-        catch (\Exception $e) {
-            $_SESSION['errorMessages'][] = $e;
-            header('Location: '.BASE_URL.'/departments');
-            exit();
-        }
-    }
-
     public function index()
     {
         $table = new DepartmentsTable();
         $list = $table->find();
 
         $this->template->blocks[] = new Block('departments/list.inc', ['departments'=>$list]);
+        return $this->template;
     }
 
     public function view()
     {
-        $department = $this->loadDepartment($_REQUEST['department_id']);
-        $this->template->blocks[] = new Block('departments/info.inc', ['department'=>$department]);
+        if (!empty($_REQUEST['department_id'])) {
+            try { $department = new Department($_REQUEST['department_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+        if (isset($department)) {
+            $this->template->blocks[] = new Block('departments/info.inc', ['department'=>$department]);
+            return $this->template;
+        }
+        else {
+            return new \Application\Views\NotFoundView();
+        }
     }
 
     public function update()
     {
-        $department =    !empty($_REQUEST['department_id'])
-            ? $this->loadDepartment($_REQUEST['department_id'])
-            : new Department();
+        if (!empty($_REQUEST['department_id'])) {
+            try { $department = new Department($_REQUEST['department_id']); }
+            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        }
+        else {
+            $department = new Department();
+        }
 
-		if (isset($_POST['code'])) {
-            try {
-                $department->handleUpdate($_POST);
-                $department->save();
-				header('Location: '.BASE_URL.'/departments');
-				exit();
+        if (isset($department)) {
+            if (isset($_POST['code'])) {
+                try {
+                    $department->handleUpdate($_POST);
+                    $department->save();
+                    header('Location: '.BASE_URL.'/departments');
+                    exit();
+                }
+                catch (\Exception $e) {
+                    $_SESSION['errorMessages'][] = $e;
+                }
             }
-            catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
-            }
-		}
 
-		$this->template->blocks[] = new Block('departments/updateForm.inc', ['department'=>$department]);
+            $this->template->blocks[] = new Block('departments/updateForm.inc', ['department'=>$department]);
+            return $this->template;
+        }
+        else {
+            return new \Application\Views\NotFoundView();
+        }
     }
 }
