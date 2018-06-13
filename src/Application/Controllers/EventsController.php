@@ -32,7 +32,7 @@ class EventsController extends Controller
      * @param  array Default date ranges to use
      * @return array
      */
-    private function getSearchParameters(array $timePeriods)
+    private function getSearchParameters(array $timePeriods): array
     {
 
         if ($this->template->outputFormat === 'waze' || $this->template->outputFormat === 'trafficcast') {
@@ -99,8 +99,9 @@ class EventsController extends Controller
         ];
     }
 
-    public function index()
+    public function index(): Template
     {
+        $format      = !empty($_REQUEST['format']) ? $_REQUEST['format'] : 'html';
         $timePeriods = self::timePeriods();
         $search      = $this->getSearchParameters($timePeriods);
         $events = GoogleGateway::getEvents(
@@ -109,66 +110,30 @@ class EventsController extends Controller
             $search['end'    ],
             $search['filters'],
             // Waze and Trafficcase need individual event recurrences
-            ($this->template->outputFormat==='waze' || $this->template->outputFormat === 'trafficcast')
+            ($format=='waze' || $format=='trafficcast')
         );
 
-        $this->template->title = $this->template->_('application_title');
-        $eventListBlock = new Block('events/list.inc', ['events'=>$events]);
-
-        if ($this->template->outputFormat === 'html') {
-            $mapBlock        = new Block('events/map.inc',        ['events'=>$events]);
-            $scheduleBlock   = new Block('events/schedule.inc',   ['events'=>$events]);
-            $searchFormBlock = new Block('events/searchForm.inc', [
-                'start'   => $search['start'  ],
-                'end'     => $search['end'    ],
-                'filters' => $search['filters'],
-                'presets' => $timePeriods
-            ]);
-
-            $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewToggle.inc');
-            $this->template->blocks['panel-one'][] = $searchFormBlock;
-
-            if (!empty($_GET['view']) && $_GET['view'] === 'schedule') {
-                $this->template->setFilename('schedule');
-                $this->template->blocks[] = $scheduleBlock;
-            }
-            else {
-                $this->template->blocks['panel-two'][] = $eventListBlock;
-                $this->template->blocks[]              = $mapBlock;
-            }
+        if ($format == 'html') {
+            return (!empty($_GET['view']) && $_GET['view'] == 'schedule')
+                ? new \Application\Views\Events\ScheduleView($events, $search, $timePeriods)
+                : new \Application\Views\Events\MapView     ($events, $search, $timePeriods);
         }
-        else {
-            $this->template->blocks[] = $eventListBlock;
-        }
-        return $this->template;
+
+        return new \Application\Views\Events\ListView($events);
     }
 
-    public function view()
+    public function view(): Template
     {
         if (!empty($_GET['id'])) {
             try { $event = new Event($_GET['id']); }
             catch (\Exception $e) { }
         }
-        if (!isset($event)) {
-            return new \Application\Views\NotFoundView();
-        }
-
-        if ($this->template->outputFormat === 'html') {
-
-            $this->template->setFilename('viewSingle');
-            $this->template->title = $event->getEventType();
-
-            $this->template->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
-            $this->template->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);
-            $this->template->blocks[]              = new Block('events/map.inc',                   ['event'=>$event]);
-        }
-        else {
-            $this->template->blocks[] = new Block('events/single.inc', ['event'=>$event]);
-        }
-        return $this->template;
+        return isset($event)
+            ? new \Application\Views\Events\SingleView($event)
+            : new \Application\Views\NotFoundView();
     }
 
-    public function update()
+    public function update(): Template
     {
         if (!empty($_REQUEST['id'])) {
             try { $event = new Event($_REQUEST['id']); }
@@ -206,14 +171,7 @@ class EventsController extends Controller
             }
         }
 
-        $this->template->setFilename('eventEdit');
-        $this->template->title = $event->getId()
-            ? $this->template->_('event_edit')
-            : $this->template->_('event_add');
-        $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'=>$event]);
-        $this->template->blocks['panel-one'][] = new Block('events/updateForm.inc', ['event'=>$event]);
-        $this->template->blocks[]              = new Block('events/mapEditor.inc',  ['event'=>$event]);
-        return $this->template;
+        return new \Application\Views\Events\UpdateView($event);
     }
 
     public function delete()
@@ -231,21 +189,16 @@ class EventsController extends Controller
         exit();
     }
 
-    public function history()
+    public function history(): Template
     {
         if (!empty($_GET['id'])) {
             try { $event = new Event($_GET['id']); }
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
 
-        if (isset($event)) {
-            $this->template->setFilename('admin');
-            $this->template->blocks[] = new Block('events/history.inc', ['history' => $event->getHistory()]);
-            return $this->template;
-        }
-        else {
-            return new \Application\Views\NotFoundView();
-        }
+        return isset($event)
+            ? new \Application\Views\Events\HistoryView($event->getHistory())
+            : new \Application\Views\NotFoundView();
     }
 
 	public static function sendNotifications(Event $event, array $emailAddresses)
