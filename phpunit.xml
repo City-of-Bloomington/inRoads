@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/|version|/phpunit.xsd"
+    bootstrap="bootstrap.inc">
+
+    <testsuites>
+        <testsuite name="unit_tests">
+            <file>tests/UnitTests/EventTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
