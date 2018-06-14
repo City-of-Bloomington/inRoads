@@ -2,5 +2,7 @@
 language: "php"
 php:
   - "7.2"
+install:
+  - "composer install"
 script: "phpunit -c phpunit.xml"
 ...
