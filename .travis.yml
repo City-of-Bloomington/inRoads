@@ -4,5 +4,7 @@ php:
   - "7.2"
 install:
   - "composer install"
+before_script:
+    - "cp tests/UnitTests/site_config.inc.default data/site_config.inc"
 script: "phpunit -c phpunit.xml"
 ...
