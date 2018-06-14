@@ -17,7 +17,7 @@ class ControllerTest extends TestCase
         $skip = ['.', '..', 'LoginController'];
         $controllers = [];
 
-        $dir   = '../../src/Application/Controllers';
+        $dir   = APPLICATION_HOME.'/src/Application/Controllers';
         $files = scandir($dir);
         foreach ($files as $f) {
             if (!in_array($f, $skip)) {

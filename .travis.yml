@@ -1,7 +1,12 @@
 ---
 language: "php"
+services:
+  - "mysql"
 php:
   - "7.2"
+before_install:
+  - "mysql -e 'create database inroads'"
+  - "mysql inroads < scripts/mysql.sql"
 install:
   - "composer install"
 before_script:

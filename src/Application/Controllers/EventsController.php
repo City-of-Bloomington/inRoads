@@ -104,14 +104,17 @@ class EventsController extends Controller
         $format      = !empty($_REQUEST['format']) ? $_REQUEST['format'] : 'html';
         $timePeriods = self::timePeriods();
         $search      = $this->getSearchParameters($timePeriods);
-        $events = GoogleGateway::getEvents(
-            GOOGLE_CALENDAR_ID,
-            $search['start'  ],
-            $search['end'    ],
-            $search['filters'],
-            // Waze and Trafficcase need individual event recurrences
-            ($format=='waze' || $format=='trafficcast')
-        );
+        $events      = [];
+        if (defined('GOOGLE_CALENDAR_ID')) {
+            $events = GoogleGateway::getEvents(
+                GOOGLE_CALENDAR_ID,
+                $search['start'  ],
+                $search['end'    ],
+                $search['filters'],
+                // Waze and Trafficcase need individual event recurrences
+                ($format=='waze' || $format=='trafficcast')
+            );
+        }
 
         if ($format == 'html') {
             return (!empty($_GET['view']) && $_GET['view'] == 'schedule')

@@ -47,12 +47,15 @@ class WazeController extends Controller
     public function index()
     {
         $search = $this->getSearchParameters();
-        $events = GoogleGateway::getEvents(
-            GOOGLE_CALENDAR_ID,
-            $search['start'],
-            $search['end'],
-            $search['filters']
-        );
+        $events = [];
+        if (defined('GOOGLE_CALENDAR_ID')) {
+            $events = GoogleGateway::getEvents(
+                GOOGLE_CALENDAR_ID,
+                $search['start'],
+                $search['end'],
+                $search['filters']
+            );
+        }
 
         $this->template->setOutputFormat('waze');
         $this->template->blocks[] = new Block('events/list.inc', ['events'=>$events]);
