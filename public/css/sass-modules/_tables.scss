@@ -30,7 +30,6 @@ table {
             th, td {
                 background: $color-table-background;
                 border-top: 1px solid $color-border-table;
-                transition: background-color .2s linear;
                 vertical-align: top;
 
                 &:first-child {

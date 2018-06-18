@@ -48,7 +48,6 @@ fieldset {
                 font-family: $font-family-default;
                 font-size: 1em;
                 padding: .5em;
-                transition: border-color .35s ease-in-out, background-color .5s ease-in-out;
                 width: 100%;
 
                 &:focus {
@@ -138,7 +137,6 @@ fieldset {
         > dl {
             background: $color-background-field;
             margin: 2px 0;
-            transition: background .25s linear;
 
             &:after {
                 clear: both;

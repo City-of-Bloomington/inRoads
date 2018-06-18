@@ -30,11 +30,6 @@
         border-left-width: (6rem/16);
         border-left-style: solid;
 
-        > .edit {
-            position: absolute;
-                top: 1rem;
-                right: 3rem;
-        }
         &.hasGeography {
             &:before {
                 background: url('images/locationMarker-listing.svg') no-repeat 50% 50% / contain;
@@ -50,7 +45,6 @@
                     top: .75rem;
                     right: 2rem;
                 }
-                transition: opacity .25s ease-in-out;
                 width: 1rem;
             }
         }
@@ -65,7 +59,6 @@
     display: block;
     margin: 0;
     padding: .5rem (6rem/16) .125rem .5rem;
-    transition: border-width .15s ease-in-out, padding .15s ease-in-out;
 
     &:after {
         background-color: $cob-gray;
@@ -89,8 +82,6 @@
             position: absolute;
                 right: 1rem;
                 top: 1rem;
-            -webkit-transition: -webkit-transform .2s linear;
-            transition: opacity .2s ease-in-out, transform .2s ease-in-out;
             width: 0;
         }
     }
@@ -99,9 +90,6 @@
         &:before {
             opacity: 1;
         }
-    }
-    > div, > h2 {
-        transition: color .2s ease-in-out;
     }
     &.current {
         background: #e7edf4;

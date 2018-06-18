@@ -8,7 +8,6 @@
         top: .8rem;
         right: .5rem;
     text-indent: -100rem;
-    transition: background-color .25s ease-in-out;
     width: 2rem;
     &:hover {
         background: $cob-blue-light url('images/search.svg') no-repeat 45% 45% / 60% 60%;
@@ -26,7 +25,6 @@
         top: .6rem; // Corresponds to the Body top border
     width: 2rem;
     text-indent: -100rem;
-    transition: background-color .25s ease-in-out;
     &:hover {
         background: $cob-gray;
     }
@@ -92,7 +90,6 @@
                 content: ' ';
                 display: block;
                 opacity: 0;
-                transition: opacity .25s ease-in-out;
             }
             > #panel-one {
                 border-top: 0;
@@ -104,8 +101,6 @@
                     z-index: 99;
                 overflow-y: auto;
                 width: $filters-width;
-                -webkit-transition: -webkit-transform .3s cubic-bezier(0.4, 0, 0.2, 1);
-                transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
             }
             &.filters-displayed {
                 > #panel-one {

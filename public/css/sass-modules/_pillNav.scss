@@ -25,7 +25,6 @@
         border: $border-width solid $cob-cornflower-light;
         color: #fff;
         margin: 0 (-$border-width) 0 0;
-        transition: background-color .5s ease-in-out;
         &:hover {
             background-color: $cob-cornflower;
         }

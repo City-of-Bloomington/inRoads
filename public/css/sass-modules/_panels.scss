@@ -26,7 +26,6 @@
         color: $color-button-text;
         line-height: .9rem; // <- Should bump height of button down to 25px
         margin: 0 0 .5rem 0;
-        transition: box-shadow .25s ease-in-out, background-color .1s ease-in-out, color .1s ease-in-out;
         width: 5rem;
 
         &.current {
@@ -69,7 +68,6 @@
         padding: 0;
         position: relative;
         text-indent: -1000rem;
-        transition: background-color .25s ease-in-out;
         width: (24rem/16);
 
         &:hover {
