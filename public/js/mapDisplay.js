@@ -140,33 +140,34 @@ var MAPDISPLAY = {
         var details = document.getElementById(event_id),
             coords  = [];
 
-        /*details.setAttribute('open', '');*/
+        MAPDISPLAY.deselectEventsExcept(event_id);
         MAPDISPLAY.currentlySelectedEventId = event_id;
-
-        if (!feature) {
-            feature = MAPDISPLAY.findFeature(event_id);
-            if (!feature) {
-                return;
-            }
-        }
         MAPDISPLAY.enableStyle(feature, 'selected');
 
         coords = ol.extent.getCenter(feature.getGeometry().getExtent());
         MAPDISPLAY.marker.setPosition(coords);
+
+        if (!details.getAttribute('open')) {
+             details.setAttribute('open', '');
+        }
     },
-    deselectEvents: function () {
-        var details = document.querySelector('#eventsList details[open]'),
+    /**
+     * Close all details elements except for the ID passed in
+     * @param string event_id
+     */
+    deselectEventsExcept: function (event_id) {
+        var details = document.querySelectorAll('#eventsList details[open]'),
             feature = {};
 
-        if (details) {
-            details.removeAttribute('open');
-
-            feature = MAPDISPLAY.findFeature(details.getAttribute('id'));
-            if (feature) { MAPDISPLAY.resetStyle(feature); }
+        for (let d of details) {
+            if (d.getAttribute('id') != event_id) {
+                feature = MAPDISPLAY.findFeature(d.getAttribute('id'));
+                if (feature) { MAPDISPLAY.resetStyle(feature); }
+                MAPDISPLAY.currentlySelectedEventId = null;
+                MAPDISPLAY.marker.setPosition([0,0]);
+                d.removeAttribute('open');
+            }
         }
-
-        MAPDISPLAY.currentlySelectedEventId = null;
-        MAPDISPLAY.marker.setPosition([0,0]);
     },
     highlightEvent: function (e) {
         var id = e.currentTarget.getAttribute('id'),
@@ -201,6 +202,7 @@ var MAPDISPLAY = {
         }
     },
     /**
+
      * Responds to clicks on the map
      *
      * Draws the popup bubble for any feature that's clicked
@@ -208,7 +210,6 @@ var MAPDISPLAY = {
     handleMapClick: function (e) {
         var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
 
-        MAPDISPLAY.deselectEvents();
         if (feature && feature.event_id) {
             MAPDISPLAY.selectEvent(feature.event_id, feature);
         }
@@ -218,13 +219,17 @@ var MAPDISPLAY = {
      *
      * Closes all the other details elements and highlights the selected
      * feature on the map.
-     * We DO NOT prevent default.  Let the browser handle opening the clicked
-     * details element as normal.
      */
     handleListClick: function (e) {
-        var details = e.currentTarget;
-        MAPDISPLAY.deselectEvents();
-        MAPDISPLAY.selectEvent(details.getAttribute('id'));
+        var details  = e.currentTarget,
+            event_id = details.getAttribute('id'),
+            feature  = MAPDISPLAY.findFeature(event_id);
+
+        if (e.target.tagName == 'SUMMARY' || e.target.parentElement.tagName == 'SUMMARY') {
+            e.preventDefault();
+        }
+
+        MAPDISPLAY.selectEvent(event_id, feature);
     }
 };
 

@@ -39,7 +39,8 @@
         div { margin-left:16px; }
 
         &.hasGeography {
-            background:no-repeat top 4px right 4px/16px url('images/locationMarker-listing.svg');
+            background:no-repeat top 4px right 4px/16px url('images/fa-svg/gray/map-marker.svg');
+            &[open] { background-image: url('images/fa-svg/blue/map-marker.svg'); }
         }
 
         h2 {
