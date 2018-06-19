@@ -141,11 +141,14 @@ var MAPDISPLAY = {
             coords  = [];
 
         MAPDISPLAY.deselectEventsExcept(event_id);
-        MAPDISPLAY.currentlySelectedEventId = event_id;
-        MAPDISPLAY.enableStyle(feature, 'selected');
 
-        coords = ol.extent.getCenter(feature.getGeometry().getExtent());
-        MAPDISPLAY.marker.setPosition(coords);
+        if (feature) {
+            coords = ol.extent.getCenter(feature.getGeometry().getExtent());
+
+            MAPDISPLAY.currentlySelectedEventId = event_id;
+            MAPDISPLAY.enableStyle(feature, 'selected');
+            MAPDISPLAY.marker.setPosition(coords);
+        }
 
         if (!details.getAttribute('open')) {
              details.setAttribute('open', '');
