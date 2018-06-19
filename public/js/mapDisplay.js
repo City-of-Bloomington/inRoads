@@ -137,10 +137,10 @@ var MAPDISPLAY = {
     },
     currentlySelectedEventId: null,
     selectEvent: function (event_id, feature) {
-        var article = document.getElementById(event_id),
+        var details = document.getElementById(event_id),
             coords  = [];
 
-        article.parentElement.classList.add('current');
+        /*details.setAttribute('open', '');*/
         MAPDISPLAY.currentlySelectedEventId = event_id;
 
         if (!feature) {
@@ -155,13 +155,13 @@ var MAPDISPLAY = {
         MAPDISPLAY.marker.setPosition(coords);
     },
     deselectEvents: function () {
-        var a       = document.querySelector('#events .current'),
+        var details = document.querySelector('#eventsList details[open]'),
             feature = {};
 
-        if (a) {
-            a.classList.remove('current');
+        if (details) {
+            details.removeAttribute('open');
 
-            feature = MAPDISPLAY.findFeature(a.firstElementChild.getAttribute('id'));
+            feature = MAPDISPLAY.findFeature(details.getAttribute('id'));
             if (feature) { MAPDISPLAY.resetStyle(feature); }
         }
 
@@ -213,15 +213,18 @@ var MAPDISPLAY = {
             MAPDISPLAY.selectEvent(feature.event_id, feature);
         }
     },
+    /**
+     * Responds to clicks in the events list
+     *
+     * Closes all the other details elements and highlights the selected
+     * feature on the map.
+     * We DO NOT prevent default.  Let the browser handle opening the clicked
+     * details element as normal.
+     */
     handleListClick: function (e) {
-        var current = e.currentTarget.classList.contains('current');
-
-        e.preventDefault();
+        var details = e.currentTarget;
         MAPDISPLAY.deselectEvents();
-        if (!current) {
-            MAPDISPLAY.selectEvent(e.currentTarget.firstElementChild.getAttribute('id'));
-        }
-        return false;
+        MAPDISPLAY.selectEvent(details.getAttribute('id'));
     }
 };
 
@@ -240,7 +243,15 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         f         = 0,
         geography = '',
         features  = [],
-        noscriptMessage = document.getElementById('pleaseEnableJavascript');
+        noscriptMessage = document.getElementById('pleaseEnableJavascript'),
+        extractType     = function (classList) {
+            for (let c of classList) {
+                for (let t of PHP.eventTypes) {
+                    if (t.code == c) { return c; }
+                }
+            }
+            return false;
+        };
 
     // Remove the prompt to enable Javascript before we begin to render the map
     if (noscriptMessage) {
@@ -265,25 +276,20 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
     MAPDISPLAY.loadEventTypeStyles(PHP.eventTypes);
 
     // Event data can be in either the eventList or the single event view.
-    events = document.querySelectorAll('#events article');
+    events = document.querySelectorAll('#eventsList details');
     if (!events.length) {
-        events = document.querySelectorAll('#event article');
+        events = document.querySelectorAll('#eventsList article');
     }
     len = events.length;
     for (i=0; i<len; i++) {
         id   = events[i].getAttribute('id');
-        type = events[i].className;
+        type = extractType(events[i].classList);
 
-        // tagName case varies from browser to browser and from XHMTL to HTML
-        if (events[i].parentElement.tagName === 'a' ||
-            events[i].parentElement.tagName === 'A') {
-            // Register the event listener for older, desktop-centric browsers
-            events[i].parentElement.addEventListener('click', MAPDISPLAY.handleListClick);
-            // For newer, mobile-centric browsers, remove the event listener on small devices
-            if (matchMedia("(max-width: 37.5rem)").matches) {
-                events[i].parentElement.removeEventListener('click', MAPDISPLAY.handleListClick);
-            }
-
+        // Register the event listener for older, desktop-centric browsers
+        events[i].addEventListener('click', MAPDISPLAY.handleListClick);
+        // For newer, mobile-centric browsers, remove the event listener on small devices
+        if (matchMedia("(max-width: 37.5rem)").matches) {
+            events[i].removeEventListener('click', MAPDISPLAY.handleListClick);
         }
 
         geography = events[i].querySelector('.geography');
@@ -292,9 +298,11 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
             features[f] = MAPDISPLAY.wktFormatter.readFeature(geography.innerHTML);
             features[f].getGeometry().transform('EPSG:4326', 'EPSG:3857');
             features[f].event_id = id;
-            features[f].type     = type;
-            if (MAPDISPLAY.styles[type]) {
-                features[f].setStyle(MAPDISPLAY.styles[type].normal);
+            if (type) {
+                features[f].type = type;
+                if (MAPDISPLAY.styles[type]) {
+                    features[f].setStyle(MAPDISPLAY.styles[type].normal);
+                }
             }
 
             // Override the event link and have it open the popup on the map

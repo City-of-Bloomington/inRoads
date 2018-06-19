@@ -11,6 +11,11 @@
     }
 }
 
+#eventsList {
+        height: 100%;
+    overflow-x: auto;
+}
+
 .viewSingle, .eventEdit {
     > header {
         display: none;
@@ -19,8 +24,6 @@
         }
     }
     > main {
-//        min-height: 100%;
-
         > .headerBar {
             overflow-y: auto;
             position: absolute;

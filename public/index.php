@@ -29,8 +29,13 @@ if (isset($resource) && isset($action) && $ZEND_ACL->hasResource($resource)) {
 	$USER_ROLE = isset($_SESSION['USER']) ? $_SESSION['USER']->getRole() : 'Anonymous';
 	if ($ZEND_ACL->isAllowed($USER_ROLE, $resource, $action)) {
 		$controller = 'Application\Controllers\\'.ucfirst($resource).'Controller';
-		$c = new $controller($template);
-		$template = $c->$action();
+        if (method_exists($controller, $action)) {
+            $c = new $controller($template);
+            $template = $c->$action();
+        }
+        else {
+            $template = new \Application\Views\NotFoundView();
+        }
 	}
 	else {
         $template = new \Application\Views\ForbiddenView();

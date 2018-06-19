@@ -3,7 +3,6 @@
  * @copyright 2014-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param Event  $this->event
- * @param string $this->link  Specifies what to draw a link around.
  */
 use Application\Models\Event;
 use Application\Models\EventType;
@@ -20,17 +19,9 @@ $id = $this->event->getId()
     ? $this->event->getId()
     : $this->event->getGoogle_event_id();
 
-if ($this->link && $this->link === 'title') {
-    $url = BASE_URI."/events/view?id=$id";
-    $title = "<a href=\"$url\">$title</a>";
-}
-
 $typeClass = '';
 $t = $this->event->getEventType();
 if ($t) {
-    $tn = parent::escape($t->getName());
-    $td = parent::escape($t->getDescription());
-    $typeDiv   = "<div class=\"type\">$tn; $td</div>";
     $typeClass = "class=\"{$t->getCode()}\"";
 }
 ?>
