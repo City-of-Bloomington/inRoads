@@ -31,9 +31,8 @@ use Application\Models\EventType;
             $color = implode(', ', sscanf($type->getColor(), '%02x%02x%02x'));
 
             echo "
-            .$class      { border-color:rgba($color, 1); }
-            .$class > h2 { border-color:rgba($color, 1); }
-			.$class > a  { border-color:rgba($color, 1); }
+            .$class          { border-color:rgba($color, 1); }
+            .$class > header { border-color:rgba($color, 1); }
 			";
         }
 	?>

@@ -20,17 +20,17 @@
     vertical-align: top;
 
     > button {
-        background: $color-button-background;
-        border-color: $cob-gray;
+        background: $color-content-background;
+        border-color: $color-border-input;
         box-shadow: 0 0 0 0 $color-shadow;
-        color: $color-button-text;
+        color: $color-text-default;
         line-height: .9rem; // <- Should bump height of button down to 25px
         margin: 0 0 .5rem 0;
         width: 5rem;
 
         &.current {
-            background-color: $color-button-background-current;
-            color: $color-button-text-active;
+            background-color: $color-header;
+            color: $color-content-background;
         }
 
         &:hover {
@@ -43,22 +43,22 @@
 }
 
 #clearFeaturesButton {
-    background-color: $cob-red;
-    border-color: $cob-red-darkest;
+    background-color: $color-alert;
+    border-color: $color-border-input;
     color: #fff;
 }
 
 .headerBar {
-    background-color: $cob-blue;
+    background-color: $color-header;
     box-sizing: border-box;
-    color: #fff;
+    color: $color-content-background;
     height: $headerBarHeight;
     margin: 0;
     padding: (6rem/16) 0 0 0;
     position: relative;
 
     @mixin toolButton() {
-        background: $cob-blue;
+        background: $color-header;
         border: 0;
         border-radius: 0;
         cursor: pointer;
@@ -71,11 +71,11 @@
         width: (24rem/16);
 
         &:hover {
-            background: $cob-blue-light;
+            background: $color-selected-background;
         }
         &:focus, &:active {
-            background: $cob-blue;
-            outline: 1px solid $cob-blue-light;
+            background: $color-header;
+            outline: 1px solid $color-selected-background;
         }
     }
 
@@ -86,7 +86,7 @@
             margin: (2rem/16) .25rem 0 .25rem;
 
             &:before {
-                background: #fff;
+                background: $color-content-background;
                 content: ' ';
                 display: block;
                 height: (12rem/16);
@@ -98,7 +98,7 @@
                 width: (2rem/16);
             }
             &:after {
-                background: #fff;
+                background: $color-content-background;
                 content: ' ';
                 display: block;
                 height: (12rem/16);
@@ -123,7 +123,7 @@
             @include toolButton();
             &.add {
                 &:before {
-                    background: #fff;
+                    background: $color-content-background;
                     content: ' ';
                     display: block;
                     height: (18rem/16);
@@ -133,7 +133,7 @@
                     width: (2rem/16);
                 }
                 &:after {
-                    background: #fff;
+                    background: $color-content-background;
                     content: ' ';
                     display: block;
                     height: (2rem/16);
@@ -144,11 +144,11 @@
                 }
             }
             &.edit   {
-                background: url('images/pencil-white.svg') no-repeat 50% 50% / 80% 80%;
+                background: url('images/fa-svg/white/pencil.svg') no-repeat 50% 50% / 80% 80%;
             }
             &.cancel, &.delete {
                 &:before {
-                    background: #fff;
+                    background: $color-content-background;
                     content: ' ';
                     display: block;
                     height: (18rem/16);
@@ -161,7 +161,7 @@
                     width: (2rem/16);
                 }
                 &:after {
-                    background: #fff;
+                    background: $color-content-background;
                     content: ' ';
                     display: block;
                     height: (2rem/16);
@@ -176,7 +176,7 @@
         }
     }
     &-title {
-        color: #fff;
+        color: $color-content-background;
         font-family: $font-family-heading;
         font-size: (20rem/16);
         font-weight: 300;
@@ -188,10 +188,10 @@
     margin-left: $filters-width;
 }
 .filterPanel {
-    background: $color-filters-background;
+    background: $color-border-input;
     border-bottom: 1px solid $color-border-input;
     box-sizing: border-box;
-    color: $color-filters-text;
+    color: $color-content-background;
     margin: 0 0 (-$footerHeight) 0;
     min-height: 100%;
     padding: .5rem .5rem ($footerHeight + .5) .5em;
@@ -202,6 +202,7 @@
     margin: 0 0 (-$footerHeight);
     overflow: hidden;
     padding: 0 .5rem $footerHeight;
+    font-size: $font-size-small;
 }
 
 .detailPanel {
@@ -228,7 +229,7 @@
 }
 
 #errorMessages {
-    background: #fff;
+    background: $color-content-background;
     border-radius: 1em;
     box-shadow: 0 0 3rem 0 rgba(0, 0, 0, .75);
     margin-left: -16rem;

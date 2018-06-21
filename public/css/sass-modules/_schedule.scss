@@ -1,31 +1,25 @@
 .schedule {
     article {
-        border-top: (1rem/16) solid $cob-blue-dark;
         margin: 1rem .5rem 1rem .5rem;
         max-width: 50rem;
-        padding: 0;
         @media screen and (min-width: $window-medium) {
             margin: 2rem 2rem 2rem 3rem;
         }
 
-        h2 {
-            border-top-width: (6rem/16);
+        header {
+            border-top-width: 6px;
             border-top-style: solid;
-            display: inline-block;
-            padding: .5em 0 0 0;
-            margin: (-1rem/16) 0 0 0;
-        }
-        > .title {
-        }
-        > .dates {
-            color: $cob-gray-dark;
-        }
-        > .description {
-            margin: 1rem 0;
-        }
-        > .geography {
-            display: none;
-        }
-    }
+            padding: 0;
 
+            h2 {
+                display: inline-block;
+                padding: .5em 0 0 0;
+                margin: (-1rem/16) 0 0 0;
+            }
+        }
+        .title       { }
+        .dates       { color: $color-border-input; }
+        .description { margin: 1rem 0; }
+        .geography   { display: none; }
+    }
 }

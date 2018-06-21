@@ -1,5 +1,5 @@
 body > header {
-    border-top: .4em solid $color-accent;
+    border-top: .4em solid $color-header;
     box-sizing: border-box;
     height: ($siteHeaderHeight - .5);
 
@@ -15,7 +15,7 @@ body > header {
                 display: inline-block;
             }
             &-breadCrumb {
-                border-left: (1rem/16) solid $cob-blue-darkest;
+                border-left: (1rem/16) solid $color-header;
                 display: none; // Display on larger sizes instead
                 font-family: $font-family-heading;
                 margin: 0 0 0 1rem;
@@ -23,15 +23,6 @@ body > header {
                 position: relative;
                     top: (-4rem/16);
 
-                &-ancestors {
-                    color: $cob-cornflower;
-                    font-size: (12rem/16);
-                    line-height: 1em;
-                    text-transform: uppercase;
-                    > a {
-                        color: $cob-cornflower;
-                    }
-                }
                 &-home {
                     display: block;
                     font-size: (20rem/16);

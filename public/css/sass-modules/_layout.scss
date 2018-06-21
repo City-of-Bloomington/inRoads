@@ -96,7 +96,7 @@
             }
 
             > #content-panel {
-                border-top: .4em solid $color-accent;
+                border-top: .4em solid $color-header;
                 height: auto;
                 top: $siteHeaderHeight;
                     left: 20rem;
@@ -137,7 +137,7 @@ html {
             }
             @media screen and (min-width: $window-medium) {
                 > #panel-one {
-                    border-top: .4em solid $color-accent;
+                    border-top: .4em solid $color-header;
                     overflow-y: auto;
                     position: absolute;
                         top: $siteHeaderHeight;
@@ -200,7 +200,7 @@ html {
         }
         @media screen and (min-width: $window-medium) {
             > #panel-one {
-                border-top: .4em solid $color-accent;
+                border-top: .4em solid $color-header;
                 overflow-y: auto;
                 position: absolute;
                     top: $siteHeaderHeight;
@@ -264,7 +264,7 @@ html {
         #content-panel {
             @media screen and (min-width: $window-medium) {
                 background: $color-content-background;
-                border-top: .4em solid $color-accent;
+                border-top: .4em solid $color-header;
                 margin: 0 auto 0 auto;
                 min-height: 40em;
                 padding: 2em;

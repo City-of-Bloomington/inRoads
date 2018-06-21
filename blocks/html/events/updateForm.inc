@@ -77,6 +77,7 @@ $geography_description = parent::escape($this->event->getGeography_description()
                 'label'    => $this->_('title'),
                 'value'    => $title,
                 'help'     => $this->_('title_help', 'messages'),
+                'type'     => 'textarea',
                 'required' => true
             ]);
             echo $h->field([
@@ -85,6 +86,7 @@ $geography_description = parent::escape($this->event->getGeography_description()
                 'label'    => $this->_('geography_description'),
                 'value'    => $geography_description,
                 'help'     => $this->_('geography_description_help', 'messages'),
+                'type'     => 'textarea',
                 'required' => true
             ]);
         ?>

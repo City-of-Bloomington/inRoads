@@ -1,7 +1,7 @@
 .pillNav {
     text-align: center;
     > a {
-        border: 1px solid $cob-blue-darkest;
+        border: 1px solid $color-selected-background;
         display: inline-block;
 
         margin: 0;
@@ -20,16 +20,18 @@
     position: relative;
         top: (-2rem/16);
     width: 15rem;
+    font-size: $font-size-small;
+    line-height:1;
     > a {
         $border-width: (1rem/16);
-        border: $border-width solid $cob-cornflower-light;
+        border: $border-width solid $color-header-border;
         color: #fff;
         margin: 0 (-$border-width) 0 0;
         &:hover {
-            background-color: $cob-cornflower;
+            background-color: $color-header-border;
         }
         &.current {
-            background-color: $cob-blue-dark;
+            background-color: $color-accent;
         }
     }
 }

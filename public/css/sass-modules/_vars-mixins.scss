@@ -4,93 +4,68 @@
 $url-logo:              "images/logo.svg";
 $url-header-background: "images/header-background.jpg";
 
-$font-family-default: "PT Sans", "Helvetica Neue", Arial, sans-serif;
-$font-family-heading: Lato, "Helvetica Neue", Arial, sans-serif;
+//Typefaces
+@import 'https://fonts.googleapis.com/css?family=Lora';
+@import 'https://fonts.googleapis.com/css?family=Roboto';
+$serif: "Lora", serif;
+$sans:  "Roboto", sans-serif;
+
+$font-family-default: $sans;
+$font-family-heading: $serif;
+$font-family-nav:     $sans;
+$font-weight-heading: 700;
+
+//Font Sizes
+$font-size-huge:    2.8125rem;
+$font-size-biggest: 1.6667rem;
+$font-size-bigger:  1.4000rem;
+$font-size-big:     1.2500rem;
+$font-size-normal:  1.1250rem;
+$font-size-small:   1.0000rem;
+$font-size-smaller: 0.8750rem;
 
 // Colors
-// Btown Blue
-$cob-blue: #315da6;
-$cob-blue-light: #4975ba;
-$cob-blue-dark: #143a7a;
-$cob-blue-darkest: #06204b;
+@import 'color-palette';
+// Foreground colors
+$color-text-default:               $gray-darkest;
+$color-text-secondary:             $gray-darkest;
+$color-link:                       $blue;
+$color-heading:                    $nightshade;
+$color-divider:                    $nightshade;
 
-// Cornflower
-$cob-cornflower-brightest: #acf2ff;
-$cob-cornflower-light: #5991c2;
-$cob-cornflower: #447aa8;
-$cob-cornflower-dark: #24537b;
-$cob-cornflower-darkest: #12314c;
+// Background colors
+$color-content-background:         #fff;
+$color-selected-background:        $blue-light;
 
-// Action Green
-$cob-green: #23ae4d;
-$cob-green-light: #70bf88;
-$cob-green-lightest: #aaffac;
+$color-nav1:                       $blue;
+$color-header:                     $blue;
+$color-header-border:              $cornflower;
+$color-footer:                     $nightshade;
+$color-error:                      $red-dark;
+$color-alert:                      $red-dark;
+$color-action:                     $green;
+$color-action-hover:               $green-light;
+$color-accent:                     $blue-dark;
 
-// Blue-ish gray
-$cob-gray-light: #d7e5f4;
-$cob-gray: #bcc9d8;
-$cob-gray-dark: #8d98a5;
-$cob-gray-darkest: #585f68;
-$cob-nightshade: #2a2e32; // Darker than darkest
-
-// Warning red
-$cob-red: #b54548;
-$cob-red-dark: #872528;
-$cob-red-darkest: #541214;
-
-$color-text-default: $cob-gray-darkest;
-$color-content-background: #fff;
-
-$color-link:   $cob-blue;
-$color-nav1:   $cob-blue;
-$color-header: $cob-blue;
-$color-accent: $cob-blue;
-
-$color-heading-1: #777;
-$color-heading-2: #555;
-$color-heading-3: #666;
-
-
-$color-background-field:           $cob-gray-light;
+$color-background-field:           $gray-light;
 $color-background-field-highlight: #fafafa;
-$color-border-input:               $cob-gray-dark;
-$color-border-input-highlight:     $cob-gray;
-$color-border-modal:               #f3f3f3;
+$color-border-input:               $gray-dark;
+$color-border-input-highlight:     $gray;
 $color-border-table:               #c0c0c0;
 
 $color-table-background:           #edf0f5;
+$color-table-background-alt:       $gray;
 $color-table-header-background:    #204984;
 
 $color-shadow: rgba(0, 0, 0, 0.5);
 
-$color-button-background: #fff;
-$color-button-background-current: $cob-blue;
-$color-button-text: $cob-gray-darkest;
-$color-button-text-active: #fff;
 
-$color-footer-background: $cob-nightshade;
-$color-footer-links: $cob-gray;
-$color-footer-heading: $cob-gray-light;
-
-$color-filters-background: $cob-gray-dark;
-$color-filters-text: #fff;
-
-$size-font-default: 100%;
 $size-gutter: 4px;
 
-$font-weight-heading: 600;
-
-
-
-// Font families
-$font-body-copy: 'PT Sans', Verdana, sans-serif;
-$font-headings: Lato, 'Helvetica Neue', Arial, sans-serif;
-
-
 // Viewport size variables
-$window-large: (950rem/16);
-$window-medium: (600rem/16);
-$window-small: (330rem/16);
+$window-large:  950px;
+$window-medium: 600px;
+$window-small:  330px;
 
 // Values for absolute positioning
 $eventsListWidth: 20.5rem;

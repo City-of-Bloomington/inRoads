@@ -12,12 +12,12 @@
             width: (150rem/16);
         }
         > h2 {
-            color: $cob-blue-darkest;
+            color: $color-accent;
             margin: 1em 0 .25em 0;
             text-align: center;
         }
         > p {
-            color: $cob-gray-darkest;
+            color: $color-text-default;
             margin: 0 0 1em 0;
         }
     }
@@ -31,10 +31,13 @@
     }
 
     details {
-        &[open] > summary { background-image: url('images/fa-svg/gray-darkest/caret-down.svg'); }
         border-left-style:solid;
-        border-left-width:4px;
-        border-bottom: 1px solid $cob-gray;
+        border-left-width:$size-gutter;
+        border-bottom: 1px solid $color-border-input;
+        &[open] {
+            border-left-width:($size-gutter * 2);
+            > summary { background-image: url('images/fa-svg/gray-darkest/caret-down.svg'); }
+        }
 
         div { margin-left:16px; }
 
@@ -49,12 +52,12 @@
         }
         .title { color: $color-link; }
         .dates {
-            color: $cob-gray-dark;
+            color: $color-border-input-highlight;
             font-size: (12rem/16);
         }
         .type        { display:none; }
         .description {
-            color: $cob-gray-darkest;
+            color: $color-text-default;
             font-size: (14rem/16);
             line-height: 1.25em;
             padding: 0 0 (10rem/16) 0;

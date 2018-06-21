@@ -1,5 +1,5 @@
 .showFilterButton {
-    background: $cob-blue url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+    background: $color-header url('images/search.svg') no-repeat 45% 45% / 60% 60%;
     border-radius: .5rem;
     cursor: pointer;
     height: 2rem;
@@ -10,11 +10,11 @@
     text-indent: -100rem;
     width: 2rem;
     &:hover {
-        background: $cob-blue-light url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+        background: $color-selected-background url('images/search.svg') no-repeat 45% 45% / 60% 60%;
     }
 }
 .hideFilterButton {
-    background: $cob-gray-dark;
+    background: $color-border-input;
     border-radius: .5rem;
     cursor: pointer;
     display: block;
@@ -26,11 +26,11 @@
     width: 2rem;
     text-indent: -100rem;
     &:hover {
-        background: $cob-gray;
+        background: $color-border-input-highlight;
     }
 
     &:before {
-        background: #fff;
+        background: $color-content-background;
         content: ' ';
         display: block;
         height: (3rem/16);
@@ -42,7 +42,7 @@
         width: (20rem/16);
     }
     &:after {
-        background: #fff;
+        background: $color-content-background;
         content: ' ';
         display: block;
         height: (3rem/16);
@@ -69,7 +69,7 @@
         > main {
             > .content-container {
                 > #panel-two {
-                    border-top: .4rem solid $cob-blue;
+                    border-top: .4rem solid $color-header;
                     position: absolute;
                         top: $siteHeaderHeight;
                         right: 0;
@@ -193,7 +193,7 @@
     .js > .eventsMap, .js > .schedule {
         > main {
             #panel-one {
-                border-top: .4em solid $cob-blue;
+                border-top: .4em solid $color-header;
                 display: block;
                 top: $siteHeaderHeight;
                 right: auto;

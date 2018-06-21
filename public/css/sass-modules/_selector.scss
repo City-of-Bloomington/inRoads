@@ -16,9 +16,9 @@
 
     &-current {
         background: $color-content-background;
-        border: 1px solid $cob-gray;
+        border: 1px solid $color-border-input-highlight;
         box-sizing: border-box;
-        color: $cob-gray-darkest;
+        color: $color-text-default;
         display: none;
         padding: .25em (21rem/16) .25em 1em; // <-second value provides room for :after pseudo-element
         position: relative;
@@ -45,15 +45,15 @@
             margin-top: (-2rem/16);
             border-left: (5rem/16) solid transparent;
             border-right: (5rem/16) solid transparent;
-            border-top: (6rem/16) solid $cob-gray;
-            color: $cob-gray;
+            border-top: (6rem/16) solid $color-border-input-highlight;
+            color: $color-border-input-highlight;
             content: ' ';
             width: 0;
             height: 0;
         }
     }
     &-options {
-        border: 1px solid $cob-gray;
+        border: 1px solid $color-border-input-highlight;
         margin-top: -1px;
         padding: .5em 0;
         z-index:1;
@@ -64,18 +64,18 @@
         background-color: $color-content-background;
 
         > a {
-            color: $cob-gray-darkest;
+            color: $color-text-default;
             cursor: pointer;
             display: block;
             line-height: 1.2em;
             padding: .1em 1em;
 
             &:hover {
-                background-color: $cob-blue;
+                background-color: $color-header;
                 color: #fff;
             }
             &.current {
-                border-left: (8rem/16) solid $cob-blue;
+                border-left: (8rem/16) solid $color-header;
                 padding-left: (8rem/16);
             }
         }

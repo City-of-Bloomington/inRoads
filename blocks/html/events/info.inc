@@ -26,8 +26,10 @@ if ($t) {
 }
 ?>
 <article id="e_<?= $id; ?>" <?= $typeClass; ?>>
-    <h2 class="title"><?= $title; ?></h2>
-    <h2><?= $geography_description; ?></h2>
+    <header>
+        <h2 class="title"><?= $title; ?></h2>
+        <h2><?= $geography_description; ?></h2>
+    </header>
     <div class="dates"><?= $this->event->getHumanReadableDuration('F j, Y'); ?></div>
     <?php
 

@@ -1,7 +1,7 @@
 .required label {
     &:after {
         content: ' *';
-        color: $cob-red;
+        color: $color-alert;
         font-size: 2em;
         line-height: 0;
         position: relative;
@@ -12,7 +12,7 @@ fieldset {
     margin: 1rem 0;
 
     &:after {
-        border-bottom: 1px solid $cob-gray;
+        border-bottom: 1px solid $color-border-input;
         content: ' ';
         display: block;
         height: 0;
@@ -23,8 +23,8 @@ fieldset {
     }
 
     > legend {
-        color: $cob-gray-darkest;
-        font-family: $font-headings;
+        color: $color-text-default;
+        font-family: $font-family-heading;
         font-size: (12rem/16);
         text-transform: uppercase;
     }
@@ -44,7 +44,7 @@ fieldset {
             input {
                 box-sizing: border-box;
                 border: 1px solid $color-border-input;
-                color: $cob-gray-darkest;
+                color: $color-text-default;
                 font-family: $font-family-default;
                 font-size: 1em;
                 padding: .5em;
@@ -62,6 +62,7 @@ fieldset {
                     display: inline-block;
                     width: auto;
                 }
+
             }
             > label:not([for]) { // <- Presumes the only reason for a label with no for attribute to appear as a child of a DD is because of a checkbox or radio button.
                 vertical-align: middle;
@@ -161,6 +162,7 @@ fieldset {
                     width: 20em;
 
                     &[type="date"] { width:inherit; }
+                    &[type="time"] { width:inherit; }
                 }
             }
         }
@@ -202,7 +204,7 @@ fieldset {
                 // border-color will be set in a style declaration by PHP
                 // see: templates/html/partials/head.inc
                 background: #fff;
-                color: $cob-gray-darkest;
+                color: $color-text-default;
                 padding-bottom: (4rem/16);
                 padding-left: (30rem/16);
             }

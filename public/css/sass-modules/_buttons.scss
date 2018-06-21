@@ -1,63 +1,43 @@
-// Submit and cancel button area
-.input-buttons {
-    margin: 1em 0;
-}
-
-/**
- * Base styles for buttons and button links
- */
-
-%buttonWithIcon {
-    &:before {
-        content: '';
-        display: block;
-        float: left;
-        height: 1em;
-        margin: .125em .5em 0 0;
-        width: 1em;
-    }
-}
 button, .button {
+    font-family: $font-family-nav;
+    background: $color-action;
     border:1px solid $color-border-input;
-    border-radius:.4em;
-    color: $color-heading-2;
-    display:inline-block;
-    padding: .25em 1em;
-    font-size: (14em/16);
-    font-weight:normal;
-    background: linear-gradient(to bottom, #f2f2f9 21%,#CDD1D9 80%);
-    vertical-align: middle;
-    &:hover {
-        cursor:pointer;
-    }
-    &.edit{
-        @extend %buttonWithIcon;
-        &:before   {
-            background: url('images/pencil.svg') no-repeat 0 50% / 100% 100%;
-        }
-    }
-    &.delete{
-        @extend %buttonWithIcon;
-        &:before {
-            background: url('images/remove.svg') no-repeat 0 50% / 100% 100%;
-        }
-    }
-}
-.icon {
-    height: 1rem;
-    overflow: hidden;
-    text-indent: -100rem;
-    width: 1rem;
-
-    &.edit{
-        background: url('images/pencil.svg') no-repeat 50% 50% / 100% 100%;
-    }
-}
-
-footer .button, .dropdown button {
-    font-size: 1rem;
-    background: $cob-green;
-    border: 0 none;
-    border-bottom: .25em solid $cob-green-light;
+    border-radius: $size-gutter;
+    box-sizing: content-box;
     color: $color-content-background;
+    display:inline-block;
+    line-height: 1.2em;
+    margin-right: $size-gutter;
+    padding: $size-gutter ($size-gutter*2);
+    font-size: $font-size-small;
+    font-weight:normal;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: ($font-size-small / 2) center;
+    background-size: $font-size-small;
+
+    &:hover {
+        background-color: $color-action-hover;
+        cursor: pointer;
+        text-decoration: none;
+    }
+}
+
+button, .button {
+    $imageSpace: $font-size-small * 2;
+    &.add      { background-image:url('images/fa-svg/white/plus.svg'      ); padding-left:$imageSpace; }
+    &.edit     { background-image:url('images/fa-svg/white/pencil.svg'    ); padding-left:$imageSpace; }
+    &.delete   { background-image:url('images/fa-svg/white/times.svg'     ); padding-left:$imageSpace; }
+    &.submit   { background-image:url('images/fa-svg/white/check.svg'     ); padding-left:$imageSpace; }
+    &.save     { background-image:url('images/fa-svg/white/floppy-o.svg'  ); padding-left:$imageSpace; }
+    &.search   { background-image:url('images/fa-svg/white/search.svg'    ); padding-left:$imageSpace; }
+    &.calendar { background-image:url('images/fa-svg/white/calendar.svg'  ); padding-left:$imageSpace; }
+    &.location { background-image:url('images/fa-svg/white/map-marker.svg'); padding-left:$imageSpace; }
+    &.map      { background-image:url('images/fa-svg/white/globe.svg'     ); padding-left:$imageSpace; }
+    &.list     { background-image:url('images/fa-svg/white/list-ul.svg'   ); padding-left:$imageSpace; }
+    &.print    { background-image:url('images/fa-svg/white/print.svg'     ); padding-left:$imageSpace; }
+    &.reorder  { background-image:url('images/fa-svg/white/reorder.svg'   ); padding-left:$imageSpace; }
+    &.user     { background-image:url('images/fa-svg/white/user.svg'      ); padding-left:$imageSpace; }
+    &.upload   { background-image:url('images/fa-svg/white/upload.svg'    ); padding-left:$imageSpace; }
+    &.download { background-image:url('images/fa-svg/white/download.svg'  ); padding-left:$imageSpace; }
 }
