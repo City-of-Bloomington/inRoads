@@ -30,4 +30,5 @@ class ScheduleView extends Template
             'presets' => $timePeriods
         ]);
         $this->blocks[] = new Block('events/schedule.inc', ['events'=>$events]);
+    }
 }

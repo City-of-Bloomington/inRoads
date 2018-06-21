@@ -19,7 +19,7 @@ use Blossom\Classes\Block;
                     ? $e->getId()
                     : $e->getGoogle_event_id();
 
-                $url = "<a href=\"".BASE_URI."/events/view?id=$id\">{$this->_('view')}</a>";
+                $url = "<a href=\"".BASE_URI."/events/view?id=$id\">{$this->_('event_info')}</a>";
 
                 $classes = '';
                 if ($e->getGeography()) { $classes = 'hasGeography'; }
