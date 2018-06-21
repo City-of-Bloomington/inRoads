@@ -6,8 +6,9 @@
 
     <testsuites>
         <testsuite name="unit_tests">
-            <file>tests/UnitTests/EventTest.php</file>
             <file>tests/UnitTests/ControllerTest.php</file>
+            <file>tests/UnitTests/EventTest.php</file>
+            <file>tests/UnitTests/PersonTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

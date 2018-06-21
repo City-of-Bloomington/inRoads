@@ -1,4 +1,4 @@
-inRoads
+inRoads ![Build Status](https://travis-ci.org/City-of-Bloomington/inRoads.svg?branch=master)
 =======
 
 inRoads is a digital service developed by the City of Bloomington. inRoads is used to manage and publish road, sidewalk and parking status information including closings, lane reductions, noise permits and parking reservations. It provides not only current information about road events, but future planned events as well.inRoads streamlines the process of creating and managing road, sidewalk, parking and other location-relevant municipal events (noise permits, etc.). inRoads publishes its data to the web, to email lists and through multiple open data formats. It also provides a Waze feed usable for communities participating in the Waze Connected Cities program.
