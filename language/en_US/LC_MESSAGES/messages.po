@@ -17,10 +17,10 @@ msgstr ""
 "Language: en_US\n"
 
 msgid "title_help"
-msgstr "Enter the title for the event"
+msgstr "Include the primary street for the closure"
 
 msgid "geography_description_help"
-msgstr "Enter the location for the event"
+msgstr "Enter the complete location description for the closure"
 
 msgid "noEventsReturned.heading"
 msgstr "Smooth driving ahead!"
