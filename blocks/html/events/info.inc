@@ -27,6 +27,33 @@ if ($t) {
 ?>
 <article id="e_<?= $id; ?>" <?= $typeClass; ?>>
     <header>
+        <div class="tools">
+        <?php
+            $helper = $this->template->getHelper('buttonLink');
+            if (Person::isAllowed('events', 'update')) {
+                echo $helper->buttonLink(
+                    BASE_URI.'/events/update?id='.$id,
+                    $this->template->_('edit'),
+                    'edit'
+                );
+            }
+            if (Person::isAllowed('events', 'history')) {
+                echo $helper->buttonLink(
+                    BASE_URI.'/events/history?id='.$id,
+                    $this->template->_('eventHistory'),
+                    'history'
+                );
+            }
+            if (Person::isAllowed('events', 'delete')) {
+                $uri = BASE_URI.'/events/delete?id='.$id;
+                echo "
+                <a href=\"$uri\" class=\"delete button\"
+                    onclick=\"return PHP.deleteConfirmation();\">
+                    {$this->_('delete')}
+                </a>";
+            }
+        ?>
+        </div>
         <h2 class="title"><?= $title; ?></h2>
         <h2><?= $geography_description; ?></h2>
     </header>

@@ -286,7 +286,7 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
     // Event data can be in either the eventList or the single event view.
     events = document.querySelectorAll('#eventsList details');
     if (!events.length) {
-        events = document.querySelectorAll('#eventsList article');
+        events = document.querySelectorAll('#event article');
     }
     len = events.length;
     for (i=0; i<len; i++) {

@@ -157,6 +157,9 @@ msgstr "Delete Event"
 msgid "event_info"
 msgstr "Event Details"
 
+msgid "eventHistory"
+msgstr "Log"
+
 msgid "created"
 msgstr "Created"
 

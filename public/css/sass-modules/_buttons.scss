@@ -25,19 +25,37 @@ button, .button {
 
 button, .button {
     $imageSpace: $font-size-small * 2;
-    &.add      { background-image:url('images/fa-svg/white/plus.svg'      ); padding-left:$imageSpace; }
-    &.edit     { background-image:url('images/fa-svg/white/pencil.svg'    ); padding-left:$imageSpace; }
-    &.delete   { background-image:url('images/fa-svg/white/times.svg'     ); padding-left:$imageSpace; }
-    &.submit   { background-image:url('images/fa-svg/white/check.svg'     ); padding-left:$imageSpace; }
-    &.save     { background-image:url('images/fa-svg/white/floppy-o.svg'  ); padding-left:$imageSpace; }
-    &.search   { background-image:url('images/fa-svg/white/search.svg'    ); padding-left:$imageSpace; }
-    &.calendar { background-image:url('images/fa-svg/white/calendar.svg'  ); padding-left:$imageSpace; }
-    &.location { background-image:url('images/fa-svg/white/map-marker.svg'); padding-left:$imageSpace; }
-    &.map      { background-image:url('images/fa-svg/white/globe.svg'     ); padding-left:$imageSpace; }
-    &.list     { background-image:url('images/fa-svg/white/list-ul.svg'   ); padding-left:$imageSpace; }
-    &.print    { background-image:url('images/fa-svg/white/print.svg'     ); padding-left:$imageSpace; }
-    &.reorder  { background-image:url('images/fa-svg/white/reorder.svg'   ); padding-left:$imageSpace; }
-    &.user     { background-image:url('images/fa-svg/white/user.svg'      ); padding-left:$imageSpace; }
-    &.upload   { background-image:url('images/fa-svg/white/upload.svg'    ); padding-left:$imageSpace; }
-    &.download { background-image:url('images/fa-svg/white/download.svg'  ); padding-left:$imageSpace; }
+    &.add      { background-image:url('images/fa-svg/white/plus.svg'        ); padding-left:$imageSpace; }
+    &.edit     { background-image:url('images/fa-svg/white/pencil.svg'      ); padding-left:$imageSpace; }
+    &.delete   { background-image:url('images/fa-svg/white/times.svg'       ); padding-left:$imageSpace; }
+    &.submit   { background-image:url('images/fa-svg/white/check.svg'       ); padding-left:$imageSpace; }
+    &.save     { background-image:url('images/fa-svg/white/floppy-o.svg'    ); padding-left:$imageSpace; }
+    &.search   { background-image:url('images/fa-svg/white/search.svg'      ); padding-left:$imageSpace; }
+    &.back     { background-image:url('images/fa-svg/white/chevron-left.svg'); padding-left:$imageSpace; }
+    &.history  { background-image:url('images/fa-svg/white/history.svg'     ); padding-left:$imageSpace; }
+    &.calendar { background-image:url('images/fa-svg/white/calendar.svg'    ); padding-left:$imageSpace; }
+    &.location { background-image:url('images/fa-svg/white/map-marker.svg'  ); padding-left:$imageSpace; }
+    &.map      { background-image:url('images/fa-svg/white/globe.svg'       ); padding-left:$imageSpace; }
+    &.list     { background-image:url('images/fa-svg/white/list-ul.svg'     ); padding-left:$imageSpace; }
+    &.print    { background-image:url('images/fa-svg/white/print.svg'       ); padding-left:$imageSpace; }
+    &.reorder  { background-image:url('images/fa-svg/white/reorder.svg'     ); padding-left:$imageSpace; }
+    &.user     { background-image:url('images/fa-svg/white/user.svg'        ); padding-left:$imageSpace; }
+    &.upload   { background-image:url('images/fa-svg/white/upload.svg'      ); padding-left:$imageSpace; }
+    &.download { background-image:url('images/fa-svg/white/download.svg'    ); padding-left:$imageSpace; }
+}
+
+
+.headerBar {
+    .back, .add {
+        cursor: pointer;
+        display: inline-block;
+        width:0; height:1em;
+        overflow: hidden;
+        text-indent: -1000em;
+        border:none;
+        background-color: transparent;
+        background-repeat:no-repeat;
+        background-position: center center;
+        background-size:$font-size-big;
+    }
 }

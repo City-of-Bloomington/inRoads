@@ -45,7 +45,7 @@
 #clearFeaturesButton {
     background-color: $color-alert;
     border-color: $color-border-input;
-    color: #fff;
+    color: $color-content-background;
 }
 
 .headerBar {
@@ -57,59 +57,9 @@
     padding: (6rem/16) 0 0 0;
     position: relative;
 
-    @mixin toolButton() {
-        background: $color-header;
-        border: 0;
-        border-radius: 0;
-        cursor: pointer;
-        display: inline-block;
-        height: (24rem/16);
-        overflow: hidden;
-        padding: 0;
-        position: relative;
-        text-indent: -1000rem;
-        width: (24rem/16);
-
-        &:hover {
-            background: $color-selected-background;
-        }
-        &:focus, &:active {
-            background: $color-header;
-            outline: 1px solid $color-selected-background;
-        }
-    }
-
-    > .button.back {
-        @include toolButton();
-        &.back {
-            float: left;
-            margin: (2rem/16) .25rem 0 .25rem;
-
-            &:before {
-                background: $color-content-background;
-                content: ' ';
-                display: block;
-                height: (12rem/16);
-                position: absolute;
-                    top: (3rem/16);
-                    left: (12rem/16);
-                -webkit-transform: rotate(45deg);
-                transform: rotate(45deg);
-                width: (2rem/16);
-            }
-            &:after {
-                background: $color-content-background;
-                content: ' ';
-                display: block;
-                height: (12rem/16);
-                position: absolute;
-                    top: (10rem/16);
-                    left: (12rem/16);
-                -webkit-transform: rotate(-45deg);
-                transform: rotate(-45deg);
-                width: (2rem/16);
-            }
-        }
+    .back {
+        float: left;
+        margin: (2rem/16) .25rem 0 .25rem;
     }
 
     &-tools {
@@ -118,68 +68,13 @@
         position: absolute;
             top: (6rem/16);
             right: 0;
-
-        > .button {
-            @include toolButton();
-            &.add {
-                &:before {
-                    background: $color-content-background;
-                    content: ' ';
-                    display: block;
-                    height: (18rem/16);
-                    position: absolute;
-                        top: (3rem/16);
-                        left: (11rem/16);
-                    width: (2rem/16);
-                }
-                &:after {
-                    background: $color-content-background;
-                    content: ' ';
-                    display: block;
-                    height: (2rem/16);
-                    position: absolute;
-                        top: (11rem/16);
-                        left: (3rem/16);
-                    width: (18rem/16);
-                }
-            }
-            &.edit   {
-                background: url('images/fa-svg/white/pencil.svg') no-repeat 50% 50% / 80% 80%;
-            }
-            &.cancel, &.delete {
-                &:before {
-                    background: $color-content-background;
-                    content: ' ';
-                    display: block;
-                    height: (18rem/16);
-                    margin: 0;
-                    position: absolute;
-                        top: (3rem/16);
-                        left: (11rem/16);
-                    transform: rotate(45deg);
-                    -webkit-transform: rotate(45deg);
-                    width: (2rem/16);
-                }
-                &:after {
-                    background: $color-content-background;
-                    content: ' ';
-                    display: block;
-                    height: (2rem/16);
-                    position: absolute;
-                        top: (11rem/16);
-                        left: (3rem/16);
-                    transform: rotate(45deg);
-                    -webkit-transform: rotate(45deg);
-                    width: (18rem/16);
-                }
-            }
-        }
     }
     &-title {
         color: $color-content-background;
         font-family: $font-family-heading;
-        font-size: (20rem/16);
+        font-size: $font-size-big;
         font-weight: 300;
+        line-height:1;
         margin: 0 0 0 .5rem;
         padding: .1rem 0 0 0;
     }
@@ -212,13 +107,8 @@
     overflow: hidden;
     padding: 0 .5rem ($footerHeight + 1) .5rem;
 
-    .title {
-        display: inline-block;
-        font-size: (18rem/16);
-        margin: 1em 0 .25em 0;
-    }
     .dates {
-        font-size: (14rem/16);
+        font-size: $font-size-small;
         margin: 0 0 1rem 0;
     }
     .description {

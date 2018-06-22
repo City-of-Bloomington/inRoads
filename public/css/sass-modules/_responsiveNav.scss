@@ -1,5 +1,5 @@
 .showFilterButton {
-    background: $color-header url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+    background: $color-header url('images/fa-svg/white/search.svg') no-repeat 45% 45% / 60% 60%;
     border-radius: .5rem;
     cursor: pointer;
     height: 2rem;
@@ -10,7 +10,7 @@
     text-indent: -100rem;
     width: 2rem;
     &:hover {
-        background: $color-selected-background url('images/search.svg') no-repeat 45% 45% / 60% 60%;
+        background: $color-selected-background url('images/fa-svg/white/search.svg') no-repeat 45% 45% / 60% 60%;
     }
 }
 .hideFilterButton {
