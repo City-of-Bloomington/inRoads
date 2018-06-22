@@ -1,11 +1,11 @@
 body > header {
-    border-top: .4em solid $color-header;
+    border-top: $size-gutter solid $color-header;
     box-sizing: border-box;
     height: ($siteHeaderHeight - .5);
 
     > .container {
         margin: 0 auto 0;
-        padding-top: .25rem;
+        padding-top: $size-gutter;
         color: $color-header;
         position: relative;
         @include clearfix();
@@ -13,20 +13,19 @@ body > header {
         .site {
             &-homeLink {
                 display: inline-block;
+                vertical-align: middle;
             }
             &-breadCrumb {
-                border-left: (1rem/16) solid $color-header;
+                border-left: 1px solid $color-header;
                 display: none; // Display on larger sizes instead
                 font-family: $font-family-heading;
                 margin: 0 0 0 1rem;
                 padding: 0 0 0 1rem;
-                position: relative;
-                    top: (-4rem/16);
+                vertical-align: middle;
 
                 &-home {
-                    display: block;
-                    font-size: (20rem/16);
-                    line-height: 1em;
+                    font-size: $font-size-big;
+                    line-height: 1;
                 }
             }
             &-utilityBar {
@@ -41,8 +40,7 @@ body > header {
                 }
             }
             &-logo {
-                float: left;
-                margin: 0 0 0 .5rem;
+                margin-left: $size-gutter;
             }
         }
     }
