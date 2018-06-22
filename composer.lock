@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Bloomington/blossom-lib.git",
-                "reference": "fc43afc87f13909efaf7f2669fd487cc49f957b3"
+                "reference": "ecd27fcfb944c07bfcb3be3428bcbbbf47d528f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Bloomington/blossom-lib/zipball/fc43afc87f13909efaf7f2669fd487cc49f957b3",
-                "reference": "fc43afc87f13909efaf7f2669fd487cc49f957b3",
+                "url": "https://api.github.com/repos/City-of-Bloomington/blossom-lib/zipball/ecd27fcfb944c07bfcb3be3428bcbbbf47d528f0",
+                "reference": "ecd27fcfb944c07bfcb3be3428bcbbbf47d528f0",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,7 @@
                 "source": "https://github.com/City-of-Bloomington/blossom-lib/tree/master",
                 "issues": "https://github.com/City-of-Bloomington/blossom-lib/issues"
             },
-            "time": "2018-05-17T19:55:04+00:00"
+            "time": "2018-06-15T16:25:15+00:00"
         },
         {
             "name": "aura/router",
@@ -283,16 +283,16 @@
         },
         {
             "name": "google/apiclient",
-            "version": "v2.2.1",
+            "version": "v2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client.git",
-                "reference": "b69b8ac4bf6501793c389d4e013a79d09c85c5f2"
+                "reference": "4e0fd83510e579043e10e565528b323b7c2b3c81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/b69b8ac4bf6501793c389d4e013a79d09c85c5f2",
-                "reference": "b69b8ac4bf6501793c389d4e013a79d09c85c5f2",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/4e0fd83510e579043e10e565528b323b7c2b3c81",
+                "reference": "4e0fd83510e579043e10e565528b323b7c2b3c81",
                 "shasum": ""
             },
             "require": {
@@ -307,7 +307,7 @@
             },
             "require-dev": {
                 "cache/filesystem-adapter": "^0.3.2",
-                "phpunit/phpunit": "~4",
+                "phpunit/phpunit": "~4.8.36",
                 "squizlabs/php_codesniffer": "~2.3",
                 "symfony/css-selector": "~2.1",
                 "symfony/dom-crawler": "~2.1"
@@ -338,7 +338,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-11-03T01:19:53+00:00"
+            "time": "2018-06-20T15:52:20+00:00"
         },
         {
             "name": "google/apiclient-services",
@@ -2105,16 +2105,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.2.4",
+            "version": "7.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "00bc0b93f0ff4f557e9ea766557fde96da9a03dd"
+                "reference": "400a3836ee549ae6f665323ac3f21e27eac7155f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/00bc0b93f0ff4f557e9ea766557fde96da9a03dd",
-                "reference": "00bc0b93f0ff4f557e9ea766557fde96da9a03dd",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/400a3836ee549ae6f665323ac3f21e27eac7155f",
+                "reference": "400a3836ee549ae6f665323ac3f21e27eac7155f",
                 "shasum": ""
             },
             "require": {
@@ -2130,7 +2130,7 @@
                 "php": "^7.1",
                 "phpspec/prophecy": "^1.7",
                 "phpunit/php-code-coverage": "^6.0.7",
-                "phpunit/php-file-iterator": "^2.0",
+                "phpunit/php-file-iterator": "^2.0.1",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
                 "sebastian/comparator": "^3.0",
@@ -2185,7 +2185,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-06-05T03:40:05+00:00"
+            "time": "2018-06-21T13:13:39+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -2234,16 +2234,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "ed5fd2281113729f1ebcc64d101ad66028aeb3d5"
+                "reference": "591a30922f54656695e59b1f39501aec513403da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/ed5fd2281113729f1ebcc64d101ad66028aeb3d5",
-                "reference": "ed5fd2281113729f1ebcc64d101ad66028aeb3d5",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/591a30922f54656695e59b1f39501aec513403da",
+                "reference": "591a30922f54656695e59b1f39501aec513403da",
                 "shasum": ""
             },
             "require": {
@@ -2294,7 +2294,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2018-04-18T13:33:00+00:00"
+            "time": "2018-06-14T15:05:28+00:00"
         },
         {
             "name": "sebastian/diff",

@@ -19,6 +19,9 @@
         "phpunit/phpunit": "^7"
     },
     "autoload": {
-        "psr-4": {"Application\\": "src/Application"}
+        "psr-4": {
+            "Application\\": "src/Application",
+            "Domain\\":      "src/Domain"
+        }
     }
 }
