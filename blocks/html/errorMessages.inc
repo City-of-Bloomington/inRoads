@@ -12,7 +12,7 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/errorMessages.js');
         $errorDir = "/blocks/html/errorMessages";
 
 		foreach ($this->errorMessages as $e) {
-			$error = $e->getMessage();
+            $error = is_string($e) ? $e : $e->getMessage();
 			$file = "$errorDir/$error.inc";
 
             if ($this->theme

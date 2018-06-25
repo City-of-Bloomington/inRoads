@@ -2,22 +2,20 @@
 /**
  * @copyright 2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @param Person $this->person
+ * @param string $this->
+ * @param string $this->firstname
+ * @param string $this->lastname
+ * @param string $this->email
+ * @param string $this->phone
  */
 declare (strict_types=1);
-
-$fields = ['firstname', 'lastname', 'email', 'phone', 'notify_updates', 'notify_emergency'];
-foreach ($fields as $f) {
-	$get = 'get'.ucfirst($f);
-	$$f = parent::escape($this->person->$get());
-}
 
 $h = $this->template->getHelper('field');
 echo $h->field([
     'name'     => 'firstname',
     'id'       => 'firstname',
     'label'    => $this->_('firstname'),
-    'value'    => $firstname,
+    'value'    => $this->firstname,
     'required' => true,
     'attr'     => ['inputmode'=>'latin-name']
 ]);
@@ -26,7 +24,7 @@ echo $h->field([
     'name'     => 'lastname',
     'id'       => 'lastname',
     'label'    => $this->_('lastname'),
-    'value'    => $lastname,
+    'value'    => $this->lastname,
     'required' => true,
     'attr'     => ['inputmode'=>'latin-name']
 ]);
@@ -35,7 +33,7 @@ echo $h->field([
     'name'     => 'email',
     'id'       => 'email',
     'label'    => $this->_('email'),
-    'value'    => $email,
+    'value'    => $this->email,
     'type'     => 'email',
     'attr'     => ['inputmode'=>'email']
 ]);
@@ -44,11 +42,12 @@ echo $h->field([
     'name'     => 'phone',
     'id'       => 'phone',
     'label'    => $this->_('phone'),
-    'value'    => $phone,
+    'value'    => $this->phone,
     'type'     => 'tel',
     'attr'     => ['inputmode'=>'tel']
 ]);
 
+/*
 $options = [
     ['value'=>1, 'label'=>$this->_('yes')],
     ['value'=>0, 'label'=>$this->_('no' )]
@@ -69,3 +68,4 @@ echo $h->field([
     'type'     => 'select',
     'options'  => $options
 ]);
+*/

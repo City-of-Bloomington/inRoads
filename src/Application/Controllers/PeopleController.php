@@ -5,16 +5,32 @@
  */
 namespace Application\Controllers;
 use Application\Models\Person;
-use Application\Models\PeopleTable;
+use Application\Views\People\InfoView;
+use Application\Views\People\SearchView;
+
 use Blossom\Classes\Controller;
 use Blossom\Classes\Block;
+use Blossom\Classes\Database;
+
+use Domain\People\DataStorage\ZendDbPeopleRepository;
+use Domain\People\UseCases\Info\Info;
+use Domain\People\UseCases\Info\InfoRequest;
+use Domain\People\UseCases\Search\Search;
+use Domain\People\UseCases\Search\SearchRequest;
+use Domain\People\UseCases\Update\Update;
+use Domain\People\UseCases\Update\UpdateRequest;
 
 class PeopleController extends Controller
 {
+    const ITEMS_PER_PAGE = 20;
+    private $repo;
+
     public function __construct(&$template)
     {
         $template->setFilename('admin');
         parent::__construct($template);
+
+        $this->repo = new ZendDbPeopleRepository(Database::getConnection());
     }
 
     private function loadPerson($id)
@@ -30,70 +46,60 @@ class PeopleController extends Controller
     }
 	public function index()
 	{
-		$table = new PeopleTable();
-		$people = $table->find(null, null, true);
-
-		$page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
-		$people->setCurrentPageNumber($page);
-		$people->setItemCountPerPage(20);
-
-		$this->template->blocks[] = new Block('people/list.inc',    ['people'   =>$people]);
-		$this->template->blocks[] = new Block('pageNavigation.inc', ['paginator'=>$people]);
-		return $this->template;
+		$page   = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
+		$search = new Search($this->repo);
+		$req    = new SearchRequest($_GET, null, self::ITEMS_PER_PAGE, $page);
+        $res    = $search($req);
+        return new SearchView($res, self::ITEMS_PER_PAGE, $page);
 	}
 
 	public function view()
 	{
-        if (!empty($_REQUEST['person_id'])) {
-            try { $person = new Person($_REQUEST['person_id']); }
-            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        if (!empty($_GET['person_id'])) {
+            $info = new Info($this->repo);
+            $req  = new InfoRequest((int)$_GET['person_id']);
+            $res  = $info($req);
+            if ($res->person) {
+                return new \Application\Views\People\InfoView($res);
+            }
+            else {
+                $_SESSION['errorMessages'] = $res->errors;
+            }
         }
-
-        if (isset($person)) {
-            $this->template->blocks[] = new Block('people/info.inc',array('person'=>$person));
-            return $this->template;
-        }
-        else {
-            return new \Application\Views\NotFoundView();
-        }
+        return new \Application\Views\NotFoundView();
 	}
 
 	public function update()
 	{
-        if (!empty($_REQUEST['person_id'])) {
-            try { $person = new Person($_REQUEST['person_id']); }
-            catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
+        $request = new UpdateRequest($_REQUEST);
+
+        if (isset($_POST['firstname'])) {
+            $update   = new Update($this->repo);
+            $response = $update($request);
+            if (!count($response->errors)) {
+                // @TODO refresh the session if we edited the logged in person
+
+                header('Location: '.BASE_URL.'/people/view?person_id='.$response->id);
+                exit();
+            }
         }
-        else {
-            $person = new Person();
-        }
-
-        if (isset($person)) {
-            $return_url = !empty($_REQUEST['return_url'])
-                        ? $_REQUEST['return_url']
-                        : BASE_URL."/people/view?person_id={$person->getId()}";
-
-            if (isset($_POST['firstname'])) {
-                try {
-                    $person->handleUpdate($_POST);
-                    $person->save();
-                    if ($_SESSION['USER']->getId() == $person->getId()) {
-                        $_SESSION['USER'] = $person;
-                    }
-
-                    header("Location: $return_url");
-                    exit();
-                }
-                catch (\Exception $e) {
-                    $_SESSION['errorMessages'][] = $e;
+        elseif (!empty($_REQUEST['id'])) {
+            // Populate any empty fields in the UpdateRequest with information
+            // from the current Person record.
+            $info = new Info($this->repo);
+            $req  = new InfoRequest((int)$_REQUEST['id']);
+            try {
+                $res = $info($req);
+                foreach ($request as $k=>$v) {
+                    if (!$v) { $request->$k = $res->person->$k; }
                 }
             }
+            catch (\Exception $e) {
+                $_SESSION['errorMessages'] = $res->errors;
+                return new \Application\Views\NotFoundView();
+            }
+        }
 
-            $this->template->blocks[] = new Block('people/updateForm.inc', ['person'=>$person, 'return_url'=>$return_url]);
-            return $this->template;
-        }
-        else {
-            return new \Application\Views\NotFoundView();
-        }
+        return new \Application\Views\People\UpdateView($request, isset($response) ? $response : null);
 	}
 }

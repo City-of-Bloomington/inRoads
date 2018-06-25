@@ -2,24 +2,23 @@
 /**
  * @copyright 2009-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @param Person $this->person
- * @param string $this->return_url
+ * @param int    $this->id
+ * @param string $this->title
  */
-$person_id = $this->person->getId();
-$title     = $person_id ? $this->_('person_edit') : $this->_('person_add');
+$return_url = $this->id ? BASE_URI.'/people/view?person_id='.$this->id : BASE_URI.'/people';
 ?>
 <section>
     <header>
-        <h1><?= $title; ?></h1>
+        <h1><?= $this->title; ?></h1>
     </header>
 	<form method="post">
 		<fieldset><legend><?= $this->_('person_info'); ?></legend>
-			<input name="person_id" type="hidden" value="<?= $person_id ?>" />
+			<input name="id" type="hidden" value="<?= $this->id ?>" />
 			<?php
                 $this->_include('people/partials/personInfoFields.inc');
 
 				$h = $this->template->getHelper('saveAndCancelButtons');
-				echo $h->saveAndCancelButtons($this->return_url);
+				echo $h->saveAndCancelButtons($return_url);
 			?>
 		</fieldset>
 	</form>
