@@ -1,19 +1,17 @@
 <?php
 /**
- * @copyright 2007-2015 City of Bloomington, Indiana
+ * @copyright 2007-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
- * @param Zend\Db\Sql\Select $users
+ * @param array $this->users
  */
-use Application\Models\Person;
-use Blossom\Classes\View;
+use Application\Auth;
 ?>
 <section>
 	<h1><?php echo $this->_(['user','users',2]); ?></h1>
 	<div>
 	<?php
         $helper = $this->template->getHelper('buttonLink');
-        if (Person::isAllowed('users')) {
+        if (Auth::isAllowed('users', 'update')) {
             echo $helper->buttonLink(BASE_URI.'/users/update', $this->_('user_add'), 'add');
         }
 	?>
@@ -34,28 +32,31 @@ use Blossom\Classes\View;
 			foreach ($this->users as $user) {
 				$editButton = '';
 				$deleteButton = '';
-				if (Person::isAllowed('users')) {
+				if (Auth::isAllowed('users', 'update')) {
 					$editButton = $helper->buttonLink(
-						BASE_URI.'/users/update?user_id='.$user->getId(),
+						BASE_URI.'/users/update?id='.$user->id,
 						$this->_('user_edit'),
 						'edit'
 					);
+                }
+                if (Auth::isAllowed('users', 'delete')) {
 					$deleteButton = $helper->buttonLink(
-						BASE_URI.'/users/delete?user_id='.$user->getId(),
+						BASE_URI.'/users/delete?id='.$user->id,
 						$this->_('user_delete'),
 						'delete'
 					);
 				}
 
-				$name = View::escape($user->getFullname());
-				$dept = View::escape($user->getDepartment());
+				$username   = parent::escape($user->username);
+				$fullname   = parent::escape($user->fullname());
+				$department = parent::escape($user->department_name);
 				echo "
 				<tr><td>$editButton</td>
-					<td>{$user->getUsername()}</td>
-					<td>$name</td>
-					<td>{$user->getAuthenticationMethod()}</td>
-					<td>{$user->getRole()}</td>
-					<td>$dept</td>
+					<td>$username</td>
+					<td>$fullname</td>
+					<td>{$user->authenticationMethod}</td>
+					<td>{$user->role}</td>
+					<td>$department</td>
 					<td>$deleteButton</td>
 				</tr>
 				";

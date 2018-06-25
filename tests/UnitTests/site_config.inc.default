@@ -11,14 +11,16 @@ define('BASE_URL' , "https://".BASE_HOST.BASE_URI);
 
 /**
  * Database Setup
- * Refer to the PDO documentation for DSN sytnax for your database type
- * http://www.php.net/manual/en/pdo.drivers.php
  */
-define('DB_ADAPTER','Pdo_Mysql');
-define('DB_HOST','localhost');
-define('DB_NAME','inroads');
-define('DB_USER','travis');
-define('DB_PASS','');
+$DATABASES = [
+    'default' => [
+        'driver'   => 'Pdo_Mysql',
+        'dsn'      => 'mysql:dbname=inroads;host=localhost',
+        'username' => 'travis',
+        'password' => '',
+        'options'  => []
+    ]
+];
 
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'g:ia');

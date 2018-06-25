@@ -76,39 +76,39 @@ define('GOOGLE_GROUP', 'groupname@googlegroups.com');
 define('ADDRESS_SERVICE', 'http://apps.bloomington.in.gov/master_address');
 
 /**
- * Directory Configuration
+ * Authentication Configuration
  *
  * This supports doing user authentication from multiple external
  * directories, such as LDAP or ADS. This is required since city staff
  * are in a seperate LDAP directory from public user accounts.
- * Classes that implement ExternalIdentity should have an entry here.
+ * Classes that implement AuthenticationInterface should have an entry here.
  *
- * See: ExternalIdentity
+ * @see Domain\Auth
  */
-// Example for ADS style authentication
-$DIRECTORY_CONFIG = [
-//  'Ldap' => [
-//      'DIRECTORY_SERVER'=>'ldaps://example.org:636',
-//      'DIRECTORY_BASE_DN'=>'OU=Department,DC=example,DC=org',
-//      'DIRECTORY_USERNAME_ATTRIBUTE'=>'CN',
-//      'DIRECTORY_USER_BINDING'=>'{username}@example.org',
-//      'DIRECTORY_ADMIN_BINDING'=>'admin@example.org',
-//      'DIRECTORY_ADMIN_PASS'=>'password'
+$AUTHENTICATION_METHODS = [
+//  'ActiveDirectory' => [
+//      'classname'          => 'Site\Employee',
+//      'server'             => 'ldaps://example.org:636',
+//      'base_dn'            => 'OU=Department,DC=example,DC=org',
+//      'username_attribute' => 'CN',
+//      'user_binding'       => '{username}@example.org',
+//      'admin_binding'      => 'admin@example.org',
+//      'admin_pass'         => 'password'
 //  ]
 //
-// Example for LDAP style authentication
 //  'Ldap' => [
-//      'DIRECTORY_SERVER'=>'ldaps://example.org:636');
-//      'DIRECTORY_BASE_DN'=>'ou=people,o=ldap.domain.somewhere');
-//      'DIRECTORY_USERNAME_ATTRIBUTE'=>'uid');
-//      'DIRECTORY_USER_BINDING'=>'uid={username},'.DIRECTORY_BASE_DN);
-//      'DIRECTORY_ADMIN_BINDING'=>'uid=admin,'.DIRECTORY_BASE_DN);
-//      'DIRECTORY_ADMIN_PASS'=>'password');
+//      'classname'          => 'Site\Employee',
+//      'server'             => 'ldaps://example.org:636',
+//      'base_dn'            => 'ou=people,o=ldap.domain.somewhere',
+//      'username_attribute' => 'uid',
+//      'user_binding'       => 'uid={username},'.DIRECTORY_BASE_DN,
+//      'admin_binding'      => 'uid=admin,'.DIRECTORY_BASE_DN,
+//      'admin_pass'         => 'password',
 //  ]
-// Example for Directory webservice
-    'Employee' => [
-        'DIRECTORY_SERVER' => 'http://localhost/directory',
-    ]
+//  'Employee' => [
+//      'classname' => 'Site\Employee',
+//      'server'    => 'http://localhost/directory',
+//  ]
 ];
 
 /**
