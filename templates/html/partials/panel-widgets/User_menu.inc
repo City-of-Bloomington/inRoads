@@ -9,7 +9,7 @@ $helper      = $this->getHelper('dropdown');
 $dropdown_id = 'user_menu';
 
 if (isset($_SESSION['USER'])) {
-    $name  = parent::escape($_SESSION['USER']->getFullname());
+    $name  = parent::escape($_SESSION['USER']->fullname());
     $links = [
         ['url'=> BASE_URI.'/account',      'label'=>$this->_('account')],
         ['url'=> BASE_URI.'/login/logout', 'label'=>$this->_('logout' )]

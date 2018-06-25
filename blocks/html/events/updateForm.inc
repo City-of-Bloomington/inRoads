@@ -13,7 +13,7 @@ use Recurr\WeekDay;
 
 $this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
 
-$department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->getDepartment_id();
+$department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->department_id;
 $eventType_id  = $this->event->getEventType_id();
 $title                 = parent::escape($this->event->getTitle());
 $primaryContact        = parent::escape($this->event->getPrimaryContact());

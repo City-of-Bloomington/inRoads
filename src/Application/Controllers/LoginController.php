@@ -5,21 +5,30 @@
  */
 namespace Application\Controllers;
 
-use Application\Models\Person;
+use Application\Views\LoginView;
 use Auth0\SDK\Auth0;
 use Blossom\Classes\Controller;
+use Blossom\Classes\Database;
 use Blossom\Classes\Template;
 use Blossom\Classes\Block;
+use Domain\Auth\AuthenticationService;
+use Domain\Users\DataStorage\ZendDbUsersRepository;
+use Domain\Users\Entities\User;
 
 class LoginController extends Controller
 {
 	private $return_url;
+	private $repo;
+	private $auth;
 
 	public function __construct(Template $template)
 	{
+        global $AUTHENTICATION_METHODS;
 		parent::__construct($template);
 		$this->template->setFilename('admin');
 		$this->return_url = !empty($_REQUEST['return_url']) ? $_REQUEST['return_url'] : BASE_URL;
+		$this->repo       = new ZendDbUsersRepository(Database::getConnection());
+		$this->auth       = new AuthenticationService($this->repo, $AUTHENTICATION_METHODS);
 	}
 
 	/**
@@ -77,24 +86,15 @@ class LoginController extends Controller
 	{
 		if (isset($_POST['username'])) {
 			try {
-				$user = Person::findByUsername($_POST['username']);
-				if (!$user) { throw new \Exception(Person::ERROR_UNKNOWN_PERSON); }
-
-				if ($user->authenticate($_POST['password'])) {
-					$_SESSION['USER'] = $user;
-					header('Location: '.$this->return_url);
-					exit();
-				}
-				else {
-					throw new \Exception('invalidLogin');
-				}
+                $_SESSION['USER'] = $this->auth->authenticate($_POST['username'], $_POST['password']);
+                header('Location: '.$this->return_url);
+                exit();
 			}
 			catch (\Exception $e) {
-                $_SESSION['errorMessages'][] = $e;
+				$_SESSION['errorMessages'][] = $e;
 			}
 		}
-		$this->template->blocks[] = new Block('loginForm.inc', ['return_url'=>$this->return_url]);
-		return $this->template;
+		return new LoginView(['return_url'=>$this->return_url]);
 	}
 
 	public function logout()
@@ -112,13 +112,12 @@ class LoginController extends Controller
 	private function registerUser(string $username)
 	{
         try {
-            $user = Person::findByUsername($username);
-            if ($user) {
-                $_SESSION['USER'] = $user;
+            $_SESSION['USER'] = $this->auth->identify($username);
+            if ($_SESSION['USER']) {
                 header("Location: {$this->return_url}");
                 exit();
             }
-            throw new \Exception(Person::ERROR_UNKNOWN_PERSON);
+            throw new \Exception('person/unknown');
         }
         catch (\Exception $e) {
             $_SESSION['errorMessages'][] = $e;

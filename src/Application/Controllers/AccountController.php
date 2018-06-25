@@ -30,7 +30,7 @@ class AccountController extends Controller
     public function update()
     {
         if (isset($_SESSION['USER'])) {
-            $person = new Person($_SESSION['USER']->getId());
+            $person = new Person($_SESSION['USER']->id);
 
             if (isset($_POST['firstname'])) {
                 try {
