@@ -1,10 +1,10 @@
 <?php
 /**
- * @copyright 2015-2016 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param EventType $this->eventType
  */
-use Application\Models\Person;
+use Application\Auth;
 
 $fields = ['name', 'code', 'description', 'cifsType'];
 foreach ($fields as $f) {
@@ -13,7 +13,7 @@ foreach ($fields as $f) {
 }
 
 $editButton = '';
-if (Person::isAllowed('eventTypes', 'edit')) {
+if (Auth::isAllowed('eventTypes', 'edit')) {
     $h = $this->template->getHelper('buttonLink');
     $editButton = $h->buttonLink(
         BASE_URI."/eventTypes/update?eventType_id={$this->eventType->getId()}",

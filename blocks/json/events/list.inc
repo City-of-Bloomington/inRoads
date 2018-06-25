@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param array $this->events An array of Events
  */
-use Application\Models\Person;
+use Application\Auth;
 use Application\Models\Event;
 use Blossom\Classes\Block;
 
@@ -22,7 +22,7 @@ foreach ($this->events as $e) {
         'geography_description' => $e->getGeography_description(),
         'description'           => $e->getDescription()
     ];
-    if (Person::isAllowed('events', 'viewPrimaryContact')) {
+    if (Auth::isAllowed('events', 'viewPrimaryContact')) {
         $event['primaryContact'] = $e->getPrimaryContact();
     }
     $rrule = $e->getRRule();

@@ -1,10 +1,9 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
-use Application\Models\Person;
+use Application\Auth;
 use Blossom\Classes\Url;
 
 echo '<div class="pillNav">';
@@ -25,7 +24,7 @@ echo '<div class="pillNav">';
     echo "<a href=\"$url\" $current>{$this->_('scheduleView')}</a>";
 echo '</div>';
 
-if (Person::isAllowed('events', 'update')) {
+if (Auth::isAllowed('events', 'update')) {
     echo '<div class="headerBar-tools">';
         $helper = $this->template->getHelper('buttonLink');
         echo $helper->buttonLink(

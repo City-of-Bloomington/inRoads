@@ -1,12 +1,12 @@
 <?php
 /**
- * @copyright 2015-2016 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param array $this->eventTypes
  */
-use Application\Models\Person;
+use Application\Auth;
 
-$userCanEdit = Person::isAllowed('eventTypes', 'update');
+$userCanEdit = Auth::isAllowed('eventTypes', 'update');
 ?>
 <section>
     <header>

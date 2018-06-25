@@ -7,7 +7,7 @@ namespace Application\Controllers;
 
 use Application\Models\AddressService;
 use Application\Models\Event;
-use Application\Models\Person;
+use Application\Auth;
 use Application\Models\Segment;
 use Application\Models\SegmentsTable;
 use Blossom\Classes\Controller;
@@ -36,7 +36,7 @@ class SegmentsController extends Controller
         $this->template->setFilename('eventEdit');
         $this->template->title = $event->getEventType();
 
-        if (Person::isAllowed('segments', 'update')) {
+        if (Auth::isAllowed('segments', 'update')) {
             $segment = new Segment();
             $segment->setEvent($event);
 

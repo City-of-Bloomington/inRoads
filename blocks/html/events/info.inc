@@ -6,7 +6,7 @@
  */
 use Application\Models\Event;
 use Application\Models\EventType;
-use Application\Models\Person;
+use Application\Auth;
 
 $title                 = parent::escape($this->event->getTitle());
 $primaryContact        = parent::escape($this->event->getPrimaryContact());
@@ -30,21 +30,21 @@ if ($t) {
         <div class="tools">
         <?php
             $helper = $this->template->getHelper('buttonLink');
-            if (Person::isAllowed('events', 'update')) {
+            if (Auth::isAllowed('events', 'update')) {
                 echo $helper->buttonLink(
                     BASE_URI.'/events/update?id='.$id,
                     $this->template->_('edit'),
                     'edit'
                 );
             }
-            if (Person::isAllowed('events', 'history')) {
+            if (Auth::isAllowed('events', 'history')) {
                 echo $helper->buttonLink(
                     BASE_URI.'/events/history?id='.$id,
                     $this->template->_('eventHistory'),
                     'history'
                 );
             }
-            if (Person::isAllowed('events', 'delete')) {
+            if (Auth::isAllowed('events', 'delete')) {
                 $uri = BASE_URI.'/events/delete?id='.$id;
                 echo "
                 <a href=\"$uri\" class=\"delete button\"
@@ -63,7 +63,7 @@ if ($t) {
         if ($description) {
             echo "\t<div class=\"description\">$description</div>\n";
         }
-        if ($primaryContact  && Person::isAllowed('events', 'viewPrimaryContact')) {
+        if ($primaryContact  && Auth::isAllowed('events', 'viewPrimaryContact')) {
             echo "\t<div class=\"primaryContact\">$primaryContact</div>\n";
         }
 

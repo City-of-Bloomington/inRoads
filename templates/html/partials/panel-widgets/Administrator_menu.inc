@@ -3,7 +3,7 @@
  * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
-use Application\Models\Person;
+use Application\Auth;
 
 $links  = [];
 $routes = [
@@ -14,7 +14,7 @@ $routes = [
 ];
 foreach ($routes as $plural=>$singular) {
     $requiredAction = 'index';
-    if (Person::isAllowed($plural, $requiredAction)) {
+    if (Auth::isAllowed($plural, $requiredAction)) {
         $links[] = ['url'=>BASE_URI."/$plural", 'label'=>$this->_([$singular, $plural, 2])];
     }
 }

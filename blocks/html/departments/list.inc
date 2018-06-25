@@ -1,18 +1,16 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
+ * @copyright 2015-2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->departments
  */
-use Application\Models\Person;
-use Blossom\Classes\View;
+use Application\Auth;
 ?>
 <section>
     <h1><?= $this->_(['department', 'departments', 2]); ?></h1>
     <div>
     <?php
-        if (Person::isAllowed('departments')) {
+        if (Auth::isAllowed('departments', 'update')) {
             $helper = $this->template->getHelper('buttonLink');
             echo $helper->buttonLink(
                 BASE_URI."/departments/update",
@@ -33,9 +31,9 @@ use Blossom\Classes\View;
         <tbody>
         <?php
             foreach ($this->departments as $d) {
-                $code  = View::escape($d->getCode ());
-                $name  = View::escape($d->getName ());
-                $phone = View::escape($d->getPhone());
+                $code  = parent::escape($d->getCode ());
+                $name  = parent::escape($d->getName ());
+                $phone = parent::escape($d->getPhone());
 
                 $url = BASE_URI.'/departments/view?department_id='.$d->getId();
 

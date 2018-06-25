@@ -22,6 +22,42 @@ $DATABASES = [
     ]
 ];
 
+/**
+ * Authentication Configuration
+ *
+ * This supports doing user authentication from multiple external
+ * directories, such as LDAP or ADS. This is required since city staff
+ * are in a seperate LDAP directory from public user accounts.
+ * Classes that implement AuthenticationInterface should have an entry here.
+ *
+ * @see Domain\Auth
+ */
+$AUTHENTICATION_METHODS = [
+//  'ActiveDirectory' => [
+//      'classname'          => 'Site\Employee',
+//      'server'             => 'ldaps://example.org:636',
+//      'base_dn'            => 'OU=Department,DC=example,DC=org',
+//      'username_attribute' => 'CN',
+//      'user_binding'       => '{username}@example.org',
+//      'admin_binding'      => 'admin@example.org',
+//      'admin_pass'         => 'password'
+//  ]
+//
+//  'Ldap' => [
+//      'classname'          => 'Site\Employee',
+//      'server'             => 'ldaps://example.org:636',
+//      'base_dn'            => 'ou=people,o=ldap.domain.somewhere',
+//      'username_attribute' => 'uid',
+//      'user_binding'       => 'uid={username},'.DIRECTORY_BASE_DN,
+//      'admin_binding'      => 'uid=admin,'.DIRECTORY_BASE_DN,
+//      'admin_pass'         => 'password',
+//  ]
+//  'Employee' => [
+//      'classname' => 'Site\Employee',
+//      'server'    => 'http://localhost/directory',
+//  ]
+];
+
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'g:ia');
 define('DATETIME_FORMAT', 'n/j/Y g:ia');

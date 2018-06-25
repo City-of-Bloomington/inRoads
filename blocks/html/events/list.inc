@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param array $this->events An array of Events
  */
-use Application\Models\Person;
+use Application\Auth;
 use Application\Models\Event;
 use Application\Templates\Helpers\ButtonLink;
 use Blossom\Classes\Block;
@@ -35,7 +35,7 @@ use Blossom\Classes\Block;
                 $department            = parent::escape($e->getDepartment());
                 $geography             = $e->getGeography();
 
-                if ($e->getPrimaryContact() && Person::isAllowed('events', 'viewPrimaryContact')) {
+                if ($e->getPrimaryContact() && Auth::isAllowed('events', 'viewPrimaryContact')) {
                     $primaryContact = parent::escape($e->getPrimaryContact());
                 }
 

@@ -5,7 +5,7 @@
  * @param Person $this->person
  */
 declare (strict_types=1);
-use Application\Models\Person;
+use Application\Auth;
 
 $username = parent::escape($this->person->getUsername());
 ?>
@@ -15,7 +15,7 @@ $username = parent::escape($this->person->getUsername());
         <h2><?= $username; ?></h2>
         <div class="tools">
         <?php
-            if (Person::isAllowed('account', 'update')) {
+            if (Auth::isAllowed('account', 'update')) {
                 $h = $this->template->getHelper('buttonLink');
                 echo $h->buttonLink(
                     BASE_URI.'/account/update',
