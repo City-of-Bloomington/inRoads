@@ -8,6 +8,8 @@
  * @param string $this->department
  * @param string $this->email
  * @param string $this->phone
+ * @param bool   $this->notify_updates
+ * @param bool   $this->notify_emergency
  */
 use Application\Auth;
 use Blossom\Classes\Url;
@@ -39,8 +41,14 @@ if (Auth::isAllowed('people', 'update')) {
         <div class="tools"><?= $editButton; ?></div>
     </header>
     <table>
-        <tr><th><?= $this->_('department'); ?></th><td><?= $this->department; ?></th></tr>
-        <tr><th><?= $this->_('email'     ); ?></th><td><?= $this->email;      ?></th></tr>
-        <tr><th><?= $this->_('phone'     ); ?></th><td><?= $this->phone;      ?></th></tr>
+        <tr><th><?= $this->_('department'); ?></th><td><?= $this->department; ?></td></tr>
+        <tr><th><?= $this->_('email'     ); ?></th><td><?= $this->email;      ?></td></tr>
+        <tr><th><?= $this->_('phone'     ); ?></th><td><?= $this->phone;      ?></td></tr>
+        <tr><th><?= $this->_('notify_updates'  ); ?></th>
+            <td><?= $this->notify_updates ? $this->_('yes') : $this->_('no');   ?></td>
+        </tr>
+        <tr><th><?= $this->_('notify_emergency'); ?></th>
+            <td><?= $this->notify_emergency ? $this->_('yes') : $this->_('no'); ?></td>
+        </tr>
     </table>
 </section>

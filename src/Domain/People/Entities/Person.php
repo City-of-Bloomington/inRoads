@@ -18,6 +18,9 @@ class Person
     public $department_id;
     public $department_name;
 
+    public $notify_updates    = false;
+    public $notify_emergency  = false;
+
 
     public function __construct(?array $data=null)
     {
@@ -31,6 +34,9 @@ class Person
 
             if (!empty($data['department_id'  ])) { $this->department_id   = (int)$data['department_id'  ]; }
             if (!empty($data['department_name'])) { $this->department_name =      $data['department_name']; }
+
+            if (!empty($data['notify_updates'  ])) { $this->notify_updates   = $data['notify_updates'  ] ? true : false; }
+            if (!empty($data['notify_emergency'])) { $this->notify_emergency = $data['notify_emergency'] ? true : false; }
         }
     }
 

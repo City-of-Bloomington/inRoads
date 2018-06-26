@@ -31,6 +31,8 @@ class UpdateView extends Template
             'lastname'  => parent::escape($request->lastname),
             'email'     => parent::escape($request->email),
             'phone'     => parent::escape($request->phone),
+            'notify_updates'   => $request->notify_updates,
+            'notify_emergency' => $request->notify_emergency,
 
             'title'  => $this->vars['title']
         ]);

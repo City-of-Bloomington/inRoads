@@ -6,6 +6,8 @@
  * @param string $this->lastname
  * @param string $this->email
  * @param string $this->phone
+ * @param bool   $this->notify_updates
+ * @param bool   $this->notify_emergency
  */
 declare (strict_types=1);
 
@@ -46,7 +48,6 @@ echo $h->field([
     'attr'     => ['inputmode'=>'tel']
 ]);
 
-/*
 $options = [
     ['value'=>1, 'label'=>$this->_('yes')],
     ['value'=>0, 'label'=>$this->_('no' )]
@@ -55,7 +56,7 @@ echo $h->field([
     'name'     => 'notify_updates',
     'id'       => 'notify_updates',
     'label'    => $this->_('notify_updates'),
-    'value'    => $notify_updates,
+    'value'    => $this->notify_updates,
     'type'     => 'select',
     'options'  => $options
 ]);
@@ -63,8 +64,7 @@ echo $h->field([
     'name'     => 'notify_emergency',
     'id'       => 'notify_emergency',
     'label'    => $this->_('notify_emergency'),
-    'value'    => $notify_emergency,
+    'value'    => $this->notify_emergency,
     'type'     => 'select',
     'options'  => $options
 ]);
-*/

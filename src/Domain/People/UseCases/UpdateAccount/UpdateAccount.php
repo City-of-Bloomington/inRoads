@@ -29,6 +29,8 @@ class UpdateAccount
             $res->person->lastname  = $req->lastname;
             $res->person->email     = $req->email;
             $res->person->phone     = $req->phone;
+            $res->person->notify_updates   = $req->notify_updates;
+            $res->person->notify_emergency = $req->notify_emergency;
             $validation = $validate($res->person);
             if ($validation->errors) { return new UpdateAccountResponse(null, $validation->errors); }
 

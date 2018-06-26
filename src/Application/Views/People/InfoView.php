@@ -29,7 +29,9 @@ class InfoView extends Template
             'username'   => parent::escape($person->username),
             'department' => parent::escape($person->department_name),
             'email'      => parent::escape($person->email),
-            'phone'      => parent::escape($person->phone)
+            'phone'      => parent::escape($person->phone),
+            'notify_updates'   => $person->notify_updates,
+            'notify_emergency' => $person->notify_emergency
         ];
 		$this->blocks[] = new Block('people/info.inc', $vars);
     }

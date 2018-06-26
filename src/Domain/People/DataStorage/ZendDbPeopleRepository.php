@@ -6,10 +6,12 @@
 declare (strict_types=1);
 namespace Domain\People\DataStorage;
 
+use Domain\Notifications\Metadata as Notification;
 use Domain\People\Entities\Person;
 use Domain\People\UseCases\Search\SearchRequest;
 use Domain\ZendDbRepository;
 
+use Zend\Db\Sql\Literal;
 use Zend\Db\Sql\Select;
 
 class ZendDbPeopleRepository extends ZendDbRepository implements PeopleRepository
@@ -46,10 +48,21 @@ class ZendDbPeopleRepository extends ZendDbRepository implements PeopleRepositor
 
     private function baseSelect(): Select
     {
+        $updates   = Notification::TYPE_UPDATES;
+        $emergency = Notification::TYPE_EMERGENCY;
+
         return $this->sql->select()
                          ->columns($this->columns())
                          ->from(['p'=>self::TABLE])
-                         ->join(['d'=>'departments'], 'p.department_id=d.id', ['department_name'=>'name'], Select::JOIN_LEFT);
+                         ->join(['d'=>'departments'], 'p.department_id=d.id', ['department_name'=>'name'], Select::JOIN_LEFT)
+                         ->join(['nu' => 'notificationEmails'],
+                                 new Literal("p.email=nu.email and nu.type='$updates'"),
+                                 ['notify_updates'=>new Literal('case when nu.email is not null then 1 else 0 end')],
+                                 Select::JOIN_LEFT)
+                         ->join(['ne' => 'notificationEmails'],
+                                 new Literal("p.email=ne.email and ne.type='$emergency'"),
+                                 ['notify_emergency'=>new Literal('case when ne.email is not null then 1 else 0 end')],
+                                 Select::JOIN_LEFT);
     }
 
     public function load(int $person_id): Person
@@ -106,13 +119,35 @@ class ZendDbPeopleRepository extends ZendDbRepository implements PeopleRepositor
      */
     public function save(Person $p): int
     {
-        return parent::saveToTable([
+        $current = $p->id ? $this->load($p->id) : new Person();
+
+        $id = parent::saveToTable([
             'id'              => $p->id,
             'firstname'       => $p->firstname,
             'lastname'        => $p->lastname,
             'email'           => $p->email,
             'phone'           => $p->phone
         ], self::TABLE);
+
+        if ($p->email) {
+            if ($current->notify_updates !== $p->notify_updates) {
+                $type = Notification::TYPE_UPDATES;
+                $sql  = $p->notify_updates
+                    ? 'insert into notificationEmails set email=?, type=?'
+                    : 'delete from notificationEmails where email=? and type=?';
+                $this->zend_db->query($sql, [$p->email, $type]);
+            }
+
+            if ($current->notify_emergency !== $p->notify_emergency) {
+                $type = Notification::TYPE_EMERGENCY;
+                $sql  = $p->notify_emergency
+                    ? 'insert into notificationEmails set email=?, type=?'
+                    : 'delete from notificationEmails where email=? and type=?';
+                $this->zend_db->query($sql, [$p->email, $type]);
+            }
+        }
+
+        return $id;
     }
 
     /**

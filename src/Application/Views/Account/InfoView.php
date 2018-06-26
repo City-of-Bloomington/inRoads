@@ -26,7 +26,9 @@ class InfoView extends Template
             'fullname'   => parent::escape($response->person->fullname()),
             'username'   => parent::escape($_SESSION['USER']->username),
             'email'      => parent::escape($response->person->email),
-            'phone'      => parent::escape($response->person->phone)
+            'phone'      => parent::escape($response->person->phone),
+            'notify_updates'   => $response->person->notify_updates,
+            'notify_emergency' => $response->person->notify_emergency
         ];
 		$this->blocks[] = new Block('account/info.inc', $vars);
     }

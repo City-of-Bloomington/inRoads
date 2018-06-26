@@ -13,6 +13,8 @@ class UpdateRequest
     public $lastname;
     public $email;
     public $phone;
+    public $notify_updates   = false;
+    public $notify_emergency = false;
 
     public function __construct(?array $data=null)
     {
@@ -22,6 +24,9 @@ class UpdateRequest
             if (!empty($data['lastname'  ])) { $this->lastname   = $data['lastname'  ]; }
             if (!empty($data['email'     ])) { $this->email      = $data['email'     ]; }
             if (!empty($data['phone'     ])) { $this->phone      = $data['phone'     ]; }
+
+            if (!empty($data['notify_updates'  ])) { $this->notify_updates   = $data['notify_updates'  ] ? true : false; }
+            if (!empty($data['notify_emergency'])) { $this->notify_emergency = $data['notify_emergency'] ? true : false; }
         }
     }
 }
