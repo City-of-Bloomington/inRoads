@@ -18,8 +18,6 @@ create table people (
 	password             varchar(40),
 	authenticationMethod varchar(40),
 	role                 varchar(30),
-	notify_updates       boolean,
-	notify_emergency     boolean,
 	foreign key (department_id) references departments(id)
 );
 
@@ -79,4 +77,11 @@ create table segments (
     endLatitude    float(11, 8),
     endLongitude   float(11, 8),
     foreign key (event_id) references events(id)
+);
+
+create table notificationEmails (
+    id    int unsigned not null primary key auto_increment,
+    type  varchar(16)  not null,
+    email varchar(128) not null,
+    unique(type, email)
 );

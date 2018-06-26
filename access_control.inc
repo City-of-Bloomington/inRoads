@@ -29,6 +29,7 @@ $ZEND_ACL->addResource(new Resource('segments'));
 $ZEND_ACL->addResource(new Resource('streets'));
 $ZEND_ACL->addResource(new Resource('waze'));
 $ZEND_ACL->addResource(new Resource('trafficcast'));
+$ZEND_ACL->addResource(new Resource('notifications'));
 
 /**
  * Assign permissions to the resources

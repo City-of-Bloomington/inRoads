@@ -3,8 +3,6 @@ delete from people where firstname='';
 alter table events     add foreign key (eventType_id) references eventTypes(id);
 alter table events     add primaryContact   varchar(128) after title;
 alter table eventTypes add cifsType         varchar(128);
-alter table people     add notify_updates   boolean;
-alter table people     add notify_emergency boolean;
 alter table people  modify email            varchar(255) unique;
 
 create table eventHistory (
@@ -16,4 +14,11 @@ create table eventHistory (
     changes     text         not null,
     foreign key (event_id ) references events(id),
     foreign key (person_id) references people(id)
+);
+
+create table notificationEmails (
+    id    int unsigned not null primary key auto_increment,
+    type  varchar(16)  not null,
+    email varchar(128) not null,
+    unique(type, email)
 );
