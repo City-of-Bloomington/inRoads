@@ -2,7 +2,10 @@
 /**
  * @copyright 2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @param Person $this->person
+ * @param string $this->firstname
+ * @param string $this->lastname
+ * @param string $this->email
+ * @param string $this->phone
  */
 declare (strict_types=1);
 ?>

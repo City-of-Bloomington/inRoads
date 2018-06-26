@@ -2,17 +2,17 @@
 /**
  * @copyright 2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @param Person $this->person
+ * @param string $this->fullname
+ * @param string $this->email
+ * @param string $this->phone
  */
 declare (strict_types=1);
 use Application\Auth;
-
-$username = parent::escape($this->person->getUsername());
 ?>
 <section>
     <header>
-        <h1><?= $this->_('account'); ?></h1>
-        <h2><?= $username; ?></h2>
+        <h1><?= $this->fullname; ?></h1>
+        <h2><?= $this->username; ?></h2>
         <div class="tools">
         <?php
             if (Auth::isAllowed('account', 'update')) {
@@ -26,5 +26,8 @@ $username = parent::escape($this->person->getUsername());
         ?>
         </div>
     </header>
-    <?= $this->_include('people/partials/personalInfo.inc'); ?>
+    <table>
+        <tr><th><?= $this->_('email'); ?></th><td><?= $this->email; ?></th></tr>
+        <tr><th><?= $this->_('phone'); ?></th><td><?= $this->phone; ?></th></tr>
+    </table>
 </section>

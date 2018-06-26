@@ -114,4 +114,14 @@ class ZendDbPeopleRepository extends ZendDbRepository implements PeopleRepositor
             'phone'           => $p->phone
         ], self::TABLE);
     }
+
+    /**
+     * Only updates the fields a user can edit about themselves
+     */
+    public function updateAccount(Person $p): int
+    {
+        // For now, users can edit all the fields that are available
+        // in the Person\UsesCases\Update action
+        return $this->save($p);
+    }
 }

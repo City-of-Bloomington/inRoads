@@ -11,7 +11,11 @@ use Domain\People\UseCases\Search\SearchRequest;
 
 interface PeopleRepository
 {
+    // Read function
     public function load(int $person_id): Person;
     public function search(SearchRequest $req): array;
-    public function save(Person $person): int;
+
+    // Write functions
+    public function save         (Person $person): int;
+    public function updateAccount(Person $person): int;
 }

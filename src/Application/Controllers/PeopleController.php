@@ -66,7 +66,7 @@ class PeopleController extends Controller
         if (isset($_POST['firstname'])) {
             $update   = new Update($this->repo);
             $response = $update($request);
-            if (!count($response->errors)) {
+            if (!$response->errors) {
                 // @TODO refresh the session if we edited the logged in person
 
                 header('Location: '.BASE_URL.'/people/view?person_id='.$response->id);
