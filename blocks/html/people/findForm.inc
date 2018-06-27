@@ -8,10 +8,24 @@
  * @param array  $this->people         Array of people search results
  */
 declare (strict_types=1);
+use Application\Auth;
 ?>
 <section>
     <header>
-        <h1><?= $this->_('people_search'); ?></h1>
+        <h1><?= $this->_(['person', 'people', 10]); ?></h1>
+        <div class="tools">
+        <?php
+            $helper = $this->template->getHelper('buttonLink');
+
+            if (Auth::isAllowed('people')) {
+                echo $helper->buttonLink(
+                    BASE_URI."/people/update",
+                    $this->_('person_add'),
+                    'add'
+                );
+            }
+        ?>
+        </div>
     </header>
     <form method="get">
         <fieldset>

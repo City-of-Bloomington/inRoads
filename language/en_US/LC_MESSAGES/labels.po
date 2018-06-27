@@ -29,7 +29,7 @@ msgid "delete"
 msgstr "Delete"
 
 msgid "search"
-msgstr "Update"
+msgstr "Search"
 
 msgid "submit"
 msgstr "Submit"
@@ -332,3 +332,8 @@ msgstr "Okay"
 
 msgid "primaryContact"
 msgstr "Primary Contact"
+
+msgid "notification"
+msgid_plural "notifications"
+msgstr[0] "Notification"
+msgstr[1] "Notifications"

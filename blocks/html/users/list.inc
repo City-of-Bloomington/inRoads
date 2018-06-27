@@ -6,62 +6,52 @@
  */
 use Application\Auth;
 ?>
-<section>
-	<h1><?php echo $this->_(['user','users',2]); ?></h1>
-	<div>
-	<?php
+<table>
+    <thead>
+        <tr><th></th>
+            <th><?= $this->_('username'); ?></th>
+            <th><?= $this->_('name'); ?></th>
+            <th><?= $this->_('authenticationMethod'); ?></th>
+            <th><?= $this->_('role'); ?></th>
+            <th><?= $this->_('department'); ?></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
         $helper = $this->template->getHelper('buttonLink');
-        if (Auth::isAllowed('users', 'update')) {
-            echo $helper->buttonLink(BASE_URI.'/users/update', $this->_('user_add'), 'add');
-        }
-	?>
-	</div>
-	<table>
-		<thead>
-			<tr><th></th>
-				<th><?= $this->_('username'); ?></th>
-				<th><?= $this->_('name'); ?></th>
-				<th><?= $this->_('authenticationMethod'); ?></th>
-				<th><?= $this->_('role'); ?></th>
-				<th><?= $this->_('department'); ?></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php
-			foreach ($this->users as $user) {
-				$editButton = '';
-				$deleteButton = '';
-				if (Auth::isAllowed('users', 'update')) {
-					$editButton = $helper->buttonLink(
-						BASE_URI.'/users/update?id='.$user->id,
-						$this->_('user_edit'),
-						'edit'
-					);
-                }
-                if (Auth::isAllowed('users', 'delete')) {
-					$deleteButton = $helper->buttonLink(
-						BASE_URI.'/users/delete?id='.$user->id,
-						$this->_('user_delete'),
-						'delete'
-					);
-				}
+        foreach ($this->users as $user) {
+            $editButton = '';
+            $deleteButton = '';
+            if (Auth::isAllowed('users', 'update')) {
+                $editButton = $helper->buttonLink(
+                    BASE_URI.'/users/update?id='.$user->id,
+                    $this->_('user_edit'),
+                    'edit'
+                );
+            }
+            if (Auth::isAllowed('users', 'delete')) {
+                $deleteButton = $helper->buttonLink(
+                    BASE_URI.'/users/delete?id='.$user->id,
+                    $this->_('user_delete'),
+                    'delete'
+                );
+            }
 
-				$username   = parent::escape($user->username);
-				$fullname   = parent::escape($user->fullname());
-				$department = parent::escape($user->department_name);
-				echo "
-				<tr><td>$editButton</td>
-					<td>$username</td>
-					<td>$fullname</td>
-					<td>{$user->authenticationMethod}</td>
-					<td>{$user->role}</td>
-					<td>$department</td>
-					<td>$deleteButton</td>
-				</tr>
-				";
-			}
-		?>
-		</tbody>
-	</table>
-</section>
+            $username   = parent::escape($user->username);
+            $fullname   = parent::escape($user->fullname());
+            $department = parent::escape($user->department_name);
+            echo "
+            <tr><td>$editButton</td>
+                <td>$username</td>
+                <td>$fullname</td>
+                <td>{$user->authenticationMethod}</td>
+                <td>{$user->role}</td>
+                <td>$department</td>
+                <td>$deleteButton</td>
+            </tr>
+            ";
+        }
+    ?>
+    </tbody>
+</table>

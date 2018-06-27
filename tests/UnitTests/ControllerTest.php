@@ -38,7 +38,8 @@ class ControllerTest extends TestCase
         $controller = new $classname($template);
         $functions  = get_class_methods($controller);
         foreach ($functions as $f) {
-            if ($f != '__construct' && $f != 'generateUrl') {
+            $reflection = new ReflectionMethod($classname, $f);
+            if ($f != '__construct' && !$reflection->isStatic()) {
                 $t = $controller->$f();
                 $this->assertInstanceOf(Template::class, $t, "$classname::$f did not return a template");
             }

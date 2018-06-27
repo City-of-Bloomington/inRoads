@@ -3,6 +3,8 @@
  * @copyright 2018 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
+use Application\Auth;
+
 $fields = ['firstname', 'lastname', 'username', 'email', 'role', 'authentication_method'];
 foreach ($fields as $f) {
 	$$f = isset($_GET[$f]) ? parent::escape($_GET[$f]) : '';
@@ -10,7 +12,15 @@ foreach ($fields as $f) {
 ?>
 <section>
     <header>
-        <h1><?= $this->_('users_search'); ?></h1>
+        <h1><?= $this->_(['user', 'users', 10]); ?></h1>
+        <div class="tools">
+        <?php
+            $helper = $this->template->getHelper('buttonLink');
+            if (Auth::isAllowed('users', 'update')) {
+                echo $helper->buttonLink(BASE_URI.'/users/update', $this->_('user_add'), 'add');
+            }
+        ?>
+        </div>
     </header>
     <form method="get">
         <fieldset>
@@ -45,7 +55,7 @@ foreach ($fields as $f) {
                 echo $h->field([
                     'name'     => 'authentication_method',
                     'id'       => 'authentication_method',
-                    'label'    => $this->_('authentication_method'),
+                    'label'    => $this->_('authenticationMethod'),
                     'value'    => $authentication_method,
                     'type'     => 'select',
                     'options'  => $options
