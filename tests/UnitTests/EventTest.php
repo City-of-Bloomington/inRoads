@@ -5,7 +5,7 @@
  */
 use Application\Models\Event;
 use Application\Models\Department;
-use Application\Models\Person;
+use Domain\Users\Entities\User;
 
 use PHPUnit\Framework\TestCase;
 
@@ -86,25 +86,25 @@ class EventTest extends TestCase
     {
         $department = new Department(['id'=>2, 'name'=>'Stub Department']);
         $otherDept  = new Department(['id'=>3, 'name'=>'Other Stub Department']);
-        $person     = new Person();
+        $user       = new User();
         $event      = new Event();
 
-        $this->assertFalse($event->permitsEditingBy($person));
+        $this->assertFalse($event->permitsEditingBy($user));
 
-        $person->setRole('Administrator');
-        $this->assertTrue($event->permitsEditingBy($person), 'Administrators cannot edit events');
+        $user->role = 'Administrator';
+        $this->assertTrue($event->permitsEditingBy($user), 'Administrators cannot edit events');
 
-        $person->setRole('Staff');
-        $this->assertTrue($event->permitsEditingBy($person), 'Staff cannot edit events');
+        $user->role = 'Staff';
+        $this->assertTrue($event->permitsEditingBy($user), 'Staff cannot edit events');
 
-        $person->setRole('Public');
-        $person->setDepartment($department);
-        $this->assertTrue($event->permitsEditingBy($person), 'Public users cannot create events');
+        $user->role = 'Public';
+        $user->department_id = $department->getId();
+        $this->assertTrue($event->permitsEditingBy($user), 'Public users cannot create events');
 
         $event->setDepartment($otherDept);
-        $this->assertFalse($event->permitsEditingBy($person), 'Public users can edit other department\'s events');
+        $this->assertFalse($event->permitsEditingBy($user), 'Public users can edit other department\'s events');
 
         $event->setDepartment($department);
-        $this->assertTrue($event->permitsEditingBy($person), 'Public users cannot edit events for their own department');
+        $this->assertTrue($event->permitsEditingBy($user), 'Public users cannot edit events for their own department');
     }
 }

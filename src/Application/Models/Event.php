@@ -7,6 +7,7 @@ namespace Application\Models;
 
 use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Database;
+use Domain\Users\Entities\User;
 use Zend\Db\Sql\Expression;
 use Recurr\Rule;
 use Recurr\Transformer\TextTransformer;
@@ -243,7 +244,7 @@ class Event extends ActiveRecord
         $sql = 'delete from segments where event_id=?';
         $zend_db = Database::getConnection();
         $zend_db->query($sql, [$this->getId()]);
-        
+
         $sql = 'delete from eventHistory where event_id=?';
         $zend_db = Database::getConnection();
         $zend_db->query($sql, [$this->getId()]);
@@ -573,24 +574,24 @@ class Event extends ActiveRecord
      * Public users must have a department assigned, otherwise
      * they will not be able to create events.
      *
-     * @param Person $person
+     * @param Domain\Users\Entities\User $user
      * @return bool
      */
-    public function permitsEditingBy(Person $person)
+    public function permitsEditingBy(User $user): bool
     {
-        if (   $person->getRole() === 'Administrator'
-            || $person->getRole() === 'Staff') {
+        if (   $user->role === 'Administrator'
+            || $user->role === 'Staff') {
             return true;
         }
 
-        if (   $person->getRole() === 'Public') {
-            $personDepartment = $person->getDepartment();
-             $eventDepartment =   $this->getDepartment();
+        if (   $user->role === 'Public') {
+             $userDeptId = $user->department_id;
+            $eventDeptId = $this->getDepartment_id();
 
-            if ($personDepartment) {
-                if (!$eventDepartment) { return true; }
+            if ($userDeptId) {
+                if (!$eventDeptId) { return true; }
                 else {
-                    return $personDepartment->getId() === $eventDepartment->getId();
+                    return $userDeptId === $eventDeptId;
                 }
             }
         }
@@ -598,19 +599,23 @@ class Event extends ActiveRecord
     }
 
     /**
+     * @param Domain\Users\Entities\User $user
      * @return array An array of Department objects
      */
-    public static function validDepartments(Person $person)
+    public static function validDepartments(User $user): array
     {
-        if ($person->getRole() === 'Public') {
-            $d = $person->getDepartment();
-            if ($d) { return [$d]; }
+        if ($user->role === 'Public') {
+            if ($user->department_id) {
+                return [new Department($user->department_id)];
+            }
         }
-        if (   $person->getRole() == 'Administrator'
-            || $person->getRole() == 'Staff') {
+        if (   $user->role == 'Administrator'
+            || $user->role == 'Staff') {
 
+            $depts = [];
             $table = new DepartmentsTable();
-            return $table->find();
+            foreach ($table->find() as $d) { $depts[] = $d; }
+            return $depts;
         }
         return [];
     }

@@ -47,7 +47,7 @@ class EventHistory extends ActiveRecord
 			// This is where the code goes to generate a new, empty instance.
 			// Set any default values for properties that need it here
 			$this->data['action_date'] = new \DateTime();
-			$this->setPerson($_SESSION['USER']);
+			$this->setPerson_id($_SESSION['USER']->id);
 		}
 	}
 

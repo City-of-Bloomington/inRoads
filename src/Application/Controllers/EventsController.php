@@ -8,14 +8,19 @@ namespace Application\Controllers;
 use Application\Models\Event;
 use Application\Models\EventType;
 use Application\Models\GoogleGateway;
-use Application\Models\Notifications;
 use Application\Models\Person;
 use Application\Models\PeopleTable;
 use Application\Template\Helpers\ButtonLink;
+
 use Blossom\Classes\ActiveRecord;
 use Blossom\Classes\Block;
 use Blossom\Classes\Controller;
+use Blossom\Classes\Database;
 use Blossom\Classes\Template;
+
+use Domain\Notifications\DataStorage\ZendDbNotificationsRepository;
+use Domain\Notifications\UseCases\Find\Find;
+use Domain\Notifications\Metadata as Notification;
 
 class EventsController extends Controller
 {
@@ -160,7 +165,7 @@ class EventsController extends Controller
                 $event->handleUpdate($_POST);
 
                 if (defined('NOTIFICATIONS_ENABLED') && NOTIFICATIONS_ENABLED) {
-                    self::sendNotifications($event, Notifications::emailAddresses(Notifications::TYPE_UPDATES));
+                    self::sendNotifications($event);
                 }
 
                 $url = $existingEventId
@@ -204,7 +209,7 @@ class EventsController extends Controller
             : new \Application\Views\NotFoundView();
     }
 
-	public static function sendNotifications(Event $event, array $emailAddresses)
+	public static function sendNotifications(Event $event)
 	{
         $template     = new Template('default', 'txt');
         $block        = new Block('events/notification.inc', ['event'=>$event]);
@@ -215,7 +220,11 @@ class EventsController extends Controller
         $fromEmail    = "$name@". BASE_HOST;
         $fromFullname = APPLICATION_NAME;
 
-        foreach ($emailAddresses as $to) {
+        $repo = new ZendDbNotificationsRepository(Database::getConnection());
+        $find = new Find($repo);
+        $res  = $find(Notification::TYPE_UPDATES);
+        foreach ($res->notifications as $n) {
+            $to   = $n->email;
             $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
             mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
         }
