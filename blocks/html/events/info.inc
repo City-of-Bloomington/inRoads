@@ -8,6 +8,8 @@ use Application\Models\Event;
 use Application\Models\EventType;
 use Application\Auth;
 
+use Domain\Notifications\Metadata as Notification;
+
 $title                 = parent::escape($this->event->getTitle());
 $primaryContact        = parent::escape($this->event->getPrimaryContact());
 $description           = parent::escape($this->event->getDescription());
@@ -42,6 +44,13 @@ if ($t) {
                     BASE_URI.'/events/history?id='.$id,
                     $this->template->_('eventHistory'),
                     'history'
+                );
+            }
+            if (Auth::isAllowed('notifications', 'send')) {
+                echo $helper->buttonLink(
+                    BASE_URI."/notifications/send?event_id=$id;type=".Notification::TYPE_EMERGENCY,
+                    $this->_('notify'),
+                    'notify'
                 );
             }
             if (Auth::isAllowed('events', 'delete')) {

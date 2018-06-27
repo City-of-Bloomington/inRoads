@@ -6,10 +6,16 @@
 declare (strict_types=1);
 namespace Application\Controllers;
 
+use Application\Models\Event;
 use Application\Views\Notifications\ListView;
+use Application\Views\Notifications\Preview;
 use Application\Views\Notifications\UpdateView;
+
+use Blossom\Classes\Block;
 use Blossom\Classes\Controller;
 use Blossom\Classes\Database;
+use Blossom\Classes\Template;
+
 use Domain\Notifications\DataStorage\ZendDbNotificationsRepository;
 use Domain\Notifications\Metadata as Notification;
 use Domain\Notifications\UseCases\Delete\Delete;
@@ -83,4 +89,44 @@ class NotificationsController extends Controller
         }
         return new \Application\Views\NotFoundView();
     }
+
+    public function send()
+    {
+        if (!empty($_REQUEST['event_id'])) {
+            try { $event = new \Application\Models\Event($_REQUEST['event_id']); }
+            catch (\Exception $e) { }
+        }
+
+        if (isset($event) && !empty($_REQUEST['type'])) {
+            if (!empty($_POST['event_id']) && !empty($_POST['type'])) {
+                self::sendNotifications($event, $_POST['type']);
+
+                header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
+                exit();
+            }
+            return new Preview($event, $_REQUEST['type']);
+        }
+        else { return new \Application\Views\NotFoundView(); }
+    }
+
+	public static function sendNotifications(Event $event, string $type)
+	{
+        $template     = new Template('default', 'txt');
+        $block        = new Block("notifications/$type.inc", ['event'=>$event]);
+
+        $message      = $block->render('txt', $template);
+        $subject      = sprintf($template->_('notification_subject %s', 'messages'), APPLICATION_NAME);
+        $name         = preg_replace('/[^a-zA-Z0-9]+/','_',APPLICATION_NAME);
+        $fromEmail    = "$name@". BASE_HOST;
+        $fromFullname = APPLICATION_NAME;
+
+        $repo = new ZendDbNotificationsRepository(Database::getConnection());
+        $find = new Find($repo);
+        $res  = $find($type);
+        foreach ($res->notifications as $n) {
+            $to   = $n->email;
+            $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
+            mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
+        }
+	}
 }

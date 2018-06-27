@@ -31,6 +31,7 @@ button, .button {
     &.submit   { background-image:url('images/fa-svg/white/check.svg'       ); padding-left:$imageSpace; }
     &.save     { background-image:url('images/fa-svg/white/floppy-o.svg'    ); padding-left:$imageSpace; }
     &.search   { background-image:url('images/fa-svg/white/search.svg'      ); padding-left:$imageSpace; }
+    &.notify   { background-image:url('images/fa-svg/white/envelope.svg'    ); padding-left:$imageSpace; }
     &.back     { background-image:url('images/fa-svg/white/chevron-left.svg'); padding-left:$imageSpace; }
     &.history  { background-image:url('images/fa-svg/white/history.svg'     ); padding-left:$imageSpace; }
     &.calendar { background-image:url('images/fa-svg/white/calendar.svg'    ); padding-left:$imageSpace; }

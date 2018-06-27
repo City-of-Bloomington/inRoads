@@ -18,8 +18,6 @@ use Blossom\Classes\Controller;
 use Blossom\Classes\Database;
 use Blossom\Classes\Template;
 
-use Domain\Notifications\DataStorage\ZendDbNotificationsRepository;
-use Domain\Notifications\UseCases\Find\Find;
 use Domain\Notifications\Metadata as Notification;
 
 class EventsController extends Controller
@@ -141,6 +139,21 @@ class EventsController extends Controller
             : new \Application\Views\NotFoundView();
     }
 
+    public function notify(): Template
+    {
+        if (!empty($_GET['id'])) {
+            try { $event = new Event($_GET['id']); }
+            catch (\Exception $e) { }
+        }
+        if (isset($event)) {
+            self::sendNotifications($event, Notification::TYPE_EMERGENCY);
+            $_SESSION['errorMessages'] = ['notification/sent'];
+            header('Location: '.BASE_URL.'/events/view?id='.$event->getId());
+            exit();
+        }
+        else { return new \Application\Views\NotFoundView(); }
+    }
+
     public function update(): Template
     {
         if (!empty($_REQUEST['id'])) {
@@ -165,7 +178,7 @@ class EventsController extends Controller
                 $event->handleUpdate($_POST);
 
                 if (defined('NOTIFICATIONS_ENABLED') && NOTIFICATIONS_ENABLED) {
-                    self::sendNotifications($event);
+                    NotificationsController::sendNotifications($event, Notification::TYPE_UPDATES);
                 }
 
                 $url = $existingEventId
@@ -208,25 +221,4 @@ class EventsController extends Controller
             ? new \Application\Views\Events\HistoryView($event->getHistory())
             : new \Application\Views\NotFoundView();
     }
-
-	public static function sendNotifications(Event $event)
-	{
-        $template     = new Template('default', 'txt');
-        $block        = new Block('events/notification.inc', ['event'=>$event]);
-
-        $message      = $block->render('txt', $template);
-        $subject      = sprintf($template->_('notification_subject %s', 'messages'), APPLICATION_NAME);
-        $name         = preg_replace('/[^a-zA-Z0-9]+/','_',APPLICATION_NAME);
-        $fromEmail    = "$name@". BASE_HOST;
-        $fromFullname = APPLICATION_NAME;
-
-        $repo = new ZendDbNotificationsRepository(Database::getConnection());
-        $find = new Find($repo);
-        $res  = $find(Notification::TYPE_UPDATES);
-        foreach ($res->notifications as $n) {
-            $to   = $n->email;
-            $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
-            mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
-        }
-	}
 }

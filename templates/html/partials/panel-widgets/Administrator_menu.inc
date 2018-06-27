@@ -10,7 +10,8 @@ $routes = [
     'departments'   => 'department',
     'eventTypes'    => 'eventType',
     'people'        => 'person',
-    'users'         => 'user'
+    'users'         => 'user',
+    'notifications' => 'notification'
 ];
 foreach ($routes as $plural=>$singular) {
     $requiredAction = 'index';
