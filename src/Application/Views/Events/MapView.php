@@ -6,6 +6,8 @@
 declare (strict_types=1);
 namespace Application\Views\Events;
 
+use Application\Models\DepartmentsTable;
+
 use Blossom\Classes\Block;
 use Blossom\Classes\Template;
 
@@ -22,12 +24,16 @@ class MapView extends Template
         parent::__construct('default', 'html');
         $this->title = $this->_('application_title');
 
+        $table = new DepartmentsTable();
+        $depts = $table->find();
+
         $this->blocks['headerBar'][] = new Block('events/headerBars/viewToggle.inc');
         $this->blocks['panel-one'][] = new Block('events/searchForm.inc', [
-            'start'   => $search['start'  ],
-            'end'     => $search['end'    ],
-            'filters' => $search['filters'],
-            'presets' => $timePeriods
+            'start'       => $search['start'  ],
+            'end'         => $search['end'    ],
+            'filters'     => $search['filters'],
+            'presets'     => $timePeriods,
+            'departments' => $depts
         ]);
         $this->blocks['panel-two'][] = new Block('events/list.inc', ['events'=>$events]);
         $this->blocks[]              = new Block('events/map.inc',  ['events'=>$events]);

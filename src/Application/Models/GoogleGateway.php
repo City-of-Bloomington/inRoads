@@ -88,6 +88,11 @@ class GoogleGateway
                     continue;
                 }
             }
+            if (!empty($filters['department_id'])) {
+                if ($event->getDepartment_id() != $filters['department_id']) {
+                    continue;
+                }
+            }
             $events[] = $event;
         }
 

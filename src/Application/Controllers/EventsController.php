@@ -63,6 +63,8 @@ class EventsController extends Controller
                 if ($type->isDefaultForSearch()) { $filters['eventTypes'][] = $type->getCode(); }
             }
         }
+        if (!empty($_GET['department_id'])) { $filters['department_id'] = (int)$_GET['department_id']; }
+
         return ['start'=>$start, 'end'=>$end, 'filters'=>$filters];
     }
 

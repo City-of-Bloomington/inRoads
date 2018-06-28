@@ -5,7 +5,8 @@
  * @param DateTime $this->start
  * @param DateTime $this->end
  * @param array    $this->filters
- * @param array    $this->presets  An array of \DateTime ranges
+ * @param array    $this->presets     An array of \DateTime ranges
+ * @param array    $this->departments
  */
 use Application\Controllers\EventsController;
 use Application\Models\Event;
@@ -89,6 +90,18 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
                     }
                 ?>
             </dl>
+            <?php
+                $options = [['value'=>'']];
+                foreach ($this->departments as $d) { $options[] = ['value'=>$d->getId(), 'label'=>$d->getName()]; }
+                echo $h->field([
+                    'name'    => 'department_id',
+                    'id'      => 'department_id',
+                    'label'   => $this->_('department'),
+                    'type'    => 'select',
+                    'value'   => !empty($_GET['department_id']) ? (int)$_GET['department_id'] : null,
+                    'options' => $options
+                ]);
+            ?>
         </fieldset>
         <button type="submit" class="search"><?= $this->_('search'); ?></button>
     </form>
