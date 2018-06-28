@@ -13,8 +13,9 @@ use Blossom\Classes\Template;
 // road_closings installation.
 include __DIR__.'/../bootstrap.inc';
 
-$start = new \DateTime('+1 monday');
-$end   = new \DateTIme('+2 monday');
+$start  = new \DateTime('+1 monday');
+$end    = new \DateTime('+2 monday');
+$future = new \DateTime('+120 days');
 
 $filters = ['eventTypes'=>[]];
 foreach (EventType::types() as $type) {
@@ -22,13 +23,27 @@ foreach (EventType::types() as $type) {
         $filters['eventTypes'][] = $type->getCode();
     }
 }
-$list     = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
-$block    = new Block('events/summary.inc', [
-    'start'     => $start,
-    'end'       => $end,
-    'eventList' => $list
-]);
+
+// Add next week's events to the email message
+$eventsNextWeek = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $start, $end, $filters);
+
+// Add future events to the email message
+$eventsFuture = [];
+$ids          = [];
+foreach ($eventsNextWeek as $e) { $ids[] = $e->getId(); }
+$list = GoogleGateway::getEvents(GOOGLE_CALENDAR_ID, $end, $future, $filters);
+foreach ($list as $e) {
+    if (!in_array($e->getId(), $ids)) { $eventsFuture[] = $e; }
+}
+
+
 $template = new Template('default', 'txt');
+$block    = new Block('events/summary.inc', [
+    'start'          => $start,
+    'end'            => $end,
+    'eventsNextWeek' => $eventsNextWeek,
+    'eventsFuture'   => $eventsFuture
+]);
 $message  = $block->render('txt', $template);
 $subject  = 'Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT);
 $from     = 'From: '.ADMINISTRATOR_EMAIL;
