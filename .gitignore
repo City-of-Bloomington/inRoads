@@ -15,5 +15,6 @@ gulpfile.js
 .sass-cache
 .gulp-build
 .ftppass
+*.retry
 package.json
 vendor

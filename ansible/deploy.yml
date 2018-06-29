@@ -4,7 +4,7 @@
   roles:
     - "City-of-Bloomington.mysql"
     - "City-of-Bloomington.php"
-    
+
   tasks:
     - name: "Install distro packages for inRoads"
       apt:
@@ -13,33 +13,35 @@
       with_items:
         - "php-mysql"
         - "postfix"
-        
-    - name: "Create database user"
+
+    - name: "Postfix start at boot"
+      service: name=postfix state=started enabled=yes
+
+    - name: "Create mysql database"
+      mysql_db:
+        config_file: "{{ mysql_defaults_extra_file }}"
+        name: "{{ inroads_db.name }}"
+        state: present
+      no_log: True
+
+    - name: "Create mysql user for site"
       mysql_user:
         name:     "{{ inroads_db.user }}"
         password: "{{ inroads_db.pass }}"
         priv:     "{{ inroads_db.name }}.*:ALL"
-        state: "present"
-        config_file: "/etc/mysql/debian.cnf"
+        state: present
+        config_file: "{{ mysql_defaults_extra_file }}"
       no_log: True
 
-    - name: "Create database"
-      mysql_db:
-        name: "{{ inroads_db.name }}"
-        state: "present"
-        config_file: "/etc/mysql/debian.cnf"
-      register: db
-      no_log: True
-      
     - name: "Extract release"
       unarchive:
-        src: "{{ inroads_archive.path }}"
+        src: "{{ inroads_archive_path }}"
         dest: "/usr/local/src"
       register: release
 
     - name: "Remove old release"
       file:
-        path: "{{ inroads_path }}"
+        path: "{{ inroads_install_path }}"
         state: "absent"
       when: release.changed
 
@@ -51,25 +53,34 @@
         group: "staff"
         mode: u=rwx,g=rwxs,o=rx
       with_items:
-        - "{{ inroads_path }}"
-        - "{{ inroads_data }}"
-        - "/srv/backups/inroads"
+        - "{{ inroads_install_path }}"
+        - "{{ inroads_backup_path  }}"
+        - "{{ inroads_site_home    }}"
         - "/var/log/cron/inroads"
-        
+
     - name: "Install release"
-      command: "rsync -rlv /usr/local/src/{{ inroads_archive.name }}/ {{ inroads_path }}/"
+      command: "rsync -rlv /usr/local/src/inroads/ {{ inroads_install_path }}/"
       when: release.changed
-      
+
+    - name: "Update site_home"
+      command: "rsync -rl /usr/local/src/inroads/data/ {{ inroads_site_home }}/"
+      when: release.changed
+
+    - name: "Update site_config"
+      template:
+        src: "site_config.j2"
+        dest: "{{ inroads_site_home }}/site_config.inc"
+
     - name: "Apache site configuration"
       template:
         src: "inroads.conf"
         dest: "/etc/apache2/sites-enabled/conf.d/inroads.conf"
       notify: "apache_restart"
-        
-    - name: "Install CRON"
+
+    - name: "Install Backup CRON"
       template:
-        src: "cron.sh"
-        dest: "/etc/cron.daily/inroads"
+        src: "backup.sh"
+        dest: "/etc/cron.daily/backup.d/inroads"
         mode: "0755"
 
     - name: "Configure backup credentials"
@@ -77,4 +88,28 @@
         src: "backup.cnf"
         dest: "/etc/cron.daily/backup.d/inroads.cnf"
         mode: "0600"
+
+    - name: "Install Weekly CRON"
+      template:
+        src: "weekly.sh"
+        dest: "/etc/cron.d/inroads"
+        mode: "0755"
+
+    - name: "Update application permissions"
+      file:
+        path:  "{{ inroads_install_path }}"
+        state: "directory"
+        owner: "www-data"
+        group: "staff"
+        mode:  "u=rwX,g=rwX,o=rX"
+        recurse: "yes"
+
+    - name: "Update site_home permissions"
+      file:
+        path: "{{ inroads_site_home }}"
+        state: "directory"
+        owner: "www-data"
+        group: "staff"
+        mode:  "u=rwX,g=rwX,o=rX"
+        recurse: "yes"
 ...

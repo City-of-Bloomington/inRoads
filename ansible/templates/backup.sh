@@ -3,10 +3,10 @@
 # @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
 APPLICATION_NAME="inroads"
 MYSQLDUMP="/usr/bin/mysqldump"
-MYSQL_DBNAME="${APPLICATION_NAME}"
+MYSQL_DBNAME="{{ inroads_db.name }}"
 MYSQL_CREDENTIALS="/etc/cron.daily/backup.d/${APPLICATION_NAME}.cnf"
-BACKUP_DIR="/srv/backups/${APPLICATION_NAME}"
-SITE_HOME="/srv/data/${APPLICATION_NAME}"
+BACKUP_DIR="{{ inroads_backup_path }}"
+SITE_HOME="{{ inroads_site_home }}"
 
 #----------------------------------------------------------
 # Backup
