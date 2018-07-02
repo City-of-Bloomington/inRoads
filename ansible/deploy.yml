@@ -56,7 +56,7 @@
         - "{{ inroads_install_path }}"
         - "{{ inroads_backup_path  }}"
         - "{{ inroads_site_home    }}"
-        - "/var/log/cron/inroads"
+        - "/var/log/cron"
 
     - name: "Install release"
       command: "rsync -rlv /usr/local/src/inroads/ {{ inroads_install_path }}/"
