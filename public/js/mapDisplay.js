@@ -160,15 +160,17 @@ var MAPDISPLAY = {
      */
     deselectEventsExcept: function (event_id) {
         var details = document.querySelectorAll('#eventsList details[open]'),
-            feature = {};
+            feature = {},
+            len     = details.length,
+            i       = 0;
 
-        for (let d of details) {
-            if (d.getAttribute('id') != event_id) {
-                feature = MAPDISPLAY.findFeature(d.getAttribute('id'));
+        for (i=0; i<len; i++) {
+            if (details[i].getAttribute('id') != event_id) {
+                feature = MAPDISPLAY.findFeature(details[i].getAttribute('id'));
                 if (feature) { MAPDISPLAY.resetStyle(feature); }
                 MAPDISPLAY.currentlySelectedEventId = null;
                 MAPDISPLAY.marker.setPosition([0,0]);
-                d.removeAttribute('open');
+                details[i].removeAttribute('open');
             }
         }
     },
@@ -253,9 +255,14 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         features  = [],
         noscriptMessage = document.getElementById('pleaseEnableJavascript'),
         extractType     = function (classList) {
-            for (let c of classList) {
-                for (let t of PHP.eventTypes) {
-                    if (t.code == c) { return c; }
+            var clen = classList.length,
+                tlen = PHP.eventTypes.length,
+                i   = 0,
+                j   = 0;
+
+            for (i=0; i<clen; i++) {
+                for (j=0; j<tlen; j++) {
+                    if (PHP.eventTypes[j].code == classList[i]) { return classList[i]; }
                 }
             }
             return false;
