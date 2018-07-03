@@ -17,22 +17,29 @@ class SearchView extends Template
 {
     public function __construct(SearchResponse $response, int $itemsPerPage, int $currentPage)
     {
-        parent::__construct('admin', 'html');
+        $format = !empty($_REQUEST['format']) ? $_REQUEST['format'] : 'html';
+        $layout = $format == 'html' ? 'admin' : 'default';
+        parent::__construct($layout, $format);
 
-        $this->vars['title'] = $this->_('users_search');
+        $this->vars['title'] = $this->_(['user', 'users', 10]);
         if ($response->errors) {
             $_SESSION['errorMessages'] = $response->errors;
         }
 
-        $this->blocks[] = new Block('users/findForm.inc', ['users'=>$response->users]);
+        if ($format == 'html') {
+            $this->blocks[] = new Block('users/findForm.inc', ['users'=>$response->users]);
 
-        if ($response->total > $itemsPerPage) {
-            $this->blocks[] = new Block('pageNavigation.inc', [
-                'paginator' => new Paginator(
-                    $response->total,
-                    $itemsPerPage,
-                    $currentPage
-            )]);
+            if ($response->total > $itemsPerPage) {
+                $this->blocks[] = new Block('pageNavigation.inc', [
+                    'paginator' => new Paginator(
+                        $response->total,
+                        $itemsPerPage,
+                        $currentPage
+                )]);
+            }
+        }
+        else {
+            $this->blocks[] = new Block('users/list.inc', ['users'=>$response->users]);
         }
     }
 }

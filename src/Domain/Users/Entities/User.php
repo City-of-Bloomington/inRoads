@@ -16,7 +16,7 @@ class User
 
     public $username;
     public $role;
-    public $authenticatioMethod;
+    public $authenticationMethod;
 
     public $department_id;
     public $department_name;

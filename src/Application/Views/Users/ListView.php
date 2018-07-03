@@ -17,7 +17,9 @@ class ListView extends Template
 {
     public function __construct(SearchResponse $response, int $itemsPerPage, int $currentPage)
     {
-        parent::__construct('admin', 'html');
+        $format = !empty($_REQUEST['format']) ? $_REQUEST['format'] : 'html';
+        $layout = $format == 'html' ? 'admin' : 'default';
+        parent::__construct($layout, $format);
 
         $this->vars['title'] = $this->_(['user', 'users', 10]);
         if (count($response->errors)) {

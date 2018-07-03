@@ -5,6 +5,12 @@
  * @param array $this->users
  */
 use Application\Auth;
+use Blossom\Classes\Url;
+
+$helper = $this->template->getHelper('buttonLink');
+$url    = new Url(Url::current_url(BASE_HOST));
+$url->format = 'csv';
+echo $helper->buttonLink($url, $this->_('csv'), 'download');
 ?>
 <table>
     <thead>
@@ -19,7 +25,6 @@ use Application\Auth;
     </thead>
     <tbody>
     <?php
-        $helper = $this->template->getHelper('buttonLink');
         foreach ($this->users as $user) {
             $editButton = '';
             $deleteButton = '';
