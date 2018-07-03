@@ -34,3 +34,6 @@ do
 		rm $file
 	fi
 done
+
+# Update the timestamp on a log file
+touch /var/log/cron/inroads
