@@ -32,7 +32,7 @@ if ($t) {
         <div class="tools">
         <?php
             $helper = $this->template->getHelper('buttonLink');
-            if (Auth::isAllowed('events', 'update')) {
+            if (Auth::isAllowed('events', 'update') && $this->event->permitsEditingBy($_SESSION['USER'])) {
                 echo $helper->buttonLink(
                     BASE_URI.'/events/update?id='.$id,
                     $this->template->_('edit'),
