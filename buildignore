@@ -14,3 +14,5 @@ package.json
 /data/blocks/
 /scripts/backup.cnf
 /.gulp-build
+*.retry
+/ansible/roles/City-of-Bloomington*
