@@ -4,7 +4,7 @@
         "url": "https://github.com/City-of-Bloomington/blossom-lib"
     }],
     "require": {
-        "php": ">=7",
+        "php": ">=7.1",
         "auth0/auth0-php": "~5",
         "City-of-Bloomington/blossom-lib": "dev-master",
         "google/apiclient": "~2.0",
