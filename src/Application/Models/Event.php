@@ -259,7 +259,7 @@ class Event extends ActiveRecord
 	public function getId()                    { return parent::get('id');                    }
 	public function getDepartment_id()  : ?int { return (int)parent::get('department_id');    }
     public function getEventType_id()   : ?int { return (int)parent::get('eventType_id');     }
-	public function getGoogle_event_id(): ?int { return (int)parent::get('google_event_id');  }
+	public function getGoogle_event_id()       { return parent::get('google_event_id');       }
 	public function getTitle()                 { return parent::get('title');                 }
 	public function getPrimaryContact()        { return parent::get('primaryContact');        }
     public function getDescription()           { return parent::get('description');           }
