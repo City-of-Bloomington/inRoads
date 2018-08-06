@@ -35,9 +35,9 @@ use Blossom\Classes\Block;
                 $department            = parent::escape($e->getDepartment());
                 $geography             = $e->getGeography();
 
-                if ($e->getPrimaryContact() && Auth::isAllowed('events', 'viewPrimaryContact')) {
-                    $primaryContact = parent::escape($e->getPrimaryContact());
-                }
+                $primaryContact = ($e->getPrimaryContact() && Auth::isAllowed('events', 'viewPrimaryContact'))
+                                ? parent::escape($e->getPrimaryContact())
+                                : '';
 
                 echo "
                 <details id=\"e_$id\" class=\"$classes\">
