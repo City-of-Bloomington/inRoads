@@ -125,8 +125,8 @@ class NotificationsController extends Controller
         $res  = $find($type);
         foreach ($res->notifications as $n) {
             $to   = $n->email;
-            $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".ADMINISTRATOR_EMAIL;
-            mail($to, $subject, $message, $from, '-f'.ADMINISTRATOR_EMAIL);
+            $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".NOTIFICATIONS_EMAIL;
+            mail($to, $subject, $message, $from, '-f'.NOTIFICATIONS_EMAIL);
         }
 	}
 }

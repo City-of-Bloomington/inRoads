@@ -46,5 +46,5 @@ $block    = new Block('events/summary.inc', [
 ]);
 $message  = $block->render('txt', $template);
 $subject  = 'Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT);
-$from     = 'From: '.ADMINISTRATOR_EMAIL;
+$from     = 'From: '.NOTIFICATIONS_EMAIL;
 mail(GOOGLE_GROUP, $subject, $message, $from);

@@ -143,10 +143,12 @@ $AUTH0 = [
 /**
  * Controls whether the system sends email notifications to people
  *
- * Notifications will be sent using the ADMINISTRATOR_EMAIL as the FROM
+ * Notifications will be sent using the NOTIFICATIONS_EMAIL as the FROM
  */
+{% if inroads_notifications.enabled %}
 define('NOTIFICATIONS_ENABLED', true);
-define('ADMINISTRATOR_EMAIL','inroads@{{ ansible_host }}');
+{% endif %}
+define('NOTIFICATIONS_EMAIL','{{ inroads_notifications.email }}');
 
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'H:i a');

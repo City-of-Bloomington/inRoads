@@ -17,7 +17,7 @@ This playbook requires Ansible 2.4 or newer.
 Sometimes it is convenient to limit the deployment to a particular host
     ansible-playbook deploy.yml -i /path/to/inventory --limit=some_host
 
-## Configure host machines
+## Dependencies
 
 Currently, this playbook relies on roles from City of Bloomington, that only support Ubuntu.  Contributions to the ansible roles are welcome!
 
@@ -25,6 +25,73 @@ https://github.com/City-of-Bloomington/ansible-role-linux
 https://github.com/City-of-Bloomington/ansible-role-apache
 https://github.com/City-of-Bloomington/ansible-role-mysql
 https://github.com/City-of-Bloomington/ansible-role-php
+
+## Variables
+### Installation Paths
+```YAML
+inroads_archive_path: "../build/inroads.tar.gz"
+inroads_install_path: "/srv/sites/inroads"
+inroads_backup_path:  "/srv/backups/inroads"
+inroads_site_home:    "{{ inroads_install_path }}/data"
+```
+
+### URL Generation
+```YAML
+inroads_base_uri: "/inroads"
+inroads_base_url: "https://{{ ansible_host }}{{ inroads_base_uri }}"
+inroads_proxy: ""
+```
+
+### Database
+```YAML
+inroads_db:
+  type: "MYSQL"
+  port: 3306
+  host: "localhost"
+  name: "inroads"
+  user: "inroads"
+  pass: "{{ vault_inroads_db.pass }}"
+```
+
+### Google Integration
+```YAML
+inroads_google:
+  calendar: ""
+  group: ""
+  user: ""
+```
+
+### Auth0 Integration
+```YAML
+inroads_auth0:
+  domain: ""
+  client_id: ""
+  api_key: ""
+```
+
+### Miscellaneous
+```YAML
+inroads_site_config:
+  application_description: ""
+  twitter_site: ""
+  mapbox_key: ""
+  address_service: ""
+  directory_service: ""
+  cas_host: ""
+```
+### Notifications
+```YAML
+inroads_notifications:
+  email: ""
+  enabled: ""
+```
+
+### Error Logging Service
+```YAML
+inroads_skidder:
+  server: ""
+  application_id: ""
+```
 
 ## Ansible Configuration
 

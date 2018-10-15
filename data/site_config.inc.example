@@ -136,7 +136,7 @@ $AUTHENTICATION_METHODS = [
  * Notifications will be sent using the ADMINISTRATOR_EMAIL as the FROM
  */
 //define('NOTIFICATIONS_ENABLED', true);
-define('ADMINISTRATOR_EMAIL','admin@servername.com');
+define('NOTIFICATIONS_EMAIL','admin@servername.com');
 
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'H:i a');
