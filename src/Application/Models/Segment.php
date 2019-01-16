@@ -1,8 +1,7 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
+ * @copyright 2015-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 namespace Application\Models;
 
@@ -17,6 +16,11 @@ class Segment extends ActiveRecord
 
 	public static $directions = [
         'NB/SB', 'EB/WB', 'NB', 'SB', 'EB', 'WB'
+	];
+
+	public static $fields = [
+        'event_id', 'street', 'streetFrom', 'streetTo', 'direction',
+        'startLatitude', 'startLongitude', 'endLatitude', 'endLongitude'
 	];
 
 	/**
@@ -58,27 +62,10 @@ class Segment extends ActiveRecord
 
     public function validate()
     {
-        $requiredFields = [
-            'event_id', 'street', 'streetFrom', 'streetTo','direction'
-        ];
-        foreach ($requiredFields as $f) {
+        foreach (self::$fields as $f) {
             $get = 'get'.ucfirst($f);
-            if (!$this->$get()) { throw new \Exception("missingRequiredField/$f"); }
-        }
-
-        // latitude and longitude are required.  But they can be looked up from the AddressService
-        if (   !$this->getStartLatitude() || !$this->getStartLongitude()
-            || !$this->getEndLatitude()   || !$this->getEndLongitude()) {
-
-            $start = AddressService::intersection($this->getStreet(), $this->getStreetFrom());
-            $end   = AddressService::intersection($this->getStreet(), $this->getStreetTo());
-            if ($start) {
-                $this->setStartLatitude ($start->latitude);
-                $this->setStartLongitude($start->longitude);
-            }
-            if ($end) {
-                $this->setEndLatitude ($end->latitude);
-                $this->setEndLongitude($end->longitude);
+            if (!$this->$get()) {
+                throw new \Exception("missingRequiredField/$f");
             }
         }
 
@@ -117,8 +104,7 @@ class Segment extends ActiveRecord
 
     public function handleUpdate(array $post)
     {
-        $fields = ['street', 'streetFrom', 'streetTo', 'direction'];
-        foreach ($fields as $f) {
+        foreach (self::$fields as $f) {
             $set = 'set'.ucfirst($f);
             $this->$set($post[$f]);
         }

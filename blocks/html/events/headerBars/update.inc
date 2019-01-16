@@ -1,23 +1,19 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
+ * @copyright 2015-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  * @param Event $this->event
  */
-
 $id = $this->event->getId()
     ? $this->event->getId()
     : $this->event->getGoogle_event_id();
 
-?>
-<?php
-    $url = $this->event->getId()
-        ? BASE_URI.'/events/view?id='.$id
-        : BASE_URI.'/events';
+$url = $this->event->getId()
+    ? BASE_URI.'/events/view?id='.$id
+    : BASE_URI.'/events';
 
-    $helper = $this->template->getHelper('buttonLink');
-    echo $helper->buttonLink($url, $this->template->_('back'), 'back');
+$helper = $this->template->getHelper('buttonLink');
+echo $helper->buttonLink($url, $this->template->_('back'), 'back');
 ?>
 <div class="pillNav">
 <?php

@@ -1,14 +1,14 @@
 <?php
 /**
- * @copyright 2015-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2015-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 namespace Application\Models;
 use Blossom\Classes\Url;
 
 class AddressService
 {
-    private static function jsonRequest($url)
+    private static function jsonRequest($url): ?array
     {
         $response = Url::get($url);
         if ($response) {
@@ -20,26 +20,14 @@ class AddressService
 	 *
 	 * The array must have the streetName as the key.
 	 * The value must be the street_id.
-	 *
-	 * @param string $query
-	 * @return array
 	 */
-	public static function searchStreets($query)
+	public static function searchStreets(string $query): ?array
 	{
-		$results = [];
-		if (defined('ADDRESS_SERVICE')) {
-			$url = new Url(ADDRESS_SERVICE.'/streets');
-			$url->format = 'json';
-			$url->streetName = $query;
+        $url = new Url(ADDRESS_SERVICE.'/streets');
+        $url->format = 'json';
+        $url->street = $query;
 
-			$json = self::jsonRequest($url);
-			if ($json) {
-                foreach ($json->streets as $street) {
-                    $results[$street->name] = $street->id;
-                }
-            }
-		}
-		return $results;
+        return self::jsonRequest($url);
 	}
 
 	/**
@@ -51,37 +39,24 @@ class AddressService
 	 * @param string $streetName
 	 * @return array
 	 */
-	public static function intersectingStreets($streetName)
+	public static function intersectingStreets(int $street_id): ?array
 	{
-        $results = [];
-        if (defined('ADDRESS_SERVICE')) {
-            $url = new Url(ADDRESS_SERVICE.'/intersections/streets.php');
-            $url->format = 'json';
-            $url->street = $streetName;
+        $url = new Url(ADDRESS_SERVICE.'/streets/intersectingStreets/'.$street_id);
+        $url->format = 'json';
 
- 			$json = self::jsonRequest($url);
- 			if ($json) {
-                foreach ($json->streets as $street) {
-                    $results[$street->name] = $street->id;
-                }
-            }
-       }
-        return $results;
+        return self::jsonRequest($url);
 	}
 
-	public static function intersection($streetName, $otherStreet)
+	/**
+	 * @param array   Multiple intersections as json data from the request
+	 */
+	public static function intersections(int $street_id_1, int $street_id_2): ?array
 	{
-        $results = [];
-        if (defined('ADDRESS_SERVICE')) {
-            $url = new Url(ADDRESS_SERVICE.'/intersections');
-            $url->format = 'json';
-            $url->street = $streetName;
-            $url->intersectingStreet = $otherStreet;
+        $url = new Url(ADDRESS_SERVICE.'/streets/intersections');
+        $url->format = 'json';
+        $url->street_id_1 = $street_id_1;
+        $url->street_id_2 = $street_id_2;
 
-            $json = self::jsonRequest($url);
-            if ($json) {
-                return $json[0];
-            }
-        }
+        return self::jsonRequest($url);
 	}
 }

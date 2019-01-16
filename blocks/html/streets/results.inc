@@ -21,7 +21,7 @@ echo "
         $n = self::escape($streetName);
 
         $href = !empty($_REQUEST['callback'])
-            ? "javascript:self.opener.$_REQUEST[callback]('$streetName')"
+            ? "javascript:self.opener.$_REQUEST[callback]('$streetName', $street_id)"
             : $url;
 
         echo "<li><a href=\"$href\">$n</a></li>";

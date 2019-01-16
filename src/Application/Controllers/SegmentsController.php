@@ -33,20 +33,7 @@ class SegmentsController extends Controller
             return new \Application\Views\NotFoundView();
         }
 
-        $this->template->setFilename('eventEdit');
-        $this->template->title = $event->getEventType();
-
-        if (Auth::isAllowed('segments', 'update')) {
-            $segment = new Segment();
-            $segment->setEvent($event);
-
-            $this->template->blocks['panel-one'][] = new Block('segments/searchForm.inc', ['segment'=>$segment]);
-        }
-
-        $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'=>$event]);
-        $this->template->blocks['panel-one'][] = new Block('segments/list.inc', ['segments'=>$event->getSegments()]);
-        $this->template->blocks[]              = new Block('events/map.inc',               ['event'=>$event]);
-		return $this->template;
+        return new \Application\Views\Segments\ListView($event);
     }
 
     public function view()
@@ -58,7 +45,7 @@ class SegmentsController extends Controller
      * The screen for adding/editing segments
      *
      * By the time a user comes here, they should have already chosen
-     * a valid street and event_id for adding a new segment.
+     * a valid event_id for adding a new segment.
      * OR
      * If they're editing an existing segment, they must have a valid
      * segment_id
@@ -73,12 +60,11 @@ class SegmentsController extends Controller
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
 
-        if (!isset($event) && !empty($_REQUEST['event_id']) && !empty($_REQUEST['street'])) {
+        if (!isset($event) && !empty($_REQUEST['event_id'])) {
             try {
-                $event = new Event($_REQUEST['event_id']);
+                $event   = new Event($_REQUEST['event_id']);
                 $segment = new Segment();
                 $segment->setEvent($event);
-                $segment->setStreet($_REQUEST['street']);
             }
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
@@ -87,7 +73,7 @@ class SegmentsController extends Controller
             return new \Application\Views\NotFoundView();
         }
 
-        if (isset($_POST['segment_id'])) {
+        if (isset($_POST['street_id'])) {
             try {
                 $segment->handleUpdate($_POST);
                 $segment->save();
@@ -96,12 +82,20 @@ class SegmentsController extends Controller
             }
             catch (\Exception $e) { $_SESSION['errorMessages'][] = $e; }
         }
-        $this->template->setFilename('eventEdit');
-        $this->template->blocks['headerBar'][] = new Block('events/headerBars/update.inc', ['event'   => $event]);
-        $this->template->blocks['panel-one'][] = new Block('segments/updateForm.inc',      ['segment' => $segment]);
-        $this->template->blocks['panel-one'][] = new Block('segments/list.inc',            ['segments'=> $event->getSegments()]);
-        $this->template->blocks[]              = new Block('events/map.inc',               ['event'   => $event]);
-		return $this->template;
+
+        $streetInfo = null;
+        if ($segment->getStreet()) {
+            $r = AddressService::searchStreets($segment->getStreet());
+            if ($r) {
+                $streetInfo   = $r[0];
+                $crossStreets = AddressService::intersectingStreets($streetInfo->id);
+            }
+        }
+        return new \Application\Views\Segments\UpdateView(
+            $segment,
+            $streetInfo ? $streetInfo->id : null,
+            $streetInfo ? $crossStreets   : null
+        );
     }
 
     public function delete()
