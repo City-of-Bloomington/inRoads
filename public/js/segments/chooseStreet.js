@@ -4,10 +4,10 @@
           searchForm     = document.getElementById('streetSearchForm'),
           segmentForm    = document.getElementById('segmentForm'     ),
           streetFrom     = document.getElementById('streetFrom'      ),
-          streetTo       = document.getElementById('streetTo'        );
-          startLatitude  = document.getElementById('startLatitude'   );
-          startLongitude = document.getElementById('startLongitude'  );
-          endLatitude    = document.getElementById('endLatitude'     );
+          streetTo       = document.getElementById('streetTo'        ),
+          startLatitude  = document.getElementById('startLatitude'   ),
+          startLongitude = document.getElementById('startLongitude'  ),
+          endLatitude    = document.getElementById('endLatitude'     ),
           endLongitude   = document.getElementById('endLongitude'    );
 
     let searchStreets = function (query) {
