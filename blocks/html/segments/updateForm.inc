@@ -53,9 +53,11 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/segments/chooseStreet-'.VER
             <dl><dt><label   for="streetFrom">From</label></dt>
                 <dd><select name="streetFrom" id="streetFrom"><option value=""></option>
                     <?php
-                        foreach ($this->crossStreets as $s) {
-                            $selected = $this->streetFrom == $s->streetName ? 'selected="true"' : '';
-                            echo "<option $selected>{$s->streetName}</option>";
+                        if ($this->crossStreets) {
+                            foreach ($this->crossStreets as $s) {
+                                $selected = $this->streetFrom == $s->streetName ? 'selected="true"' : '';
+                                echo "<option $selected>{$s->streetName}</option>";
+                            }
                         }
                     ?>
                     </select>
@@ -65,9 +67,11 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/segments/chooseStreet-'.VER
             <dl><dt><label   for="streetTo">To</label></dt>
                 <dd><select name="streetTo" id="streetTo"><option value=""></option>
                     <?php
-                        foreach ($this->crossStreets as $s) {
-                            $selected = $this->streetTo == $s->streetName ? 'selected="true"' : '';
-                            echo "<option data-street_id=\"{$s->id}\" $selected>{$s->streetName}</option>";
+                        if ($this->crossStreets) {
+                            foreach ($this->crossStreets as $s) {
+                                $selected = $this->streetTo == $s->streetName ? 'selected="true"' : '';
+                                echo "<option data-street_id=\"{$s->id}\" $selected>{$s->streetName}</option>";
+                            }
                         }
                     ?>
                     </select>
