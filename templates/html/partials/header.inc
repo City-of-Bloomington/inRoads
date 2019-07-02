@@ -13,7 +13,7 @@ use Blossom\Classes\View;
         </div>
         <div class="site-utilityBar">
         <?php
-            $this->addToAsset('scripts', BASE_URI.'/js/menus.js');
+            $this->addToAsset('scripts', BASE_URI.'/js/menus-'.VERSION.'.js');
 
             $this->_include('/partials/panel-widgets/User_menu.inc');
             $this->_include('/partials/panel-widgets/Administrator_menu.inc');

@@ -1,10 +1,10 @@
 <?php
 /**
- * @copyright 2007-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2007-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  * @param array $this->errorMessages
  */
-$this->template->addToAsset('scripts', BASE_URI.'/js/errorMessages.js');
+$this->template->addToAsset('scripts', BASE_URI.'/js/errorMessages-'.VERSION.'.js');
 ?>
 <div id="errorMessages">
 	<h2><?= $this->_('error'); ?></h2>

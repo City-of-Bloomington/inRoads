@@ -5,11 +5,11 @@ use Application\Models\EventType;
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title><?php echo isset($this->title) ? self::escape($this->title) : APPLICATION_NAME; ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" type="text/css" href="<?= BASE_URI; ?>/css/screen.css" />
+	<link rel="stylesheet" type="text/css" href="<?= BASE_URI; ?>/css/screen-<?= VERSION; ?>.css" />
 	<link rel="stylesheet" type="text/css" href="<?= OPENLAYERS; ?>/ol.css" />
 	<?php
-        if ($this->theme && is_file($this->theme.'/css/screen.css')) {
-            $uri = BASE_URI.'/css/themes/'.THEME.'/css/screen.css';
+        if ($this->theme && is_file($this->theme.'/css/screen-'.VERSION.'.css')) {
+            $uri = BASE_URI.'/css/themes/'.THEME.'/css/screen-'.VERSION.'.css';
             echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$uri\" />";
         }
 	?>

@@ -1,31 +1,35 @@
-APPNAME=inroads
+SHELL := /bin/bash
+APPNAME := inroads
 
-SASS := $(shell command -v pysassc 2> /dev/null)
+SASS := $(shell command -v sassc 2> /dev/null)
 MSGFMT := $(shell command -v msgfmt 2> /dev/null)
-
 LANGUAGES := $(wildcard language/*/LC_MESSAGES)
+JAVASCRIPT := $(shell find public -name '*.js' ! -name '*-*.js' ! -path '*vendor/*')
+
+VERSION := $(shell cat VERSION | tr -d "[:space:]")
+COMMIT := $(shell git rev-parse --short HEAD)
 
 default: clean compile package
 
 deps:
 ifndef SASS
-	$(error "pysassc is not installed")
+	$(error "sassc is not installed")
 endif
 ifndef MSGFMT
 	$(error "msgfmt is not installed, please install gettext")
 endif
 
 clean:
-	rm -Rf build
-	mkdir build
-
+	rm -Rf build/${APPNAME}
 	rm -Rf public/css/.sass-cache
 
 compile: deps $(LANGUAGES)
-	pysassc -t compact -m public/css/screen.scss public/css/screen.css
+	cd public/css && sassc -mt compact screen.scss screen-${VERSION}.css
+	for f in ${JAVASCRIPT}; do cp $$f $${f%.js}-${VERSION}.js; done
 
 package:
-	rsync -rl --exclude-from=buildignore --delete . build/$(APPNAME)
+	[[ -d build ]] || mkdir build
+	rsync -rl --exclude-from=buildignore . build/$(APPNAME)
 	cd build && tar czf $(APPNAME).tar.gz $(APPNAME)
 
 $(LANGUAGES): deps

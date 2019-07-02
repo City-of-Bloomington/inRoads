@@ -3,6 +3,7 @@
  * Where on the filesystem this application is installed
  */
 define('APPLICATION_HOME', __DIR__);
+define('VERSION', trim(file_get_contents(APPLICATION_HOME.'/VERSION')));
 
 /**
  * Multi-Site support

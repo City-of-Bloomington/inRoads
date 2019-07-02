@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright 2014-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2014-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  * @param Event $this->event
  */
 use Application\Models\Event;
@@ -11,7 +11,7 @@ use Application\Templates\Helpers\Field;
 use Recurr\Rule;
 use Recurr\WeekDay;
 
-$this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm.js');
+$this->template->addToAsset('scripts', BASE_URI.'/js/events/updateForm-'.VERSION.'.js');
 
 $department_id = $this->event->getDepartment_id() ? $this->event->getDepartment_id() : $_SESSION['USER']->department_id;
 $eventType_id  = $this->event->getEventType_id();

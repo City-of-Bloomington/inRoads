@@ -7,10 +7,11 @@ data/templates/*
 data/blocks/*
 tests/configuration.inc
 build
-screen.css
-screen.css.map
+screen.css*
+screen-*.css*
 node_modules
 gulpfile.js
+*-*.js
 *.mo
 .sass-cache
 .gulp-build

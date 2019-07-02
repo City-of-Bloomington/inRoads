@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright 2015-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2015-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  * @param DateTime $this->start
  * @param DateTime $this->end
  * @param array    $this->filters
@@ -14,7 +14,7 @@ use Application\Models\EventType;
 use Blossom\Classes\View;
 use Blossom\Classes\Url;
 
-$this->template->addToAsset('scripts', BASE_URI.'/js/searchForm.js');
+$this->template->addToAsset('scripts', BASE_URI.'/js/searchForm-'.VERSION.'.js');
 ?>
 <div class="filterPanel expanded" id="filterPanel">
     <?php

@@ -17,7 +17,7 @@
  * @param array  $this->directions     Array of values to populate directions dropdown
  * @param array  $this->crossStreets   Array of streets that intersect the chosen street
  */
-$this->template->addToAsset('scripts', BASE_URI.'/js/segments/chooseStreet.js');
+$this->template->addToAsset('scripts', BASE_URI.'/js/segments/chooseStreet-'.VERSION.'.js');
 ?>
 <script type="text/javascript">
     var ADDRESS_SERVICE = "<?= ADDRESS_SERVICE; ?>";

@@ -1,12 +1,11 @@
 <?php
 /**
- * @copyright 2015 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
+ * @copyright 2015-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 $this->template->addToAsset('scripts', OPENLAYERS.'/ol.js');
-$this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay.js');
-$this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor.js');
+$this->template->addToAsset('scripts', BASE_URI.'/js/mapDisplay-'.VERSION.'.js');
+$this->template->addToAsset('scripts', BASE_URI.'/js/mapEditor-'.VERSION.'.js');
 
 global $MAPLAYERS, $EVENT_TYPES;
 ?>
