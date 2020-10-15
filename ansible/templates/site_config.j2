@@ -160,7 +160,7 @@ define('LOCALE', 'en_US');
  * logging errors to a Skidder server.  You must register for an application_id
  * on the skidder server you want to post errors to.
  */
-{% if inroads_skidder.application_id %}
+{% if inroads_skidder.application_id is defined and inroads_skidder.application_id|length %}
 $writer = new Blossom\Classes\Log\SkidderWriter('{{ inroads_skidder.server }}', {{ inroads_skidder.application_id }} );
 $logger = new Zend\Log\Logger();
 $logger->addWriter($writer);
