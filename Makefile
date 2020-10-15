@@ -24,7 +24,7 @@ clean:
 	rm -Rf public/css/.sass-cache
 
 compile: deps $(LANGUAGES)
-	cd public/css && sassc -mt compact screen.scss screen-${VERSION}.css
+	cd public/css && sassc -t compact -m screen.scss screen-${VERSION}.css
 	for f in ${JAVASCRIPT}; do cp $$f $${f%.js}-${VERSION}.js; done
 
 package:

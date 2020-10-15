@@ -65,7 +65,7 @@ class Event extends ActiveRecord
 			else {
 				$sql = "select  id, department_id, google_event_id, eventType_id,
                                 startDate, endDate, startTime, endTime, rrule,
-                                AsText(geography) geography, geography_description,
+                                ST_AsText(geography) geography, geography_description,
                                 title, primaryContact, description,
                                 created, updated, constructionFlag
                         from events ";
@@ -218,7 +218,7 @@ class Event extends ActiveRecord
             // Do data conversions on a copy of the data
             $data = $this->toArray();
             $data['geography'] = !empty($data['geography'])
-                               ? new Expression("GeomFromText('$data[geography]')")
+                               ? new Expression("ST_GeomFromText('$data[geography]', 4326)")
                                : null;
 
             $zend_db = Database::getConnection();

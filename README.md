@@ -1,4 +1,4 @@
-inRoads ![Build Status](https://travis-ci.org/City-of-Bloomington/inRoads.svg?branch=master)
+inRoads
 =======
 
 inRoads is a digital service developed by the City of Bloomington. inRoads is used to manage and publish road, sidewalk and parking status information including closings, lane reductions, noise permits and parking reservations. It provides not only current information about road events, but future planned events as well.inRoads streamlines the process of creating and managing road, sidewalk, parking and other location-relevant municipal events (noise permits, etc.). inRoads publishes its data to the web, to email lists and through multiple open data formats. It also provides a Waze feed usable for communities participating in the Waze Connected Cities program.
@@ -10,13 +10,12 @@ inRoads is in live production use at https://bloomington.in.gov/inroads
 ## Requirements
 * Linux
 * Apache
-* MySQL  >= 5.7
-* PHP    >= 7.0
-* postfix
+* MySQL  >= 8.0
+* PHP    >= 7.4
 
 ### Dev Requirements
 If you want to build this project you'll need
 * Linux    - the Makefile is written assuming bash
 * composer - PHP dependency manager
 * gettext  - for compiling language files
-* pysassc  - Python libsass for compiling SASS files
+* sassc    - libsass for compiling SASS files

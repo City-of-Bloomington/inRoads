@@ -46,7 +46,7 @@ create table events (
     startTime time,
     endTime   time,
     rrule varchar(128),
-    geography geometry,
+    geography geometry SRID 4326,
     geography_description varchar(128),
     created datetime not null,
     updated datetime not null,
