@@ -46,7 +46,10 @@ $MAPLAYERS = [
     [
         'source'  => 'XYZ',
         'options' => [
-            'url' => 'https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token={{ inroads_site_config.mapbox_key }}'
+            'url'        => 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={{ inroads_site_config.mapbox_key }}',
+            'tileSize'   => 512,
+            'maxZoom'    => 18,
+            'zoomOffset' => -1
         ]
     ]
 ];
