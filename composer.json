@@ -7,7 +7,7 @@
         "php": ">=7.4",
         "auth0/auth0-php": "~5",
         "google/apiclient": "~2.0",
-        "jasig/phpcas": "~1",
+        "apereo/phpcas":                   "@stable",
         "simshaun/recurr": "~3",
         "laminas/laminas-db":              "@stable",
         "laminas/laminas-log":             "@stable",
