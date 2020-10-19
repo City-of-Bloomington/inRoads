@@ -9,7 +9,7 @@ namespace Domain\Notifications\DataStorage;
 use Domain\Notifications\Entities\Notification;
 use Domain\ZendDbRepository;
 
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Select;
 
 class ZendDbNotificationsRepository extends ZendDbRepository implements NotificationsRepository
 {

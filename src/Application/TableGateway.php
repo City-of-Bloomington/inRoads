@@ -7,11 +7,11 @@
  */
 namespace Application;
 
-use Zend\Db\TableGateway\TableGateway as ZendTableGateway;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
+use Laminas\Db\TableGateway\TableGateway as ZendTableGateway;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
 abstract class TableGateway
 {
@@ -72,8 +72,8 @@ abstract class TableGateway
 	}
 
 	/**
-	 * @param Zend\Db\Sql\Select $select
-	 * @return Zend\Db\ResultSet
+	 * @param Laminas\Db\Sql\Select $select
+	 * @return Laminas\Db\ResultSet
 	 */
 	public function performSelect(Select $select, $order, $paginated=false, $limit=null)
 	{
@@ -91,7 +91,7 @@ abstract class TableGateway
 	}
 
 	/**
-	 * @param Zend\Db\ResultSet
+	 * @param Laminas\Db\ResultSet
 	 * @return array
 	 */
 	public static function hydrateResults(ResultSet $results)
@@ -106,7 +106,7 @@ abstract class TableGateway
 	/**
 	 * Returns the generated sql
 	 *
-	 * @param Zend\Db\Sql\Select
+	 * @param Laminas\Db\Sql\Select
 	 */
 	public function getSqlForSelect(Select $select)
 	{
@@ -114,7 +114,7 @@ abstract class TableGateway
 	}
 
 	/**
-	 * @param Zend\Db\ResultSet
+	 * @param Laminas\Db\ResultSet
 	 */
 	public static function getSqlForResult(ResultSet $result)
 	{

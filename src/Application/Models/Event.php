@@ -8,7 +8,7 @@ namespace Application\Models;
 use Application\ActiveRecord;
 use Application\Database;
 use Domain\Users\Entities\User;
-use Zend\Db\Sql\Expression;
+use Laminas\Db\Sql\Expression;
 use Recurr\Rule;
 use Recurr\Transformer\TextTransformer;
 
@@ -222,7 +222,7 @@ class Event extends ActiveRecord
                                : null;
 
             $zend_db = Database::getConnection();
-            $sql = new \Zend\Db\Sql\Sql($zend_db, $this->tablename);
+            $sql = new \Laminas\Db\Sql\Sql($zend_db, $this->tablename);
             if ($this->getId()) {
                 $update = $sql->update()
                     ->set($data)

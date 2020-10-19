@@ -5,7 +5,7 @@
  */
 namespace Application;
 
-class SolrPaginatorAdapter implements \Zend\Paginator\Adapter\AdapterInterface
+class SolrPaginatorAdapter implements \Laminas\Paginator\Adapter\AdapterInterface
 {
 	private $solrObject;
 

@@ -25,9 +25,9 @@ $template = !empty($_REQUEST['format'])
 	: new Template('default');
 
 // Execute the Controller::action()
-if (isset($resource) && isset($action) && $ZEND_ACL->hasResource($resource)) {
+if (isset($resource) && isset($action) && $ACL->hasResource($resource)) {
 	$USER_ROLE = isset($_SESSION['USER']) ? $_SESSION['USER']->role : 'Anonymous';
-	if ($ZEND_ACL->isAllowed($USER_ROLE, $resource, $action)) {
+	if ($ACL->isAllowed($USER_ROLE, $resource, $action)) {
 		$controller = 'Application\Controllers\\'.ucfirst($resource).'Controller';
         if (method_exists($controller, $action)) {
             $c = new $controller($template);

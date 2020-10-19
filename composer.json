@@ -4,18 +4,18 @@
         "url": "https://github.com/City-of-Bloomington/blossom-lib"
     }],
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.4",
         "auth0/auth0-php": "~5",
         "google/apiclient": "~2.0",
         "jasig/phpcas": "~1",
         "simshaun/recurr": "~3",
-        "zendframework/zend-db": "~2.5",
-        "zendframework/zend-log": "~2.5",
-        "zendframework/zend-paginator": "~2.5",
-        "zendframework/zend-permissions-acl": "~2.5"
+        "laminas/laminas-db":              "@stable",
+        "laminas/laminas-log":             "@stable",
+        "laminas/laminas-paginator":       "@stable",
+        "laminas/laminas-permissions-acl": "@stable"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7"
+        "phpunit/phpunit": "@stable"
     },
     "autoload": {
         "psr-4": {

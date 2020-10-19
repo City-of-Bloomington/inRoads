@@ -11,8 +11,8 @@ use Domain\People\Entities\Person;
 use Domain\People\UseCases\Search\SearchRequest;
 use Domain\ZendDbRepository;
 
-use Zend\Db\Sql\Literal;
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Literal;
+use Laminas\Db\Sql\Select;
 
 class ZendDbPeopleRepository extends ZendDbRepository implements PeopleRepository
 {

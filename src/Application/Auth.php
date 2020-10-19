@@ -20,11 +20,11 @@ class Auth
 	 */
 	public static function isAllowed($resource, $action=null)
 	{
-		global $ZEND_ACL;
+		global $ACL;
 		$role = 'Anonymous';
 		if (  isset($_SESSION['USER']) && $_SESSION['USER']->role) {
 			$role = $_SESSION['USER']->role;
 		}
-		return $ZEND_ACL->isAllowed($role, $resource, $action);
+		return $ACL->isAllowed($role, $resource, $action);
 	}
 }

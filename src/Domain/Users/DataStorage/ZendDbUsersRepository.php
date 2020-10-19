@@ -10,7 +10,7 @@ use Domain\ZendDbRepository;
 use Domain\Users\Entities\User;
 use Domain\Users\UseCases\Search\SearchRequest;
 
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Select;
 
 class ZendDbUsersRepository extends ZendDbRepository implements UsersRepository
 {

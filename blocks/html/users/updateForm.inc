@@ -42,8 +42,8 @@
                 echo $field->field(['name'=>'password', 'id'=>'password', 'label'=>$this->_('password'), 'type'=>'password']);
 
 				$options = [];
-                global $ZEND_ACL;
-                foreach (array_reverse($ZEND_ACL->getRoles()) as $r) { $options[] = ['value'=>$r]; }
+                global $ACL;
+                foreach (array_reverse($ACL->getRoles()) as $r) { $options[] = ['value'=>$r]; }
 				echo $field->field([
                     'name'     => 'role',
                     'id'       => 'role',

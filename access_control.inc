@@ -1,56 +1,56 @@
 <?php
 /**
  * @copyright 2014-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
-use Zend\Permissions\Acl\Acl;
-use Zend\Permissions\Acl\Role\GenericRole as Role;
-use Zend\Permissions\Acl\Resource\GenericResource as Resource;
+use Laminas\Permissions\Acl\Acl;
+use Laminas\Permissions\Acl\Role\GenericRole as Role;
+use Laminas\Permissions\Acl\Resource\GenericResource as Resource;
 
-$ZEND_ACL = new Acl();
-$ZEND_ACL->addRole(new Role('Anonymous'))
-		 ->addRole(new Role('Public'),        'Anonymous')
-		 ->addRole(new Role('Staff'),         'Public')
-		 ->addRole(new Role('Administrator'), 'Staff');
+$ACL = new Acl();
+$ACL->addRole(new Role('Anonymous'))
+    ->addRole(new Role('Public'),        'Anonymous')
+    ->addRole(new Role('Staff'),         'Public')
+    ->addRole(new Role('Administrator'), 'Staff');
 
 /**
  * Declare all the resources
  */
-$ZEND_ACL->addResource(new Resource('index'));
-$ZEND_ACL->addResource(new Resource('people'));
-$ZEND_ACL->addResource(new Resource('users'));
-$ZEND_ACL->addResource(new Resource('login'));
-$ZEND_ACL->addResource(new Resource('account'));
-$ZEND_ACL->addResource(new Resource('departments'));
-$ZEND_ACL->addResource(new Resource('eventTypes'));
+$ACL->addResource(new Resource('index'));
+$ACL->addResource(new Resource('people'));
+$ACL->addResource(new Resource('users'));
+$ACL->addResource(new Resource('login'));
+$ACL->addResource(new Resource('account'));
+$ACL->addResource(new Resource('departments'));
+$ACL->addResource(new Resource('eventTypes'));
 
-$ZEND_ACL->addResource(new Resource('events'));
-$ZEND_ACL->addResource(new Resource('segments'));
-$ZEND_ACL->addResource(new Resource('streets'));
-$ZEND_ACL->addResource(new Resource('waze'));
-$ZEND_ACL->addResource(new Resource('trafficcast'));
-$ZEND_ACL->addResource(new Resource('notifications'));
+$ACL->addResource(new Resource('events'));
+$ACL->addResource(new Resource('segments'));
+$ACL->addResource(new Resource('streets'));
+$ACL->addResource(new Resource('waze'));
+$ACL->addResource(new Resource('trafficcast'));
+$ACL->addResource(new Resource('notifications'));
 
 /**
  * Assign permissions to the resources
  */
-$ZEND_ACL->allow(null,'login');
+$ACL->allow(null,'login');
 
 // Permissions for unauthenticated browsing
-$ZEND_ACL->allow(null,
+$ACL->allow(null,
     ['index', 'events', 'waze', 'trafficcast', 'segments'],
     ['index', 'view']
 );
 
-$ZEND_ACL->allow('Public', 'events'  , ['index', 'view', 'update', 'viewPrimaryContact']);
-$ZEND_ACL->allow('Public', 'segments', ['index', 'view', 'update', 'search', 'delete']);
-$ZEND_ACL->allow('Public', 'streets' , ['index',                   'search']);
-$ZEND_ACL->allow('Public', 'account');
+$ACL->allow('Public', 'events'  , ['index', 'view', 'update', 'viewPrimaryContact']);
+$ACL->allow('Public', 'segments', ['index', 'view', 'update', 'search', 'delete']);
+$ACL->allow('Public', 'streets' , ['index',                   'search']);
+$ACL->allow('Public', 'account');
 
 
 // Allow Staff to do stuff
-$ZEND_ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index', 'view']);
-$ZEND_ACL->allow('Staff', ['events', 'segments',       'streets'], ['index', 'view', 'update', 'search', 'delete']);
+$ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index', 'view']);
+$ACL->allow('Staff', ['events', 'segments',       'streets'], ['index', 'view', 'update', 'search', 'delete']);
 
 // Administrator is allowed access to everything
-$ZEND_ACL->allow('Administrator');
+$ACL->allow('Administrator');

@@ -6,7 +6,7 @@
 namespace Application\Models;
 
 use Application\TableGateway;
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Select;
 
 class PeopleTable extends TableGateway
 {
