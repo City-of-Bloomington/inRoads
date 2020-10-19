@@ -1,5 +1,5 @@
 <?php
-    use Blossom\Classes\View;
+    use Application\View;
     $this->addToAsset('scripts', BASE_URI.'/js/mobileFilters-'.VERSION.'.js');
 ?>
 <?xml version="1.0" encoding="UTF-8"?>

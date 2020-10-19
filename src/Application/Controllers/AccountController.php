@@ -8,9 +8,9 @@ namespace Application\Controllers;
 
 use Application\Views\Account\InfoView;
 use Application\Views\Account\UpdateView;
-use Blossom\Classes\Block;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Database;
+use Application\Block;
+use Application\Controller;
+use Application\Database;
 
 use Domain\People\DataStorage\ZendDbPeopleRepository;
 use Domain\People\UseCases\Info\Info;

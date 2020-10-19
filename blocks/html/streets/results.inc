@@ -5,7 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param array $this->results
  */
-use Blossom\Classes\Url;
+use Application\Url;
 
 $url = !empty($_REQUEST['return_url'])
     ? new Url($_REQUEST['return_url'])

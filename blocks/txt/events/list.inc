@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param array $this->events An array of Events
  */
-use Blossom\Classes\Block;
+use Application\Block;
 
 $block = new Block('events/info.inc');
 

@@ -6,8 +6,8 @@
 $startTime = microtime(1);
 
 include '../bootstrap.inc';
-use Blossom\Classes\Template;
-use Blossom\Classes\Block;
+use Application\Template;
+use Application\Block;
 
 ini_set('session.save_path', SITE_HOME.'/sessions');
 ini_set('session.cookie_path', BASE_URI);

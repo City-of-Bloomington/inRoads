@@ -6,8 +6,8 @@
 declare (strict_types=1);
 namespace Application\Views\Account;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 use Domain\People\UseCases\UpdateAccount\UpdateAccountRequest;
 use Domain\People\UseCases\UpdateAccount\UpdateAccountResponse;

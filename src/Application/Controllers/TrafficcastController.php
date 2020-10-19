@@ -7,9 +7,9 @@ namespace Application\Controllers;
 
 use Application\Models\EventTypesTable;
 use Application\Models\GoogleGateway;
-use Blossom\Classes\Block;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Controller;
+use Application\Template;
 
 class TrafficcastController extends Controller
 {

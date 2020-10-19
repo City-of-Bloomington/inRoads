@@ -6,8 +6,8 @@
 namespace Application\Controllers;
 use Application\Models\EventType;
 use Application\Models\EventTypesTable;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Block;
+use Application\Controller;
+use Application\Block;
 
 class EventTypesController extends Controller
 {

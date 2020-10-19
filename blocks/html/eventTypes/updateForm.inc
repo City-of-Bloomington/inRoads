@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param EventType $this->eventType
  */
-use Blossom\Classes\View;
+use Application\View;
 
 foreach (['id', 'code', 'name', 'description', 'color', 'cifsType'] as $f) {
     $get = 'get'.ucfirst($f);

@@ -6,8 +6,8 @@
 namespace Application\Controllers;
 use Application\Models\Department;
 use Application\Models\DepartmentsTable;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Block;
+use Application\Controller;
+use Application\Block;
 
 class DepartmentsController extends Controller
 {

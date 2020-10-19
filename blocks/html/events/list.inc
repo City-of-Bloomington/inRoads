@@ -7,7 +7,7 @@
 use Application\Auth;
 use Application\Models\Event;
 use Application\Templates\Helpers\ButtonLink;
-use Blossom\Classes\Block;
+use Application\Block;
 ?>
 <div id="eventsList">
     <?php

@@ -7,10 +7,10 @@ namespace Application\Controllers;
 
 use Application\Views\LoginView;
 use Auth0\SDK\Auth0;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Database;
-use Blossom\Classes\Template;
-use Blossom\Classes\Block;
+use Application\Controller;
+use Application\Database;
+use Application\Template;
+use Application\Block;
 use Domain\Auth\AuthenticationService;
 use Domain\Users\DataStorage\ZendDbUsersRepository;
 use Domain\Users\Entities\User;

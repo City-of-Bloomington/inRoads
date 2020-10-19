@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @param Paginator $this->paginator
  */
-use Blossom\Classes\Url;
+use Application\Url;
 $pages = $this->paginator->getPages();
 
 if (count($pages->pagesInRange) > 1) {

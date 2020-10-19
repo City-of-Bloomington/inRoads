@@ -8,7 +8,7 @@
 use Application\Models\Person;
 use Application\Models\Event;
 use Application\Templates\Helpers\ButtonLink;
-use Blossom\Classes\Block;
+use Application\Block;
 
 $block = new Block('events/info.inc');
 

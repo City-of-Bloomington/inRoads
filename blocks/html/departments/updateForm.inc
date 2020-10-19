@@ -5,7 +5,7 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  * @param Department $this->department
  */
-use Blossom\Classes\View;
+use Application\View;
 
 foreach (['code', 'name', 'phone'] as $f) {
     $get = 'get'.ucfirst($f);

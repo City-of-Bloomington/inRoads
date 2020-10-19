@@ -8,8 +8,8 @@ namespace Application\Views\Events;
 
 use Application\Models\Event;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 class UpdateView extends Template
 {

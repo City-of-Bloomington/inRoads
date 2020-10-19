@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 declare (strict_types=1);
-use Blossom\Classes\Block;
+use Application\Block;
 
 if (isset($_SESSION['errorMessages'])) {
 	$errorBlock = new Block('errorMessages.inc', ['errorMessages'=>$_SESSION['errorMessages']]);

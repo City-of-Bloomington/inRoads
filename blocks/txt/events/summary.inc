@@ -7,7 +7,7 @@
  * @param array    $this->eventsNextWeek
  * @param array    $this->eventsFuture
  */
-use Blossom\Classes\Block;
+use Application\Block;
 $this->_include('events/partials/emailHeader.inc');
 $group = substr(GOOGLE_GROUP, 0, strpos(GOOGLE_GROUP, '@'));
 ?>

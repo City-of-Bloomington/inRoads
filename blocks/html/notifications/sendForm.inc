@@ -7,8 +7,8 @@
  * @param string $this->comments
  */
 declare (strict_types=1);
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 ?>
 <section>
     <form method="post">

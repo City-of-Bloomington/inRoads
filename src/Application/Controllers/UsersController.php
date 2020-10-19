@@ -9,9 +9,9 @@ namespace Application\Controllers;
 use Application\Views\Users\InfoView;
 use Application\Views\Users\SearchView;
 
-use Blossom\Classes\Controller;
-use Blossom\Classes\Block;
-use Blossom\Classes\Database;
+use Application\Controller;
+use Application\Block;
+use Application\Database;
 
 use Domain\Auth\AuthenticationService;
 use Domain\Users\DataStorage\ZendDbUsersRepository;

@@ -11,8 +11,8 @@
 use Application\Controllers\EventsController;
 use Application\Models\Event;
 use Application\Models\EventType;
-use Blossom\Classes\View;
-use Blossom\Classes\Url;
+use Application\View;
+use Application\Url;
 
 $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm-'.VERSION.'.js');
 ?>

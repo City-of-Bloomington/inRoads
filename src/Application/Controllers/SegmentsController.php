@@ -10,8 +10,8 @@ use Application\Models\Event;
 use Application\Auth;
 use Application\Models\Segment;
 use Application\Models\SegmentsTable;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Block;
+use Application\Controller;
+use Application\Block;
 
 class SegmentsController extends Controller
 {

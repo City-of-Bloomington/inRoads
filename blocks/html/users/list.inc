@@ -5,7 +5,7 @@
  * @param array $this->users
  */
 use Application\Auth;
-use Blossom\Classes\Url;
+use Application\Url;
 
 $helper = $this->template->getHelper('buttonLink');
 $url    = new Url(Url::current_url(BASE_HOST));

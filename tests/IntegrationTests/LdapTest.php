@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
-use Blossom\Classes\Employee;
+use Application\Employee;
 
 $_SERVER['SITE_HOME'] = __DIR__;
 require_once '../../configuration.inc';

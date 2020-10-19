@@ -6,7 +6,7 @@
  */
 use Application\Auth;
 use Application\Models\Event;
-use Blossom\Classes\Block;
+use Application\Block;
 
 $events = [];
 foreach ($this->events as $e) {

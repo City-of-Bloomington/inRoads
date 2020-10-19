@@ -7,7 +7,7 @@ declare (strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-use Blossom\Classes\Template;
+use Application\Template;
 
 class ControllerTest extends TestCase
 {

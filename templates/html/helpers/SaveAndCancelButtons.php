@@ -6,7 +6,7 @@
  */
 namespace Application\Templates\Helpers;
 
-use Blossom\Classes\Helper;
+use Application\Helper;
 
 class SaveAndCancelButtons extends Helper
 {

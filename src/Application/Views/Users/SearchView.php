@@ -8,8 +8,8 @@ namespace Application\Views\Users;
 
 use Application\Paginator;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 use Domain\Users\UseCases\Search\SearchResponse;
 

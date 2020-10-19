@@ -6,8 +6,8 @@
 declare (strict_types=1);
 namespace Application\Views\Notifications;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 use Domain\Notifications\UseCases\Find\FindResponse;
 

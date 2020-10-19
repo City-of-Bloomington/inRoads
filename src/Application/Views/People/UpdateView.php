@@ -6,8 +6,8 @@
 declare (strict_types=1);
 namespace Application\Views\People;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 use Domain\People\Entities\Person;
 use Domain\People\UseCases\Update\UpdateRequest;

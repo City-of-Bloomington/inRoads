@@ -5,8 +5,8 @@
  */
 namespace Application\Models;
 
-use Blossom\Classes\ActiveRecord;
-use Blossom\Classes\Database;
+use Application\ActiveRecord;
+use Application\Database;
 use Domain\Users\Entities\User;
 use Zend\Db\Sql\Expression;
 use Recurr\Rule;

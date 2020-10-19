@@ -12,7 +12,7 @@
  * @param bool   $this->notify_emergency
  */
 use Application\Auth;
-use Blossom\Classes\Url;
+use Application\Url;
 
 $return_url = Url::current_url(BASE_HOST);
 $h = $this->template->getHelper('buttonLink');

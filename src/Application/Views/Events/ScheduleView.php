@@ -8,8 +8,8 @@ namespace Application\Views\Events;
 
 use Application\Models\DepartmentsTable;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 class ScheduleView extends Template
 {

@@ -12,11 +12,11 @@ use Application\Models\Person;
 use Application\Models\PeopleTable;
 use Application\Template\Helpers\ButtonLink;
 
-use Blossom\Classes\ActiveRecord;
-use Blossom\Classes\Block;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Database;
-use Blossom\Classes\Template;
+use Application\ActiveRecord;
+use Application\Block;
+use Application\Controller;
+use Application\Database;
+use Application\Template;
 
 use Domain\Notifications\Metadata as Notification;
 

@@ -12,8 +12,8 @@
  */
 namespace Site\Classes;
 
-use Blossom\Classes\ExternalIdentity;
-use Blossom\Classes\Url;
+use Application\ExternalIdentity;
+use Application\Url;
 
 class Employee implements ExternalIdentity
 {

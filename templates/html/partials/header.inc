@@ -1,5 +1,5 @@
 <?php
-use Blossom\Classes\View;
+use Application\View;
 ?>
 <header>
     <div class="container">

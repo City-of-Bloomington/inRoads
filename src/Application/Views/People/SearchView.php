@@ -8,9 +8,9 @@ namespace Application\Views\People;
 
 use Application\Paginator;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
-use Blossom\Classes\Url;
+use Application\Block;
+use Application\Template;
+use Application\Url;
 
 use Domain\People\UseCases\Search\SearchResponse;
 

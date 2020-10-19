@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 namespace Application\Models;
-use Blossom\Classes\Url;
+use Application\Url;
 
 class AddressService
 {

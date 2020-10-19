@@ -8,7 +8,7 @@
  */
 namespace Application\Templates\Helpers;
 
-use Blossom\Classes\Helper;
+use Application\Helper;
 
 class ButtonLink extends Helper
 {

@@ -6,8 +6,8 @@
 declare (strict_types=1);
 namespace Application\Models;
 
-use Blossom\Classes\ActiveRecord;
-use Blossom\Classes\Database;
+use Application\ActiveRecord;
+use Application\Database;
 
 class EventHistory extends ActiveRecord
 {

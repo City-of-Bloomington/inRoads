@@ -11,10 +11,10 @@ use Application\Views\Notifications\ListView;
 use Application\Views\Notifications\Preview;
 use Application\Views\Notifications\UpdateView;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Controller;
-use Blossom\Classes\Database;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Controller;
+use Application\Database;
+use Application\Template;
 
 use Domain\Notifications\DataStorage\ZendDbNotificationsRepository;
 use Domain\Notifications\Metadata as Notification;

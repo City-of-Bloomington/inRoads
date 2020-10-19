@@ -10,8 +10,8 @@
  */
 namespace Application\Models;
 
-use Blossom\Classes\ActiveRecord;
-use Blossom\Classes\Database;
+use Application\ActiveRecord;
+use Application\Database;
 use Recurr\Rule;
 
 class GoogleGateway

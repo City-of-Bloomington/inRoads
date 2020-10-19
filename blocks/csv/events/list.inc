@@ -6,7 +6,7 @@
  */
 use Application\Auth;
 use Application\Models\Event;
-use Blossom\Classes\Block;
+use Application\Block;
 
 header('Content-Disposition: attachment; filename="events.csv"');
 $out = fopen('php://output', 'w');

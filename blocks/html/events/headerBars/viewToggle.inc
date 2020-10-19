@@ -4,7 +4,7 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 use Application\Auth;
-use Blossom\Classes\Url;
+use Application\Url;
 
 echo '<div class="pillNav">';
     $c = (!empty($_GET['view']) && $_GET['view'] === 'schedule')

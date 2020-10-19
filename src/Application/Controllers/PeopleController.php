@@ -10,9 +10,9 @@ use Application\Views\People\InfoView;
 use Application\Views\People\SearchView;
 use Application\Views\People\UpdateView;
 
-use Blossom\Classes\Controller;
-use Blossom\Classes\Block;
-use Blossom\Classes\Database;
+use Application\Controller;
+use Application\Block;
+use Application\Database;
 
 use Domain\People\DataStorage\ZendDbPeopleRepository;
 use Domain\People\UseCases\Info\Info;

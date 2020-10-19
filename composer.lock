@@ -4,95 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30bcbc655ef20b687d44927152686833",
+    "content-hash": "a8acd79825720d1d13ae47968b65215b",
     "packages": [
-        {
-            "name": "City-of-Bloomington/blossom-lib",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/City-of-Bloomington/blossom-lib.git",
-                "reference": "ba87c8f681db704fc772e1eac10e5164b66940d2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Bloomington/blossom-lib/zipball/ba87c8f681db704fc772e1eac10e5164b66940d2",
-                "reference": "ba87c8f681db704fc772e1eac10e5164b66940d2",
-                "shasum": ""
-            },
-            "require": {
-                "aura/router": "~2",
-                "php": ">=5.6",
-                "zendframework/zend-db": "@stable",
-                "zendframework/zend-log": "@stable",
-                "zendframework/zend-paginator": "@stable"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Blossom\\": "src"
-                }
-            },
-            "support": {
-                "source": "https://github.com/City-of-Bloomington/blossom-lib/tree/master",
-                "issues": "https://github.com/City-of-Bloomington/blossom-lib/issues"
-            },
-            "time": "2018-10-18T15:55:18+00:00"
-        },
-        {
-            "name": "aura/router",
-            "version": "2.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/auraphp/Aura.Router.git",
-                "reference": "d8cb21b7fa8d2b2ae874093d5440688b3356f9c4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.Router/zipball/d8cb21b7fa8d2b2ae874093d5440688b3356f9c4",
-                "reference": "d8cb21b7fa8d2b2ae874093d5440688b3356f9c4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "aura/di": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "aura": {
-                    "type": "library",
-                    "config": {
-                        "common": "Aura\\Router\\_Config\\Common"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Aura\\Router\\": "src/",
-                    "Aura\\Router\\_Config\\": "config/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Aura.Router Contributors",
-                    "homepage": "https://github.com/auraphp/Aura.Router/contributors"
-                }
-            ],
-            "description": "A web router implementation; given a URI path and a copy of $_SERVER, it will extract path-info parameter values for a specific route.",
-            "homepage": "https://github.com/auraphp/Aura.Router",
-            "keywords": [
-                "route",
-                "router",
-                "routing"
-            ],
-            "time": "2016-10-03T20:00:15+00:00"
-        },
         {
             "name": "auth0/auth0-php",
             "version": "5.7.0",
@@ -352,16 +265,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.150",
+            "version": "v0.151",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "765bfb40c7a00e8fd891ff1969bade6e3c0889fc"
+                "reference": "784a4fdb110b67a2344cfbdbf927194bd29f9e73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/765bfb40c7a00e8fd891ff1969bade6e3c0889fc",
-                "reference": "765bfb40c7a00e8fd891ff1969bade6e3c0889fc",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/784a4fdb110b67a2344cfbdbf927194bd29f9e73",
+                "reference": "784a4fdb110b67a2344cfbdbf927194bd29f9e73",
                 "shasum": ""
             },
             "require": {
@@ -385,20 +298,20 @@
             "keywords": [
                 "google"
             ],
-            "time": "2020-10-11T00:26:14+00:00"
+            "time": "2020-10-19T00:26:26+00:00"
         },
         {
             "name": "google/auth",
-            "version": "v1.14.2",
+            "version": "v1.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "9d82b20a07ca560a5075e24ca8ac5721bc8c961d"
+                "reference": "c1503299c779af0cbc99b43788f75930988852cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/9d82b20a07ca560a5075e24ca8ac5721bc8c961d",
-                "reference": "9d82b20a07ca560a5075e24ca8ac5721bc8c961d",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/c1503299c779af0cbc99b43788f75930988852cf",
+                "reference": "c1503299c779af0cbc99b43788f75930988852cf",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +350,7 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2020-10-14T16:58:18+00:00"
+            "time": "2020-10-16T21:33:48+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3403,9 +3316,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "city-of-bloomington/blossom-lib": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

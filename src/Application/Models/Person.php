@@ -4,9 +4,9 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  */
 namespace Application\Models;
-use Blossom\Classes\ActiveRecord;
-use Blossom\Classes\Database;
-use Blossom\Classes\ExternalIdentity;
+use Application\ActiveRecord;
+use Application\Database;
+use Application\ExternalIdentity;
 
 class Person extends ActiveRecord
 {

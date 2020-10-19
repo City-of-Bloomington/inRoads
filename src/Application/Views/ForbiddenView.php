@@ -5,7 +5,7 @@
  */
 namespace Application\Views;
 
-use Blossom\Classes\Template;
+use Application\Template;
 
 class ForbiddenView extends Template
 {

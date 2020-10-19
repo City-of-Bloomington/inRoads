@@ -5,8 +5,8 @@
  */
 namespace Application\Views;
 
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 class NotFoundView extends Template
 {

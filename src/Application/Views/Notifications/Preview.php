@@ -7,8 +7,8 @@ declare (strict_types=1);
 namespace Application\Views\Notifications;
 
 use Application\Models\Event;
-use Blossom\Classes\Block;
-use Blossom\Classes\Template;
+use Application\Block;
+use Application\Template;
 
 class Preview extends Template
 {

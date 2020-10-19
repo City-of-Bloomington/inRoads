@@ -1,5 +1,5 @@
 <?php
-use Blossom\Classes\Url;
+use Application\Url;
 global $AUTH0;
 ?>
 <footer>
