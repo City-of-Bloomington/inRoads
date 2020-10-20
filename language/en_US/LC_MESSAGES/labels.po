@@ -34,6 +34,9 @@ msgstr "Search"
 msgid "submit"
 msgstr "Submit"
 
+msgid "refresh"
+msgstr "Refresh"
+
 msgid "save"
 msgstr "Save"
 

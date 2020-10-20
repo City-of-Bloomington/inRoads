@@ -103,6 +103,6 @@ $this->template->addToAsset('scripts', BASE_URI.'/js/searchForm-'.VERSION.'.js')
                 ]);
             ?>
         </fieldset>
-        <button type="submit" class="search"><?= $this->_('search'); ?></button>
+        <button type="submit" class="search"><?= $this->_('refresh'); ?></button>
     </form>
 </div>
