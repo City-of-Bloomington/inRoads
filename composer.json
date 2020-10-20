@@ -9,6 +9,7 @@
         "google/apiclient": "~2.0",
         "apereo/phpcas":                   "@stable",
         "simshaun/recurr": "~3",
+        "graylog2/gelf-php":               "@stable",
         "laminas/laminas-db":              "@stable",
         "laminas/laminas-log":             "@stable",
         "laminas/laminas-paginator":       "@stable",

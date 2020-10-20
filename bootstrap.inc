@@ -26,3 +26,12 @@ $loader->addPsr4('Site\\', SITE_HOME);
 
 include SITE_HOME.'/site_config.inc';
 include APPLICATION_HOME.'/access_control.inc';
+
+if (defined('GRAYLOG_DOMAIN') && defined('GRAYLOG_PORT')) {
+    $graylog = new Application\GraylogWriter(GRAYLOG_DOMAIN, GRAYLOG_PORT);
+    $logger  = new Laminas\Log\Logger();
+    $logger->addWriter($graylog);
+    Laminas\Log\Logger::registerErrorHandler($logger);
+    Laminas\Log\Logger::registerExceptionHandler($logger);
+    Laminas\Log\Logger::registerFatalErrorShutdownFunction($logger);
+}
