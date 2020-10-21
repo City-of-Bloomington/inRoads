@@ -1,5 +1,5 @@
 "use strict";
-var MAPDISPLAY = {
+let MAPDISPLAY = {
     map: new ol.Map({
         target: 'map',
         view: new ol.View({
@@ -9,13 +9,8 @@ var MAPDISPLAY = {
             maxZoom: 20
         })
     }),
-    /**
-     * The features are not added to a regular vector layer/source,
-     * but to a feature overlay which holds a collection of features.
-     * This collection is passed to the modify and also the draw
-     * interaction, so that both can add or modify features.
-     */
-    featureOverlay: new ol.FeatureOverlay(),
+    featureSource: new ol.source.Vector(),
+    featureLayer:  {},
     wktFormatter: new ol.format.WKT(),
     styles: {
         default: {
@@ -46,7 +41,7 @@ var MAPDISPLAY = {
      * See: blocks/html/events/map.inc
      */
     loadEventTypeStyles: function (types) {
-        var len = types.length,
+        let len = types.length,
             i   = 0,
             c   = [];
 
@@ -88,15 +83,18 @@ var MAPDISPLAY = {
      * @param array features
      */
     setFeatures: function (features) {
-        var extent = ol.extent.createEmpty(),
-        len = features.length,
-        i   = 0;
+        let extent = ol.extent.createEmpty(),
+            len    = features.length,
+            i      = 0;
 
         for (i=0; i<len; i++) {
             ol.extent.extend(extent, features[i].getGeometry().getExtent());
         }
-        MAPDISPLAY.featureOverlay.setFeatures(new ol.Collection(features));
-        MAPDISPLAY.map.getView().fitExtent(extent, MAPDISPLAY.map.getSize());
+        MAPDISPLAY.featureSource.clear();
+        MAPDISPLAY.featureSource.addFeatures(features);
+        MAPDISPLAY.featureSource.changed();
+
+        MAPDISPLAY.map.getView().fit(extent, MAPDISPLAY.map.getSize());
     },
     /**
      * Reads features out of the FeatureOverlay and converts them to WSG84 WKT
@@ -104,11 +102,11 @@ var MAPDISPLAY = {
      * @return string
      */
     getWkt: function () {
-        var clones    = [],
-        features  = MAPDISPLAY.featureOverlay.getFeatures().getArray(),
-        len = features.length,
-        i   = 0,
-        wkt = '';
+        let clones    = [],
+            features  = MAPDISPLAY.featureSource.getFeatures(),
+            len       = features.length,
+            i         = 0,
+            wkt       = '';
 
         if (len) {
             for (i=0; i<len; i++) {
@@ -125,9 +123,9 @@ var MAPDISPLAY = {
      * @param string event_id
      */
     findFeature: function (event_id) {
-        var features = MAPDISPLAY.featureOverlay.getFeatures().getArray(),
-        len = features.length,
-        i   = 0;
+        let features = MAPDISPLAY.featureSource.getFeatures(),
+            len      = features.length,
+            i        = 0;
 
         for (i=0; i<len; i++) {
             if (features[i].event_id === event_id) {
@@ -137,7 +135,7 @@ var MAPDISPLAY = {
     },
     currentlySelectedEventId: null,
     selectEvent: function (event_id, feature) {
-        var details = document.getElementById(event_id),
+        let details = document.getElementById(event_id),
             coords  = [];
 
         MAPDISPLAY.deselectEventsExcept(event_id);
@@ -159,7 +157,7 @@ var MAPDISPLAY = {
      * @param string event_id
      */
     deselectEventsExcept: function (event_id) {
-        var details = document.querySelectorAll('#eventsList details[open]'),
+        let details = document.querySelectorAll('#eventsList details[open]'),
             feature = {},
             len     = details.length,
             i       = 0;
@@ -175,7 +173,7 @@ var MAPDISPLAY = {
         }
     },
     highlightEvent: function (e) {
-        var id = e.currentTarget.getAttribute('id'),
+        let id = e.currentTarget.getAttribute('id'),
              f = MAPDISPLAY.findFeature(id);
 
         if (f && id != MAPDISPLAY.currentlySelectedEventId) {
@@ -183,7 +181,7 @@ var MAPDISPLAY = {
         }
     },
     unhighlightEvent: function (e) {
-        var id = e.currentTarget.getAttribute('id'),
+        let id = e.currentTarget.getAttribute('id'),
              f = MAPDISPLAY.findFeature(id);
 
         if (f && id != MAPDISPLAY.currentlySelectedEventId) {
@@ -213,7 +211,7 @@ var MAPDISPLAY = {
      * Draws the popup bubble for any feature that's clicked
      */
     handleMapClick: function (e) {
-        var feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
+        let feature = MAPDISPLAY.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) { return feature; });
 
         if (feature && feature.event_id) {
             MAPDISPLAY.selectEvent(feature.event_id, feature);
@@ -226,7 +224,7 @@ var MAPDISPLAY = {
      * feature on the map.
      */
     handleListClick: function (e) {
-        var details  = e.currentTarget,
+        let details  = e.currentTarget,
             event_id = details.getAttribute('id'),
             feature  = MAPDISPLAY.findFeature(event_id);
 
@@ -239,26 +237,24 @@ var MAPDISPLAY = {
 };
 
 MAPDISPLAY.map.addOverlay(MAPDISPLAY.marker);
-MAPDISPLAY.featureOverlay.setMap(MAPDISPLAY.map);
-MAPDISPLAY.featureOverlay.setStyle(MAPDISPLAY.styles.default.normal);
 MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
 
 // Load any initial data the webpage specifies.
 (function () {
-    var events = [],
-        len    = 0,
-        i      = 0,
-        id        = '',
-        type      = '',
-        f         = 0,
-        geography = '',
-        features  = [],
+    let events          = [],
+        len             = 0,
+        i               = 0,
+        id              = '',
+        type            = '',
+        f               = 0,
+        geography       = '',
+        features        = [],
         noscriptMessage = document.getElementById('pleaseEnableJavascript'),
         extractType     = function (classList) {
-            var clen = classList.length,
+            let clen = classList.length,
                 tlen = PHP.eventTypes.length,
-                i   = 0,
-                j   = 0;
+                i    = 0,
+                j    = 0;
 
             for (i=0; i<clen; i++) {
                 for (j=0; j<tlen; j++) {
@@ -310,8 +306,10 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
         geography = events[i].querySelector('.geography');
         if (geography && geography.innerHTML) {
             f = features.length;
-            features[f] = MAPDISPLAY.wktFormatter.readFeature(geography.innerHTML);
-            features[f].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            features[f] = MAPDISPLAY.wktFormatter.readFeature(geography.innerHTML, {
+                   dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
             features[f].event_id = id;
             if (type) {
                 features[f].type = type;
@@ -325,5 +323,12 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
             document.getElementById(id).addEventListener('mouseleave', MAPDISPLAY.unhighlightEvent);
         }
     }
-    if (features.length) { MAPDISPLAY.setFeatures(features); }
+    if (features.length) {
+        MAPDISPLAY.setFeatures(features);
+        MAPDISPLAY.featureLayer = new ol.layer.Vector({
+            source: MAPDISPLAY.featureSource,
+             style: MAPDISPLAY.styles.default.normal
+        });
+        MAPDISPLAY.map.addLayer(MAPDISPLAY.featureLayer);
+    }
 }());
