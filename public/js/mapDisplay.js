@@ -284,7 +284,9 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
     // We need to remember to write the PHP variables out as Javascript,
     // so we can load them here
     // See: blocks/html/events/map.inc
-    MAPDISPLAY.loadEventTypeStyles(PHP.eventTypes);
+    if (PHP.eventTypes) {
+        MAPDISPLAY.loadEventTypeStyles(PHP.eventTypes);
+    }
 
     // Event data can be in either the eventList or the single event view.
     events = document.querySelectorAll('#eventsList details');
@@ -323,12 +325,10 @@ MAPDISPLAY.map.on('click', MAPDISPLAY.handleMapClick);
             document.getElementById(id).addEventListener('mouseleave', MAPDISPLAY.unhighlightEvent);
         }
     }
-    if (features.length) {
-        MAPDISPLAY.setFeatures(features);
-        MAPDISPLAY.featureLayer = new ol.layer.Vector({
-            source: MAPDISPLAY.featureSource,
-             style: MAPDISPLAY.styles.default.normal
-        });
-        MAPDISPLAY.map.addLayer(MAPDISPLAY.featureLayer);
-    }
+    if (features.length) { MAPDISPLAY.setFeatures(features); }
+    MAPDISPLAY.featureLayer = new ol.layer.Vector({
+        source: MAPDISPLAY.featureSource,
+         style: MAPDISPLAY.styles.default.normal
+    });
+    MAPDISPLAY.map.addLayer(MAPDISPLAY.featureLayer);
 }());
