@@ -137,6 +137,8 @@ $AUTHENTICATION_METHODS = [
  */
 //define('NOTIFICATIONS_ENABLED', true);
 define('NOTIFICATIONS_EMAIL','admin@servername.com');
+define('SMTP_HOST', 'localhost.localdomain');
+define('SMTP_PORT', 25);
 
 define('DATE_FORMAT', 'n/j/Y');
 define('TIME_FORMAT', 'H:i a');

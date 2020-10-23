@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright 2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2018-2020 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 declare (strict_types=1);
 namespace Application\Controllers;
@@ -24,6 +24,9 @@ use Domain\Notifications\UseCases\Load\Load;
 use Domain\Notifications\UseCases\Update\Update;
 use Domain\Notifications\UseCases\Update\UpdateRequest;
 
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
+use Laminas\Mail\Transport\SmtpOptions;
 
 class NotificationsController extends Controller
 {
@@ -111,22 +114,23 @@ class NotificationsController extends Controller
 
 	public static function sendNotifications(Event $event, string $type)
 	{
-        $template     = new Template('default', 'txt');
-        $block        = new Block("notifications/$type.inc", ['event'=>$event]);
+        $template = new Template('default', 'txt');
+        $block    = new Block("notifications/$type.inc", ['event'=>$event]);
 
-        $message      = $block->render('txt', $template);
-        $subject      = sprintf($template->_('notification_subject %s', 'messages'), APPLICATION_NAME);
-        $name         = preg_replace('/[^a-zA-Z0-9]+/','_',APPLICATION_NAME);
-        $fromEmail    = "$name@". BASE_HOST;
-        $fromFullname = APPLICATION_NAME;
+        $message  = new Message();
+        $message->setBody($block->render('txt', $template));
+        $message->setSubject(sprintf($template->_('notification_subject %s', 'messages'), APPLICATION_NAME));
+        $message->setFrom(NOTIFICATIONS_EMAIL, APPLICATION_NAME);
+        $message->addTo(GOOGLE_GROUP);
+
+        $smtp = new Smtp(new SmtpOptions(['host' => SMTP_HOST, 'port' => SMTP_PORT]));
 
         $repo = new ZendDbNotificationsRepository(Database::getConnection());
         $find = new Find($repo);
         $res  = $find($type);
         foreach ($res->notifications as $n) {
-            $to   = $n->email;
-            $from = "From: $fromFullname <$fromEmail>\r\nReply-to: ".NOTIFICATIONS_EMAIL;
-            mail($to, $subject, $message, $from, '-f'.NOTIFICATIONS_EMAIL);
+            $message->setTo($n->email);
+            $smtp->send($message);
         }
 	}
 }

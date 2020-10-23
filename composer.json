@@ -12,6 +12,7 @@
         "graylog2/gelf-php":               "@stable",
         "laminas/laminas-db":              "@stable",
         "laminas/laminas-log":             "@stable",
+        "laminas/laminas-mail":            "@stable",
         "laminas/laminas-paginator":       "@stable",
         "laminas/laminas-permissions-acl": "@stable"
     },

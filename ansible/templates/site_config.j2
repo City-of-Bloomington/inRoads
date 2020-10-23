@@ -151,6 +151,8 @@ $AUTH0 = [
 {% if inroads_notifications.enabled %}
 define('NOTIFICATIONS_ENABLED', true);
 {% endif %}
+define('SMTP_HOST', '{{ inroads_notifications.smtp_host }}');
+define('SMTP_PORT',  {{ inroads_notifications.smtp_port }} );
 define('NOTIFICATIONS_EMAIL','{{ inroads_notifications.email }}');
 
 define('DATE_FORMAT', 'n/j/Y');

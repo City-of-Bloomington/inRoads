@@ -1,13 +1,17 @@
 #!/usr/local/bin/php
 <?php
 /**
- * @copyright 2015-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2015-2020 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 use Application\Models\EventType;
 use Application\Models\GoogleGateway;
 use Application\Block;
 use Application\Template;
+
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
+use Laminas\Mail\Transport\SmtpOptions;
 
 // You'll need to edit the path to the configuration file in your
 // road_closings installation.
@@ -44,7 +48,12 @@ $block    = new Block('events/summary.inc', [
     'eventsNextWeek' => $eventsNextWeek,
     'eventsFuture'   => $eventsFuture
 ]);
-$message  = $block->render('txt', $template);
-$subject  = 'Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT);
-$from     = 'From: '.NOTIFICATIONS_EMAIL;
-mail(GOOGLE_GROUP, $subject, $message, $from);
+
+$message  = new Message();
+$message->setBody($block->render('txt', $template));
+$message->setSubject('Road closings for the week: '.$start->format(DATE_FORMAT).' to '.$end->format(DATE_FORMAT));
+$message->setFrom(NOTIFICATIONS_EMAIL);
+$message->addTo(GOOGLE_GROUP);
+
+$smtp = new Smtp(new SmtpOptions(['host' => SMTP_HOST, 'port' => SMTP_PORT]));
+$smtp->send($message);

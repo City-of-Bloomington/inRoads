@@ -12,10 +12,6 @@
         state: "present"
       with_items:
         - "php-mysql"
-        - "postfix"
-
-    - name: "Postfix start at boot"
-      service: name=postfix state=started enabled=yes
 
     - name: "Create mysql database"
       mysql_db:
