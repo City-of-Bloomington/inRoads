@@ -79,29 +79,15 @@ define('ADDRESS_SERVICE', 'http://localhost/master_address');
  * @see Domain\Auth
  */
 $AUTHENTICATION_METHODS = [
-//  'ActiveDirectory' => [
-//      'classname'          => 'Site\Employee',
-//      'server'             => 'ldaps://example.org:636',
-//      'base_dn'            => 'OU=Department,DC=example,DC=org',
-//      'username_attribute' => 'CN',
-//      'user_binding'       => '{username}@example.org',
-//      'admin_binding'      => 'admin@example.org',
-//      'admin_pass'         => 'password'
-//  ]
-//
-//  'Ldap' => [
-//      'classname'          => 'Site\Employee',
-//      'server'             => 'ldaps://example.org:636',
-//      'base_dn'            => 'ou=people,o=ldap.domain.somewhere',
-//      'username_attribute' => 'uid',
-//      'user_binding'       => 'uid={username},'.DIRECTORY_BASE_DN,
-//      'admin_binding'      => 'uid=admin,'.DIRECTORY_BASE_DN,
-//      'admin_pass'         => 'password',
-//  ]
-//  'Employee' => [
-//      'classname' => 'Site\Employee',
-//      'server'    => 'http://localhost/directory',
-//  ]
+    'Employee' => [
+        'classname'          => 'Site\Classes\Employee',
+        'server'             => 'ldaps://example.org:636',
+        'base_dn'            => 'OU=Department,DC=example,DC=org',
+        'username_attribute' => 'sAMAccountName',
+        'user_binding'       => '{username}@example.org',
+        'admin_binding'      => 'admin@example.org',
+        'admin_pass'         => 'password'
+    ]
 ];
 
 /**

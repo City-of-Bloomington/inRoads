@@ -24,10 +24,10 @@ class Update
 
     public function __invoke(UpdateRequest $req): UpdateResponse
     {
-        if ($req->authentication_method != 'local'
+        if ($req->authenticationMethod != 'local'
             && (empty($req->firstname) || empty($req->lastname) || empty($req->email))) {
 
-            $o = $this->auth->externalIdentify($req->authentication_method, $req->username);
+            $o = $this->auth->externalIdentify($req->authenticationMethod, $req->username);
             if ($o) {
                 if (empty($req->firstname)) { $req->firstname = $o->firstname; }
                 if (empty($req->lastname )) { $req->lastname  = $o->lastname;  }
