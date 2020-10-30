@@ -24,24 +24,13 @@ define('BASE_HOST', (defined('PROXY_HOST')
                         && isset($_SERVER['HTTP_X_FORWARDED_HOST'])
                         &&       $_SERVER['HTTP_X_FORWARDED_HOST'] == PROXY_HOST)
                     ? PROXY_HOST
-                    : $_SERVER['SERVER_NAME']);
+                    : '{{ ansible_host }}');
 define('BASE_URL' , "https://".BASE_HOST.BASE_URI);
-
-/**
- * Specify the theme directory
- *
-  * Remember to create a symbolic link in public/css to the theme CSS
-  * that you declare here.
- *
- * A theme can consist of templates, blocks which will override core.
- * The current theme's screen.css will be included in the HTML head.
- */
-//define('THEME', 'cob');
 
 /**
  * Javascript APIs
  */
-define('OPENLAYERS', BASE_URI.'/js/vendor/ol3');
+define('OPENLAYERS', BASE_URI.'/js/vendor/ol');
 $MAPLAYERS = [
     [
         'source'  => 'XYZ',
@@ -86,31 +75,15 @@ define('ADDRESS_SERVICE', '{{ inroads_site_config.address_service }}');
  * @see Domain\Auth
  */
 $AUTHENTICATION_METHODS = [
-//  'ActiveDirectory' => [
-//      'classname'          => 'Site\Employee',
-//      'server'             => 'ldaps://example.org:636',
-//      'base_dn'            => 'OU=Department,DC=example,DC=org',
-//      'username_attribute' => 'CN',
-//      'user_binding'       => '{username}@example.org',
-//      'admin_binding'      => 'admin@example.org',
-//      'admin_pass'         => 'password'
-//  ]
-//
-//  'Ldap' => [
-//      'classname'          => 'Site\Employee',
-//      'server'             => 'ldaps://example.org:636',
-//      'base_dn'            => 'ou=people,o=ldap.domain.somewhere',
-//      'username_attribute' => 'uid',
-//      'user_binding'       => 'uid={username},'.DIRECTORY_BASE_DN,
-//      'admin_binding'      => 'uid=admin,'.DIRECTORY_BASE_DN,
-//      'admin_pass'         => 'password',
-//  ]
-{% if inroads_site_config.directory_service %}
     'Employee' => [
-        'classname' => 'Site\Employee',
-        'server'    => '{{ inroads_site_config.directory_service }}',
+        'classname'          => 'Site\Classes\Employee',
+        'server'             => '{{ inroads_ldap.server             }}',
+        'base_dn'            => '{{ inroads_ldap.base_dn            }}',
+        'username_attribute' => '{{ inroads_ldap.username_attribute }}',
+        'user_binding'       => '{{ inroads_ldap.user_binding       }}',
+        'admin_binding'      => '{{ inroads_ldap.admin_binding      }}',
+        'admin_pass'         => '{{ inroads_ldap.admin_pass         }}'
     ]
-{% endif %}
 ];
 
 /**
@@ -161,15 +134,13 @@ define('DATETIME_FORMAT', 'n/j/Y H:i a');
 define('LOCALE', 'en_US');
 
 /**
- * Skidder is a web service for error loggin.  This application supports
- * logging errors to a Skidder server.  You must register for an application_id
- * on the skidder server you want to post errors to.
+ * Graylog is a centralized log manager
+ *
+ * This application supports sending errors and exceptions to a graylog instance.
+ * This is handy for notifying developers of a problem before users notice.
+ ** @see https://graylog.org
  */
-{% if inroads_skidder.application_id is defined and inroads_skidder.application_id|length %}
-$writer = new Blossom\Classes\Log\SkidderWriter('{{ inroads_skidder.server }}', {{ inroads_skidder.application_id }} );
-$logger = new Zend\Log\Logger();
-$logger->addWriter($writer);
-Zend\Log\Logger::registerErrorHandler($logger);
-Zend\Log\Logger::registerExceptionHandler($logger);
-Zend\Log\Logger::registerFatalErrorShutdownFunction($logger);
+{% if inroads_graylog.domain is defined %}
+define('GRAYLOG_DOMAIN', '{{ inroads_graylog.domain }}');
+define('GRAYLOG_PORT',    {{ inroads_graylog.port   }} );
 {% endif %}

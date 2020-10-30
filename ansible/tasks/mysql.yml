@@ -1,0 +1,29 @@
+---
+- name: "Create mysql database"
+  mysql_db:
+    config_file: "{{ mysql_defaults_extra_file }}"
+    name: "{{ inroads_db.name }}"
+    state: present
+  no_log: True
+
+- name: "Create mysql user for site"
+  mysql_user:
+    name:     "{{ inroads_db.user }}"
+    password: "{{ inroads_db.pass }}"
+    priv:     "{{ inroads_db.name }}.*:ALL"
+    state: present
+    config_file: "{{ mysql_defaults_extra_file }}"
+  no_log: True
+
+- name: "Install Backup CRON"
+  template:
+    src: "backup.sh"
+    dest: "/etc/cron.daily/backup.d/inroads"
+    mode: "0755"
+
+- name: "Configure backup credentials"
+  template:
+    src: "backup.cnf"
+    dest: "/etc/cron.daily/backup.d/inroads.cnf"
+    mode: "0600"
+...

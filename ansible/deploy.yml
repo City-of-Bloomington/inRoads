@@ -8,26 +8,15 @@
   tasks:
     - name: "Install distro packages for inRoads"
       apt:
-        name: "{{ item }}"
+        name: "{{ packages }}"
         state: "present"
-      with_items:
-        - "php-mysql"
+      vars:
+        packages:
+          - 'php-mysql'
 
-    - name: "Create mysql database"
-      mysql_db:
-        config_file: "{{ mysql_defaults_extra_file }}"
-        name: "{{ inroads_db.name }}"
-        state: present
-      no_log: True
-
-    - name: "Create mysql user for site"
-      mysql_user:
-        name:     "{{ inroads_db.user }}"
-        password: "{{ inroads_db.pass }}"
-        priv:     "{{ inroads_db.name }}.*:ALL"
-        state: present
-        config_file: "{{ mysql_defaults_extra_file }}"
-      no_log: True
+    - name: 'Set up mysql database'
+      include_tasks: 'tasks/mysql.yml'
+      when: 'inroads_db.host == "localhost"'
 
     - name: "Extract release"
       unarchive:
@@ -62,6 +51,11 @@
       command: "rsync -rl /usr/local/src/inroads/data/ {{ inroads_site_home }}/"
       when: release.changed
 
+    - name: "Install Google Credentials"
+      copy:
+        src:  "{{ inroads_google.credentials }}"
+        dest: "{{ inroads_site_home }}/credentials.json"
+
     - name: "Update site_config"
       template:
         src: "site_config.j2"
@@ -72,18 +66,6 @@
         src: "inroads.conf"
         dest: "/etc/apache2/sites-enabled/conf.d/inroads.conf"
       notify: "apache_restart"
-
-    - name: "Install Backup CRON"
-      template:
-        src: "backup.sh"
-        dest: "/etc/cron.daily/backup.d/inroads"
-        mode: "0755"
-
-    - name: "Configure backup credentials"
-      template:
-        src: "backup.cnf"
-        dest: "/etc/cron.daily/backup.d/inroads.cnf"
-        mode: "0600"
 
     - name: "Install Weekly CRON"
       template:
