@@ -4,7 +4,7 @@ use Application\View;
 <header>
     <div class="container">
         <a href="https://bloomington.in.gov" class="site-homeLink">
-            <img src="<?= BASE_URI ?>/css/images/bloomington-logo.svg" alt="Bloomington.in.gov - John Hamilton, Mayor" class="site-logo" />
+            <img src="<?= BASE_URI ?>/css/images/bloomington-logo.svg" alt="Bloomington.in.gov" class="site-logo" />
         </a>
         <div class="site-breadCrumb">
             <a href="<?= BASE_URI; ?>/events" class="site-breadCrumb-home">
