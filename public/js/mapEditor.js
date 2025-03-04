@@ -3,7 +3,7 @@
     var geography = document.getElementById('geography').value,
         features  = [];
     if (geography) {
-        features[0] = MAPDISPLAY.wktFormatter.readFeature(geography.innerHTML, {
+        features[0] = MAPDISPLAY.wktFormatter.readFeature(geography, {
                dataProjection: 'EPSG:4326',
             featureProjection: 'EPSG:3857'
         });
