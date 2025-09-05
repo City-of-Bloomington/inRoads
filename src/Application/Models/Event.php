@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright 2015-2018 City of Bloomington, Indiana
- * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @copyright 2015-2025 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 namespace Application\Models;
 
@@ -164,9 +164,33 @@ class Event extends ActiveRecord
             return new \Exception('invalidDate');
         }
 
+        if (parent::get('rrule')) {
+            if (!$this->recurrenceIsValid()) {
+                return new \Exception('invalidRecurrence');
+            }
+        }
+
         if (strlen($this->getDescription()) > self::MAX_DESCRIPTION_LENGTH) {
             return new \Exception('description_length');
         }
+    }
+
+    private function recurrenceIsValid(): bool
+    {
+        // if AllDay
+        if ($this->isAllDay()) {
+            // Start and End must be on the same day
+            if ($this->getStartDate() != $this->getEndDate()) {
+                return false;
+            }
+        }
+        else {
+            // Event must be less than 24 hours
+            $d = date_diff($this->getStart(), $this->getEnd());
+            $h = $d->m * 720 + $d->d * 24 + $d->h;
+            if ($h > 24) { return false; }
+        }
+        return true;
     }
 
     /**

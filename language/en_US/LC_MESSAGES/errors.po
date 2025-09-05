@@ -1,5 +1,5 @@
 # Translation
-# Copyright (C) 2016-2018 City of Bloomington
+# Copyright (C) 2016-2025 City of Bloomington
 # This file is distributed under the same license as the inRoads application
 #
 domain "errors"
@@ -25,6 +25,9 @@ msgstr "The end date must come after the start date"
 
 msgid "invalidLogin"
 msgstr "The username and password combination you entered is not correct."
+
+msgid "invalidRecurrence"
+msgstr "Events longer than a day must not repeat"
 
 msgid "missingRequiredFields"
 msgstr "You did not include all the required fields."
