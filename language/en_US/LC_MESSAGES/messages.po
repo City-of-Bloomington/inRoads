@@ -33,7 +33,7 @@ msgid "notification_subject %s"
 msgstr "%s Notification"
 
 msgid "event_disclaimer"
-msgstr "Entering in a closure does not waive any requirements for seeking appropriate approvals and permits."
+msgstr "Entering in a closure does not waive any requirements for seeking appropriate approvals and permits. After you complete this section, navigate to 'Waze Segments' to add a closure to Waze/Google Maps."
 
 msgid "employee_authentication_help"
 msgstr ""

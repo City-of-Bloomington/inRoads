@@ -242,16 +242,16 @@ msgstr "Title"
 msgid "segment"
 msgid_plural "segments"
 msgstr[0] "Segment"
-msgstr[1] "Segments"
+msgstr[1] "Waze Segments"
 
 msgid "segment_add"
-msgstr "New Segment"
+msgstr "New Waze Segment"
 
 msgid "segment_edit"
-msgstr "Edit Segment"
+msgstr "Edit Waze Segment"
 
 msgid "segment_delete"
-msgstr "Delete Segment"
+msgstr "Delete Waze Segment"
 
 msgid "street"
 msgid_plural "streets"
