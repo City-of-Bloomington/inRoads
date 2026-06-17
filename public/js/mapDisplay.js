@@ -151,6 +151,8 @@ let MAPDISPLAY = {
         if (!details.getAttribute('open')) {
              details.setAttribute('open', '');
         }
+
+        details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     },
     /**
      * Close all details elements except for the ID passed in
