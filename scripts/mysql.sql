@@ -47,7 +47,7 @@ create table events (
     endTime   time,
     rrule varchar(128),
     geography geometry SRID 4326,
-    geography_description varchar(255),
+    geography_description text,
     created datetime not null,
     updated datetime not null,
     foreign key (department_id) references departments(id),
