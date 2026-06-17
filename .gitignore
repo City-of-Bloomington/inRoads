@@ -19,3 +19,4 @@ gulpfile.js
 *.retry
 package.json
 vendor
+.vscode
