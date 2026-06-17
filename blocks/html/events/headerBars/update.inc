@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2015-2019 City of Bloomington, Indiana
+ * @copyright 2015-2026 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  * @param Event $this->event
  */
@@ -20,12 +20,12 @@ echo $helper->buttonLink($url, $this->template->_('back'), 'back');
     $classCurrent = !empty($_GET['id']) ? 'class="current"' : '';
     $url = BASE_URI.'/events/update';
     if ($id) { $url.= "?id=$id"; }
-    echo "<a href=\"$url\" $classCurrent>{$this->_('event')}</a>";
+    echo "<a href=\"$url\" $classCurrent>Event</a>";
 
     if ($id) {
         $classCurrent = !empty($_GET['event_id']) ? 'class="current"' : '';
         $url = BASE_URI."/segments?event_id=$id";
-        echo "<a href=\"$url\" $classCurrent>{$this->_(['segment', 'segments', 2])}</a>";
+        echo "<a href=\"$url\" $classCurrent>Waze</a>";
     }
 ?>
 </div>
