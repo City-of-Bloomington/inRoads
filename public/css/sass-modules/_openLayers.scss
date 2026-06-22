@@ -46,3 +46,63 @@
         }
     }
 }
+
+.mapTools {
+    padding: $size-gutter;
+    display: flex;
+    align-items: center;
+    gap: $size-gutter;
+    background: $color-content-background;
+    border-top: 1px solid $color-border-input;
+
+    &-label {
+        font-weight: bold;
+        color: $color-text;
+        font-size: $font-size-small;
+        margin: 0;
+    }
+
+    &-group {
+        display: flex;
+        align-items: center;
+        gap: ($size-gutter / 2);
+    }
+
+    &-button {
+        padding: ($size-gutter / 2) $size-gutter;
+        border: 1px solid $color-border-input;
+        background: $color-content-background;
+        color: $color-text;
+        border-radius: $size-gutter;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: $font-size-small;
+
+        &:hover {
+            background: $color-action;
+            color: $color-content-background;
+        }
+
+        &.current {
+            background: $color-action;
+            color: $color-content-background;
+            font-weight: bold;
+            border-color: $color-action;
+        }
+    }
+
+    &-clear {
+        margin-left: auto;
+        background: lighten($color-border-input, 10%);
+        color: $color-text;
+        border: 1px solid $color-border-input;
+        padding: ($size-gutter / 2) $size-gutter;
+        border-radius: $size-gutter;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: darken($color-border-input, 5%);
+        }
+    }
+}

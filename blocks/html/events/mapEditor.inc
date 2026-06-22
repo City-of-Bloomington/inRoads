@@ -13,9 +13,12 @@ global $MAPLAYERS, $EVENT_TYPES;
 <div id="map" class="mapPanel"></div>
 
 <div id="mapTools" class="mapTools">
-    <button type="button" id="LineString">Line</button>
-    <button type="button" id="Point">Point</button>
-    <button type="button" id="clearFeaturesButton">Clear</button>
+    <div class="mapTools-group">
+        <label class="mapTools-label">Add to Map:</label>
+        <button type="button" id="Point" class="mapTools-button">Point</button>
+        <button type="button" id="LineString" class="mapTools-button">Segment</button>
+    </div>
+    <button type="button" id="clearFeaturesButton" class="mapTools-clear">Clear All</button>
 </div>
 <script type="text/javascript">
     PHP.maplayers  = <?= json_encode($MAPLAYERS,   JSON_PRETTY_PRINT); ?>;
