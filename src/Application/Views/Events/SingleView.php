@@ -24,6 +24,7 @@ class SingleView extends Template
             $this->blocks['headerBar'][] = new Block('events/headerBars/viewSingle.inc', ['event'=>$event]);
             $this->blocks['panel-one'][] = new Block('events/single.inc',                ['event'=>$event]);
             $this->blocks[]              = new Block('events/map.inc',                   ['event'=>$event]);
+            $this->blocks[]              = new Block('events/auditTrail.inc',           ['history'=>$event->getHistory()]);
         }
         else {
             parent::__construct('default', $format);

@@ -51,6 +51,7 @@ $ACL->allow('Public', 'account');
 // Allow Staff to do stuff
 $ACL->allow('Staff', ['people', 'departments', 'eventTypes'], ['index', 'view']);
 $ACL->allow('Staff', ['events', 'segments',       'streets'], ['index', 'view', 'update', 'search', 'delete']);
+$ACL->allow('Staff', 'events', 'history');
 
 // Administrator is allowed access to everything
 $ACL->allow('Administrator');

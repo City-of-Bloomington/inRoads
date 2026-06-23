@@ -14,3 +14,85 @@ section {
         }
     }
 }
+
+.audit-trail-button {
+    margin-top: 2em;
+    padding: 0.75em 1.5em;
+    background: $color-table-header-background;
+    color: $color-table-background;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background 0.2s;
+
+    &:hover {
+        background: darken($color-table-header-background, 10%);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.audit-trail-modal {
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    width: 90vw;
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        padding: 0;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5em;
+        border-bottom: 1px solid $color-border-table;
+        background: $color-table-header-background;
+        color: $color-table-background;
+
+        h2 {
+            margin: 0;
+            font-size: 1.25em;
+        }
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: $color-table-background;
+        padding: 0;
+        width: 2em;
+        height: 2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    .audit-trail-table {
+        width: 100%;
+        margin: 0;
+
+        th, td {
+            padding: 0.75em 1.5em;
+        }
+    }
+}
