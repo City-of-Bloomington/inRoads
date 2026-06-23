@@ -13,4 +13,15 @@ section {
             vertical-align: middle;
         }
     }
+
+    &.audit-trail {
+        margin-top: 3em;
+        padding-top: 2em;
+        border-top: 2px solid $color-border-table;
+
+        .audit-trail-table {
+            width: 100%;
+            margin-top: 1em;
+        }
+    }
 }
